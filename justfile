@@ -1,5 +1,5 @@
-name := 'cosmic-app-template'
-appid := 'com.example.CosmicAppTemplate'
+name := 'clapgrep'
+appid := 'de.leopoldluley.Clapgrep'
 
 rootdir := ''
 prefix := '/usr'

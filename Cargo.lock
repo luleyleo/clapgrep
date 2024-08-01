@@ -805,6 +805,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "clapgrep"
+version = "0.1.0"
+dependencies = [
+ "futures-util",
+ "i18n-embed",
+ "i18n-embed-fl",
+ "libcosmic",
+ "once_cell",
+ "open",
+ "rust-embed",
+ "tokio",
+]
+
+[[package]]
 name = "clipboard-win"
 version = "5.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -996,20 +1010,6 @@ dependencies = [
  "bitflags 1.3.2",
  "core-foundation",
  "libc",
-]
-
-[[package]]
-name = "cosmic-app-template"
-version = "0.1.0"
-dependencies = [
- "futures-util",
- "i18n-embed",
- "i18n-embed-fl",
- "libcosmic",
- "once_cell",
- "open",
- "rust-embed",
- "tokio",
 ]
 
 [[package]]

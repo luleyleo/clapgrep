@@ -1,5 +1,5 @@
 [package]
-name = "cosmic-app-template"
+name = "clapgrep"
 version = "0.1.0"
 edition = "2021"
 
