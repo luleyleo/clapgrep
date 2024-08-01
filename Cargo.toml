@@ -1,0 +1,27 @@
+[package]
+name = "cosmic-app-template"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+futures-util = "0.3.30"
+i18n-embed-fl = "0.8"
+once_cell = "1.19.0"
+open = "5.1.3"
+rust-embed = "8.3.0"
+tokio = { version = "1.37.0", features = ["full"] }
+
+[dependencies.i18n-embed]
+version = "0.14"
+features = ["fluent-system", "desktop-requester"]
+
+[dependencies.libcosmic]
+git = "https://github.com/pop-os/libcosmic.git"
+default-features = false
+features = ["dbus-config", "tokio", "winit", "wgpu"]
+
+# Uncomment to test a locally-cloned libcosmic
+# [patch.'https://github.com/pop-os/libcosmic']
+# libcosmic = { path = "../libcosmic" }
+# cosmic-config = { path = "../libcosmic/cosmic-config" }
+# cosmic-theme = { path = "../libcosmic/cosmic-theme" }

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name={{APP_NAME}}
+Exec={{APP_BINARY}} %F
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon={{APP_ID}}
+Categories=COSMIC;
+Keywords=
+MimeType=
