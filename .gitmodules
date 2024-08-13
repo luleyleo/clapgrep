@@ -1,0 +1,4 @@
+[submodule "ripgrep-all"]
+	path = ripgrep-all
+	url = git@github.com:luleyleo/ripgrep-all.git
+	branch = clapgrep
