@@ -1,14 +1,15 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use ripgrep_all::{
+    adapters::{get_all_adapters, AdapterMeta},
+    config::RgaConfig,
+};
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub fn adapters(config: RgaConfig) -> Vec<AdapterMeta> {
+    let (enabled_adapters, disabled_adapters) = get_all_adapters(config.custom_adapters);
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+    enabled_adapters
+        .iter()
+        .chain(disabled_adapters.iter())
+        .map(|adapter| adapter.metadata())
+        .cloned()
+        .collect()
 }
