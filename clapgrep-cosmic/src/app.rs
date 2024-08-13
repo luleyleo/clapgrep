@@ -5,11 +5,20 @@ use crate::fl;
 use cosmic::app::{Command, Core};
 use cosmic::cosmic_config::{self, CosmicConfigEntry};
 use cosmic::iced::alignment::{Horizontal, Vertical};
-use cosmic::iced::{Alignment, Length, Subscription};
-use cosmic::widget::{self, icon, menu, nav_bar};
+use cosmic::iced::{self, Alignment, Length, Subscription};
+use cosmic::iced::{keyboard, Color};
+use cosmic::widget::{self, menu};
 use cosmic::{cosmic_theme, theme, Application, ApplicationExt, Apply, Element};
 use futures_util::SinkExt;
 use std::collections::HashMap;
+use std::sync::mpsc::{channel, Receiver};
+use std::time::Duration;
+
+use librusl::{
+    fileinfo::FileInfo,
+    manager::{Manager, SearchResult},
+    search::Search,
+};
 
 const REPOSITORY: &str = "https://github.com/luleyleo/clapgrep";
 const APP_ICON: &[u8] =
@@ -20,22 +29,36 @@ const APP_ICON: &[u8] =
 pub struct AppModel {
     /// Application state which is managed by the COSMIC runtime.
     core: Core,
-    /// Display a context drawer with the designated page if defined.
-    context_page: ContextPage,
-    /// Contains items assigned to the nav bar panel.
-    nav: nav_bar::Model,
     /// Key bindings for the application's menu bar.
     key_binds: HashMap<menu::KeyBind, MenuAction>,
     // Configuration data that persists between application runs.
     config: Config,
+
+    name: String,
+    contents: String,
+    directory: String,
+    results: Vec<FileInfo>,
+    manager: Manager,
+    receiver: Receiver<SearchResult>,
+    message: String,
+    found: usize,
+    searching: bool,
 }
 
 /// Messages emitted by the application and its widgets.
 #[derive(Debug, Clone)]
 pub enum Message {
+    FindPressed,
+    NameChanged(String),
+    ContentsChanged(String),
+    DirectoryChanged(String),
+    OpenDirectory,
+    CheckExternal,
+    Event(cosmic::iced::event::Event),
+    CopyToClipboard(Vec<String>),
+
     OpenRepositoryUrl,
     SubscriptionChannel,
-    ToggleContextPage(ContextPage),
     UpdateConfig(Config),
 }
 
@@ -63,48 +86,41 @@ impl Application for AppModel {
 
     /// Initializes the application with any given flags and startup commands.
     fn init(core: Core, _flags: Self::Flags) -> (Self, Command<Self::Message>) {
-        // Create a nav bar with three page items.
-        let mut nav = nav_bar::Model::default();
+        let (s, r) = channel();
+        let man = Manager::new(s);
 
-        nav.insert()
-            .text(fl!("page-id", num = 1))
-            .data::<Page>(Page::Page1)
-            .icon(icon::from_name("applications-science-symbolic"))
-            .activate();
+        let config = cosmic_config::Config::new(Self::APP_ID, Config::VERSION)
+            .map(|context| match Config::get_entry(&context) {
+                Ok(config) => config,
+                Err((_errors, config)) => {
+                    // for why in errors {
+                    //     tracing::error!(%why, "error loading app config");
+                    // }
 
-        nav.insert()
-            .text(fl!("page-id", num = 2))
-            .data::<Page>(Page::Page2)
-            .icon(icon::from_name("applications-system-symbolic"));
-
-        nav.insert()
-            .text(fl!("page-id", num = 3))
-            .data::<Page>(Page::Page3)
-            .icon(icon::from_name("applications-games-symbolic"));
+                    config
+                }
+            })
+            .unwrap_or_default();
 
         // Construct the app model with the runtime's core.
         let mut app = AppModel {
             core,
-            context_page: ContextPage::default(),
-            nav,
             key_binds: HashMap::new(),
-            // Optional configuration file for an application.
-            config: cosmic_config::Config::new(Self::APP_ID, Config::VERSION)
-                .map(|context| match Config::get_entry(&context) {
-                    Ok(config) => config,
-                    Err((_errors, config)) => {
-                        // for why in errors {
-                        //     tracing::error!(%why, "error loading app config");
-                        // }
+            config,
 
-                        config
-                    }
-                })
-                .unwrap_or_default(),
+            name: "".to_string(),
+            contents: "".to_string(),
+            message: "".to_string(),
+            directory: man.get_options().last_dir.clone(),
+            results: vec![],
+            manager: man,
+            receiver: r,
+            found: 0,
+            searching: false,
         };
 
         // Create a startup command that sets the window title.
-        let command = app.update_title();
+        let command = app.set_window_title("Clapgrep".to_string());
 
         (app, command)
     }
@@ -122,33 +138,105 @@ impl Application for AppModel {
         vec![menu_bar.into()]
     }
 
-    /// Enables the COSMIC application to create a nav bar with this model.
-    fn nav_model(&self) -> Option<&nav_bar::Model> {
-        Some(&self.nav)
-    }
-
-    /// Display a context drawer if the context page is requested.
-    fn context_drawer(&self) -> Option<Element<Self::Message>> {
-        if !self.core.window.show_context {
-            return None;
-        }
-
-        Some(match self.context_page {
-            ContextPage::About => self.about(),
-        })
-    }
-
     /// Describes the interface based on the current state of the application model.
     ///
     /// Application events will be processed through the view. Any messages emitted by
     /// events received by widgets will be passed to the update method.
     fn view(&self) -> Element<Self::Message> {
-        widget::text::title1(fl!("welcome"))
-            .apply(widget::container)
-            .width(Length::Fill)
-            .height(Length::Fill)
-            .align_x(Horizontal::Center)
-            .align_y(Vertical::Center)
+        let name = widget::text_input("Find file name", &self.name)
+            .padding(4)
+            .on_input(Message::NameChanged)
+            .on_submit(Message::FindPressed);
+        let contents = widget::text_input("Find contents", &self.contents)
+            .on_input(Message::ContentsChanged)
+            .padding(4)
+            .on_submit(Message::FindPressed);
+        let clipboard = if self.results.is_empty() {
+            widget::Container::new(widget::Text::new(""))
+        } else {
+            widget::Container::new(widget::button(widget::Text::new("Clipboard")).on_press(
+                Message::CopyToClipboard(self.results.iter().map(|x| x.path.clone()).collect()),
+            ))
+        };
+        let dir = widget::text_input("", &self.directory)
+            .on_input(Message::DirectoryChanged)
+            .padding(4);
+
+        let res = widget::Column::with_children(self.results.iter().map(|x| {
+            let max = 50;
+            let maxlen = 200;
+
+            let file = widget::Text::new(&x.path).style(iced::Color::from_rgb8(120, 120, 255));
+            let mut col = widget::Column::new().push(file);
+            for mat in x.matches.iter().take(max) {
+                let content = format!("{}", FileInfo::limited_match(mat, maxlen, false));
+                let num = widget::text(format!("{}:", mat.line))
+                    .width(50.)
+                    .style(iced::Color::from_rgb8(0, 200, 0));
+                let details = widget::Text::new(content)
+                    .width(Length::Fill)
+                    .style(iced::Color::from_rgb8(200, 200, 200));
+                let row = widget::Row::new().push(num).push(details);
+                col = col.push(row);
+            }
+            if x.matches.len() > max {
+                col = col.push(widget::Text::new(format!(
+                    "and {} other lines",
+                    x.matches.len() - max
+                )));
+            }
+            let mou = iced::widget::MouseArea::new(col)
+                // .interaction(iced::mouse::Interaction::Grabbing)
+                .on_press(Message::CopyToClipboard(vec![x.path.clone()]));
+            widget::Row::new().spacing(10).push(mou).into()
+        }));
+        let res = widget::scrollable(res);
+        widget::Column::new()
+            .padding(10)
+            .spacing(10)
+            .push(
+                widget::Row::new()
+                    .push(widget::Text::new("File name").width(Length::Fixed(100.)))
+                    .push(widget::Space::new(
+                        iced::Length::Fixed(10.),
+                        iced::Length::Shrink,
+                    ))
+                    .push(name),
+            )
+            .push(
+                widget::Row::new()
+                    .push(widget::Text::new("Contents").width(Length::Fixed(100.)))
+                    .push(widget::Space::new(
+                        iced::Length::Fixed(10.),
+                        iced::Length::Shrink,
+                    ))
+                    .push(contents),
+            )
+            .push(
+                widget::Row::new()
+                    .push(widget::Text::new("Directory").width(Length::Fixed(100.)))
+                    .push(
+                        widget::button(widget::Text::new("open")).on_press(Message::OpenDirectory),
+                    )
+                    .push(widget::Space::new(
+                        iced::Length::Fixed(10.),
+                        iced::Length::Shrink,
+                    ))
+                    .push(dir),
+            )
+            .push(
+                widget::Row::new()
+                    .spacing(15)
+                    .align_items(iced::Alignment::End)
+                    .push(if self.searching {
+                        widget::button(widget::Text::new("Stop")).on_press(Message::FindPressed)
+                    } else {
+                        widget::button(widget::Text::new("Find")).on_press(Message::FindPressed)
+                    })
+                    .push(widget::Text::new(&self.message))
+                    .push(clipboard),
+            )
+            .push(res)
             .into()
     }
 
@@ -158,19 +246,13 @@ impl Application for AppModel {
     /// emit messages to the application through a channel. They are started at the
     /// beginning of the application, and persist through its lifetime.
     fn subscription(&self) -> Subscription<Self::Message> {
-        struct MySubscription;
-
         Subscription::batch(vec![
-            // Create a subscription which emits updates through a channel.
-            cosmic::iced::subscription::channel(
-                std::any::TypeId::of::<MySubscription>(),
-                4,
-                move |mut channel| async move {
-                    _ = channel.send(Message::SubscriptionChannel).await;
-
-                    futures_util::future::pending().await
-                },
-            ),
+            //keep looking for external messages.
+            //this is a hack and polls receiver.
+            //TODO: notify gui only if necessary (once results received) - dont know if possible with ICED
+            iced::time::every(Duration::from_millis(100)).map(|_| Message::CheckExternal),
+            //keyboard events
+            iced::event::listen().map(Message::Event),
             // Watch for application configuration changes.
             self.core()
                 .watch_config::<Config>(Self::APP_ID)
@@ -190,41 +272,113 @@ impl Application for AppModel {
     /// on the application's async runtime.
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
         match message {
-            Message::OpenRepositoryUrl => {
-                _ = open::that_detached(REPOSITORY);
-            }
-
             Message::SubscriptionChannel => {
                 // For example purposes only.
             }
 
-            Message::ToggleContextPage(context_page) => {
-                if self.context_page == context_page {
-                    // Close the context drawer if the toggled context page is the same.
-                    self.core.window.show_context = !self.core.window.show_context;
-                } else {
-                    // Open the context drawer to display the requested context page.
-                    self.context_page = context_page;
-                    self.core.window.show_context = true;
-                }
-
-                // Set the title of the context drawer.
-                self.set_context_title(context_page.title());
+            Message::OpenRepositoryUrl => {
+                _ = open::that_detached(REPOSITORY);
             }
 
             Message::UpdateConfig(config) => {
                 self.config = config;
             }
+
+            Message::FindPressed => {
+                if self.searching {
+                    self.manager.stop();
+                    self.message = format!("Found {} items. Stopped", self.found);
+
+                    self.searching = false;
+                } else {
+                    self.results.clear();
+                    self.searching = true;
+                    self.found = 0;
+                    self.message = "Searching...".to_string();
+                    self.manager.search(&Search {
+                        dir: self.directory.clone(),
+                        name_text: self.name.clone(),
+                        contents_text: self.contents.clone(),
+                    })
+                }
+            }
+            Message::NameChanged(nn) => self.name = nn,
+            Message::ContentsChanged(con) => self.contents = con,
+            Message::DirectoryChanged(dir) => {
+                self.directory = dir.clone();
+                if !self.manager.dir_is_valid(&dir) {
+                    self.message = "Invalid directory".to_string();
+                } else {
+                    self.message = "".to_string();
+                }
+            }
+            Message::CheckExternal => {
+                while let Ok(res) = self.receiver.try_recv() {
+                    match res {
+                        SearchResult::FinalResults(res) => {
+                            self.searching = false;
+                            self.message = format!(
+                                "Found {} items in {:.2}s",
+                                res.data.len(),
+                                res.duration.as_secs_f64()
+                            );
+                            let number_of_results = res.data.len();
+                            self.results = res.data;
+                            self.results.truncate(1000);
+                            if number_of_results > 1000 {
+                                self.results.push(FileInfo {
+                                    path: format!("...and {} others", number_of_results - 1000),
+                                    matches: vec![],
+                                    ext: "".into(),
+                                    name: "".into(),
+                                    is_folder: false,
+                                    plugin: None,
+                                    ranges: vec![],
+                                });
+                            }
+                        }
+                        SearchResult::InterimResult(res) => {
+                            if self.results.len() < 1000 {
+                                self.results.push(res)
+                            }
+                            self.found += 1;
+                            self.message = format!("Found {}, searching...", self.found);
+                        }
+                        SearchResult::SearchErrors(_) => {}
+                        SearchResult::SearchCount(_) => {}
+                    }
+                }
+                if let Err(std::sync::mpsc::TryRecvError::Disconnected) = self.receiver.try_recv() {
+                    return Command::none();
+                }
+            }
+            Message::OpenDirectory => {
+                // if let Some(path) = rfd::FileDialog::new().pick_folder() {
+                //     self.directory = path.to_string_lossy().to_string()
+                // }
+            }
+            Message::Event(iced::Event::Keyboard(keyboard::Event::KeyPressed {
+                key: keyboard::Key::Named(keyboard::key::Named::Tab),
+                modifiers,
+                ..
+            })) => {
+                return if modifiers.shift() {
+                    iced::widget::focus_previous()
+                } else {
+                    iced::widget::focus_next()
+                };
+            }
+            Message::Event(iced::Event::Window(_, iced::window::Event::CloseRequested)) => {
+                self.manager.save_and_quit();
+            }
+
+            Message::Event(_) => {}
+            Message::CopyToClipboard(str) => {
+                self.manager.export(str);
+                self.message = "Copied to clipboard".to_string();
+            }
         }
         Command::none()
-    }
-
-    /// Called when a nav item is selected.
-    fn on_nav_select(&mut self, id: nav_bar::Id) -> Command<Self::Message> {
-        // Activate the page in the model.
-        self.nav.activate(id);
-
-        self.update_title()
     }
 }
 
@@ -249,40 +403,6 @@ impl AppModel {
             .spacing(space_xxs)
             .into()
     }
-
-    /// Updates the header and window titles.
-    pub fn update_title(&mut self) -> Command<Message> {
-        let mut window_title = fl!("app-title");
-
-        if let Some(page) = self.nav.text(self.nav.active()) {
-            window_title.push_str(" — ");
-            window_title.push_str(page);
-        }
-
-        self.set_window_title(window_title)
-    }
-}
-
-/// The page to display in the application.
-pub enum Page {
-    Page1,
-    Page2,
-    Page3,
-}
-
-/// The context page to display in the context drawer.
-#[derive(Copy, Clone, Debug, Default, Eq, PartialEq)]
-pub enum ContextPage {
-    #[default]
-    About,
-}
-
-impl ContextPage {
-    fn title(&self) -> String {
-        match self {
-            Self::About => fl!("about"),
-        }
-    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -295,7 +415,7 @@ impl menu::action::MenuAction for MenuAction {
 
     fn message(&self) -> Self::Message {
         match self {
-            MenuAction::About => Message::ToggleContextPage(ContextPage::About),
+            MenuAction::About => Message::OpenRepositoryUrl,
         }
     }
 }

@@ -1153,6 +1153,7 @@ dependencies = [
  "futures-util",
  "i18n-embed",
  "libcosmic",
+ "librusl",
  "open",
  "tokio",
 ]
