@@ -12,7 +12,8 @@ use futures_util::SinkExt;
 use std::collections::HashMap;
 
 const REPOSITORY: &str = "https://github.com/luleyleo/clapgrep";
-const APP_ICON: &[u8] = include_bytes!("../res/icons/hicolor/scalable/apps/de.leopoldluley.Clapgrep.svg");
+const APP_ICON: &[u8] =
+    include_bytes!("../res/icons/hicolor/scalable/apps/de.leopoldluley.Clapgrep.svg");
 
 /// The application model stores app-specific state used to describe its interface and
 /// drive its logic.

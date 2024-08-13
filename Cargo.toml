@@ -1,2 +1,7 @@
 [workspace]
-members = ["clapgrep-core", "clapgrep-cosmic", "clapgrep-gtk"]
+members = ["clapgrep-core", "clapgrep-cosmic", "clapgrep-i18n"]
+resolver = "2"
+
+[workspace.dependencies.i18n-embed]
+version = "0.14"
+features = ["fluent-system", "desktop-requester"]

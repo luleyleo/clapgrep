@@ -1,4 +1,1 @@
-fallback_language = "en"
-
-[fluent]
-assets_dir = "i18n"
+/var/home/leopold/Data/Projects/clapgrep/clapgrep-i18n/i18n.toml

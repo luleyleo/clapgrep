@@ -1,19 +1,14 @@
 [package]
-name = "clapgrep"
+name = "clapgrep-cosmic"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 futures-util = "0.3.30"
-i18n-embed-fl = "0.8"
-once_cell = "1.19.0"
 open = "5.1.3"
-rust-embed = "8.3.0"
 tokio = { version = "1.37.0", features = ["full"] }
-
-[dependencies.i18n-embed]
-version = "0.14"
-features = ["fluent-system", "desktop-requester"]
+clapgrep-i18n = { path = "../clapgrep-i18n/" }
+i18n-embed = { workspace = true }
 
 [dependencies.libcosmic]
 git = "https://github.com/pop-os/libcosmic.git"
