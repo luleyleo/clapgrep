@@ -1,0 +1,19 @@
+[package]
+name = "librusl"
+version = "0.5.0"
+edition = "2021"
+description = "main rusl library"
+
+[dependencies]
+regex =  "1.10" # for pattern matching
+num_cpus = "1.16.0" # for parallel search
+grep =  "0.2" #ripgrep
+ignore = "0.4" #parallel walker from ripgrep
+walkdir = "2.4" #walker from ripgrep
+clipboard = "0.5" #for clipboard
+dirs = "5.0" #for getting config file
+serde = { version="1.0", features=["derive"]}  #save config
+toml = "0.8" #config format
+termcolor = "1.4" #unly used for grep to get nocolor
+pdf-extract= "0.7.2" # for pdf
+dotext = "0.1.1" # for office docs
