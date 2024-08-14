@@ -1,23 +1,24 @@
 // SPDX-License-Identifier: {{LICENSE}}
 
-use crate::config::Config;
-use crate::fl;
-use cosmic::app::{Command, Core};
-use cosmic::cosmic_config::{self, CosmicConfigEntry};
-use cosmic::iced::alignment::{Horizontal, Vertical};
-use cosmic::iced::{self, Alignment, Length, Subscription};
-use cosmic::iced::{keyboard, Color};
-use cosmic::widget::{self, menu};
-use cosmic::{cosmic_theme, theme, Application, ApplicationExt, Apply, Element};
-use futures_util::SinkExt;
-use std::collections::HashMap;
-use std::sync::mpsc::{channel, Receiver};
-use std::time::Duration;
-
+use crate::{config::Config, fl};
+use cosmic::{
+    app::{Command, Core},
+    cosmic_config::{self, CosmicConfigEntry},
+    cosmic_theme,
+    iced::{self, keyboard, Alignment, Length, Padding, Subscription},
+    theme,
+    widget::{self, menu},
+    Application, ApplicationExt, Apply, Element,
+};
 use librusl::{
     fileinfo::FileInfo,
     manager::{Manager, SearchResult},
     search::Search,
+};
+use std::{
+    collections::HashMap,
+    sync::mpsc::{channel, Receiver},
+    time::Duration,
 };
 
 const REPOSITORY: &str = "https://github.com/luleyleo/clapgrep";
@@ -58,7 +59,6 @@ pub enum Message {
     CopyToClipboard(Vec<String>),
 
     OpenRepositoryUrl,
-    SubscriptionChannel,
     UpdateConfig(Config),
 }
 
@@ -151,6 +151,10 @@ impl Application for AppModel {
             .on_input(Message::ContentsChanged)
             .padding(4)
             .on_submit(Message::FindPressed);
+        let dir = widget::text_input("", &self.directory)
+            .on_input(Message::DirectoryChanged)
+            .padding(4);
+
         let clipboard = if self.results.is_empty() {
             widget::Container::new(widget::Text::new(""))
         } else {
@@ -158,40 +162,12 @@ impl Application for AppModel {
                 Message::CopyToClipboard(self.results.iter().map(|x| x.path.clone()).collect()),
             ))
         };
-        let dir = widget::text_input("", &self.directory)
-            .on_input(Message::DirectoryChanged)
-            .padding(4);
 
-        let res = widget::Column::with_children(self.results.iter().map(|x| {
-            let max = 50;
-            let maxlen = 200;
+        let results =
+            widget::Column::with_children(self.results.iter().map(|r| self.result_view(r)))
+                .apply(widget::scrollable);
 
-            let file = widget::Text::new(&x.path).style(iced::Color::from_rgb8(120, 120, 255));
-            let mut col = widget::Column::new().push(file);
-            for mat in x.matches.iter().take(max) {
-                let content = format!("{}", FileInfo::limited_match(mat, maxlen, false));
-                let num = widget::text(format!("{}:", mat.line))
-                    .width(50.)
-                    .style(iced::Color::from_rgb8(0, 200, 0));
-                let details = widget::Text::new(content)
-                    .width(Length::Fill)
-                    .style(iced::Color::from_rgb8(200, 200, 200));
-                let row = widget::Row::new().push(num).push(details);
-                col = col.push(row);
-            }
-            if x.matches.len() > max {
-                col = col.push(widget::Text::new(format!(
-                    "and {} other lines",
-                    x.matches.len() - max
-                )));
-            }
-            let mou = iced::widget::MouseArea::new(col)
-                // .interaction(iced::mouse::Interaction::Grabbing)
-                .on_press(Message::CopyToClipboard(vec![x.path.clone()]));
-            widget::Row::new().spacing(10).push(mou).into()
-        }));
-        let res = widget::scrollable(res);
-        widget::Column::new()
+        let controls = widget::column()
             .padding(10)
             .spacing(10)
             .push(
@@ -215,14 +191,18 @@ impl Application for AppModel {
             .push(
                 widget::Row::new()
                     .push(widget::Text::new("Directory").width(Length::Fixed(100.)))
-                    .push(
-                        widget::button(widget::Text::new("open")).on_press(Message::OpenDirectory),
-                    )
                     .push(widget::Space::new(
                         iced::Length::Fixed(10.),
                         iced::Length::Shrink,
                     ))
-                    .push(dir),
+                    .push(dir)
+                    .push(widget::Space::new(
+                        iced::Length::Fixed(10.),
+                        iced::Length::Shrink,
+                    ))
+                    .push(
+                        widget::button(widget::Text::new("open")).on_press(Message::OpenDirectory),
+                    ),
             )
             .push(
                 widget::Row::new()
@@ -236,7 +216,14 @@ impl Application for AppModel {
                     .push(widget::Text::new(&self.message))
                     .push(clipboard),
             )
-            .push(res)
+            .apply(widget::container)
+            .style(cosmic::style::Container::Card);
+
+        widget::Column::new()
+            .padding(10)
+            .spacing(10)
+            .push(controls.height(Length::Shrink))
+            .push(results.height(Length::Fill))
             .into()
     }
 
@@ -272,10 +259,6 @@ impl Application for AppModel {
     /// on the application's async runtime.
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
         match message {
-            Message::SubscriptionChannel => {
-                // For example purposes only.
-            }
-
             Message::OpenRepositoryUrl => {
                 _ = open::that_detached(REPOSITORY);
             }
@@ -323,8 +306,10 @@ impl Application for AppModel {
                                 res.duration.as_secs_f64()
                             );
                             let number_of_results = res.data.len();
+
                             self.results = res.data;
                             self.results.truncate(1000);
+
                             if number_of_results > 1000 {
                                 self.results.push(FileInfo {
                                     path: format!("...and {} others", number_of_results - 1000),
@@ -402,6 +387,52 @@ impl AppModel {
             .align_items(Alignment::Center)
             .spacing(space_xxs)
             .into()
+    }
+
+    pub fn result_view<'s>(&'s self, result: &'s FileInfo) -> Element<'s, Message> {
+        let max = 50;
+        let maxlen = 200;
+
+        let file = widget::Text::new(&result.path).style(iced::Color::from_rgb8(120, 120, 255));
+
+        let mut col = widget::column().padding(5).spacing(3).push(file);
+
+        let max_num = result
+            .matches
+            .iter()
+            .take(max)
+            .map(|mat| mat.line)
+            .max()
+            .unwrap_or_default()
+            .to_string()
+            .len();
+
+        for mat in result.matches.iter().take(max) {
+            let num = widget::text::monotext(format!("{:width$}: ", mat.line, width = max_num));
+
+            let content = format!("{}", FileInfo::limited_match(mat, maxlen, false));
+            let details = widget::text::monotext(content).width(Length::Fill);
+
+            col = col.push(
+                widget::row()
+                    .padding(Padding::from([0, 5]))
+                    .push(num)
+                    .push(details),
+            );
+        }
+
+        if result.matches.len() > max {
+            col = col.push(widget::Text::new(format!(
+                "and {} other lines",
+                result.matches.len() - max
+            )));
+        }
+
+        let mou = iced::widget::MouseArea::new(col)
+            // .interaction(iced::mouse::Interaction::Grabbing)
+            .on_press(Message::CopyToClipboard(vec![result.path.clone()]));
+
+        widget::Row::new().spacing(10).push(mou).into()
     }
 }
 
