@@ -1,0 +1,9 @@
+[package]
+name = "clapgrep-gtk"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+librusl = { path = "../librusl" }
+adw = { version = "0.7.0", package = "libadwaita", features = ["v1_5"] }
+gtk = { version = "0.9.0", package = "gtk4", features = ["blueprint", "v4_14"] }
