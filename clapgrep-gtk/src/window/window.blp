@@ -4,7 +4,7 @@ using Adw 1;
 template $ClapgrepWindow : Adw.ApplicationWindow {
   default-width: 800;
   default-height: 600;
-  title: _("My App");
+  title: _("Clapgrep");
 
   content: Adw.ToolbarView {
     top-bar-style: flat;
@@ -54,6 +54,7 @@ template $ClapgrepWindow : Adw.ApplicationWindow {
         ListBoxRow {
           selectable: false;
           activatable: false;
+          focusable: false;
 
           Box {
             orientation: horizontal;
