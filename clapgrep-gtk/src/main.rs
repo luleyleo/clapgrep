@@ -1,5 +1,8 @@
 use adw::prelude::*;
 
+mod search_match;
+mod search_model;
+mod search_result;
 mod window;
 
 fn main() {
