@@ -43,10 +43,12 @@ template $ClapgrepWindow : Adw.ApplicationWindow {
 
         Adw.EntryRow {
           title: "Search File Names";
+          text: bind template.file_search bidirectional;
         }
 
         Adw.EntryRow {
           title: "Search File Contents";
+          text: bind template.content_search bidirectional;
         }
 
         ListBoxRow {
@@ -63,6 +65,8 @@ template $ClapgrepWindow : Adw.ApplicationWindow {
             Button {
               label: "_Search";
               use-underline: true;
+
+              clicked => $on_search_button_clicked() swapped;
             }
           }
         }
