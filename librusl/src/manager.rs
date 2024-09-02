@@ -5,7 +5,6 @@ use crate::{
     rgtools::{self, EXTENSION_SEPARATOR, SEPARATOR},
     search::Search,
 };
-use clipboard::{ClipboardContext, ClipboardProvider};
 use ignore::WalkBuilder;
 use std::{
     collections::{HashMap, HashSet},
@@ -124,16 +123,6 @@ impl Manager {
 
     pub fn set_sort(&mut self, sort: Sort) {
         self.options.lock().unwrap().sort = sort;
-    }
-
-    // TODO: Remove clipboard handling.
-    pub fn export(&self, paths: Vec<String>) {
-        let mut ctx: ClipboardContext = ClipboardProvider::new().unwrap();
-
-        let r = ctx.set_contents(paths.join("\n"));
-        if let Err(err) = r {
-            eprintln!("Clip error: {}", err);
-        }
     }
 
     fn spawn_search(&self, search: &Search) {

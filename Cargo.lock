@@ -919,28 +919,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "clipboard"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25a904646c0340239dcf7c51677b33928bf24fdf424b79a57909c0109075b2e7"
-dependencies = [
- "clipboard-win 2.2.0",
- "objc",
- "objc-foundation",
- "objc_id",
- "x11-clipboard",
-]
-
-[[package]]
-name = "clipboard-win"
-version = "2.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3a093d6fed558e5fe24c3dfc85a68bb68f1c824f440d3ba5aca189e2998786b"
-dependencies = [
- "winapi",
-]
-
-[[package]]
 name = "clipboard-win"
 version = "5.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3434,7 +3412,6 @@ dependencies = [
 name = "librusl"
 version = "0.5.0"
 dependencies = [
- "clipboard",
  "dotext",
  "grep",
  "ignore",
@@ -6282,7 +6259,7 @@ name = "window_clipboard"
 version = "0.4.1"
 source = "git+https://github.com/pop-os/window_clipboard.git?tag=pop-dnd-8#7c59b07b9172d8e0401f7e06609e1050575309c9"
 dependencies = [
- "clipboard-win 5.4.0",
+ "clipboard-win",
  "clipboard_macos",
  "clipboard_wayland",
  "clipboard_x11",
@@ -6624,15 +6601,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "x11-clipboard"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "89bd49c06c9eb5d98e6ba6536cf64ac9f7ee3a009b2f53996d405b3944f6bcea"
-dependencies = [
- "xcb",
-]
-
-[[package]]
 name = "x11-dl"
 version = "2.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6663,16 +6631,6 @@ name = "x11rb-protocol"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ec107c4503ea0b4a98ef47356329af139c0a4f7750e621cf2973cd3385ebcb3d"
-
-[[package]]
-name = "xcb"
-version = "0.8.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e917a3f24142e9ff8be2414e36c649d47d6cc2ba81f16201cdef96e533e02de"
-dependencies = [
- "libc",
- "log",
-]
 
 [[package]]
 name = "xcursor"

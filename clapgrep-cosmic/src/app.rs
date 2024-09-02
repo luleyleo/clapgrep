@@ -359,7 +359,7 @@ impl Application for AppModel {
 
             Message::Event(_) => {}
             Message::CopyToClipboard(str) => {
-                self.manager.export(str);
+                // TODO: Actually copy to clipboard.
                 self.message = "Copied to clipboard".to_string();
             }
         }
