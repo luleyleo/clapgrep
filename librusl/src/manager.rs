@@ -229,7 +229,6 @@ impl Manager {
                     .to_str()
                     .unwrap_or_default()
                     .into(),
-                is_folder: pb.is_dir(),
                 plugin: extended,
                 ranges: vec![],
             });

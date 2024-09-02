@@ -315,7 +315,6 @@ impl Application for AppModel {
                                     matches: vec![],
                                     ext: "".into(),
                                     name: "".into(),
-                                    is_folder: false,
                                     plugin: None,
                                     ranges: vec![],
                                 });
