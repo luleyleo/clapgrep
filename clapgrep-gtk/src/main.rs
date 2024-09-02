@@ -7,7 +7,7 @@ mod window;
 
 fn main() {
     let application = adw::Application::builder()
-        .application_id("com.example.FirstAdwaitaApp")
+        .application_id("de.leopoldluley.Clapgrep")
         .build();
 
     application.connect_activate(|app| {
