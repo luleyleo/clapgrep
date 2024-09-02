@@ -5,8 +5,6 @@ use std::borrow::Cow;
 pub struct FileInfo {
     pub path: String,
     pub matches: Vec<Match>,
-    pub ext: String,
-    pub name: String,
     pub plugin: Option<ExtendedType>,
 }
 

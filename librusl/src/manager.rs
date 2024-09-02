@@ -212,23 +212,10 @@ impl Manager {
                     Some((a, b)) => (a.to_string(), Some(b.into())),
                     None => (f[0].to_string(), None),
                 };
-            let pb = PathBuf::from(&path);
 
             let entry = hm.entry(path.clone()).or_insert(FileInfo {
                 path: path.clone(),
                 matches: vec![],
-                ext: pb
-                    .extension()
-                    .unwrap_or(&OsString::from(""))
-                    .to_str()
-                    .unwrap_or_default()
-                    .into(),
-                name: PathBuf::from(f[0])
-                    .file_name()
-                    .unwrap_or_default()
-                    .to_str()
-                    .unwrap_or_default()
-                    .into(),
                 plugin: extended,
             });
             let regex_matches = re
@@ -253,8 +240,8 @@ impl Manager {
         match sort {
             Sort::None => (),
             Sort::Path => vec.sort_by(|a, b| a.path.cmp(&b.path)),
-            Sort::Name => vec.sort_by(|a, b| a.name.cmp(&b.name)),
-            Sort::Extension => vec.sort_by(|a, b| a.ext.cmp(&b.ext)),
+            Sort::Name => unimplemented!(),
+            Sort::Extension => unimplemented!(),
         };
     }
 }

@@ -313,8 +313,6 @@ impl Application for AppModel {
                                 self.results.push(FileInfo {
                                     path: format!("...and {} others", number_of_results - 1000),
                                     matches: vec![],
-                                    ext: "".into(),
-                                    name: "".into(),
                                     plugin: None,
                                 });
                             }
