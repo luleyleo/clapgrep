@@ -1,7 +1,7 @@
 use crate::{
     extended::ExtendedType,
     fileinfo::{FileInfo, Match},
-    options::{FTypes, Options, Sort},
+    options::{Options, Sort},
     rgtools::{self, EXTENSION_SEPARATOR, SEPARATOR},
     search::Search,
 };
@@ -215,8 +215,7 @@ impl Manager {
     ) {
         let text = &search.glob;
         let dir = &search.directory;
-        let ftype = options.name.file_types;
-        let sens = options.name.case_sensitive;
+        let sens = options.case_sensitive;
         let re = regex::RegexBuilder::new(text)
             .case_insensitive(!sens)
             .build();
@@ -227,11 +226,11 @@ impl Manager {
         let re = Arc::new(re);
 
         let walker = WalkBuilder::new(dir)
-            .follow_links(options.name.follow_links)
-            .same_file_system(options.name.same_filesystem)
+            .follow_links(options.follow_links)
+            .same_file_system(options.same_filesystem)
             .threads(num_cpus::get())
-            .hidden(options.name.ignore_dot)
-            .git_ignore(options.name.use_gitignore)
+            .hidden(options.ignore_dot)
+            .git_ignore(options.use_gitignore)
             .build_parallel();
 
         //walk dir
@@ -267,20 +266,13 @@ impl Manager {
                 }
                 let fs_type = fs_type.unwrap();
 
-                //skip files if we dont want them
-                match ftype {
-                    FTypes::Files => {
-                        if !fs_type.is_file() {
-                            return ignore::WalkState::Continue;
-                        }
-                    }
-                    FTypes::Directories => {
-                        if !fs_type.is_dir() {
-                            return ignore::WalkState::Continue;
-                        }
-                    }
-                    _ => (),
+                // skip directories
+                if !fs_type.is_file() {
+                    return ignore::WalkState::Continue;
                 }
+                // TODO: simplify logic after this, given that there are no more directories to be
+                // matched
+
                 let is_match = re
                     .clone()
                     .is_match(dent.file_name().to_str().unwrap_or_default());
@@ -364,14 +356,14 @@ impl Manager {
         total_search_count: Option<Arc<AtomicUsize>>, //only Some if find contents, else None because we would have counted the file in the name search
     ) -> ContentFileInfoResults {
         let re = regex::RegexBuilder::new(text)
-            .case_insensitive(!options.content.case_sensitive)
+            .case_insensitive(!options.case_sensitive)
             .build();
 
         let content_results = rgtools::search_contents(
             text,
             &[OsString::from_str(dir).unwrap()],
             allowed_files,
-            options.content,
+            options,
             global_search_id,
             start_search_id,
             total_search_count,

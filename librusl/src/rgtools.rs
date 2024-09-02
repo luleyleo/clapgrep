@@ -1,6 +1,6 @@
 use crate::{
     extended::{ExtendedTrait, ExtendedType},
-    options::ContentOptions,
+    options::Options,
 };
 use grep::{
     printer::{Standard, StandardBuilder},
@@ -34,7 +34,7 @@ pub fn search_contents(
     pattern: &str,
     paths: &[OsString],
     allowed_files: &HashSet<String>,
-    ops: ContentOptions,
+    ops: Options,
     global_search_id: Arc<AtomicUsize>,
     start_search_id: usize,
     total_search_count: Option<Arc<AtomicUsize>>, //only Some if find contents, else None because we would have counted the file in the name search
@@ -44,7 +44,7 @@ pub fn search_contents(
 
     let matcher = RegexMatcherBuilder::new()
         .case_insensitive(case_insensitive)
-        .fixed_strings(ops.nonregex)
+        .fixed_strings(ops.fixed_string)
         .build(&pattern);
 
     if matcher.is_err() {
@@ -127,7 +127,7 @@ fn read_file(
     matcher: &RegexMatcher,
     printer: &mut Standard<NoColor<MyWrite>>,
     errors: &mut Vec<String>,
-    ops: &ContentOptions,
+    ops: &Options,
     total_search_count: Option<Arc<AtomicUsize>>,
 ) {
     if let Some(total_search_count) = total_search_count.as_ref() {

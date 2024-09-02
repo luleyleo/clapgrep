@@ -1,48 +1,13 @@
 #[derive(Clone, Debug)]
 pub struct Options {
     pub sort: Sort,
-    pub name: NameOptions,
-    pub content: ContentOptions,
-}
-
-impl Default for Options {
-    fn default() -> Self {
-        Self {
-            sort: Sort::None,
-            name: Default::default(),
-            content: Default::default(),
-        }
-    }
-}
-
-#[derive(Clone, Debug)]
-pub struct NameOptions {
     pub case_sensitive: bool,
-    pub file_types: FTypes,
     pub same_filesystem: bool,
     pub follow_links: bool,
     pub ignore_dot: bool,
     pub use_gitignore: bool,
-}
-
-impl Default for NameOptions {
-    fn default() -> Self {
-        Self {
-            case_sensitive: false,
-            file_types: FTypes::All,
-            same_filesystem: false,
-            follow_links: false,
-            ignore_dot: true,
-            use_gitignore: true,
-        }
-    }
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct ContentOptions {
-    pub case_sensitive: bool,
     pub extended: bool,
-    pub nonregex: bool, //--fixed-string
+    pub fixed_string: bool,
 }
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -54,10 +19,17 @@ pub enum Sort {
     Extension,
 }
 
-#[derive(PartialEq, Eq, Clone, Copy, Debug, Default)]
-pub enum FTypes {
-    Files,
-    Directories,
-    #[default]
-    All,
+impl Default for Options {
+    fn default() -> Self {
+        Self {
+            sort: Sort::default(),
+            case_sensitive: false,
+            same_filesystem: false,
+            follow_links: false,
+            ignore_dot: true,
+            use_gitignore: true,
+            extended: false,
+            fixed_string: false,
+        }
+    }
 }
