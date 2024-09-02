@@ -1,9 +1,6 @@
 #[derive(Clone, Debug)]
 pub struct Options {
     pub sort: Sort,
-    pub last_dir: String,
-    pub name_history: Vec<String>,
-    pub content_history: Vec<String>,
     pub name: NameOptions,
     pub content: ContentOptions,
 }
@@ -12,9 +9,6 @@ impl Default for Options {
     fn default() -> Self {
         Self {
             sort: Sort::None,
-            last_dir: ".".to_string(),
-            name_history: vec![],
-            content_history: vec![],
             name: Default::default(),
             content: Default::default(),
         }

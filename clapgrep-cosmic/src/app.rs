@@ -111,7 +111,7 @@ impl Application for AppModel {
             name: "".to_string(),
             contents: "".to_string(),
             message: "".to_string(),
-            directory: man.get_options().last_dir.clone(),
+            directory: ".".to_string(),
             results: vec![],
             manager: man,
             receiver: r,

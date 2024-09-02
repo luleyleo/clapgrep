@@ -90,18 +90,6 @@ impl Manager {
     pub fn search(&mut self, search: &Search) {
         self.stop();
         self.stopped.store(false, Ordering::Relaxed);
-
-        // TODO: Remove history from options.
-        let mut ops = self.options.lock().unwrap();
-        ops.last_dir = search.directory.clone();
-        if !search.glob.is_empty() && !ops.name_history.contains(&search.glob) {
-            ops.name_history.push(search.glob.clone());
-        }
-        if !search.pattern.is_empty() && !ops.content_history.contains(&search.pattern) {
-            ops.content_history.push(search.pattern.clone());
-        }
-        drop(ops);
-
         self.spawn_search(&search);
     }
 
