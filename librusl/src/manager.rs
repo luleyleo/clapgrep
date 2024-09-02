@@ -60,19 +60,21 @@ pub struct Manager {
 
 impl Manager {
     pub fn new(external_sender: Sender<SearchResult>) -> Self {
-        let ops = load_options();
-        let ops = Arc::new(Mutex::new(ops));
+        // TODO: Do not load options from files, but pass them as argument.
+        let options = load_options();
+        let options = Arc::new(Mutex::new(options));
 
         //internal channel that sends results inside
-        let (s, r) = std::sync::mpsc::channel();
-        let ops_for_receiver = ops.clone();
+        let (internal_sender, internal_receiver) = std::sync::mpsc::channel();
+        let options_for_receiver = options.clone();
         thread::spawn(move || {
-            message_receiver(r, external_sender, ops_for_receiver);
+            message_receiver(internal_receiver, external_sender, options_for_receiver);
         });
+
         Self {
-            internal_sender: s,
+            internal_sender,
             current_search_id: Arc::new(AtomicUsize::new(0)),
-            options: ops,
+            options,
             total_search_count: Arc::new(AtomicUsize::new(0)),
             stopped: Arc::new(AtomicBool::new(false)),
         }
@@ -88,6 +90,7 @@ impl Manager {
         self.stop();
         self.stopped.store(false, Ordering::Relaxed);
 
+        // TODO: Remove history from options.
         let mut ops = self.options.lock().unwrap();
         ops.last_dir = search.dir.clone();
         if !search.name_text.is_empty() && !ops.name_history.contains(&search.name_text) {
@@ -127,6 +130,7 @@ impl Manager {
         self.options.lock().unwrap().sort = sort;
     }
 
+    // TODO: Remove clipboard handling.
     pub fn export(&self, paths: Vec<String>) {
         let mut ctx: ClipboardContext = ClipboardProvider::new().unwrap();
 
