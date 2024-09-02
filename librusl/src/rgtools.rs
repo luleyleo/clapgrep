@@ -41,16 +41,10 @@ pub fn search_contents(
 ) -> ContentResults {
     let case_insensitive = !ops.case_sensitive;
     let mut errors = vec![];
-    //TODO: there is a fixed_strings in RegexMatcherBuilder, but it is not updated on
-    //crates.io yet, so we manually escape
-    let mut pattern = pattern.to_string();
-    if ops.nonregex {
-        pattern = regex::escape(&pattern);
-    }
-    ////
 
     let matcher = RegexMatcherBuilder::new()
         .case_insensitive(case_insensitive)
+        .fixed_strings(ops.nonregex)
         .build(&pattern);
 
     if matcher.is_err() {
