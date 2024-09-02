@@ -92,13 +92,12 @@ impl Manager {
 
         // TODO: Remove history from options.
         let mut ops = self.options.lock().unwrap();
-        ops.last_dir = search.dir.clone();
-        if !search.name_text.is_empty() && !ops.name_history.contains(&search.name_text) {
-            ops.name_history.push(search.name_text.clone());
+        ops.last_dir = search.directory.clone();
+        if !search.glob.is_empty() && !ops.name_history.contains(&search.glob) {
+            ops.name_history.push(search.glob.clone());
         }
-        if !search.contents_text.is_empty() && !ops.content_history.contains(&search.contents_text)
-        {
-            ops.content_history.push(search.contents_text.clone());
+        if !search.pattern.is_empty() && !ops.content_history.contains(&search.pattern) {
+            ops.content_history.push(search.pattern.clone());
         }
         drop(ops);
 
@@ -177,7 +176,7 @@ impl Manager {
         let options1 = self.options.lock().unwrap().clone();
         let total_search_count1 = self.total_search_count.clone();
 
-        if !search.name_text.is_empty() {
+        if !search.glob.is_empty() {
             let counter_search_id = current_search_id1.clone();
             thread::spawn(move || {
                 let start = Instant::now();
@@ -199,7 +198,7 @@ impl Manager {
             });
         }
         //do content search (only if name is empty, otherwise it will be spawned after)
-        else if !search.contents_text.is_empty() && search.name_text.is_empty() {
+        else if !search.pattern.is_empty() && search.glob.is_empty() {
             let current_search_id2 = self.current_search_id.clone();
             let options2 = self.options.lock().unwrap().clone();
             let total_search_count2 = self.total_search_count.clone();
@@ -207,8 +206,8 @@ impl Manager {
             thread::spawn(move || {
                 let start = Instant::now();
                 let files = Manager::find_contents(
-                    &search.contents_text,
-                    &search.dir,
+                    &search.pattern,
+                    &search.directory,
                     &HashSet::new(),
                     options2,
                     current_search_id2,
@@ -240,8 +239,8 @@ impl Manager {
         start_search_id: usize,             //id when starting this search
         total_search_count: Arc<AtomicUsize>,
     ) {
-        let text = &search.name_text;
-        let dir = &search.dir;
+        let text = &search.glob;
+        let dir = &search.directory;
         let ftype = options.name.file_types;
         let sens = options.name.case_sensitive;
         let re = regex::RegexBuilder::new(text)
@@ -315,13 +314,13 @@ impl Manager {
                 if is_match {
                     let mut must_add = true;
                     let mut matches = vec![];
-                    if !search.contents_text.is_empty() {
+                    if !search.pattern.is_empty() {
                         if fs_type.is_dir() {
                             must_add = false;
                         } else {
                             //check if contents match
                             let cont = Manager::find_contents(
-                                &search.contents_text,
+                                &search.pattern,
                                 dir,
                                 &HashSet::from_iter([dent.path().to_string_lossy().to_string()]),
                                 options.clone(),
@@ -635,9 +634,9 @@ mod tests {
         let (s, r) = channel();
         let mut man = Manager::new(s);
         let search = Search {
-            dir: file1.parent().unwrap().to_string_lossy().to_string(),
-            name_text: file1.file_name().unwrap().to_string_lossy().to_string(),
-            contents_text: "41".to_string(),
+            directory: file1.parent().unwrap().to_string_lossy().to_string(),
+            glob: file1.file_name().unwrap().to_string_lossy().to_string(),
+            pattern: "41".to_string(),
         };
         println!("using search {search:?}");
         man.search(&search);

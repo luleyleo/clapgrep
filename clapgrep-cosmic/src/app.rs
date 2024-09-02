@@ -279,9 +279,9 @@ impl Application for AppModel {
                     self.found = 0;
                     self.message = "Searching...".to_string();
                     self.manager.search(&Search {
-                        dir: self.directory.clone(),
-                        name_text: self.name.clone(),
-                        contents_text: self.contents.clone(),
+                        directory: self.directory.clone(),
+                        glob: self.name.clone(),
+                        pattern: self.contents.clone(),
                     })
                 }
             }
