@@ -14,7 +14,7 @@ glib::wrapper! {
 impl SearchResult {
     pub fn new(
         file: &str,
-        line: i64,
+        line: usize,
         content: &str,
         matches: &[std::ops::Range<usize>],
     ) -> SearchResult {
@@ -26,7 +26,7 @@ impl SearchResult {
 
         glib::Object::builder()
             .property("file", file)
-            .property("line", line)
+            .property("line", line as u64)
             .property("content", content)
             .property("matches", matches_store)
             .build()

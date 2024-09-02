@@ -105,10 +105,71 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
           }
         }
 
-        Adw.StatusPage {
-          title: _("No Results");
-          description: _("Try to start a search");
-          icon-name: "system-search-symbolic";
+        // Adw.StatusPage {
+        //   title: _("No Results");
+        //   description: _("Try to start a search");
+        //   icon-name: "system-search-symbolic";
+        // }
+        ScrolledWindow {
+          child: ListView {
+            single-click-activate: true;
+
+            model: NoSelection {
+              model: bind template.results;
+            };
+
+            header-factory: BuilderListItemFactory {
+              template ListHeader {
+                child: Label {
+                  margin-start: 16;
+                  halign: start;
+                  label: bind template.item as <$ClapgrepSearchResult>.file;
+
+                  styles [
+                    "heading"
+                  ]
+                };
+              }
+            };
+
+            factory: BuilderListItemFactory {
+              template ListItem {
+                child: Box {
+                  orientation: horizontal;
+                  margin-top: 2;
+                  margin-start: 16;
+                  margin-end: 16;
+                  margin-bottom: 2;
+
+                  Label {
+                    xalign: 1.0;
+                    width-request: 40;
+                    label: bind template.item as <$ClapgrepSearchResult>.line;
+
+                    styles [
+                      "monospace"
+                    ]
+                  }
+
+                  Label {
+                    label: ": ";
+
+                    styles [
+                      "monospace"
+                    ]
+                  }
+
+                  Label {
+                    label: bind template.item as <$ClapgrepSearchResult>.content;
+
+                    styles [
+                      "monospace"
+                    ]
+                  }
+                };
+              }
+            };
+          };
         }
       };
     };

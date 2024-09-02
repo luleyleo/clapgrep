@@ -12,7 +12,7 @@ pub struct SearchResult {
     #[property(get, set)]
     file: RefCell<String>,
     #[property(get, set)]
-    line: Cell<i64>,
+    line: Cell<u64>,
     #[property(get, set)]
     content: RefCell<String>,
     #[property(get, set, construct)]

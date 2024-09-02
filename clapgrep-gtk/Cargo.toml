@@ -7,3 +7,4 @@ edition = "2021"
 librusl = { path = "../librusl" }
 adw = { version = "0.7.0", package = "libadwaita", features = ["v1_5"] }
 gtk = { version = "0.9.0", package = "gtk4", features = ["blueprint", "v4_14"] }
+flume = "0.11.0"

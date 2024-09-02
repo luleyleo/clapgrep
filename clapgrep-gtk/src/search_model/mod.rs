@@ -1,6 +1,7 @@
 mod imp;
 
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
+use librusl::fileinfo::FileInfo;
 
 use crate::search_result::SearchResult;
 
@@ -31,6 +32,29 @@ impl SearchModel {
         let imp = self.imp();
         imp.0.borrow_mut().remove(index as usize);
         self.items_changed(index, 1, 0);
+    }
+
+    pub fn clear(&self) {
+        let imp = self.imp();
+        let len = imp.0.borrow().len();
+        imp.0.borrow_mut().clear();
+        self.items_changed(0, len as u32, 0)
+    }
+
+    pub fn append_file_info(&self, file_info: &FileInfo) {
+        let file = file_info.path.to_string_lossy();
+        let search_results = file_info
+            .matches
+            .iter()
+            .map(|m| SearchResult::new(&file, m.line, &m.content, &m.ranges));
+
+        let mut data = self.imp().0.borrow_mut();
+        let start = data.len() as u32;
+        data.extend(search_results);
+        let end = data.len() as u32;
+        drop(data);
+
+        self.items_changed(start, 0, end - start);
     }
 }
 
