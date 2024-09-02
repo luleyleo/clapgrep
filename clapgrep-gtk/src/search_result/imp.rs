@@ -12,6 +12,8 @@ pub struct SearchResult {
     #[property(get, set)]
     file: RefCell<String>,
     #[property(get, set)]
+    uri: RefCell<String>,
+    #[property(get, set)]
     line: Cell<u64>,
     #[property(get, set)]
     content: RefCell<String>,

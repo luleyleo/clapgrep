@@ -1,5 +1,7 @@
 mod imp;
 
+use std::path::Path;
+
 use gtk::{
     gio, glib, pango,
     prelude::{Cast, ListModelExt},
@@ -13,7 +15,7 @@ glib::wrapper! {
 
 impl SearchResult {
     pub fn new(
-        file: &str,
+        file: &Path,
         line: usize,
         content: &str,
         matches: &[std::ops::Range<usize>],
@@ -24,8 +26,11 @@ impl SearchResult {
             matches_store.append(&sm);
         }
 
+        let uri = format!("file://{}", file.canonicalize().unwrap().to_string_lossy());
+
         glib::Object::builder()
-            .property("file", file)
+            .property("file", file.to_string_lossy().as_ref())
+            .property("uri", uri)
             .property("line", line as u64)
             .property("content", content)
             .property("matches", matches_store)

@@ -42,11 +42,10 @@ impl SearchModel {
     }
 
     pub fn append_file_info(&self, file_info: &FileInfo) {
-        let file = file_info.path.to_string_lossy();
         let search_results = file_info
             .matches
             .iter()
-            .map(|m| SearchResult::new(&file, m.line, &m.content, &m.ranges));
+            .map(|m| SearchResult::new(&file_info.path, m.line, &m.content, &m.ranges));
 
         let mut data = self.imp().0.borrow_mut();
         let start = data.len() as u32;

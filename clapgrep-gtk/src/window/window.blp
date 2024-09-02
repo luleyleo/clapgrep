@@ -120,10 +120,11 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
 
             header-factory: BuilderListItemFactory {
               template ListHeader {
-                child: Label {
+                child: LinkButton {
                   margin-start: 16;
                   halign: start;
                   label: bind template.item as <$ClapgrepSearchResult>.file;
+                  uri: bind template.item as <$ClapgrepSearchResult>.uri;
 
                   styles [
                     "heading"
