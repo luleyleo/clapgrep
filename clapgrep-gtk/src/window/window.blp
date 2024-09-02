@@ -1,84 +1,117 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $ClapgrepWindow : Adw.ApplicationWindow {
+template $ClapgrepWindow: Adw.ApplicationWindow {
   default-width: 800;
   default-height: 600;
   title: _("Clapgrep");
 
-  content: Adw.ToolbarView {
-    top-bar-style: flat;
+  content: Adw.NavigationSplitView {
+    sidebar: Adw.NavigationPage {
+      title: "Search Settings";
+      width-request: 400;
 
-    [top]
-    Adw.HeaderBar {
-      [start]
-      MenuButton {
-        icon-name: "go-previous-symbolic";
-      }
+      child: Adw.ToolbarView {
+        top-bar-style: flat;
 
-      [title]
-      Entry {
-        text: "Home/Documents/";
-        width-request: 400;
-      }
+        [top]
+        Adw.HeaderBar {
+          [title]
+          Label {
+            label: "Search";
 
-      [end]
-      MenuButton button_menu {
-        menu-model: menu_app;
-        icon-name: "open-menu-symbolic";
-        primary: true;
-      }
-    }
-
-    Box {
-      orientation: vertical;
-
-     ListBox {
-        margin-top: 20;
-        margin-start: 20;
-        margin-end: 20;
-        margin-bottom: 20;
-
-        styles ["boxed-list"]
-
-        Adw.EntryRow {
-          title: "Search File Names";
-          text: bind template.file_search bidirectional;
+            styles [
+              "title"
+            ]
+          }
         }
 
-        Adw.EntryRow {
-          title: "Search File Contents";
-          text: bind template.content_search bidirectional;
-        }
+        Box {
+          orientation: vertical;
 
-        ListBoxRow {
-          selectable: false;
-          activatable: false;
-          focusable: false;
+          ListBox {
+            margin-top: 10;
+            margin-start: 10;
+            margin-end: 10;
+            margin-bottom: 10;
+            selection-mode: none;
 
-          Box {
-            orientation: horizontal;
-            margin-top: 8;
-            margin-start: 8;
-            margin-end: 8;
-            margin-bottom: 8;
+            styles [
+              "boxed-list"
+            ]
 
-            Button {
-              label: "_Search";
-              use-underline: true;
+            Adw.EntryRow {
+              title: "Pattern";
+              text: bind template.content_search bidirectional;
+            }
 
-              clicked => $on_search_button_clicked() swapped;
+            Adw.EntryRow {
+              title: "Search Path";
+              text: bind template.file_search bidirectional;
+            }
+
+            Adw.ActionRow {
+              title: "Start Search";
+              activatable: true;
+              activated => $on_search() swapped;
+            }
+          }
+
+          ListBox {
+            margin-top: 10;
+            margin-start: 10;
+            margin-end: 10;
+            margin-bottom: 10;
+            selection-mode: none;
+
+            styles [
+              "boxed-list"
+            ]
+
+            Adw.SwitchRow {
+              title: "Case Sensitive";
+            }
+
+            Adw.SwitchRow {
+              title: "Disable Regex";
             }
           }
         }
-      }
+      };
+    };
 
-      Adw.StatusPage {
-        title: _("No Results");
-        description: _("Try to start a search");
-        icon-name: "system-search-symbolic";
-      }
-    }
+    content: Adw.NavigationPage {
+      title: "Search Results";
+
+      child: Adw.ToolbarView {
+        top-bar-style: flat;
+
+        [top]
+        Adw.HeaderBar {
+          [title]
+          Label {
+            label: "Search Results";
+
+            styles [
+              "title"
+            ]
+          }
+
+          [end]
+          MenuButton button_menu {
+            menu-model: menu_app;
+            icon-name: "open-menu-symbolic";
+            primary: true;
+          }
+        }
+
+        Adw.StatusPage {
+          title: _("No Results");
+          description: _("Try to start a search");
+          icon-name: "system-search-symbolic";
+        }
+      };
+    };
   };
 }
 

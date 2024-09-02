@@ -33,7 +33,7 @@ impl ObjectSubclass for Window {
 #[gtk::template_callbacks]
 impl Window {
     #[template_callback]
-    fn on_search_button_clicked(&self, _: &gtk::Button) {
+    fn on_search(&self, _: &adw::ActionRow) {
         println!("file_search = {}", self.file_search.borrow());
         println!("content_search = {}", self.content_search.borrow());
     }
