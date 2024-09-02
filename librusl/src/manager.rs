@@ -329,7 +329,7 @@ mod tests {
         let file1 = add_demo_file();
 
         let (s, r) = channel();
-        let mut man = Manager::new(s);
+        let man = Manager::new(s);
         let search = Search {
             directory: file1.parent().unwrap().to_owned(),
             pattern: "41".to_string(),
