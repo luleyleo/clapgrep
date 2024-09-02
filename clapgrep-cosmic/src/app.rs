@@ -355,7 +355,7 @@ impl Application for AppModel {
             }
 
             Message::Event(_) => {}
-            Message::CopyToClipboard(str) => {
+            Message::CopyToClipboard(_str) => {
                 // TODO: Actually copy to clipboard.
                 self.message = "Copied to clipboard".to_string();
             }
@@ -366,6 +366,7 @@ impl Application for AppModel {
 
 impl AppModel {
     /// The about page for this app.
+    #[allow(dead_code)]
     pub fn about(&self) -> Element<Message> {
         let cosmic_theme::Spacing { space_xxs, .. } = theme::active().cosmic().spacing;
 
