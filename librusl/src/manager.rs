@@ -78,13 +78,13 @@ impl Manager {
         }
     }
 
-    pub fn stop(&mut self) {
+    pub fn stop(&self) {
         //incrementing search id will stop any ongoing searches
         self.current_search_id.fetch_add(1, Ordering::Relaxed);
         self.stopped.store(true, Ordering::Relaxed);
     }
 
-    pub fn search(&mut self, search: &Search) {
+    pub fn search(&self, search: &Search) {
         self.stop();
         self.stopped.store(false, Ordering::Relaxed);
         self.spawn_search(&search);
@@ -98,7 +98,7 @@ impl Manager {
         PathBuf::from(dir).exists()
     }
 
-    pub fn set_options(&mut self, ops: Options) {
+    pub fn set_options(&self, ops: Options) {
         *self.options.lock().unwrap() = ops;
     }
 
@@ -106,7 +106,7 @@ impl Manager {
         self.options.lock().unwrap().clone()
     }
 
-    pub fn set_sort(&mut self, sort: Sort) {
+    pub fn set_sort(&self, sort: Sort) {
         self.options.lock().unwrap().sort = sort;
     }
 
