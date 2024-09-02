@@ -17,6 +17,7 @@ use librusl::{
 };
 use std::{
     collections::HashMap,
+    path::PathBuf,
     sync::mpsc::{channel, Receiver},
     time::Duration,
 };
@@ -56,7 +57,7 @@ pub enum Message {
     OpenDirectory,
     CheckExternal,
     Event(cosmic::iced::event::Event),
-    CopyToClipboard(Vec<String>),
+    CopyToClipboard(Vec<PathBuf>),
 
     OpenRepositoryUrl,
     UpdateConfig(Config),
@@ -279,7 +280,7 @@ impl Application for AppModel {
                     self.found = 0;
                     self.message = "Searching...".to_string();
                     self.manager.search(&Search {
-                        directory: self.directory.clone(),
+                        directory: PathBuf::from(&self.directory),
                         pattern: self.contents.clone(),
                     })
                 }
@@ -304,23 +305,10 @@ impl Application for AppModel {
                                 res.data.len(),
                                 res.duration.as_secs_f64()
                             );
-                            let number_of_results = res.data.len();
-
                             self.results = res.data;
-                            self.results.truncate(1000);
-
-                            if number_of_results > 1000 {
-                                self.results.push(FileInfo {
-                                    path: format!("...and {} others", number_of_results - 1000),
-                                    matches: vec![],
-                                    plugin: None,
-                                });
-                            }
                         }
                         SearchResult::InterimResult(res) => {
-                            if self.results.len() < 1000 {
-                                self.results.push(res)
-                            }
+                            self.results.push(res);
                             self.found += 1;
                             self.message = format!("Found {}, searching...", self.found);
                         }
@@ -389,7 +377,8 @@ impl AppModel {
         let max = 50;
         let maxlen = 200;
 
-        let file = widget::Text::new(&result.path).style(iced::Color::from_rgb8(120, 120, 255));
+        let file = widget::Text::new(result.path.to_string_lossy())
+            .style(iced::Color::from_rgb8(120, 120, 255));
 
         let mut col = widget::column().padding(5).spacing(3).push(file);
 

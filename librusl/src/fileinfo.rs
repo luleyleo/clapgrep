@@ -1,9 +1,9 @@
 use crate::extended::ExtendedType;
-use std::borrow::Cow;
+use std::{borrow::Cow, path::PathBuf};
 
 #[derive(Clone, Debug)]
 pub struct FileInfo {
-    pub path: String,
+    pub path: PathBuf,
     pub matches: Vec<Match>,
     pub plugin: Option<ExtendedType>,
 }

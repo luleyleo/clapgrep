@@ -7,9 +7,7 @@ use crate::{
 };
 use std::{
     collections::{HashMap, HashSet},
-    ffi::OsString,
-    path::PathBuf,
-    str::FromStr,
+    path::{Path, PathBuf},
     sync::{
         atomic::{AtomicBool, AtomicUsize, Ordering},
         mpsc::{Receiver, Sender},
@@ -177,7 +175,7 @@ impl Manager {
 
     fn find_contents(
         text: &str,
-        dir: &str,
+        dir: &Path,
         allowed_files: &HashSet<String>,
         options: Options,
         global_search_id: Arc<AtomicUsize>,
@@ -190,7 +188,7 @@ impl Manager {
 
         let content_results = rgtools::search_contents(
             text,
-            &[OsString::from_str(dir).unwrap()],
+            &[dir.as_os_str().to_owned()],
             allowed_files,
             options,
             global_search_id,
@@ -214,7 +212,7 @@ impl Manager {
                 };
 
             let entry = hm.entry(path.clone()).or_insert(FileInfo {
-                path: path.clone(),
+                path: PathBuf::from(path),
                 matches: vec![],
                 plugin: extended,
             });
@@ -333,7 +331,7 @@ mod tests {
         let (s, r) = channel();
         let mut man = Manager::new(s);
         let search = Search {
-            directory: file1.parent().unwrap().to_string_lossy().to_string(),
+            directory: file1.parent().unwrap().to_owned(),
             pattern: "41".to_string(),
         };
         println!("using search {search:?}");
