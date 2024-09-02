@@ -1,16 +1,14 @@
-use dotext::doc::OpenOfficeDoc;
-use dotext::*;
+use dotext::{doc::OpenOfficeDoc, *};
 use serde::{Deserialize, Serialize};
-use std::error::Error;
-use std::io::Read;
-use std::panic::catch_unwind;
-use std::path::Path;
+use std::{error::Error, io::Read, panic::catch_unwind, path::Path};
+
 pub trait ExtendedTrait {
     fn name(&self) -> String;
     ///lowercase extensions
     fn extensions(&self) -> Vec<String>;
     fn to_string(&self, path: &Path) -> Result<String, Box<dyn std::error::Error>>;
 }
+
 #[derive(Clone, Copy, Serialize, Deserialize, Debug)]
 pub enum ExtendedType {
     Pdf,
@@ -47,6 +45,7 @@ impl ExtendedTrait for ExtendedType {
         .to_string()
     }
 }
+
 impl From<&str> for ExtendedType {
     fn from(value: &str) -> Self {
         match value.to_lowercase().as_str() {
@@ -65,7 +64,12 @@ fn extract_pdf(path: &Path) -> Result<String, Box<dyn Error>> {
 }
 
 fn extract_office(path: &Path) -> Result<String, Box<dyn Error>> {
-    let ext = path.extension().unwrap_or_default().to_string_lossy().to_string();
+    let ext = path
+        .extension()
+        .unwrap_or_default()
+        .to_string_lossy()
+        .to_string();
+
     let mut string = String::new();
     match ext.as_str() {
         "docx" => {

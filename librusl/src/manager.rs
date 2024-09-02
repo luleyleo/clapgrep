@@ -1,21 +1,25 @@
-use std::collections::{HashMap, HashSet};
-use std::ffi::OsString;
-use std::path::PathBuf;
-use std::str::FromStr;
-use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
-use std::sync::mpsc::{Receiver, Sender};
-use std::sync::{Arc, Mutex};
-use std::thread;
-use std::time::{Duration, Instant};
-
+use crate::{
+    extended::ExtendedType,
+    fileinfo::{FileInfo, Match},
+    options::{FTypes, Options, Sort},
+    rgtools::{self, EXTENSION_SEPARATOR, SEPARATOR},
+    search::Search,
+};
 use clipboard::{ClipboardContext, ClipboardProvider};
 use ignore::WalkBuilder;
-
-use crate::extended::ExtendedType;
-use crate::fileinfo::{FileInfo, Match};
-use crate::options::{FTypes, Options, Sort};
-use crate::rgtools::{self, EXTENSION_SEPARATOR, SEPARATOR};
-use crate::search::Search;
+use std::{
+    collections::{HashMap, HashSet},
+    ffi::OsString,
+    path::PathBuf,
+    str::FromStr,
+    sync::{
+        atomic::{AtomicBool, AtomicUsize, Ordering},
+        mpsc::{Receiver, Sender},
+        Arc, Mutex,
+    },
+    thread,
+    time::{Duration, Instant},
+};
 
 pub enum Message {
     File(FileInfo, usize),
@@ -34,6 +38,7 @@ pub enum SearchResult {
     SearchErrors(Vec<String>),
     SearchCount(usize),
 }
+
 #[derive(Debug, Clone)]
 pub struct FinalResults {
     pub data: Vec<FileInfo>,
@@ -41,6 +46,7 @@ pub struct FinalResults {
     pub id: usize,
     pub stopped: bool,
 }
+
 pub struct Manager {
     internal_sender: Sender<Message>,     //send internal messages
     current_search_id: Arc<AtomicUsize>,  //we keep track of searches, and stop old searches
@@ -87,7 +93,8 @@ impl Manager {
         if !search.name_text.is_empty() && !ops.name_history.contains(&search.name_text) {
             ops.name_history.push(search.name_text.clone());
         }
-        if !search.contents_text.is_empty() && !ops.content_history.contains(&search.contents_text) {
+        if !search.contents_text.is_empty() && !ops.content_history.contains(&search.contents_text)
+        {
             ops.content_history.push(search.contents_text.clone());
         }
         drop(ops);
@@ -150,7 +157,8 @@ impl Manager {
         thread::spawn(move || {
             let total_count = total_count.clone();
             loop {
-                let _ = total_sender.send(Message::SearchCount(total_count.load(Ordering::Relaxed)));
+                let _ =
+                    total_sender.send(Message::SearchCount(total_count.load(Ordering::Relaxed)));
                 thread::sleep(Duration::from_millis(100));
                 if current_search_id0.load(Ordering::Relaxed) != start_search_id {
                     break;
@@ -178,7 +186,9 @@ impl Manager {
                     total_search_count1,
                 );
                 let stopped = stopped.load(Ordering::Relaxed);
-                if let Err(err) = file_sender1.send(Message::Done(start_search_id, start.elapsed(), stopped)) {
+                if let Err(err) =
+                    file_sender1.send(Message::Done(start_search_id, start.elapsed(), stopped))
+                {
                     eprintln!("Manager: Could not send result {start_search_id} {err:?}:{err}");
                 }
                 counter_search_id.fetch_add(1, Ordering::Relaxed); //stop counting
@@ -203,10 +213,16 @@ impl Manager {
                 );
                 let stopped = stopped.load(Ordering::Relaxed);
                 file_sender
-                    .send(Message::ContentFiles(files.results, start_search_id, start.elapsed()))
+                    .send(Message::ContentFiles(
+                        files.results,
+                        start_search_id,
+                        start.elapsed(),
+                    ))
                     .unwrap();
                 file_sender.send(Message::FileErrors(files.errors)).unwrap();
-                file_sender.send(Message::Done(start_search_id, start.elapsed(), stopped)).unwrap();
+                file_sender
+                    .send(Message::Done(start_search_id, start.elapsed(), stopped))
+                    .unwrap();
                 eprintln!("Done content search");
             });
         }
@@ -224,7 +240,9 @@ impl Manager {
         let dir = &search.dir;
         let ftype = options.name.file_types;
         let sens = options.name.case_sensitive;
-        let re = regex::RegexBuilder::new(text).case_insensitive(!sens).build();
+        let re = regex::RegexBuilder::new(text)
+            .case_insensitive(!sens)
+            .build();
         if re.is_err() {
             return;
         }
@@ -286,7 +304,9 @@ impl Manager {
                     }
                     _ => (),
                 }
-                let is_match = re.clone().is_match(dent.file_name().to_str().unwrap_or_default());
+                let is_match = re
+                    .clone()
+                    .is_match(dent.file_name().to_str().unwrap_or_default());
 
                 if is_match {
                     let mut must_add = true;
@@ -366,7 +386,9 @@ impl Manager {
         start_search_id: usize,
         total_search_count: Option<Arc<AtomicUsize>>, //only Some if find contents, else None because we would have counted the file in the name search
     ) -> ContentFileInfoResults {
-        let re = regex::RegexBuilder::new(text).case_insensitive(!options.content.case_sensitive).build();
+        let re = regex::RegexBuilder::new(text)
+            .case_insensitive(!options.content.case_sensitive)
+            .build();
 
         let content_results = rgtools::search_contents(
             text,
@@ -387,22 +409,38 @@ impl Manager {
             .collect();
         let mut hm: HashMap<String, FileInfo> = HashMap::new();
         for f in file_line_content.iter() {
-            let (path, extended): (String, Option<ExtendedType>) = match f[0].split_once(EXTENSION_SEPARATOR) {
-                Some((a, b)) => (a.to_string(), Some(b.into())),
-                None => (f[0].to_string(), None),
-            };
+            let (path, extended): (String, Option<ExtendedType>) =
+                match f[0].split_once(EXTENSION_SEPARATOR) {
+                    Some((a, b)) => (a.to_string(), Some(b.into())),
+                    None => (f[0].to_string(), None),
+                };
             let pb = PathBuf::from(&path);
 
             let entry = hm.entry(path.clone()).or_insert(FileInfo {
                 path: path.clone(),
                 matches: vec![],
-                ext: pb.extension().unwrap_or(&OsString::from("")).to_str().unwrap_or_default().into(),
-                name: PathBuf::from(f[0]).file_name().unwrap_or_default().to_str().unwrap_or_default().into(),
+                ext: pb
+                    .extension()
+                    .unwrap_or(&OsString::from(""))
+                    .to_str()
+                    .unwrap_or_default()
+                    .into(),
+                name: PathBuf::from(f[0])
+                    .file_name()
+                    .unwrap_or_default()
+                    .to_str()
+                    .unwrap_or_default()
+                    .into(),
                 is_folder: pb.is_dir(),
                 plugin: extended,
                 ranges: vec![],
             });
-            let regex_matches = re.clone().unwrap().find_iter(f[2]).map(|a| a.range()).collect::<Vec<_>>();
+            let regex_matches = re
+                .clone()
+                .unwrap()
+                .find_iter(f[2])
+                .map(|a| a.range())
+                .collect::<Vec<_>>();
             entry.matches.push(Match {
                 line: f[1].parse().unwrap_or(0),
                 content: f[2].to_owned(),
@@ -431,7 +469,11 @@ pub struct ContentFileInfoResults {
     pub errors: Vec<String>,
 }
 
-fn message_receiver(internal_receiver: Receiver<Message>, external_sender: Sender<SearchResult>, ops: Arc<Mutex<Options>>) {
+fn message_receiver(
+    internal_receiver: Receiver<Message>,
+    external_sender: Sender<SearchResult>,
+    ops: Arc<Mutex<Options>>,
+) {
     let mut final_names = vec![];
     let mut latest_number = 0;
     let mut tot_elapsed = Duration::from_secs(0);
@@ -548,8 +590,20 @@ fn save_settings(ops: &Options) {
     let mut save_ops = ops.clone();
     //only save last few history
     let count = 20;
-    save_ops.name_history = save_ops.name_history.into_iter().rev().take(count).rev().collect();
-    save_ops.content_history = save_ops.content_history.into_iter().rev().take(count).rev().collect();
+    save_ops.name_history = save_ops
+        .name_history
+        .into_iter()
+        .rev()
+        .take(count)
+        .rev()
+        .collect();
+    save_ops.content_history = save_ops
+        .content_history
+        .into_iter()
+        .rev()
+        .take(count)
+        .rev()
+        .collect();
 
     if let Some(file) = get_or_create_settings_path() {
         let result = toml::to_string_pretty(&save_ops);

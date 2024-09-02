@@ -1,6 +1,5 @@
-use std::borrow::Cow;
-
 use crate::extended::ExtendedType;
+use std::borrow::Cow;
 
 #[derive(Clone, Debug)]
 pub struct FileInfo {
@@ -28,7 +27,11 @@ impl FileInfo {
             None => Cow::from(&x.content),
             Some((idx, _)) => Cow::from(format!("{}...", &x.content[..idx])),
         };
-        let num = if line_number { format!("{}: ", x.line) } else { String::new() };
+        let num = if line_number {
+            format!("{}: ", x.line)
+        } else {
+            String::new()
+        };
         format!("{}{}", num, fixed.trim_end())
     }
 }

@@ -21,10 +21,6 @@ use std::{
 use termcolor::NoColor;
 use walkdir::WalkDir;
 
-struct MyWrite {
-    data: Vec<u8>,
-}
-
 pub const SEPARATOR: &str = r"\0\1\2\3\4";
 pub const EXTENSION_SEPARATOR: &str = r"\5\6\7\8";
 
@@ -33,6 +29,7 @@ pub struct ContentResults {
     pub results: Vec<String>,
     pub errors: Vec<String>,
 }
+
 pub fn search_contents(
     pattern: &str,
     paths: &[OsString],
@@ -52,7 +49,9 @@ pub fn search_contents(
     }
     ////
 
-    let matcher = RegexMatcherBuilder::new().case_insensitive(case_insensitive).build(&pattern);
+    let matcher = RegexMatcherBuilder::new()
+        .case_insensitive(case_insensitive)
+        .build(&pattern);
 
     if matcher.is_err() {
         return ContentResults::default();
@@ -114,10 +113,20 @@ pub fn search_contents(
             }
         }
     }
-    let strings: Vec<String> = printer.into_inner().into_inner().string().split('\n').map(|x| x.to_string()).collect();
+    let strings: Vec<String> = printer
+        .into_inner()
+        .into_inner()
+        .string()
+        .split('\n')
+        .map(|x| x.to_string())
+        .collect();
 
-    ContentResults { results: strings, errors }
+    ContentResults {
+        results: strings,
+        errors,
+    }
 }
+
 fn read_file(
     path: &Path,
     searcher: &mut Searcher,
@@ -134,25 +143,43 @@ fn read_file(
     match file {
         Ok(file) => {
             //normal grep
-            let result = searcher.search_file(matcher, &file, printer.sink_with_path(matcher, &path));
+            let result =
+                searcher.search_file(matcher, &file, printer.sink_with_path(matcher, &path));
             if let Err(_err) = result {
                 errors.push(format!("Could not read file {path:?}"));
             }
 
             //apply each of extensions
             if ops.extended {
-                let extension = path.extension().unwrap_or_default().to_string_lossy().to_lowercase();
+                let extension = path
+                    .extension()
+                    .unwrap_or_default()
+                    .to_string_lossy()
+                    .to_lowercase();
                 let extendeds = vec![ExtendedType::Pdf, ExtendedType::Office];
-                for ext in extendeds.iter().filter(|a| a.extensions().contains(&extension)) {
+                for ext in extendeds
+                    .iter()
+                    .filter(|a| a.extensions().contains(&extension))
+                {
                     if let Ok(data) = ext.to_string(&path) {
                         let cursor = Cursor::new(data);
                         let result = searcher.search_reader(
                             matcher,
                             cursor,
-                            printer.sink_with_path(matcher, &format!("{}{}{}", path.to_string_lossy(), EXTENSION_SEPARATOR, ext.name())),
+                            printer.sink_with_path(
+                                matcher,
+                                &format!(
+                                    "{}{}{}",
+                                    path.to_string_lossy(),
+                                    EXTENSION_SEPARATOR,
+                                    ext.name()
+                                ),
+                            ),
                         );
                         if let Err(_err) = result {
-                            errors.push(format!("Could not read file {path:?} with extension {ext:?}"));
+                            errors.push(format!(
+                                "Could not read file {path:?} with extension {ext:?}"
+                            ));
                         }
                     } else {
                     }
@@ -160,10 +187,18 @@ fn read_file(
             }
         }
         Err(_err) => {
-            errors.push(format!("Could not read {}", path.as_os_str().to_string_lossy()));
+            errors.push(format!(
+                "Could not read {}",
+                path.as_os_str().to_string_lossy()
+            ));
         }
     }
 }
+
+struct MyWrite {
+    data: Vec<u8>,
+}
+
 impl MyWrite {
     pub fn string(&self) -> String {
         String::from_utf8_lossy(&self.data).to_string()

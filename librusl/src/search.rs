@@ -4,6 +4,7 @@ pub struct Search {
     pub name_text: String,
     pub contents_text: String,
 }
+
 impl Default for Search {
     fn default() -> Self {
         Self {
