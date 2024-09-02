@@ -5,7 +5,6 @@ use crate::{
     rgtools::{self, EXTENSION_SEPARATOR, SEPARATOR},
     search::Search,
 };
-use ignore::WalkBuilder;
 use std::{
     collections::{HashMap, HashSet},
     ffi::OsString,
@@ -143,36 +142,7 @@ impl Manager {
             }
         });
 
-        //do name search
-        let current_search_id1 = self.current_search_id.clone();
-        let search1 = search.clone();
-        let file_sender1 = file_sender.clone();
-        let options1 = self.options.lock().unwrap().clone();
-        let total_search_count1 = self.total_search_count.clone();
-
-        if !search.glob.is_empty() {
-            let counter_search_id = current_search_id1.clone();
-            thread::spawn(move || {
-                let start = Instant::now();
-                Manager::find_names(
-                    &search1,
-                    options1,
-                    file_sender1.clone(),
-                    current_search_id1,
-                    start_search_id,
-                    total_search_count1,
-                );
-                let stopped = stopped.load(Ordering::Relaxed);
-                if let Err(err) =
-                    file_sender1.send(Message::Done(start_search_id, start.elapsed(), stopped))
-                {
-                    eprintln!("Manager: Could not send result {start_search_id} {err:?}:{err}");
-                }
-                counter_search_id.fetch_add(1, Ordering::Relaxed); //stop counting
-            });
-        }
-        //do content search (only if name is empty, otherwise it will be spawned after)
-        else if !search.pattern.is_empty() && search.glob.is_empty() {
+        if !search.pattern.is_empty() {
             let current_search_id2 = self.current_search_id.clone();
             let options2 = self.options.lock().unwrap().clone();
             let total_search_count2 = self.total_search_count.clone();
@@ -203,147 +173,6 @@ impl Manager {
                 eprintln!("Done content search");
             });
         }
-    }
-
-    fn find_names(
-        search: &Search,
-        options: Options,
-        file_sender: Sender<Message>,
-        global_search_id: Arc<AtomicUsize>, // current global id
-        start_search_id: usize,             //id when starting this search
-        total_search_count: Arc<AtomicUsize>,
-    ) {
-        let text = &search.glob;
-        let dir = &search.directory;
-        let sens = options.case_sensitive;
-        let re = regex::RegexBuilder::new(text)
-            .case_insensitive(!sens)
-            .build();
-        if re.is_err() {
-            return;
-        }
-        let re = re.unwrap();
-        let re = Arc::new(re);
-
-        let walker = WalkBuilder::new(dir)
-            .follow_links(options.follow_links)
-            .same_file_system(options.same_filesystem)
-            .threads(num_cpus::get())
-            .hidden(options.ignore_dot)
-            .git_ignore(options.use_gitignore)
-            .build_parallel();
-
-        //walk dir
-        walker.run(|| {
-            let file_sender = file_sender.clone();
-            let re = re.clone();
-            let global_search_id = global_search_id.clone();
-            let options = options.clone();
-            let total_search_count = total_search_count.clone();
-            Box::new(move |result| {
-                if global_search_id.load(Ordering::Relaxed) != start_search_id {
-                    return ignore::WalkState::Quit;
-                }
-                //dont include root directory name itself
-                if let Ok(dent) = &result {
-                    if dent.depth() == 0 {
-                        return ignore::WalkState::Continue;
-                    }
-                }
-
-                total_search_count.fetch_add(1, Ordering::Relaxed);
-                let dent = match result {
-                    Ok(dent) => dent,
-                    Err(err) => {
-                        let _ = file_sender.send(Message::FileErrors(vec![err.to_string()]));
-                        return ignore::WalkState::Continue;
-                    }
-                };
-
-                let fs_type = dent.file_type();
-                if fs_type.is_none() {
-                    return ignore::WalkState::Continue;
-                }
-                let fs_type = fs_type.unwrap();
-
-                // skip directories
-                if !fs_type.is_file() {
-                    return ignore::WalkState::Continue;
-                }
-                // TODO: simplify logic after this, given that there are no more directories to be
-                // matched
-
-                let is_match = re
-                    .clone()
-                    .is_match(dent.file_name().to_str().unwrap_or_default());
-
-                if is_match {
-                    let mut must_add = true;
-                    let mut matches = vec![];
-                    if !search.pattern.is_empty() {
-                        if fs_type.is_dir() {
-                            must_add = false;
-                        } else {
-                            //check if contents match
-                            let cont = Manager::find_contents(
-                                &search.pattern,
-                                dir,
-                                &HashSet::from_iter([dent.path().to_string_lossy().to_string()]),
-                                options.clone(),
-                                global_search_id.clone(),
-                                start_search_id,
-                                None,
-                            );
-                            if cont.results.is_empty() {
-                                must_add = false;
-                            } else {
-                                matches = cont.results[0].matches.clone();
-                            }
-
-                            if !cont.errors.is_empty() {
-                                file_sender.send(Message::FileErrors(cont.errors)).unwrap();
-                            }
-                        }
-                    }
-                    if global_search_id.load(Ordering::Relaxed) != start_search_id {
-                        eprintln!("New search started, stopping current search");
-                        return ignore::WalkState::Quit;
-                    }
-                    if must_add {
-                        //find all matches on name
-                        let regex_matches = re
-                            .find_iter(dent.file_name().to_str().unwrap_or_default())
-                            .map(|a| a.range())
-                            .collect::<Vec<_>>();
-
-                        let res = file_sender.send(Message::File(
-                            FileInfo {
-                                path: dent.path().to_string_lossy().to_string(),
-                                name: dent.file_name().to_string_lossy().to_string(),
-                                ext: PathBuf::from(dent.path())
-                                    .extension()
-                                    .unwrap_or(&OsString::from(""))
-                                    .to_str()
-                                    .unwrap_or_default()
-                                    .into(),
-                                matches,
-                                is_folder: dent.file_type().unwrap().is_dir(),
-                                plugin: None,
-                                ranges: regex_matches,
-                            },
-                            start_search_id,
-                        ));
-                        //receiver closed, so we quit
-                        if res.is_err() {
-                            eprintln!("receiver closed, stopping search");
-                            return ignore::WalkState::Quit;
-                        }
-                    }
-                }
-
-                ignore::WalkState::Continue
-            })
-        });
     }
 
     fn find_contents(
@@ -520,7 +349,6 @@ mod tests {
         let mut man = Manager::new(s);
         let search = Search {
             directory: file1.parent().unwrap().to_string_lossy().to_string(),
-            glob: file1.file_name().unwrap().to_string_lossy().to_string(),
             pattern: "41".to_string(),
         };
         println!("using search {search:?}");

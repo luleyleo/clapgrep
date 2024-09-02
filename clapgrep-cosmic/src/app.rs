@@ -280,7 +280,6 @@ impl Application for AppModel {
                     self.message = "Searching...".to_string();
                     self.manager.search(&Search {
                         directory: self.directory.clone(),
-                        glob: self.name.clone(),
                         pattern: self.contents.clone(),
                     })
                 }
