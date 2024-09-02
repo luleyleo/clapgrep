@@ -3435,16 +3435,13 @@ name = "librusl"
 version = "0.5.0"
 dependencies = [
  "clipboard",
- "dirs",
  "dotext",
  "grep",
  "ignore",
  "num_cpus",
  "pdf-extract",
  "regex",
- "serde",
  "termcolor",
- "toml 0.8.19",
  "walkdir",
 ]
 

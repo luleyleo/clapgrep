@@ -60,8 +60,10 @@ pub struct Manager {
 
 impl Manager {
     pub fn new(external_sender: Sender<SearchResult>) -> Self {
-        // TODO: Do not load options from files, but pass them as argument.
-        let options = load_options();
+        Self::new_with_options(external_sender, Options::default())
+    }
+
+    pub fn new_with_options(external_sender: Sender<SearchResult>, options: Options) -> Self {
         let options = Arc::new(Mutex::new(options));
 
         //internal channel that sends results inside
@@ -104,13 +106,8 @@ impl Manager {
         self.spawn_search(&search);
     }
 
-    pub fn save_and_quit(&self) {
-        save_settings(&self.options.lock().unwrap());
+    pub fn quit(&self) {
         self.internal_sender.send(Message::Quit).expect("Quit");
-    }
-
-    pub fn save(&self) {
-        save_settings(&self.options.lock().unwrap());
     }
 
     pub fn dir_is_valid(&self, dir: &str) -> bool {
@@ -536,87 +533,6 @@ fn message_receiver(
             Message::SearchCount(count) => {
                 let _ = external_sender.send(SearchResult::SearchCount(count));
             }
-        }
-    }
-}
-
-fn get_or_create_settings_path() -> Option<String> {
-    if let Some(mut dir) = dirs::config_dir() {
-        dir.push("rusl");
-        if dir.exists() {
-            dir.push("config.toml");
-            if dir.exists() {
-                if let Some(file) = dir.to_str() {
-                    return Some(file.to_string());
-                }
-            }
-        }
-    }
-    //try create
-    if let Some(mut dir) = dirs::config_dir() {
-        dir.push("rusl");
-
-        if std::fs::create_dir_all(&dir).is_ok() {
-            dir.push("config.toml");
-            if std::fs::File::create(&dir).is_ok() {
-                if let Some(file) = dir.to_str() {
-                    return Some(file.to_string());
-                }
-            }
-        }
-    }
-    //else not able to
-    None
-}
-
-fn load_options() -> Options {
-    let mut ops = Options::default();
-
-    if let Some(file) = get_or_create_settings_path() {
-        if let Ok(data) = std::fs::read_to_string(file) {
-            if let Ok(new_ops) = toml::from_str(&data) {
-                ops = new_ops;
-            } else {
-                eprintln!("Could not load settings");
-            }
-        } else {
-            eprintln!("Could read settings");
-        }
-    } else {
-        eprintln!("Could not access settings file");
-    }
-
-    ops
-}
-
-fn save_settings(ops: &Options) {
-    let mut save_ops = ops.clone();
-    //only save last few history
-    let count = 20;
-    save_ops.name_history = save_ops
-        .name_history
-        .into_iter()
-        .rev()
-        .take(count)
-        .rev()
-        .collect();
-    save_ops.content_history = save_ops
-        .content_history
-        .into_iter()
-        .rev()
-        .take(count)
-        .rev()
-        .collect();
-
-    if let Some(file) = get_or_create_settings_path() {
-        let result = toml::to_string_pretty(&save_ops);
-        if let Ok(data) = result {
-            let write_result = std::fs::write(file, data);
-            if write_result.is_err() {
-                eprintln!("Could not write settings {write_result:?}");
-            }
-        } else {
-            eprintln!("Could not convert {result:?}");
         }
     }
 }

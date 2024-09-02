@@ -1,5 +1,4 @@
 use dotext::{doc::OpenOfficeDoc, *};
-use serde::{Deserialize, Serialize};
 use std::{error::Error, io::Read, panic::catch_unwind, path::Path};
 
 pub trait ExtendedTrait {
@@ -9,7 +8,7 @@ pub trait ExtendedTrait {
     fn to_string(&self, path: &Path) -> Result<String, Box<dyn std::error::Error>>;
 }
 
-#[derive(Clone, Copy, Serialize, Deserialize, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum ExtendedType {
     Pdf,
     Office,

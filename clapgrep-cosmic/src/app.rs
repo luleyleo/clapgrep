@@ -354,7 +354,7 @@ impl Application for AppModel {
                 };
             }
             Message::Event(iced::Event::Window(_, iced::window::Event::CloseRequested)) => {
-                self.manager.save_and_quit();
+                self.manager.quit();
             }
 
             Message::Event(_) => {}
