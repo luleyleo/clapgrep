@@ -4,6 +4,7 @@ use glib::subclass::InitializingObject;
 use gtk::{glib, CompositeTemplate};
 use librusl::{
     manager::{Manager, SearchResult},
+    options::Sort,
     search::Search,
 };
 use std::{cell::RefCell, path::PathBuf, thread};
@@ -44,9 +45,6 @@ impl ObjectSubclass for Window {
 impl Window {
     #[template_callback]
     fn on_search(&self, _: &adw::ActionRow) {
-        println!("file_search = {}", self.file_search.borrow());
-        println!("content_search = {}", self.content_search.borrow());
-
         if self.manager.borrow().is_none() {
             self.init_manager();
         }
@@ -69,6 +67,7 @@ impl Window {
 
         let (sender, receiver) = std::sync::mpsc::channel();
         let manager = Manager::new(sender);
+        manager.set_sort(Sort::Path);
         *self.manager.borrow_mut() = Some(manager);
 
         let model = self.results.borrow().clone();
@@ -87,8 +86,6 @@ impl Window {
             while let Ok(result) = async_receiver.recv_async().await {
                 match result {
                     SearchResult::FinalResults(results) => {
-                        println!("Found {} results", results.data.len());
-
                         model.clear();
                         for file_info in results.data {
                             model.append_file_info(&file_info);
