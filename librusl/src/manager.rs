@@ -230,7 +230,6 @@ impl Manager {
                     .unwrap_or_default()
                     .into(),
                 plugin: extended,
-                ranges: vec![],
             });
             let regex_matches = re
                 .clone()

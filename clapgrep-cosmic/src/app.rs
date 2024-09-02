@@ -316,7 +316,6 @@ impl Application for AppModel {
                                     ext: "".into(),
                                     name: "".into(),
                                     plugin: None,
-                                    ranges: vec![],
                                 });
                             }
                         }

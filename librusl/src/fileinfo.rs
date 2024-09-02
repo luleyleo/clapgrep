@@ -8,7 +8,6 @@ pub struct FileInfo {
     pub ext: String,
     pub name: String,
     pub plugin: Option<ExtendedType>,
-    pub ranges: Vec<std::ops::Range<usize>>, //TODO: save ranges for highlighting
 }
 
 impl FileInfo {
