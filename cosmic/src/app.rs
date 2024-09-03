@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: {{LICENSE}}
 
 use crate::{config::Config, fl};
+use clapgrep_core::{
+    fileinfo::FileInfo,
+    manager::{Manager, SearchResult},
+    search::Search,
+};
 use cosmic::{
     app::{Command, Core},
     cosmic_config::{self, CosmicConfigEntry},
@@ -9,11 +14,6 @@ use cosmic::{
     theme,
     widget::{self, menu},
     Application, ApplicationExt, Apply, Element,
-};
-use librusl::{
-    fileinfo::FileInfo,
-    manager::{Manager, SearchResult},
-    search::Search,
 };
 use std::{
     collections::HashMap,

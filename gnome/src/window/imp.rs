@@ -1,12 +1,12 @@
 use adw::subclass::prelude::*;
-use glib::prelude::*;
-use glib::subclass::InitializingObject;
-use gtk::{glib, CompositeTemplate};
-use librusl::{
+use clapgrep_core::{
     manager::{Manager, SearchResult},
     options::{Options, Sort},
     search::Search,
 };
+use glib::prelude::*;
+use glib::subclass::InitializingObject;
+use gtk::{glib, CompositeTemplate};
 use std::{
     cell::{Cell, RefCell},
     path::PathBuf,

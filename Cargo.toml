@@ -1,5 +1,5 @@
 [workspace]
-members = ["clapgrep-cosmic", "clapgrep-gtk", "clapgrep-i18n", "librusl"]
+members = ["core", "cosmic", "gnome", "i18n"]
 resolver = "2"
 
 [workspace.dependencies.i18n-embed]

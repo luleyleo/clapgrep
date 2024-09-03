@@ -1,8 +1,8 @@
 [package]
-name = "librusl"
+name = "clapgrep-core"
 version = "0.5.0"
 edition = "2021"
-description = "main rusl library"
+description = "Clapgrep core library"
 
 [dependencies]
 regex = "1.10"        # for pattern matching

@@ -1,7 +1,7 @@
 mod imp;
 
+use clapgrep_core::fileinfo::FileInfo;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
-use librusl::fileinfo::FileInfo;
 
 use crate::search_result::SearchResult;
 

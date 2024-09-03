@@ -888,26 +888,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "clapgrep-core"
+version = "0.5.0"
+dependencies = [
+ "dotext",
+ "grep",
+ "ignore",
+ "num_cpus",
+ "pdf-extract",
+ "regex",
+ "termcolor",
+ "walkdir",
+]
+
+[[package]]
 name = "clapgrep-cosmic"
 version = "0.1.0"
 dependencies = [
+ "clapgrep-core",
  "clapgrep-i18n",
  "futures-util",
  "i18n-embed",
  "libcosmic",
- "librusl",
  "open",
  "tokio",
 ]
 
 [[package]]
-name = "clapgrep-gtk"
+name = "clapgrep-gnome"
 version = "0.1.0"
 dependencies = [
+ "clapgrep-core",
  "flume",
  "gtk4",
  "libadwaita",
- "librusl",
 ]
 
 [[package]]
@@ -3412,20 +3426,6 @@ dependencies = [
  "bitflags 2.6.0",
  "libc",
  "redox_syscall 0.5.3",
-]
-
-[[package]]
-name = "librusl"
-version = "0.5.0"
-dependencies = [
- "dotext",
- "grep",
- "ignore",
- "num_cpus",
- "pdf-extract",
- "regex",
- "termcolor",
- "walkdir",
 ]
 
 [[package]]
