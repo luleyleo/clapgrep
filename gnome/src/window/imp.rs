@@ -27,7 +27,13 @@ pub struct Window {
     pub results: RefCell<SearchModel>,
 
     #[property(get, set)]
-    pub disable_gitignore: Cell<bool>,
+    pub case_sensitive: Cell<bool>,
+    #[property(get, set)]
+    pub include_hidden: Cell<bool>,
+    #[property(get, set)]
+    pub include_ignored: Cell<bool>,
+    #[property(get, set)]
+    pub disable_regex: Cell<bool>,
 
     pub manager: RefCell<Option<Manager>>,
 }
@@ -65,7 +71,10 @@ impl Window {
             };
             let options = Options {
                 sort: Sort::Path,
-                use_gitignore: !self.disable_gitignore.get(),
+                case_sensitive: self.case_sensitive.get(),
+                ignore_dot: !self.include_hidden.get(),
+                use_gitignore: !self.include_ignored.get(),
+                fixed_string: self.disable_regex.get(),
                 ..Options::default()
             };
             manager.set_options(options);

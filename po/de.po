@@ -1,14 +1,14 @@
-# Messages for Clapgrep.
+# German translations for Clapgrep application.
 # Copyright (C) 2024 Leopold Luley
 # This file is distributed under the same license as the Clapgrep application.
 # Leopold Luley <git@leopoldluley.de>, 2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Clapgrep 0.1\n"
-"Report-Msgid-Bugs-To: https://github.com/luleyleo/clapgrep/issues\n"
-"POT-Creation-Date: 2024-09-03 12:04+0200\n"
-"PO-Revision-Date: 2024-09-03 13:43+0200\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-03 22:00+0200\n"
+"PO-Revision-Date: 2024-09-03 22:00+0200\n"
 "Last-Translator: Leopold Luley <git@leopoldluley.de>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "Language: de\n"
@@ -37,15 +37,19 @@ msgstr "Suche Beginnen"
 msgid "Case Sensitive"
 msgstr "Groß-/Kleinschreibung beachten"
 
-#: gnome/src/window/window.blp:62
-msgid "Disable .gitignore"
-msgstr ".gitignore deaktivieren"
-
-#: gnome/src/window/window.blp:67
+#: gnome/src/window/window.blp:63
 msgid "Disable Regex"
 msgstr "Regex deaktivieren"
 
-#: gnome/src/window/window.blp:75
+#: gnome/src/window/window.blp:68
+msgid "Include Hidden"
+msgstr "Versteckte Dateien hinzunehmen"
+
+#: gnome/src/window/window.blp:73
+msgid "Include Ignored"
+msgstr "Ignorierte Dateien hinzunehmen"
+
+#: gnome/src/window/window.blp:82
 msgid "Search Results"
 msgstr "Suchergebnisse"
 

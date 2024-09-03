@@ -56,15 +56,22 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
 
             Adw.SwitchRow {
               title: _("Case Sensitive");
-            }
-
-            Adw.SwitchRow {
-              title: _("Disable .gitignore");
-              active: bind template.disable_gitignore bidirectional;
+              active: bind template.case_sensitive bidirectional;
             }
 
             Adw.SwitchRow {
               title: _("Disable Regex");
+              active: bind template.disable_regex bidirectional;
+            }
+
+            Adw.SwitchRow {
+              title: _("Include Hidden");
+              active: bind template.include_hidden bidirectional;
+            }
+
+            Adw.SwitchRow {
+              title: _("Include Ignored");
+              active: bind template.include_ignored bidirectional;
             }
           }
         }
