@@ -4,10 +4,14 @@ use glib::subclass::InitializingObject;
 use gtk::{glib, CompositeTemplate};
 use librusl::{
     manager::{Manager, SearchResult},
-    options::Sort,
+    options::{Options, Sort},
     search::Search,
 };
-use std::{cell::RefCell, path::PathBuf, thread};
+use std::{
+    cell::{Cell, RefCell},
+    path::PathBuf,
+    thread,
+};
 
 use crate::search_model::SearchModel;
 
@@ -21,6 +25,9 @@ pub struct Window {
     pub content_search: RefCell<String>,
     #[property(get, set)]
     pub results: RefCell<SearchModel>,
+
+    #[property(get, set)]
+    pub disable_gitignore: Cell<bool>,
 
     pub manager: RefCell<Option<Manager>>,
 }
@@ -56,6 +63,12 @@ impl Window {
                 directory: PathBuf::from(self.file_search.borrow().as_str()),
                 pattern: self.content_search.borrow().to_string(),
             };
+            let options = Options {
+                sort: Sort::Path,
+                use_gitignore: !self.disable_gitignore.get(),
+                ..Options::default()
+            };
+            manager.set_options(options);
             manager.search(&search);
         }
     }

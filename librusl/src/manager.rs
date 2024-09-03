@@ -6,7 +6,7 @@ use crate::{
     search::Search,
 };
 use std::{
-    collections::{HashMap, HashSet},
+    collections::HashMap,
     path::{Path, PathBuf},
     sync::{
         atomic::{AtomicBool, AtomicUsize, Ordering},
@@ -150,7 +150,6 @@ impl Manager {
                 let files = Manager::find_contents(
                     &search.pattern,
                     &search.directory,
-                    &HashSet::new(),
                     options2,
                     current_search_id2,
                     start_search_id,
@@ -176,7 +175,6 @@ impl Manager {
     fn find_contents(
         text: &str,
         dir: &Path,
-        allowed_files: &HashSet<String>,
         options: Options,
         global_search_id: Arc<AtomicUsize>,
         start_search_id: usize,
@@ -189,7 +187,6 @@ impl Manager {
         let content_results = rgtools::search_contents(
             text,
             &[dir.as_os_str().to_owned()],
-            allowed_files,
             options,
             global_search_id,
             start_search_id,

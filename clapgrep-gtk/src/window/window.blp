@@ -73,6 +73,11 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
             }
 
             Adw.SwitchRow {
+              title: "Disable .gitignore";
+              active: bind template.disable_gitignore bidirectional;
+            }
+
+            Adw.SwitchRow {
               title: "Disable Regex";
             }
           }

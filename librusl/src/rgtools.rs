@@ -7,8 +7,8 @@ use grep::{
     regex::{RegexMatcher, RegexMatcherBuilder},
     searcher::{BinaryDetection, Searcher, SearcherBuilder},
 };
+use ignore::WalkBuilder;
 use std::{
-    collections::HashSet,
     ffi::OsString,
     fs::File,
     io::{Cursor, Write},
@@ -19,7 +19,6 @@ use std::{
     },
 };
 use termcolor::NoColor;
-use walkdir::WalkDir;
 
 pub const SEPARATOR: &str = r"\0\1\2\3\4";
 pub const EXTENSION_SEPARATOR: &str = r"\5\6\7\8";
@@ -33,7 +32,6 @@ pub struct ContentResults {
 pub fn search_contents(
     pattern: &str,
     paths: &[OsString],
-    allowed_files: &HashSet<String>,
     ops: Options,
     global_search_id: Arc<AtomicUsize>,
     start_search_id: usize,
@@ -62,13 +60,27 @@ pub fn search_contents(
         .separator_field_match(SEPARATOR.as_bytes().to_vec())
         .build_no_color(my_write);
 
-    if allowed_files.len() > 0 {
-        for path in allowed_files {
+    for path in paths {
+        let walker = WalkBuilder::new(path).git_ignore(ops.use_gitignore).build();
+        for result in walker {
             if global_search_id.load(Ordering::Relaxed) != start_search_id {
                 return ContentResults::default();
             }
+
+            let entry = match result {
+                Ok(dent) => dent,
+                Err(_err) => {
+                    errors.push(format!("Could not read file {path:?}"));
+                    continue;
+                }
+            };
+
+            if !entry.file_type().unwrap().is_file() {
+                continue;
+            }
+
             read_file(
-                &Path::new(&path),
+                &entry.path(),
                 &mut searcher,
                 &matcher,
                 &mut printer,
@@ -77,36 +89,8 @@ pub fn search_contents(
                 total_search_count.clone(),
             );
         }
-    } else {
-        for path in paths {
-            for result in WalkDir::new(path) {
-                if global_search_id.load(Ordering::Relaxed) != start_search_id {
-                    return ContentResults::default();
-                }
-
-                let dent = match result {
-                    Ok(dent) => dent,
-                    Err(_err) => {
-                        errors.push(format!("Could not read file {path:?}"));
-                        continue;
-                    }
-                };
-
-                if !dent.file_type().is_file() {
-                    continue;
-                }
-                read_file(
-                    &dent.path(),
-                    &mut searcher,
-                    &matcher,
-                    &mut printer,
-                    &mut errors,
-                    &ops,
-                    total_search_count.clone(),
-                );
-            }
-        }
     }
+
     let strings: Vec<String> = printer
         .into_inner()
         .into_inner()
