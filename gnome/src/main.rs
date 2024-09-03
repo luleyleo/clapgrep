@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use adw::prelude::*;
 
 mod search_match;
@@ -5,14 +7,21 @@ mod search_model;
 mod search_result;
 mod window;
 
-fn main() {
-    let result = gettextrs::TextDomain::new("de.leopoldluley.Clapgrep")
-        .skip_system_data_paths()
-        .push("assets")
-        .init();
-    if let Err(error) = result {
+fn setup_gettext() {
+    let mut text_domain = gettextrs::TextDomain::new("de.leopoldluley.Clapgrep");
+
+    if cfg!(debug_assertions) {
+        let assets_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..").join("assets");
+        text_domain = text_domain.push(assets_dir);
+    }
+
+    if let Err(error) = text_domain.init() {
         println!("Failed to setup gettext: {}", error);
     };
+}
+
+fn main() {
+    setup_gettext();
 
     let application = adw::Application::builder()
         .application_id("de.leopoldluley.Clapgrep")
