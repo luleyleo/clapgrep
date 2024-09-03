@@ -8,23 +8,14 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
 
   content: Adw.NavigationSplitView {
     sidebar: Adw.NavigationPage {
-      title: "Search Settings";
+      title: _("Search Settings");
       width-request: 400;
 
       child: Adw.ToolbarView {
         top-bar-style: flat;
 
         [top]
-        Adw.HeaderBar {
-          [title]
-          Label {
-            label: "Search";
-
-            styles [
-              "title"
-            ]
-          }
-        }
+        Adw.HeaderBar {}
 
         Box {
           orientation: vertical;
@@ -41,17 +32,12 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
             ]
 
             Adw.EntryRow {
-              title: "Pattern";
+              title: _("Search Pattern");
               text: bind template.content_search bidirectional;
             }
 
-            Adw.EntryRow {
-              title: "Search Path";
-              text: bind template.file_search bidirectional;
-            }
-
             Adw.ActionRow {
-              title: "Start Search";
+              title: _("Start Search");
               activatable: true;
               activated => $on_search() swapped;
             }
@@ -69,16 +55,16 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
             ]
 
             Adw.SwitchRow {
-              title: "Case Sensitive";
+              title: _("Case Sensitive");
             }
 
             Adw.SwitchRow {
-              title: "Disable .gitignore";
+              title: _("Disable .gitignore");
               active: bind template.disable_gitignore bidirectional;
             }
 
             Adw.SwitchRow {
-              title: "Disable Regex";
+              title: _("Disable Regex");
             }
           }
         }
@@ -86,22 +72,13 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
     };
 
     content: Adw.NavigationPage {
-      title: "Search Results";
+      title: _("Search Results");
 
       child: Adw.ToolbarView {
         top-bar-style: flat;
 
         [top]
         Adw.HeaderBar {
-          [title]
-          Label {
-            label: "Search Results";
-
-            styles [
-              "title"
-            ]
-          }
-
           [end]
           MenuButton button_menu {
             menu-model: menu_app;
