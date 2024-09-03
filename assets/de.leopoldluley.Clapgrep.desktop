@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Clapgrep
+Exec=clapgrep %F
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=de.leopoldluley.Clapgrep
+Categories=
+Keywords=
+MimeType=

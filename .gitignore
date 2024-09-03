@@ -13,4 +13,5 @@ debian/*
 !debian/rules
 !debian/source
 
+.flatpak-builder
 assets/locale

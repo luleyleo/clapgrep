@@ -7,7 +7,7 @@ A brief overview of dependencies and build instructions.
 For the build system and OpenGL support:
 
 ```sh
-sudo dnf install just cargo clippy gcc libglvnd-gles
+sudo dnf install just cargo clippy gcc libglvnd-gles python3-aiohtml python3-toml
 ```
 
 For the Gtk based app:
