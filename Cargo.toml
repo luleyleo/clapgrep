@@ -1,7 +1,3 @@
 [workspace]
-members = ["core", "cosmic", "gnome", "i18n"]
+members = ["core", "cosmic", "gnome"]
 resolver = "2"
-
-[workspace.dependencies.i18n-embed]
-version = "0.14"
-features = ["fluent-system", "desktop-requester"]

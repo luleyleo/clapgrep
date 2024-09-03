@@ -8,10 +8,8 @@ There are currently two frontends, one written with Gtk and one with Iced. The G
 
 ## Modules
 
-Clapgrep consists of four modules:
+Clapgrep consists of three modules:
 
 - core, which contains the search logic.
 - gnome, which is a Gtk + Adwaita frontend.
 - cosmic, which is a Iced + libcosmic based frontend.
-- i18n, which contains the Fluent files.
-

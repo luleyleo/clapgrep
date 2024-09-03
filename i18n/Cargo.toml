@@ -1,9 +1,0 @@
-[package]
-name = "clapgrep-i18n"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-rust-embed = "8.5.0"
-i18n-embed-fl = "0.8"
-i18n-embed = { workspace = true }

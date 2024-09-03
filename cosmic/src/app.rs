@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: {{LICENSE}}
 
-use crate::{config::Config, fl};
+use crate::config::Config;
 use clapgrep_core::{
     fileinfo::FileInfo,
     manager::{Manager, SearchResult},
@@ -129,10 +129,10 @@ impl Application for AppModel {
     /// Elements to pack at the start of the header bar.
     fn header_start(&self) -> Vec<Element<Self::Message>> {
         let menu_bar = menu::bar(vec![menu::Tree::with_children(
-            menu::root(fl!("view")),
+            menu::root("View"),
             menu::items(
                 &self.key_binds,
-                vec![menu::Item::Button(fl!("about"), MenuAction::About)],
+                vec![menu::Item::Button("About", MenuAction::About)],
             ),
         )]);
 
@@ -358,7 +358,7 @@ impl AppModel {
 
         let icon = widget::svg(widget::svg::Handle::from_memory(APP_ICON));
 
-        let title = widget::text::title3(fl!("app-title"));
+        let title = widget::text::title3("Clapgrep");
 
         let link = widget::button::link(REPOSITORY)
             .on_press(Message::OpenRepositoryUrl)
