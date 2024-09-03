@@ -1,0 +1,58 @@
+# Messages for Clapgrep.
+# Copyright (C) 2024 Leopold Luley
+# This file is distributed under the same license as the Clapgrep application.
+# Leopold Luley <git@leopoldluley.de>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clapgrep 0.1\n"
+"Report-Msgid-Bugs-To: https://github.com/luleyleo/clapgrep/issues\n"
+"POT-Creation-Date: 2024-09-03 12:04+0200\n"
+"PO-Revision-Date: 2024-09-03 13:43+0200\n"
+"Last-Translator: Leopold Luley <git@leopoldluley.de>\n"
+"Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: gnome/src/window/window.blp:7
+msgid "Clapgrep"
+msgstr "Clapgrep"
+
+#: gnome/src/window/window.blp:11
+msgid "Search Settings"
+msgstr "Sucheinstellungen"
+
+#: gnome/src/window/window.blp:35
+msgid "Search Pattern"
+msgstr "Suchmaske"
+
+#: gnome/src/window/window.blp:40
+msgid "Start Search"
+msgstr "Suche Beginnen"
+
+#: gnome/src/window/window.blp:58
+msgid "Case Sensitive"
+msgstr "Groß-/Kleinschreibung beachten"
+
+#: gnome/src/window/window.blp:62
+msgid "Disable .gitignore"
+msgstr ".gitignore deaktivieren"
+
+#: gnome/src/window/window.blp:67
+msgid "Disable Regex"
+msgstr "Regex deaktivieren"
+
+#: gnome/src/window/window.blp:75
+msgid "Search Results"
+msgstr "Suchergebnisse"
+
+#: gnome/src/window/window.blp:165
+msgid "Keyboard Shortcuts"
+msgstr "Tastenbindungen"
+
+#: gnome/src/window/window.blp:170
+msgid "About My App"
+msgstr "Über Clapgrep"

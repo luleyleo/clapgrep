@@ -6,6 +6,14 @@ mod search_result;
 mod window;
 
 fn main() {
+    let result = gettextrs::TextDomain::new("de.leopoldluley.Clapgrep")
+        .skip_system_data_paths()
+        .push("assets")
+        .init();
+    if let Err(error) = result {
+        println!("Failed to setup gettext: {}", error);
+    };
+
     let application = adw::Application::builder()
         .application_id("de.leopoldluley.Clapgrep")
         .build();

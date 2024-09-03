@@ -23,15 +23,13 @@ icon-svg-dst := icons-dst / 'scalable' / 'apps' / appid + '.svg'
 clean:
   cargo clean
 
-build *args:
+build *args: build-translations
   cargo build --package {{frontend}} {{args}}
-
-build-release *args: (build '--release' args)
 
 check *args:
   cargo clippy --all-features {{args}} -- -W clippy::pedantic
 
-run *args:
+run *args: build-translations
   env RUST_BACKTRACE=full cargo run --package {{frontend}} {{args}}
 
 gettext *args:
@@ -41,6 +39,15 @@ gettext *args:
     --keyword=_ \
     --keyword=C_:1c,2 \
     --language=C \
-    --output-dir=po \
+    --output=po/messages.pot \
     --files-from=po/POTFILES \
     {{args}}
+
+add-translation language:
+  msginit -l {{language}}.UTF8 -o po/{{language}}.po -i po/messages.pot
+
+build-translations:
+  cat po/LINGUAS | while read lang; do \
+    mkdir -p assets/locale/$lang/LC_MESSAGES; \
+    msgfmt -o assets/locale/$lang/LC_MESSAGES/{{appid}}.mo po/$lang.po; \
+  done

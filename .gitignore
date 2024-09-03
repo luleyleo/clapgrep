@@ -12,3 +12,5 @@ debian/*
 !debian/install
 !debian/rules
 !debian/source
+
+assets/locale
