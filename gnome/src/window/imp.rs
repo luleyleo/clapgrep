@@ -60,7 +60,7 @@ impl Window {
 
         if let Some(manager) = self.manager.borrow().as_ref() {
             let search = Search {
-                directory: PathBuf::from(self.file_search.borrow().as_str()),
+                directory: PathBuf::from("."),
                 pattern: self.content_search.borrow().to_string(),
             };
             let options = Options {
