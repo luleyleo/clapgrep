@@ -6,5 +6,6 @@ all:
 	mkdir -p /app/share/locale
 	install -Dm0755 target/release/clapgrep-gnome /app/bin/clapgrep
 	install -Dm0755 assets/de.leopoldluley.Clapgrep.desktop /app/share/applications/de.leopoldluley.Clapgrep.desktop
+	install -Dm0755 assets/de.leopoldluley.Clapgrep.metainfo.xml /app/share/metainfo/de.leopoldluley.Clapgrep.metainfo.xml
 	install -Dm0755 assets/icons/hicolor/scalable/apps/de.leopoldluley.Clapgrep.svg /app/share/icons/hicolor/scalable/apps/de.leopoldluley.Clapgrep.svg
 	cp -r assets/locale /app/share/locale

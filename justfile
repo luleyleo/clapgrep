@@ -14,6 +14,10 @@ desktop := appid + '.desktop'
 desktop-src := 'assets' / desktop
 desktop-dst := base-dir / 'share' / 'applications' / desktop
 
+metainfo := appid + '.metainfo.xml'
+metainfo-src := 'assets' / metainfo
+metainfo-dst := base-dir / 'share' / 'metainfo' / metainfo
+
 icons-src := 'assets' / 'icons' / 'hicolor'
 icons-dst := base-dir / 'share' / 'icons' / 'hicolor'
 
@@ -39,6 +43,7 @@ install:
   mkdir -p {{po-dst}}
   install -Dm0755 {{bin-src}} {{bin-dst}}
   install -Dm0755 {{desktop-src}} {{desktop-dst}}
+  install -Dm0755 {{metainfo-src}} {{metainfo-dst}}
   install -Dm0755 {{icon-svg-src}} {{icon-svg-dst}}
   cp -r {{po-src}} {{po-dst}}
 

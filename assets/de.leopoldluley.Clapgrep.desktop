@@ -1,10 +1,11 @@
 [Desktop Entry]
 Name=Clapgrep
+Comment=One app to search through all your files, powered by ripgrep
 Exec=clapgrep %F
 Terminal=false
 Type=Application
 StartupNotify=true
 Icon=de.leopoldluley.Clapgrep
-Categories=
-Keywords=
-MimeType=
+Categories=Utility;FileTools;
+Keywords=grep;ripgrep;search;pdf;
+MimeType=inode/directory;
