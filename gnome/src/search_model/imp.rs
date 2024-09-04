@@ -1,11 +1,24 @@
 use std::cell::RefCell;
-
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
-
 use crate::search_result::SearchResult;
 
 #[derive(Debug, Default)]
-pub struct SearchModel(pub(super) RefCell<Vec<SearchResult>>);
+pub struct SearchModel {
+    pub data: RefCell<Vec<SearchResult>>,
+    pub sections: RefCell<Vec<Section>>,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct Section {
+    pub start: u32,
+    pub end: u32,
+}
+
+impl Section {
+    pub fn size(&self) -> u32 {
+        self.end - self.start
+    }
+}
 
 #[glib::object_subclass]
 impl ObjectSubclass for SearchModel {
@@ -20,11 +33,13 @@ impl ListModelImpl for SearchModel {
     fn item_type(&self) -> glib::Type {
         SearchResult::static_type()
     }
+
     fn n_items(&self) -> u32 {
-        self.0.borrow().len() as u32
+        self.data.borrow().len() as u32
     }
+
     fn item(&self, position: u32) -> Option<glib::Object> {
-        self.0
+        self.data
             .borrow()
             .get(position as usize)
             .map(|o| o.clone().upcast::<glib::Object>())
@@ -33,27 +48,15 @@ impl ListModelImpl for SearchModel {
 
 impl SectionModelImpl for SearchModel {
     fn section(&self, position: u32) -> (u32, u32) {
-        let pivot = self.item(position).unwrap();
-        let pivot = pivot.downcast::<SearchResult>().unwrap();
+        let mut total = 0;
+        for section in self.sections.borrow().iter() {
+            total += section.size();
 
-        let len = self.0.borrow().len();
+            if total > position {
+                return (section.start, section.end);
+            }
+        }
 
-        let start = self
-            .0
-            .borrow()
-            .iter()
-            .position(|sr| sr.file() == pivot.file())
-            .unwrap();
-
-        let end = len
-            - self
-                .0
-                .borrow()
-                .iter()
-                .rev()
-                .position(|sr| sr.file() == pivot.file())
-                .unwrap();
-
-        (start as u32, end as u32)
+        panic!("missing section")
     }
 }
