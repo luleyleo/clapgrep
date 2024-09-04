@@ -3,7 +3,7 @@ use clapgrep_core::{
     extended::ExtendedType, manager::{Manager, SearchResult}, options::{Options, Sort}, search::Search
 };
 use glib::subclass::InitializingObject;
-use gtk::{glib, prelude::*, CompositeTemplate, StringList};
+use gtk::{glib::{self, clone}, prelude::*, CompositeTemplate, StringList};
 use std::{
     cell::{Cell, RefCell}, path::PathBuf, thread
 };
@@ -18,7 +18,7 @@ pub struct SearchWindow {
     pub file_search: RefCell<String>,
     #[property(get, set)]
     pub content_search: RefCell<String>,
-    #[property(get, set)]
+    #[property(get)]
     pub results: RefCell<SearchModel>,
 
     #[property(get, set)]
@@ -38,14 +38,15 @@ pub struct SearchWindow {
     #[property(get, set)]
     pub search_running: Cell<bool>,
     #[property(get, set)]
-    pub searched_files: Cell<u64>,
-    #[property(get, set)]
-    pub number_of_matches: Cell<u64>,
-    #[property(get, set)]
-    pub number_of_errors: Cell<u32>,
-    #[property(get, set)]
+    pub searched_files: Cell<u32>,
+    #[property(get)]
+    pub number_of_matches: Cell<u32>,
+
+    #[property(get)]
     pub errors: RefCell<StringList>,
-    #[property(get, set)]
+    #[property(get)]
+    pub number_of_errors: Cell<u32>,
+    #[property(get)]
     pub has_errors: Cell<bool>,
 
     pub manager: RefCell<Option<Manager>>,
@@ -92,9 +93,9 @@ impl SearchWindow {
                 ..Options::default()
             };
 
-            self.obj().set_search_running(true);
+            self.results.borrow().clear();
             self.obj().set_searched_files(0);
-            self.obj().set_number_of_matches(0);
+            self.obj().set_search_running(true);
 
             manager.set_options(options);
             manager.search(&search);
@@ -142,27 +143,19 @@ impl SearchWindow {
                 match result {
                     SearchResult::FinalResults(results) => {
                         model.clear();
-                        let mut matches = 0;
                         for file_info in results.data {
                             model.append_file_info(&file_info);
-                            matches += file_info.matches.len();
                         }
-                        app.set_number_of_matches(matches as u64);
                         app.set_search_running(false);
                     }
                     SearchResult::InterimResult(file_info) => {
                         model.append_file_info(&file_info);
-
-                        let current_matches = app.number_of_matches();
-                        let new_matches = current_matches + file_info.matches.len() as u64;
-                        app.set_number_of_matches(new_matches);
                     }
                     SearchResult::SearchErrors(errors) => {
                         app.errors().extend(errors);
-                        app.notify("errors");
                     }
                     SearchResult::SearchCount(count) => {
-                        app.set_searched_files(count as u64);
+                        app.set_searched_files(count as u32);
                     }
                 }
             }
@@ -189,15 +182,18 @@ impl ObjectImpl for SearchWindow {
     fn constructed(&self) {
         self.parent_constructed();
 
-        self.obj().bind_property("errors", self.obj().as_ref(), "number_of_errors")
-            .transform_to(|_, errors: StringList| Some(errors.n_items()))
-            .sync_create()
-            .build();
+        let obj = self.obj();
+        obj.results().connect_items_changed(clone!(#[weak] obj, move |items, _, _, _| {
+            obj.imp().number_of_matches.set(items.n_items());
+            obj.notify("number_of_matches");
+        }));
+        obj.errors().connect_items_changed(clone!(#[weak] obj, move |items, _, _, _| {
+            obj.imp().number_of_errors.set(items.n_items());
+            obj.notify("number_of_errors");
 
-        self.obj().bind_property("errors", self.obj().as_ref(), "has_errors")
-            .transform_to(|_, errors: StringList| Some(errors.n_items() > 0))
-            .sync_create()
-            .build();
+            obj.imp().has_errors.set(items.n_items() > 0);
+            obj.notify("has_errors");
+        }));
     }
 }
 
