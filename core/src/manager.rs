@@ -167,7 +167,6 @@ impl Manager {
                 file_sender
                     .send(Message::Done(start_search_id, start.elapsed(), stopped))
                     .unwrap();
-                eprintln!("Done content search");
             });
         }
     }
