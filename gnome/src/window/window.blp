@@ -100,10 +100,22 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
             }
 
             Adw.ActionRow {
+              title: _("Errors Encountered");
+              subtitle: bind template.number_of_errors;
+              activatable: true;
+              activated => $on_show_errors() swapped;
+              sensitive: bind template.has_errors;
+
+              styles [
+                "property"
+              ]
+            }
+
+            Adw.ActionRow {
               title: _("Cancel Search");
               activatable: true;
-              sensitive: bind template.search_running;
               activated => $on_cancel_search() swapped;
+              sensitive: bind template.search_running;
 
               styles [
                 "destructive-action"

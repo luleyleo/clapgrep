@@ -1,0 +1,36 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ClapgrepErrorWindow: Adw.Window {
+  default-width: 500;
+  default-height: 800;
+  title: _("Search Errors");
+
+  content: Adw.ToolbarView {
+    top-bar-style: raised;
+
+    [top]
+    Adw.HeaderBar {}
+
+    ScrolledWindow {
+      child: ListView {
+        model: NoSelection {
+          model: bind template.search_window as <$ClapgrepWindow>.errors;
+        };
+
+        factory: BuilderListItemFactory {
+          template ListItem {
+            child: Label {
+              margin-top: 2;
+              margin-start: 16;
+              margin-end: 16;
+              margin-bottom: 2;
+              xalign: 0.0;
+              label: bind template.item as <StringObject>.string;
+            };
+          }
+        };
+      };
+    }
+  };
+}

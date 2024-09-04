@@ -6,6 +6,7 @@ mod search_match;
 mod search_model;
 mod search_result;
 mod window;
+mod error_window;
 
 fn setup_gettext() {
     let mut text_domain = gettextrs::TextDomain::new("de.leopoldluley.Clapgrep");

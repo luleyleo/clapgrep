@@ -2,16 +2,13 @@ use adw::subclass::prelude::*;
 use clapgrep_core::{
     extended::ExtendedType, manager::{Manager, SearchResult}, options::{Options, Sort}, search::Search
 };
-use glib::prelude::*;
 use glib::subclass::InitializingObject;
-use gtk::{glib, CompositeTemplate};
+use gtk::{glib, prelude::*, CompositeTemplate, StringList};
 use std::{
-    cell::{Cell, RefCell},
-    path::PathBuf,
-    thread,
+    cell::{Cell, RefCell}, path::PathBuf, thread
 };
 
-use crate::search_model::SearchModel;
+use crate::{error_window::ErrorWindow, search_model::SearchModel};
 
 #[derive(CompositeTemplate, glib::Properties, Default)]
 #[template(file = "src/window/window.blp")]
@@ -44,6 +41,12 @@ pub struct Window {
     pub searched_files: Cell<u64>,
     #[property(get, set)]
     pub number_of_matches: Cell<u64>,
+    #[property(get, set)]
+    pub number_of_errors: Cell<u32>,
+    #[property(get, set)]
+    pub errors: RefCell<StringList>,
+    #[property(get, set)]
+    pub has_errors: Cell<bool>,
 
     pub manager: RefCell<Option<Manager>>,
 }
@@ -105,6 +108,12 @@ impl Window {
             manager.stop();
         }
     }
+
+    #[template_callback]
+    fn on_show_errors(&self, _: &adw::ActionRow) {
+        let error_window = ErrorWindow::new(&self.obj());
+        error_window.present();
+    }
 }
 
 impl Window {
@@ -148,7 +157,10 @@ impl Window {
                         let new_matches = current_matches + file_info.matches.len() as u64;
                         app.set_number_of_matches(new_matches);
                     }
-                    SearchResult::SearchErrors(_) => {}
+                    SearchResult::SearchErrors(errors) => {
+                        app.errors().extend(errors);
+                        app.notify("errors");
+                    }
                     SearchResult::SearchCount(count) => {
                         app.set_searched_files(count as u64);
                     }
@@ -173,7 +185,21 @@ impl Window {
 }
 
 #[glib::derived_properties]
-impl ObjectImpl for Window {}
+impl ObjectImpl for Window {
+    fn constructed(&self) {
+        self.parent_constructed();
+
+        self.obj().bind_property("errors", self.obj().as_ref(), "number_of_errors")
+            .transform_to(|_, errors: StringList| Some(errors.n_items()))
+            .sync_create()
+            .build();
+
+        self.obj().bind_property("errors", self.obj().as_ref(), "has_errors")
+            .transform_to(|_, errors: StringList| Some(errors.n_items() > 0))
+            .sync_create()
+            .build();
+    }
+}
 
 impl WidgetImpl for Window {}
 
