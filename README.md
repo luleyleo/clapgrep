@@ -2,7 +2,7 @@
 
 One app to search through all your files, powered by ripgrep.
 
-![screenshot of the app](assets/clapgrep-gnome.png)
+![screenshot of the app](assets/screenshot-1.png)
 
 There are currently two frontends, one written with Gtk and one with Iced. The Gtk one is much better right now.
 
