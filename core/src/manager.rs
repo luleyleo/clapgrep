@@ -10,12 +10,12 @@ use std::{
     path::{Path, PathBuf},
     sync::{
         atomic::{AtomicBool, AtomicUsize, Ordering},
-        mpsc::{Receiver, Sender},
         Arc, Mutex,
     },
     thread,
     time::{Duration, Instant},
 };
+use flume::{Sender, Receiver};
 
 pub enum Message {
     File(FileInfo, usize),
@@ -63,7 +63,7 @@ impl Manager {
         let options = Arc::new(Mutex::new(options));
 
         //internal channel that sends results inside
-        let (internal_sender, internal_receiver) = std::sync::mpsc::channel();
+        let (internal_sender, internal_receiver) = flume::unbounded();
         let options_for_receiver = options.clone();
         thread::spawn(move || {
             message_receiver(internal_receiver, external_sender, options_for_receiver);
@@ -87,7 +87,7 @@ impl Manager {
     pub fn search(&self, search: &Search) {
         self.stop();
         self.stopped.store(false, Ordering::Relaxed);
-        self.spawn_search(&search);
+        self.spawn_search(search);
     }
 
     pub fn quit(&self) {
@@ -317,15 +317,13 @@ fn message_receiver(
 
 #[cfg(test)]
 mod tests {
-    use std::sync::mpsc::channel;
-
     use super::*;
 
     #[test]
     fn find_names() {
         let file1 = add_demo_file();
 
-        let (s, r) = channel();
+        let (s, r) = flume::unbounded();
         let man = Manager::new(s);
         let search = Search {
             directory: file1.parent().unwrap().to_owned(),

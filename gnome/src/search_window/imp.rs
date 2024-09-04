@@ -5,7 +5,7 @@ use clapgrep_core::{
 use glib::subclass::InitializingObject;
 use gtk::{glib::{self, clone}, prelude::*, CompositeTemplate, StringList};
 use std::{
-    cell::{Cell, RefCell}, path::PathBuf, thread
+    cell::{Cell, RefCell}, path::PathBuf
 };
 
 use crate::{error_window::ErrorWindow, search_model::SearchModel};
@@ -122,25 +122,15 @@ impl SearchWindow {
     fn init_manager(&self) {
         assert!(self.manager.borrow().is_none());
 
-        let (sender, receiver) = std::sync::mpsc::channel();
+        let (sender, receiver) = flume::unbounded();
         let manager = Manager::new(sender);
         manager.set_sort(Sort::Path);
         *self.manager.borrow_mut() = Some(manager);
 
-        let (async_sender, async_receiver) = flume::unbounded();
-
-        // Relay events from the sync receiver to the async sender
-        thread::spawn(move || {
-            while let Ok(result) = receiver.recv() {
-                let _ = async_sender.send(result);
-            }
-        });
-
         let app = self.obj().clone();
         let model = self.results.clone();
-        // Now handle the event
         glib::MainContext::default().spawn_local(async move {
-            while let Ok(result) = async_receiver.recv_async().await {
+            while let Ok(result) = receiver.recv_async().await {
                 match result {
                     SearchResult::FinalResults(results) => {
                         model.clear();

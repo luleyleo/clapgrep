@@ -13,3 +13,4 @@ walkdir = "2.4"       # walker from ripgrep
 termcolor = "1.4"     # unly used for grep to get nocolor
 pdf-extract = "0.7.2" # for pdf
 dotext = "0.1.1"      # for office docs
+flume = "0.11.0"
