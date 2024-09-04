@@ -1,3 +1,5 @@
+use crate::extended::ExtendedType;
+
 #[derive(Clone, Debug)]
 pub struct Options {
     pub sort: Sort,
@@ -6,7 +8,7 @@ pub struct Options {
     pub follow_links: bool,
     pub ignore_dot: bool,
     pub use_gitignore: bool,
-    pub extended: bool,
+    pub extended: Vec<ExtendedType>,
     pub fixed_string: bool,
 }
 
@@ -28,7 +30,7 @@ impl Default for Options {
             follow_links: false,
             ignore_dot: true,
             use_gitignore: true,
-            extended: false,
+            extended: Vec::new(),
             fixed_string: false,
         }
     }

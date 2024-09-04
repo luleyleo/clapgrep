@@ -1,8 +1,6 @@
 use adw::subclass::prelude::*;
 use clapgrep_core::{
-    manager::{Manager, SearchResult},
-    options::{Options, Sort},
-    search::Search,
+    extended::ExtendedType, manager::{Manager, SearchResult}, options::{Options, Sort}, search::Search
 };
 use glib::prelude::*;
 use glib::subclass::InitializingObject;
@@ -34,6 +32,11 @@ pub struct Window {
     pub include_ignored: Cell<bool>,
     #[property(get, set)]
     pub disable_regex: Cell<bool>,
+
+    #[property(get, set)]
+    pub search_pdf: Cell<bool>,
+    #[property(get, set)]
+    pub search_office: Cell<bool>,
 
     pub manager: RefCell<Option<Manager>>,
 }
@@ -75,6 +78,7 @@ impl Window {
                 ignore_dot: !self.include_hidden.get(),
                 use_gitignore: !self.include_ignored.get(),
                 fixed_string: self.disable_regex.get(),
+                extended: self.get_extended_types(),
                 ..Options::default()
             };
             manager.set_options(options);
@@ -113,12 +117,28 @@ impl Window {
                             model.append_file_info(&file_info);
                         }
                     }
-                    SearchResult::InterimResult(_) => {}
+                    SearchResult::InterimResult(file_info) => {
+                        model.append_file_info(&file_info);
+                    }
                     SearchResult::SearchErrors(_) => {}
                     SearchResult::SearchCount(_) => {}
                 }
             }
         });
+    }
+
+    fn get_extended_types(&self) -> Vec<ExtendedType> {
+        let mut types = Vec::new();
+
+        if self.search_pdf.get() {
+            types.push(ExtendedType::Pdf);
+        }
+
+        if self.search_office.get() {
+            types.push(ExtendedType::Office);
+        }
+
+        types
     }
 }
 

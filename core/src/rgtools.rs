@@ -1,5 +1,5 @@
 use crate::{
-    extended::{ExtendedTrait, ExtendedType},
+    extended::ExtendedTrait,
     options::Options,
 };
 use grep::{
@@ -43,7 +43,7 @@ pub fn search_contents(
     let matcher = RegexMatcherBuilder::new()
         .case_insensitive(case_insensitive)
         .fixed_strings(ops.fixed_string)
-        .build(&pattern);
+        .build(pattern);
 
     if matcher.is_err() {
         return ContentResults::default();
@@ -80,7 +80,7 @@ pub fn search_contents(
             }
 
             read_file(
-                &entry.path(),
+                entry.path(),
                 &mut searcher,
                 &matcher,
                 &mut printer,
@@ -128,18 +128,18 @@ fn read_file(
             }
 
             //apply each of extensions
-            if ops.extended {
+            if !ops.extended.is_empty() {
                 let extension = path
                     .extension()
                     .unwrap_or_default()
                     .to_string_lossy()
                     .to_lowercase();
-                let extendeds = vec![ExtendedType::Pdf, ExtendedType::Office];
-                for ext in extendeds
+
+                for ext in ops.extended
                     .iter()
                     .filter(|a| a.extensions().contains(&extension))
                 {
-                    if let Ok(data) = ext.to_string(&path) {
+                    if let Ok(data) = ext.to_string(path) {
                         let cursor = Cursor::new(data);
                         let result = searcher.search_reader(
                             matcher,
@@ -159,7 +159,6 @@ fn read_file(
                                 "Could not read file {path:?} with extension {ext:?}"
                             ));
                         }
-                    } else {
                     }
                 }
             }

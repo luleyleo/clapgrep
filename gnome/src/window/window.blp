@@ -19,18 +19,13 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
 
         Box {
           orientation: vertical;
+          margin-top: 10;
+          margin-start: 10;
+          margin-end: 10;
+          margin-bottom: 10;
+          spacing: 10;
 
-          ListBox {
-            margin-top: 10;
-            margin-start: 10;
-            margin-end: 10;
-            margin-bottom: 10;
-            selection-mode: none;
-
-            styles [
-              "boxed-list"
-            ]
-
+          Adw.PreferencesGroup {
             Adw.EntryRow {
               title: _("Search Pattern");
               text: bind template.content_search bidirectional;
@@ -43,16 +38,8 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
             }
           }
 
-          ListBox {
-            margin-top: 10;
-            margin-start: 10;
-            margin-end: 10;
-            margin-bottom: 10;
-            selection-mode: none;
-
-            styles [
-              "boxed-list"
-            ]
+          Adw.PreferencesGroup {
+            title: "Search Options";
 
             Adw.SwitchRow {
               title: _("Case Sensitive");
@@ -72,6 +59,20 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
             Adw.SwitchRow {
               title: _("Include Ignored");
               active: bind template.include_ignored bidirectional;
+            }
+          }
+
+          Adw.PreferencesGroup {
+            title: _("Extra File Formats");
+
+            Adw.SwitchRow {
+              title: _("PDF files");
+              active: bind template.search_pdf bidirectional;
+            }
+
+            Adw.SwitchRow {
+              title: _("Office files");
+              active: bind template.search_office bidirectional;
             }
           }
         }
