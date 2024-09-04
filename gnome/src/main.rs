@@ -2,6 +2,7 @@ use std::path::PathBuf;
 use gtk::{gio::SimpleAction, License};
 use adw::prelude::*;
 use gtk::glib::{self, clone};
+use gtk_blueprint::include_blp;
 
 mod search_match;
 mod search_model;
@@ -48,6 +49,24 @@ fn main() {
                 .present(Some(&window));
         }));
         app.add_action(&about_action);
+
+        let shortcuts_action = SimpleAction::new("shortcuts", None);
+        shortcuts_action.connect_activate(clone!(#[weak] window, move |_, _| {
+            let builder = gtk::Builder::from_string(include_blp!("gnome/src/shortcuts.blp"));
+            let help_overlay = builder.object::<gtk::ShortcutsWindow>("help-overlay").unwrap();
+            help_overlay.set_transient_for(Some(&window));
+            help_overlay.set_application(window.application().as_ref());
+            help_overlay.present();
+        }));
+        app.add_action(&shortcuts_action);
+        app.set_accels_for_action("app.shortcuts", &["<ctrl>h"]);
+
+        let quit_action = SimpleAction::new("quit", None);
+        quit_action.connect_activate(clone!(#[weak] window, move |_, _| {
+            window.close();
+        }));
+        app.add_action(&quit_action);
+        app.set_accels_for_action("app.quit", &["<ctrl>q"]);
 
         window.present();
     });
