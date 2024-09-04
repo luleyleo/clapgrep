@@ -75,6 +75,41 @@ template $ClapgrepWindow: Adw.ApplicationWindow {
               active: bind template.search_office bidirectional;
             }
           }
+
+          Adw.PreferencesGroup {
+            title: _("Current Search");
+            vexpand: true;
+            valign: end;
+
+            Adw.ActionRow {
+              title: _("Searched Files");
+              subtitle: bind template.searched_files;
+
+              styles [
+                "property"
+              ]
+            }
+
+            Adw.ActionRow {
+              title: _("Number of Matches");
+              subtitle: bind template.number_of_matches;
+
+              styles [
+                "property"
+              ]
+            }
+
+            Adw.ActionRow {
+              title: _("Cancel Search");
+              activatable: true;
+              sensitive: bind template.search_running;
+              activated => $on_cancel_search() swapped;
+
+              styles [
+                "destructive-action"
+              ]
+            }
+          }
         }
       };
     };

@@ -38,6 +38,13 @@ pub struct Window {
     #[property(get, set)]
     pub search_office: Cell<bool>,
 
+    #[property(get, set)]
+    pub search_running: Cell<bool>,
+    #[property(get, set)]
+    pub searched_files: Cell<u64>,
+    #[property(get, set)]
+    pub number_of_matches: Cell<u64>,
+
     pub manager: RefCell<Option<Manager>>,
 }
 
@@ -81,8 +88,21 @@ impl Window {
                 extended: self.get_extended_types(),
                 ..Options::default()
             };
+
+            self.obj().set_search_running(true);
+            self.obj().set_searched_files(0);
+            self.obj().set_number_of_matches(0);
+
             manager.set_options(options);
             manager.search(&search);
+        }
+    }
+
+    #[template_callback]
+    fn on_cancel_search(&self, _: &adw::ActionRow) {
+        self.obj().set_search_running(false);
+        if let Some(manager) = self.manager.borrow().as_ref() {
+            manager.stop();
         }
     }
 }
@@ -96,8 +116,6 @@ impl Window {
         manager.set_sort(Sort::Path);
         *self.manager.borrow_mut() = Some(manager);
 
-        let model = self.results.borrow().clone();
-
         let (async_sender, async_receiver) = flume::unbounded();
 
         // Relay events from the sync receiver to the async sender
@@ -107,21 +125,33 @@ impl Window {
             }
         });
 
+        let app = self.obj().clone();
+        let model = self.results.borrow().clone();
         // Now handle the event
         glib::MainContext::default().spawn_local(async move {
             while let Ok(result) = async_receiver.recv_async().await {
                 match result {
                     SearchResult::FinalResults(results) => {
                         model.clear();
+                        let mut matches = 0;
                         for file_info in results.data {
                             model.append_file_info(&file_info);
+                            matches += file_info.matches.len();
                         }
+                        app.set_number_of_matches(matches as u64);
+                        app.set_search_running(false);
                     }
                     SearchResult::InterimResult(file_info) => {
                         model.append_file_info(&file_info);
+
+                        let current_matches = app.number_of_matches();
+                        let new_matches = current_matches + file_info.matches.len() as u64;
+                        app.set_number_of_matches(new_matches);
                     }
                     SearchResult::SearchErrors(_) => {}
-                    SearchResult::SearchCount(_) => {}
+                    SearchResult::SearchCount(count) => {
+                        app.set_searched_files(count as u64);
+                    }
                 }
             }
         });
