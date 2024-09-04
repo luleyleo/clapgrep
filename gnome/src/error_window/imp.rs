@@ -4,14 +4,14 @@ use glib::subclass::InitializingObject;
 use gtk::{glib, CompositeTemplate};
 use std::cell::RefCell;
 
-use crate::window::Window;
+use crate::search_window::SearchWindow;
 
 #[derive(CompositeTemplate, glib::Properties, Default)]
 #[template(file = "src/error_window/error_window.blp")]
 #[properties(wrapper_type = super::ErrorWindow)]
 pub struct ErrorWindow {
     #[property(get, set)]
-    pub search_window: RefCell<Option<Window>>,
+    pub search_window: RefCell<Option<SearchWindow>>,
 }
 
 #[glib::object_subclass]

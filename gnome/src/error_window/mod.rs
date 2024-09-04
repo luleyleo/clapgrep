@@ -3,7 +3,7 @@ mod imp;
 use glib::Object;
 use gtk::{gio, glib, prelude::*};
 
-use crate::window::Window;
+use crate::search_window::SearchWindow;
 
 glib::wrapper! {
     pub struct ErrorWindow(ObjectSubclass<imp::ErrorWindow>)
@@ -13,7 +13,7 @@ glib::wrapper! {
 }
 
 impl ErrorWindow {
-    pub fn new(parent: &Window) -> Self {
+    pub fn new(parent: &SearchWindow) -> Self {
         Object::builder()
             .property("application", parent.application().unwrap())
             .property("modal", true)

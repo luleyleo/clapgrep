@@ -15,7 +15,7 @@ template $ClapgrepErrorWindow: Adw.Window {
     ScrolledWindow {
       child: ListView {
         model: NoSelection {
-          model: bind template.search_window as <$ClapgrepWindow>.errors;
+          model: bind template.search_window as <$ClapgrepSearchWindow>.errors;
         };
 
         factory: BuilderListItemFactory {

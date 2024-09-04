@@ -11,9 +11,9 @@ use std::{
 use crate::{error_window::ErrorWindow, search_model::SearchModel};
 
 #[derive(CompositeTemplate, glib::Properties, Default)]
-#[template(file = "src/window/window.blp")]
-#[properties(wrapper_type = super::Window)]
-pub struct Window {
+#[template(file = "src/search_window/search_window.blp")]
+#[properties(wrapper_type = super::SearchWindow)]
+pub struct SearchWindow {
     #[property(get, set)]
     pub file_search: RefCell<String>,
     #[property(get, set)]
@@ -52,9 +52,9 @@ pub struct Window {
 }
 
 #[glib::object_subclass]
-impl ObjectSubclass for Window {
-    const NAME: &'static str = "ClapgrepWindow";
-    type Type = super::Window;
+impl ObjectSubclass for SearchWindow {
+    const NAME: &'static str = "ClapgrepSearchWindow";
+    type Type = super::SearchWindow;
     type ParentType = adw::ApplicationWindow;
 
     fn class_init(klass: &mut Self::Class) {
@@ -68,7 +68,7 @@ impl ObjectSubclass for Window {
 }
 
 #[gtk::template_callbacks]
-impl Window {
+impl SearchWindow {
     #[template_callback]
     fn on_search(&self, _: &adw::ActionRow) {
         if self.manager.borrow().is_none() {
@@ -116,7 +116,7 @@ impl Window {
     }
 }
 
-impl Window {
+impl SearchWindow {
     fn init_manager(&self) {
         assert!(self.manager.borrow().is_none());
 
@@ -185,7 +185,7 @@ impl Window {
 }
 
 #[glib::derived_properties]
-impl ObjectImpl for Window {
+impl ObjectImpl for SearchWindow {
     fn constructed(&self) {
         self.parent_constructed();
 
@@ -201,10 +201,10 @@ impl ObjectImpl for Window {
     }
 }
 
-impl WidgetImpl for Window {}
+impl WidgetImpl for SearchWindow {}
 
-impl WindowImpl for Window {}
+impl WindowImpl for SearchWindow {}
 
-impl ApplicationWindowImpl for Window {}
+impl ApplicationWindowImpl for SearchWindow {}
 
-impl AdwApplicationWindowImpl for Window {}
+impl AdwApplicationWindowImpl for SearchWindow {}

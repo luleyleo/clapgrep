@@ -5,7 +5,7 @@ use adw::prelude::*;
 mod search_match;
 mod search_model;
 mod search_result;
-mod window;
+mod search_window;
 mod error_window;
 
 fn setup_gettext() {
@@ -30,7 +30,7 @@ fn main() {
 
     application.connect_activate(|app| {
         let app = app.downcast_ref::<adw::Application>().unwrap();
-        let window = window::Window::new(app);
+        let window = search_window::SearchWindow::new(app);
         window.present();
     });
 
