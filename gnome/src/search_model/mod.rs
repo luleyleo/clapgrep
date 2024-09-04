@@ -55,6 +55,25 @@ impl SearchModel {
 
         self.items_changed(start, 0, end - start);
     }
+
+    pub fn extend_with_results(&self, results: &[FileInfo]) {
+        let mut data = self.imp().0.borrow_mut();
+        let start = data.len() as u32;
+
+        for file_info in results {
+            let search_results = file_info
+                .matches
+                .iter()
+                .map(|m| SearchResult::new(&file_info.path, m.line, &m.content, &m.ranges));
+
+            data.extend(search_results);
+        }
+
+        let end = data.len() as u32;
+        drop(data);
+
+        self.items_changed(start, 0, end - start);
+    }
 }
 
 impl Default for SearchModel {

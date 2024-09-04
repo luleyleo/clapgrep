@@ -144,9 +144,7 @@ impl SearchWindow {
                 match result {
                     SearchResult::FinalResults(results) => {
                         model.clear();
-                        for file_info in results.data {
-                            model.append_file_info(&file_info);
-                        }
+                        model.extend_with_results(&results.data);
                         app.set_search_running(false);
                     }
                     SearchResult::InterimResult(file_info) => {
