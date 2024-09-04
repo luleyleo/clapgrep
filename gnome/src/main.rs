@@ -1,6 +1,7 @@
 use std::path::PathBuf;
-
+use gtk::{gio::SimpleAction, License};
 use adw::prelude::*;
+use gtk::glib::{self, clone};
 
 mod search_match;
 mod search_model;
@@ -24,15 +25,32 @@ fn setup_gettext() {
 fn main() {
     setup_gettext();
 
-    let application = adw::Application::builder()
+    let app = adw::Application::builder()
         .application_id("de.leopoldluley.Clapgrep")
         .build();
 
-    application.connect_activate(|app| {
+    app.connect_activate(|app| {
         let app = app.downcast_ref::<adw::Application>().unwrap();
         let window = search_window::SearchWindow::new(app);
+
+        let about_action = SimpleAction::new("about", None);
+        about_action.connect_activate(clone!(#[weak] window, move |_, _| {
+            adw::AboutDialog::builder()
+                .application_name("Clapgrep")
+                .version("0.1")
+                .application_icon("de.leopoldluley.Clapgrep")
+                .developer_name("Leopold Luley")
+                .website("https://github.com/luleyleo/clapgrep")
+                .issue_url("https://github.com/luleyleo/clapgrep/issues")
+                .license_type(License::Gpl30)
+                .copyright("© 2024 Leopold Luley")
+                .build()
+                .present(Some(&window));
+        }));
+        app.add_action(&about_action);
+
         window.present();
     });
 
-    application.run();
+    app.run();
 }
