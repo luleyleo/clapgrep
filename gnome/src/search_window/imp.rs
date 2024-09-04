@@ -61,6 +61,12 @@ impl ObjectSubclass for SearchWindow {
     fn class_init(klass: &mut Self::Class) {
         klass.bind_template();
         klass.bind_template_callbacks();
+        klass.install_action("win.start-search", None, |win, _, _| {
+            win.imp().start_search();
+        });
+        klass.install_action("win.stop-search", None, |win, _, _| {
+            win.imp().stop_search();
+        });
     }
 
     fn instance_init(obj: &InitializingObject<Self>) {
@@ -72,43 +78,12 @@ impl ObjectSubclass for SearchWindow {
 impl SearchWindow {
     #[template_callback]
     fn on_search(&self, _: &adw::ActionRow) {
-        if self.manager.borrow().is_none() {
-            self.init_manager();
-        }
-
-        self.results.clear();
-
-        if let Some(manager) = self.manager.borrow().as_ref() {
-            let search = Search {
-                directory: PathBuf::from("."),
-                pattern: self.content_search.borrow().to_string(),
-            };
-            let options = Options {
-                sort: Sort::Path,
-                case_sensitive: self.case_sensitive.get(),
-                ignore_dot: !self.include_hidden.get(),
-                use_gitignore: !self.include_ignored.get(),
-                fixed_string: self.disable_regex.get(),
-                extended: self.get_extended_types(),
-                ..Options::default()
-            };
-
-            self.results.clear();
-            self.errors.splice(0, self.errors.n_items(), &[]);
-            self.obj().set_searched_files(0);
-            self.obj().set_search_running(true);
-
-            manager.set_options(options);
-            manager.search(&search);
-        }
+        self.start_search();
     }
 
     #[template_callback]
     fn on_cancel_search(&self, _: &adw::ActionRow) {
-        self.obj().set_search_running(false);
-        if let Some(manager) = self.manager.borrow().as_ref() {
-            manager.stop();
-        }
+        self.stop_search();
     }
 
     #[template_callback]
@@ -149,6 +124,45 @@ impl SearchWindow {
                 }
             }
         });
+    }
+
+    fn start_search(&self) {
+        if self.manager.borrow().is_none() {
+            self.init_manager();
+        }
+
+        self.results.clear();
+
+        if let Some(manager) = self.manager.borrow().as_ref() {
+            let search = Search {
+                directory: PathBuf::from("."),
+                pattern: self.content_search.borrow().to_string(),
+            };
+            let options = Options {
+                sort: Sort::Path,
+                case_sensitive: self.case_sensitive.get(),
+                ignore_dot: !self.include_hidden.get(),
+                use_gitignore: !self.include_ignored.get(),
+                fixed_string: self.disable_regex.get(),
+                extended: self.get_extended_types(),
+                ..Options::default()
+            };
+
+            self.results.clear();
+            self.errors.splice(0, self.errors.n_items(), &[]);
+            self.obj().set_searched_files(0);
+            self.obj().set_search_running(true);
+
+            manager.set_options(options);
+            manager.search(&search);
+        }
+    }
+
+    fn stop_search(&self) {
+        self.obj().set_search_running(false);
+        if let Some(manager) = self.manager.borrow().as_ref() {
+            manager.stop();
+        }
     }
 
     fn get_extended_types(&self) -> Vec<ExtendedType> {

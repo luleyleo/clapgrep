@@ -59,14 +59,17 @@ fn main() {
             help_overlay.present();
         }));
         app.add_action(&shortcuts_action);
-        app.set_accels_for_action("app.shortcuts", &["<ctrl>h"]);
 
         let quit_action = SimpleAction::new("quit", None);
         quit_action.connect_activate(clone!(#[weak] window, move |_, _| {
             window.close();
         }));
         app.add_action(&quit_action);
+
         app.set_accels_for_action("app.quit", &["<ctrl>q"]);
+        app.set_accels_for_action("app.shortcuts", &["<ctrl>h"]);
+        app.set_accels_for_action("win.start-search", &["<ctrl>Return"]);
+        app.set_accels_for_action("app.stop-search", &["<ctrl>s"]);
 
         window.present();
     });
