@@ -19,7 +19,7 @@ pub struct SearchWindow {
     #[property(get, set)]
     pub content_search: RefCell<String>,
     #[property(get)]
-    pub results: RefCell<SearchModel>,
+    pub results: SearchModel,
 
     #[property(get, set)]
     pub case_sensitive: Cell<bool>,
@@ -43,7 +43,7 @@ pub struct SearchWindow {
     pub number_of_matches: Cell<u32>,
 
     #[property(get)]
-    pub errors: RefCell<StringList>,
+    pub errors: StringList,
     #[property(get)]
     pub number_of_errors: Cell<u32>,
     #[property(get)]
@@ -76,7 +76,7 @@ impl SearchWindow {
             self.init_manager();
         }
 
-        self.results.borrow().clear();
+        self.results.clear();
 
         if let Some(manager) = self.manager.borrow().as_ref() {
             let search = Search {
@@ -93,7 +93,8 @@ impl SearchWindow {
                 ..Options::default()
             };
 
-            self.results.borrow().clear();
+            self.results.clear();
+            self.errors.splice(0, self.errors.n_items(), &[]);
             self.obj().set_searched_files(0);
             self.obj().set_search_running(true);
 
@@ -136,7 +137,7 @@ impl SearchWindow {
         });
 
         let app = self.obj().clone();
-        let model = self.results.borrow().clone();
+        let model = self.results.clone();
         // Now handle the event
         glib::MainContext::default().spawn_local(async move {
             while let Ok(result) = async_receiver.recv_async().await {
