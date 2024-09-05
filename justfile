@@ -54,6 +54,9 @@ make-makefile:
   just -n build --release 2>&1 | sed 's/^/\t/' | sed 's/\$/$$/g' >> build-aux/Makefile
   just -n --set prefix /app install 2>&1 | sed 's/^/\t/' >> build-aux/Makefile
 
+prepare-flatpak: make-makefile
+  python3 build-aux/flatpak-cargo-generator.py ./Cargo.lock -o build-aux/cargo-sources.json
+
 install-flatpak:
   flatpak-builder flatpak-build gnome/de.leopoldluley.Clapgrep.json --force-clean --install --user
 
