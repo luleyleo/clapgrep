@@ -3,9 +3,9 @@ use clapgrep_core::{
     extended::ExtendedType, manager::{Manager, SearchResult}, options::{Options, Sort}, search::Search
 };
 use glib::subclass::InitializingObject;
-use gtk::{glib::{self, clone}, prelude::*, CompositeTemplate, StringList};
+use gtk::{gio::{self, Cancellable}, glib::{self, clone}, prelude::*, CompositeTemplate, FileDialog, StringList};
 use std::{
-    cell::{Cell, RefCell}, path::PathBuf
+    cell::{Cell, RefCell}, path::{Path, PathBuf}
 };
 
 use crate::{error_window::ErrorWindow, search_model::SearchModel};
@@ -15,7 +15,9 @@ use crate::{error_window::ErrorWindow, search_model::SearchModel};
 #[properties(wrapper_type = super::SearchWindow)]
 pub struct SearchWindow {
     #[property(get, set)]
-    pub file_search: RefCell<String>,
+    pub search_path: RefCell<String>,
+    #[property(get)]
+    pub search_directory: RefCell<String>,
     #[property(get, set)]
     pub content_search: RefCell<String>,
     #[property(get)]
@@ -87,6 +89,24 @@ impl SearchWindow {
     }
 
     #[template_callback]
+    fn on_cd(&self, _: &gtk::Button) {
+        let obj = self.obj();
+        let initial_folder = gio::File::for_path(Path::new(self.search_path.borrow().as_str()));
+
+        FileDialog::builder()
+            .title("Choose Search Path")
+            .initial_folder(&initial_folder)
+            .modal(true)
+            .build()
+            .select_folder(Some(self.obj().as_ref()), Cancellable::NONE, clone!(#[weak] obj, move |result| {
+                if let Ok(result) = result {
+                    let path = result.path().unwrap().to_string_lossy().to_string();
+                    obj.set_search_path(path);
+                }
+            }));
+    }
+
+    #[template_callback]
     fn on_show_errors(&self, _: &adw::ActionRow) {
         let error_window = ErrorWindow::new(&self.obj());
         error_window.present();
@@ -135,7 +155,7 @@ impl SearchWindow {
 
         if let Some(manager) = self.manager.borrow().as_ref() {
             let search = Search {
-                directory: PathBuf::from("."),
+                directory: PathBuf::from(self.search_path.borrow().as_str()),
                 pattern: self.content_search.borrow().to_string(),
             };
             let options = Options {
@@ -197,6 +217,21 @@ impl ObjectImpl for SearchWindow {
             obj.imp().has_errors.set(items.n_items() > 0);
             obj.notify("has_errors");
         }));
+        obj.connect_search_path_notify(|obj| {
+            let path = obj.search_path();
+            let final_component = path.split("/").last().map(String::from);
+            obj.imp().search_directory.set(match final_component {
+                Some(directory) => directory,
+                None => path,
+            });
+            obj.notify("search-directory")
+        });
+
+        if self.search_path.borrow().is_empty() {
+            if let Ok(absolute) = Path::new(".").canonicalize() {
+                self.obj().set_search_path(absolute.to_string_lossy().to_string());
+            }
+        }
     }
 }
 
