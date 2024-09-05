@@ -1,10 +1,10 @@
 mod imp;
 
+use crate::search_result::SearchResult;
 use clapgrep_core::fileinfo::FileInfo;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use imp::Section;
-
-use crate::search_result::SearchResult;
+use std::path::PathBuf;
 
 glib::wrapper! {
     pub struct SearchModel(ObjectSubclass<imp::SearchModel>)
@@ -16,6 +16,10 @@ impl SearchModel {
         glib::Object::new()
     }
 
+    pub fn set_base_path(&self, path: impl Into<PathBuf>) {
+        *self.imp().base_path.borrow_mut() = path.into();
+    }
+
     pub fn clear(&self) {
         let imp = self.imp();
         let len = imp.data.borrow().len();
@@ -24,16 +28,27 @@ impl SearchModel {
     }
 
     fn append_file_info_impl(&self, file_info: &FileInfo) -> Section {
-        let search_results = file_info
-            .matches
-            .iter()
-            .map(|m| SearchResult::new(&file_info.path, m.line, &m.content, &m.ranges));
+        let base_path = self.imp().base_path.borrow();
+        let search_results = file_info.matches.iter().map(|m| {
+            SearchResult::new(
+                file_info
+                    .path
+                    .strip_prefix(base_path.as_path())
+                    .unwrap_or(file_info.path.as_ref()),
+                file_info.path.as_path(),
+                m.line,
+                &m.content,
+                &m.ranges,
+            )
+        });
 
         let mut data = self.imp().data.borrow_mut();
         let start = data.len() as u32;
         data.extend(search_results);
         let end = data.len() as u32;
+
         drop(data);
+        drop(base_path);
 
         let section = Section { start, end };
         self.imp().sections.borrow_mut().push(section);

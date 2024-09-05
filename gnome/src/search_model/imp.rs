@@ -1,11 +1,12 @@
 use crate::search_result::SearchResult;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
-use std::cell::RefCell;
+use std::{cell::RefCell, path::PathBuf};
 
 #[derive(Debug, Default)]
 pub struct SearchModel {
     pub data: RefCell<Vec<SearchResult>>,
     pub sections: RefCell<Vec<Section>>,
+    pub base_path: RefCell<PathBuf>,
 }
 
 #[derive(Debug, Clone, Copy)]

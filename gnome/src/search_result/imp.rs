@@ -1,4 +1,7 @@
-use std::cell::{Cell, RefCell};
+use std::{
+    cell::{Cell, RefCell},
+    path::PathBuf,
+};
 
 use gtk::{
     gio,
@@ -10,7 +13,7 @@ use gtk::{
 #[properties(wrapper_type = super::SearchResult)]
 pub struct SearchResult {
     #[property(get, set)]
-    file: RefCell<String>,
+    file: RefCell<PathBuf>,
     #[property(get, set)]
     uri: RefCell<String>,
     #[property(get, set)]

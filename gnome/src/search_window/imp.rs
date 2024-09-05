@@ -185,6 +185,8 @@ impl SearchWindow {
             };
 
             self.results.clear();
+            self.results
+                .set_base_path(self.search_path.borrow().clone());
             self.errors.splice(0, self.errors.n_items(), &[]);
             self.obj().set_searched_files(0);
             self.obj().set_search_running(true);

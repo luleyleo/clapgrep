@@ -1,6 +1,6 @@
 mod imp;
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use gtk::{
     gio, glib, pango,
@@ -15,21 +15,24 @@ glib::wrapper! {
 
 impl SearchResult {
     pub fn new(
-        file: &Path,
+        file: impl Into<PathBuf>,
+        absolute_file: impl AsRef<Path>,
         line: usize,
         content: &str,
         matches: &[std::ops::Range<usize>],
     ) -> SearchResult {
+        let file = file.into();
+
         let matches_store = gio::ListStore::new::<SearchMatch>();
         for m in matches {
             let sm = SearchMatch::new(m.start as u32, m.end as u32);
             matches_store.append(&sm);
         }
 
-        let uri = format!("file://{}", file.canonicalize().unwrap().to_string_lossy());
+        let uri = format!("file://{}", absolute_file.as_ref().to_string_lossy());
 
         glib::Object::builder()
-            .property("file", file.to_string_lossy().as_ref())
+            .property("file", file)
             .property("uri", uri)
             .property("line", line as u64)
             .property("content", content)
