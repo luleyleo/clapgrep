@@ -1,7 +1,4 @@
-use crate::{
-    extended::ExtendedTrait,
-    options::Options,
-};
+use crate::{extended::ExtendedTrait, options::Options};
 use grep::{
     printer::{Standard, StandardBuilder},
     regex::{RegexMatcher, RegexMatcherBuilder},
@@ -135,7 +132,8 @@ fn read_file(
                     .to_string_lossy()
                     .to_lowercase();
 
-                for ext in ops.extended
+                for ext in ops
+                    .extended
                     .iter()
                     .filter(|a| a.extensions().contains(&extension))
                 {

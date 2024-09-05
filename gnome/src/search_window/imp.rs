@@ -1,11 +1,20 @@
 use adw::subclass::prelude::*;
 use clapgrep_core::{
-    extended::ExtendedType, manager::{Manager, SearchResult}, options::{Options, Sort}, search::Search
+    extended::ExtendedType,
+    manager::{Manager, SearchResult},
+    options::{Options, Sort},
+    search::Search,
 };
 use glib::subclass::InitializingObject;
-use gtk::{gio::{self, Cancellable}, glib::{self, clone}, prelude::*, CompositeTemplate, FileDialog, StringList};
+use gtk::{
+    gio::{self, Cancellable},
+    glib::{self, clone},
+    prelude::*,
+    CompositeTemplate, FileDialog, StringList,
+};
 use std::{
-    cell::{Cell, RefCell}, path::{Path, PathBuf}
+    cell::{Cell, RefCell},
+    path::{Path, PathBuf},
 };
 
 use crate::{error_window::ErrorWindow, search_model::SearchModel};
@@ -98,12 +107,20 @@ impl SearchWindow {
             .initial_folder(&initial_folder)
             .modal(true)
             .build()
-            .select_folder(Some(self.obj().as_ref()), Cancellable::NONE, clone!(#[weak] obj, move |result| {
-                if let Ok(result) = result {
-                    let path = result.path().unwrap().to_string_lossy().to_string();
-                    obj.set_search_path(path);
-                }
-            }));
+            .select_folder(
+                Some(self.obj().as_ref()),
+                Cancellable::NONE,
+                clone!(
+                    #[weak]
+                    obj,
+                    move |result| {
+                        if let Ok(result) = result {
+                            let path = result.path().unwrap().to_string_lossy().to_string();
+                            obj.set_search_path(path);
+                        }
+                    }
+                ),
+            );
     }
 
     #[template_callback]
@@ -206,17 +223,25 @@ impl ObjectImpl for SearchWindow {
         self.parent_constructed();
 
         let obj = self.obj();
-        obj.results().connect_items_changed(clone!(#[weak] obj, move |items, _, _, _| {
-            obj.imp().number_of_matches.set(items.n_items());
-            obj.notify("number_of_matches");
-        }));
-        obj.errors().connect_items_changed(clone!(#[weak] obj, move |items, _, _, _| {
-            obj.imp().number_of_errors.set(items.n_items());
-            obj.notify("number_of_errors");
+        obj.results().connect_items_changed(clone!(
+            #[weak]
+            obj,
+            move |items, _, _, _| {
+                obj.imp().number_of_matches.set(items.n_items());
+                obj.notify("number_of_matches");
+            }
+        ));
+        obj.errors().connect_items_changed(clone!(
+            #[weak]
+            obj,
+            move |items, _, _, _| {
+                obj.imp().number_of_errors.set(items.n_items());
+                obj.notify("number_of_errors");
 
-            obj.imp().has_errors.set(items.n_items() > 0);
-            obj.notify("has_errors");
-        }));
+                obj.imp().has_errors.set(items.n_items() > 0);
+                obj.notify("has_errors");
+            }
+        ));
         obj.connect_search_path_notify(|obj| {
             let path = obj.search_path();
             let final_component = path.split("/").last().map(String::from);
@@ -229,7 +254,8 @@ impl ObjectImpl for SearchWindow {
 
         if self.search_path.borrow().is_empty() {
             if let Ok(absolute) = Path::new(".").canonicalize() {
-                self.obj().set_search_path(absolute.to_string_lossy().to_string());
+                self.obj()
+                    .set_search_path(absolute.to_string_lossy().to_string());
             }
         }
     }

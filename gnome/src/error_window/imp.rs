@@ -31,8 +31,7 @@ impl ObjectSubclass for ErrorWindow {
 }
 
 #[gtk::template_callbacks]
-impl ErrorWindow {
-}
+impl ErrorWindow {}
 
 #[glib::derived_properties]
 impl ObjectImpl for ErrorWindow {}

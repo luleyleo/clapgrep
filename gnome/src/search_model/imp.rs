@@ -1,6 +1,6 @@
-use std::cell::RefCell;
-use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use crate::search_result::SearchResult;
+use gtk::{gio, glib, prelude::*, subclass::prelude::*};
+use std::cell::RefCell;
 
 #[derive(Debug, Default)]
 pub struct SearchModel {

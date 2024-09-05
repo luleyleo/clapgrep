@@ -5,6 +5,7 @@ use crate::{
     rgtools::{self, EXTENSION_SEPARATOR, SEPARATOR},
     search::Search,
 };
+use flume::{Receiver, Sender};
 use std::{
     collections::HashMap,
     path::{Path, PathBuf},
@@ -15,7 +16,6 @@ use std::{
     thread,
     time::{Duration, Instant},
 };
-use flume::{Sender, Receiver};
 
 pub enum Message {
     File(FileInfo, usize),
