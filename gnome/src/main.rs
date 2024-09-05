@@ -47,7 +47,7 @@ fn start(app: &adw::Application, files: &[gio::File]) {
     if let Some(dir) = files.first() {
         if let Some(path) = dir.path() {
             if path.is_dir() {
-                window.set_search_path(path.to_string_lossy());
+                window.set_search_path(path);
             }
         }
     }

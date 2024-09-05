@@ -24,7 +24,7 @@ use crate::{error_window::ErrorWindow, search_model::SearchModel};
 #[properties(wrapper_type = super::SearchWindow)]
 pub struct SearchWindow {
     #[property(get, set)]
-    pub search_path: RefCell<String>,
+    pub search_path: RefCell<PathBuf>,
     #[property(get)]
     pub search_directory: RefCell<String>,
     #[property(get, set)]
@@ -100,7 +100,7 @@ impl SearchWindow {
     #[template_callback]
     fn on_cd(&self, _: &gtk::Button) {
         let obj = self.obj();
-        let initial_folder = gio::File::for_path(Path::new(self.search_path.borrow().as_str()));
+        let initial_folder = gio::File::for_path(self.search_path.borrow().as_path());
 
         FileDialog::builder()
             .title("Choose Search Path")
@@ -115,8 +115,7 @@ impl SearchWindow {
                     obj,
                     move |result| {
                         if let Ok(result) = result {
-                            let path = result.path().unwrap().to_string_lossy().to_string();
-                            obj.set_search_path(path);
+                            obj.set_search_path(result.path().unwrap());
                         }
                     }
                 ),
@@ -172,7 +171,7 @@ impl SearchWindow {
 
         if let Some(manager) = self.manager.borrow().as_ref() {
             let search = Search {
-                directory: PathBuf::from(self.search_path.borrow().as_str()),
+                directory: self.search_path.borrow().clone(),
                 pattern: self.content_search.borrow().to_string(),
             };
             let options = Options {
@@ -244,18 +243,16 @@ impl ObjectImpl for SearchWindow {
         ));
         obj.connect_search_path_notify(|obj| {
             let path = obj.search_path();
-            let final_component = path.split("/").last().map(String::from);
-            obj.imp().search_directory.set(match final_component {
-                Some(directory) => directory,
-                None => path,
+            obj.imp().search_directory.set(match path.file_name() {
+                Some(directory) => directory.to_string_lossy().to_string(),
+                None => path.to_string_lossy().to_string(),
             });
             obj.notify("search-directory")
         });
 
-        if self.search_path.borrow().is_empty() {
+        if !self.search_path.borrow().is_dir() {
             if let Ok(absolute) = Path::new(".").canonicalize() {
-                self.obj()
-                    .set_search_path(absolute.to_string_lossy().to_string());
+                self.obj().set_search_path(absolute);
             }
         }
     }
