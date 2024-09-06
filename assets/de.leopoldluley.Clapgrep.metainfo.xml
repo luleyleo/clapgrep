@@ -1,35 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <component type="desktop-application">
   <id>de.leopoldluley.Clapgrep</id>
-  
   <name>Clapgrep</name>
   <summary>One app to search through all your files, powered by ripgrep</summary>
-  
+  <url type="homepage">https://github.com/luleyleo/clapgrep</url>
+  <url type="bugtracker">https://github.com/luleyleo/clapgrep/issues</url>
+  <url type="vcs-browser">https://github.com/luleyleo/clapgrep</url>
+  <developer>
+    <name>Leopold Luley</name>
+  </developer>
   <metadata_license>MIT</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  
   <description>
-    <p>
-      Ever had a folder full of PDF files, where you knew, somewhere in there, is what you&apos;re looking for. But you did not know in which file. So you had to search each of them at a time...
-    </p>
-    <p>
-      With Clapgrep this is no longer necessary! Simply open the folder with Clapgrep, enter the search term, and Clapgrep will do all the hard work of finding out on which page / line in which file the information is that you are looking for!
-    </p>
-    <p>
-      Clapgrep can currently search all sorts of text files, PDFs and Office documents, with more to come.
-    </p>
+    <p>Ever had a folder full of PDF files, where you knew, somewhere in there, is what you're looking for. But you did not know in which file. So you had to search each of them at a time...</p>
+    <p>With Clapgrep this is no longer necessary! Simply open the folder with Clapgrep, enter the search term, and Clapgrep will do all the hard work of finding out on which page / line in which file the information is that you are looking for!</p>
+    <p>Clapgrep can currently search all sorts of text files, PDFs and Office documents, with more to come.</p>
   </description>
-  
-  <launchable type="desktop-id">de.leopoldluley.Clapgrep.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-1.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-1.png</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-2.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-2.png</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-3.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-3.png</image>
     </screenshot>
   </screenshots>
+  <categories>
+    <category>Utility</category>
+    <category>FileTools</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+  <launchable type="desktop-id">de.leopoldluley.Clapgrep.desktop</launchable>
+  <branding>
+    <color type="primary" scheme_preference="light">#fff0c3</color>
+    <color type="primary" scheme_preference="dark">#575243</color>
+  </branding>
 </component>
