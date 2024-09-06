@@ -20,12 +20,6 @@
     <screenshot type="default">
       <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-1.png</image>
     </screenshot>
-    <screenshot>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-2.png</image>
-    </screenshot>
-    <screenshot>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/main/assets/screenshot-3.png</image>
-    </screenshot>
   </screenshots>
   <categories>
     <category>Utility</category>
