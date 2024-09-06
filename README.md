@@ -12,9 +12,6 @@ Clapgrep can currently search all sorts of text files, PDFs and Office documents
 
 ![screenshot of the app](assets/screenshot-1.png)
 
-## Modules
+## Contributing
 
-Clapgrep consists of two modules:
-
-- core, which contains the search logic.
-- gnome, which is a Gtk + Adwaita frontend.
+See [Contributing](/CONTRIBUTING.md).

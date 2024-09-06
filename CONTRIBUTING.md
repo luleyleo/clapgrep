@@ -1,6 +1,13 @@
 # Contributing
 
-A brief overview of dependencies and build instructions.
+A brief overview over the project, its dependencies and build instructions.
+
+## Modules
+
+Clapgrep consists of two modules:
+
+- core, which contains the search logic.
+- gnome, which is a Gtk + Adwaita frontend.
 
 ## Requirements (for Fedora toolbox)
 
