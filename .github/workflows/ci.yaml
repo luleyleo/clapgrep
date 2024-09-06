@@ -9,7 +9,7 @@ on:
 env:
   RUST_VERSION: 1.80.0
   CARGO_TERM_COLOR: always
-  DEPENDENCIES: libgtk-4-dev libadwaita-1-dev build-essential
+  DEPENDENCIES: libgtk-4-1 libgtk-4-dev libadwaita-1-0 libadwaita-1-dev build-essential
 
 jobs:
   check:
