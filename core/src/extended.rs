@@ -1,5 +1,7 @@
 use dotext::{doc::OpenOfficeDoc, *};
-use std::{error::Error, io::Read, panic::catch_unwind, path::Path};
+use std::{error::Error, io::Read, path::Path};
+
+mod pdf;
 
 pub trait ExtendedTrait {
     fn name(&self) -> String;
@@ -31,7 +33,7 @@ impl ExtendedTrait for ExtendedType {
 
     fn to_string(&self, path: &Path) -> Result<String, Box<dyn std::error::Error>> {
         match self {
-            ExtendedType::Pdf => Ok(extract_pdf(path)?),
+            ExtendedType::Pdf => Ok(pdf::extract_pdf(path)?),
             ExtendedType::Office => Ok(extract_office(path)?),
         }
     }
@@ -53,13 +55,6 @@ impl From<&str> for ExtendedType {
             _ => panic!("unknown extended type"),
         }
     }
-}
-
-fn extract_pdf(path: &Path) -> Result<String, Box<dyn Error>> {
-    let path = path.to_owned();
-    //because the library panics, we need to catch panics
-    let res = catch_unwind(|| pdf_extract::extract_text(&path));
-    Ok(res.map_err(|_| "Panicked".to_string())??)
 }
 
 fn extract_office(path: &Path) -> Result<String, Box<dyn Error>> {
