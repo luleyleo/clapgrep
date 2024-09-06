@@ -123,10 +123,11 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               subtitle: bind template.number_of_errors;
               activatable: true;
               activated => $on_show_errors() swapped;
-              sensitive: bind template.has_errors;
+              visible: bind template.has_errors;
 
               styles [
-                "property"
+                "property",
+                "error"
               ]
             }
 

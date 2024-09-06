@@ -146,6 +146,7 @@ impl SearchWindow {
                     SearchResult::FinalResults(results) => {
                         model.clear();
                         model.extend_with_results(&results.data);
+                        app.errors().append("Test Error");
                         app.set_search_running(false);
                     }
                     SearchResult::InterimResult(file_info) => {
