@@ -72,19 +72,19 @@ fn extract_office(path: &Path) -> Result<String, Box<dyn Error>> {
     let mut string = String::new();
     match ext.as_str() {
         "docx" => {
-            let mut docx = Docx::open(&path)?;
+            let mut docx = Docx::open(path)?;
             docx.read_to_string(&mut string)?;
         }
         "xlsx" => {
-            let mut xlsx = Xlsx::open(&path)?;
+            let mut xlsx = Xlsx::open(path)?;
             xlsx.read_to_string(&mut string)?;
         }
         "pptx" => {
-            let mut pptx = Pptx::open(&path)?;
+            let mut pptx = Pptx::open(path)?;
             pptx.read_to_string(&mut string)?;
         }
         "odt" => {
-            let mut odt = Odt::open(&path)?;
+            let mut odt = Odt::open(path)?;
             odt.read_to_string(&mut string)?;
         }
         // "ods" => {
@@ -92,7 +92,7 @@ fn extract_office(path: &Path) -> Result<String, Box<dyn Error>> {
         //     ods.read_to_string(&mut string)?;
         // }
         "odp" => {
-            let mut odp = Odp::open(&path)?;
+            let mut odp = Odp::open(path)?;
             odp.read_to_string(&mut string)?;
         }
         _ => return Err("unknown extension".into()),
