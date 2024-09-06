@@ -70,6 +70,10 @@ gettext *args:
     --output=po/messages.pot \
     --files-from=po/POTFILES \
     {{args}}
+  cat po/LINGUAS | while read lang; do \
+    msgmerge -N -U po/$lang.po po/messages.pot; \
+    rm -f po/$lang.po~; \
+  done
 
 add-translation language:
   msginit -l {{language}}.UTF8 -o po/{{language}}.po -i po/messages.pot
