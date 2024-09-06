@@ -34,7 +34,7 @@ build *args: build-translations
   cargo build --package {{frontend}} {{args}}
 
 check *args:
-  cargo clippy --all-features {{args}} -- -W clippy::pedantic
+  cargo clippy --all-features {{args}}
 
 run *args: build-translations
   env RUST_BACKTRACE=full cargo run --package {{frontend}} {{args}}
