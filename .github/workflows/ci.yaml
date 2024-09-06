@@ -9,6 +9,7 @@ on:
 env:
   RUST_VERSION: 1.80.0
   CARGO_TERM_COLOR: always
+  DEPENDENCIES: libgtk-4-dev libadwaita-1-dev build-essential
 
 jobs:
   check:
@@ -17,6 +18,9 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: sudo apt install ${{ env.DEPENDENCIES }}
 
       - name: Install stable toolchain
         uses: actions-rs/toolchain@v1
@@ -43,6 +47,9 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: sudo apt install ${{ env.DEPENDENCIES }}
 
       - name: Install stable toolchain
         uses: actions-rs/toolchain@v1
