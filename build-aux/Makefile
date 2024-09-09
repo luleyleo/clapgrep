@@ -2,7 +2,8 @@
 .PHONY: all
 all:
 	cat po/LINGUAS | while read lang; do mkdir -p assets/locale/$$lang/LC_MESSAGES; msgfmt -o assets/locale/$$lang/LC_MESSAGES/de.leopoldluley.Clapgrep.mo po/$$lang.po; done
-	cargo build --package clapgrep-gnome --release
+	cargo --offline fetch --manifest-path Cargo.toml --verbose
+	cargo --offline build --package clapgrep-gnome --release
 	mkdir -p /app/share/locale
 	install -Dm0755 target/release/clapgrep-gnome /app/bin/clapgrep
 	install -Dm0755 assets/de.leopoldluley.Clapgrep.desktop /app/share/applications/de.leopoldluley.Clapgrep.desktop

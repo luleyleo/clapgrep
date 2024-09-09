@@ -35,6 +35,7 @@ jobs:
             ${{ runner.os }}-flatpak-builder-
 
       - run: just ci
+      - run: rm -rf .flatpak-builder/build
 
       # Save caches
       - name: Save Flatpak dependencies
