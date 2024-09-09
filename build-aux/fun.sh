@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
 
-export CARGO_HOME=/run/build/clapgrep/cargo
-flatpak-builder --run $(dirname $0)/../flatpak $(dirname $0)/de.leopoldluley.Clapgrep.json "$@"
+flatpak-builder --run $(dirname $0)/../flatpak $(dirname $0)/de.leopoldluley.Clapgrep.json env CARGO_HOME=/run/build/clapgrep/cargo "$@"
