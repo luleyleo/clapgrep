@@ -39,6 +39,15 @@ check *args:
 run *args: build-translations
   env RUST_BACKTRACE=full cargo run --package {{frontend}} {{args}}
 
+ci: setup-flatpak-repos
+  flatpak-builder --delete-build-dirs --disable-updates --build-only --ccache --force-clean flatpak build-aux/{{appid}}.json
+  echo Check formatting:
+  ./build-aux/fun.sh cargo fmt --all -- --check --verbose
+  echo Check code:
+  ./build-aux/fun.sh cargo check
+  echo Check code with Clippy:
+  ./build-aux/fun.sh cargo clippy --workspace --all-targets --all-features -- -D warnings
+
 install:
   mkdir -p {{po-dst}}
   install -Dm0755 {{bin-src}} {{bin-dst}}
@@ -57,8 +66,12 @@ make-makefile:
 prepare-flatpak: make-makefile
   python3 build-aux/flatpak-cargo-generator.py ./Cargo.lock -o build-aux/cargo-sources.json
 
-install-flatpak:
+install-flatpak: setup-flatpak-repos
   flatpak-builder flatpak-build gnome/de.leopoldluley.Clapgrep.json --force-clean --install --user
+
+setup-flatpak-repos:
+	flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	flatpak install --or-update --user --noninteractive flathub org.gnome.Platform//46 org.gnome.Sdk//46 org.freedesktop.Sdk.Extension.rust-stable//23.08
 
 gettext *args:
   xgettext \

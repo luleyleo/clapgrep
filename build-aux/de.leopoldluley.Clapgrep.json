@@ -60,7 +60,7 @@
           "type": "dir",
           "path": ".."
         },
-        "../build-aux/cargo-sources.json"
+        "./cargo-sources.json"
       ]
     }
   ]

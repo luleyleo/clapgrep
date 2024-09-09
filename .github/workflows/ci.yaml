@@ -1,3 +1,5 @@
+name: CI
+
 on:
   push:
     branches:
@@ -6,113 +8,44 @@ on:
     branches:
       - main
 
-env:
-  RUST_VERSION: 1.80.0
-  CARGO_TERM_COLOR: always
-  DEPENDENCIES: libgtk-4-1 libgtk-4-dev libadwaita-1-0 libadwaita-1-dev build-essential
-
 jobs:
-  check:
-    name: Check
-    runs-on: ubuntu-latest
+  CI:
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: sudo apt install ${{ env.DEPENDENCIES }}
+      - name: Install host dependencies
+        run: |
+          sudo apt-get install flatpak flatpak-builder just
 
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
+      # Restore caches
+      - name: Restore Flatpak dependencies
+        uses: actions/cache/restore@v3
         with:
-          profile: minimal
-          toolchain: ${{ env.RUST_VERSION }}
-          override: true
-          components: clippy
-
-      - name: Run cargo check
-        uses: actions-rs/cargo@v1
+          path: ~/.local/share/flatpak
+          key: ${{ runner.os }}-flatpak-dependencies-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-flatpak-dependencies-
+      - name: Restore .flatpak-builder
+        uses: actions/cache/restore@v3
         with:
-          command: check
+          path: .flatpak-builder
+          key: ${{ runner.os }}-flatpak-builder-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-flatpak-builder-
 
-      - name: Run cargo clippy
-        uses: actions-rs/cargo@v1
+      - run: just ci
+
+      # Save caches
+      - name: Save Flatpak dependencies
+        uses: actions/cache/save@v3
+        if: always()
         with:
-          command: clippy
-          args: --workspace --all-targets --all-features -- -D warnings
-
-  test:
-    name: Test Suite
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: sudo apt install ${{ env.DEPENDENCIES }}
-
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
+          path: ~/.local/share/flatpak
+          key: ${{ runner.os }}-flatpak-dependencies-${{ github.run_id }}
+      - name: Save .flatpak-builder
+        uses: actions/cache/save@v3
+        if: always()
         with:
-          profile: minimal
-          toolchain: ${{ env.RUST_VERSION }}
-          override: true
-
-      - name: Run cargo test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          # --all-targets includes --benches, which we don't want.
-          args: --workspace --all-features --lib --bins --tests --examples --verbose
-
-  rustfmt:
-    name: Format
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-
-      - name: Install nightly toolchain with rustfmt available
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: nightly
-          override: true
-          components: rustfmt
-
-      - name: Run cargo fmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check --verbose
-
-  doc:
-    name: Doc
-    runs-on: ubuntu-latest
-    env:
-      RUSTDOCFLAGS: -D warnings
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: sudo apt install ${{ env.DEPENDENCIES }}
-
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: ${{ env.RUST_VERSION }}
-          override: true
-
-      - name: Run cargo doc
-        uses: actions-rs/cargo@v1
-        with:
-          command: doc
-          args: --no-deps --verbose
-
-      - name: Run cargo test --doc
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --workspace --all-features --doc --verbose
+          path: .flatpak-builder
+          key: ${{ runner.os }}-flatpak-builder-${{ github.run_id }}
