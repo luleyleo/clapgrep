@@ -6,10 +6,10 @@
   <url type="homepage">https://github.com/luleyleo/clapgrep</url>
   <url type="bugtracker">https://github.com/luleyleo/clapgrep/issues</url>
   <url type="vcs-browser">https://github.com/luleyleo/clapgrep</url>
-  <developer>
+  <developer id="de.leopoldluley">
     <name>Leopold Luley</name>
   </developer>
-  <metadata_license>MIT</metadata_license>
+  <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <description>
     <p>Ever had a folder full of PDF files, where you knew, somewhere in there, is what you're looking for. But you did not know in which file. So you had to search each of them at a time...</p>
