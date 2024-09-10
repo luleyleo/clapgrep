@@ -59,7 +59,7 @@ fn start(app: &adw::Application, files: &[gio::File]) {
         move |_, _| {
             adw::AboutDialog::builder()
                 .application_name("Clapgrep")
-                .version("0.1")
+                .version("1.0")
                 .application_icon("de.leopoldluley.Clapgrep")
                 .developer_name("Leopold Luley")
                 .website("https://github.com/luleyleo/clapgrep")

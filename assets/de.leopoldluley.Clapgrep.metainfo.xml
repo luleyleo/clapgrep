@@ -31,4 +31,16 @@
     <color type="primary" scheme_preference="light">#fff0c3</color>
     <color type="primary" scheme_preference="dark">#575243</color>
   </branding>
+  <releases>
+    <release version="1.0" date="2024-09-10">
+      <description>
+        <p>Initial release, with the following features:</p>
+        <ul>
+          <li>Ripgrep based full-text search</li>
+          <li>In-/exclude hidden and ignored files</li>
+          <li>Search PDF and Office files</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
 </component>
