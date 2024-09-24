@@ -1,0 +1,129 @@
+# ITALIAN TRANSLATION.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# ALBANO BATTISTELLA <ALBANOBATTISTELLA@GMAIL.COM>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-06 12:26+0200\n"
+"PO-Revision-Date: 2024-09-24 20:41+0100\n"
+"Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
+"Language-Team: Italian <LL@li.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=U\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: gnome/src/search_window/search_window.blp:7
+msgid "Clapgrep"
+msgstr "Clapgrep"
+
+#: gnome/src/search_window/search_window.blp:11
+msgid "Search Settings"
+msgstr "Impostazioni di ricerca"
+
+#: gnome/src/search_window/search_window.blp:30
+msgid "Search Pattern"
+msgstr "Modello di ricerca"
+
+#: gnome/src/search_window/search_window.blp:35 gnome/src/shortcuts.blp:28
+msgid "Start Search"
+msgstr "Avvia ricerca"
+
+#: gnome/src/search_window/search_window.blp:43
+msgid "Search Path"
+msgstr "Percorso di ricerca"
+
+#: gnome/src/search_window/search_window.blp:61
+msgid "Search Options"
+msgstr "Opzioni di ricerca"
+
+#: gnome/src/search_window/search_window.blp:64
+msgid "Case Sensitive"
+msgstr "Maiuscole e minuscole"
+
+#: gnome/src/search_window/search_window.blp:69
+msgid "Disable Regex"
+msgstr "Disabilita Regex"
+
+#: gnome/src/search_window/search_window.blp:74
+msgid "Include Hidden"
+msgstr "Includi nascosti"
+
+#: gnome/src/search_window/search_window.blp:79
+msgid "Include Ignored"
+msgstr "Includi ignorati"
+
+#: gnome/src/search_window/search_window.blp:85
+msgid "Extra File Formats"
+msgstr "Formati di file extra"
+
+#: gnome/src/search_window/search_window.blp:88
+msgid "PDF files"
+msgstr "File PDF"
+
+#: gnome/src/search_window/search_window.blp:93
+msgid "Office files"
+msgstr "File di ufficio"
+
+#: gnome/src/search_window/search_window.blp:99
+msgid "Current Search"
+msgstr "Ricerca corrente"
+
+#: gnome/src/search_window/search_window.blp:104
+msgid "Searched Files"
+msgstr "File ricercati"
+
+#: gnome/src/search_window/search_window.blp:113
+msgid "Number of Matches"
+msgstr "Numero di corrispondenze"
+
+#: gnome/src/search_window/search_window.blp:122
+msgid "Errors Encountered"
+msgstr "Errori riscontrati"
+
+#: gnome/src/search_window/search_window.blp:135
+msgid "Cancel Search"
+msgstr "Annulla ricerca"
+
+#: gnome/src/search_window/search_window.blp:150
+msgid "Search Results"
+msgstr "Risultati della ricerca"
+
+#: gnome/src/search_window/search_window.blp:240
+msgid "Keyboard Shortcuts"
+msgstr "Scorciatoie da tastiera"
+
+#: gnome/src/search_window/search_window.blp:245
+msgid "About My App"
+msgstr "Informazioni sulla mia app"
+
+#: gnome/src/error_window/error_window.blp:7
+msgid "Search Errors"
+msgstr "Errori di ricerca"
+
+#: gnome/src/shortcuts.blp:5
+msgid "Clapgrep Shortcuts"
+msgstr "Scorciatoie di Clapgrep"
+
+#: gnome/src/shortcuts.blp:9
+msgid "General"
+msgstr "Generale"
+
+#: gnome/src/shortcuts.blp:12
+msgid "Quit"
+msgstr "Esci"
+
+#: gnome/src/shortcuts.blp:18
+msgid "Shortcuts"
+msgstr "Scorciatoie"
+
+#: gnome/src/shortcuts.blp:25
+msgid "Control Search"
+msgstr "Ricerca di controllo"
+
+#: gnome/src/shortcuts.blp:34
+msgid "Stop Search"
+msgstr "Ferma ricerca"
