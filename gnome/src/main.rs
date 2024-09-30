@@ -5,14 +5,17 @@ use gtk::{gio::SimpleAction, License};
 use gtk_blueprint::include_blp;
 use std::path::PathBuf;
 
+mod config;
 mod error_window;
 mod search_match;
 mod search_model;
 mod search_result;
 mod search_window;
 
+const APP_ID: &str = "de.leopoldluley.Clapgrep";
+
 fn setup_gettext() {
-    let mut text_domain = gettextrs::TextDomain::new("de.leopoldluley.Clapgrep");
+    let mut text_domain = gettextrs::TextDomain::new(APP_ID);
 
     if cfg!(debug_assertions) {
         let assets_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -30,7 +33,7 @@ fn main() {
     setup_gettext();
 
     let app = adw::Application::builder()
-        .application_id("de.leopoldluley.Clapgrep")
+        .application_id(APP_ID)
         .flags(ApplicationFlags::HANDLES_OPEN)
         .build();
 

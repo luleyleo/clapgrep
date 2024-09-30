@@ -1,3 +1,4 @@
+use crate::{config::Config, error_window::ErrorWindow, search_model::SearchModel};
 use adw::subclass::prelude::*;
 use clapgrep_core::{
     extended::ExtendedType,
@@ -16,8 +17,6 @@ use std::{
     cell::{Cell, RefCell},
     path::{Path, PathBuf},
 };
-
-use crate::{error_window::ErrorWindow, search_model::SearchModel};
 
 #[derive(CompositeTemplate, glib::Properties, Default)]
 #[template(file = "src/search_window/search_window.blp")]
@@ -61,6 +60,7 @@ pub struct SearchWindow {
     pub has_errors: Cell<bool>,
 
     pub manager: RefCell<Option<Manager>>,
+    pub config: Config,
 }
 
 #[glib::object_subclass]
@@ -222,8 +222,26 @@ impl SearchWindow {
 impl ObjectImpl for SearchWindow {
     fn constructed(&self) {
         self.parent_constructed();
-
         let obj = self.obj();
+
+        self.config
+            .bind_property("window_width", obj.as_ref(), "default_width")
+            .bidirectional()
+            .sync_create()
+            .build();
+
+        self.config
+            .bind_property("window_height", obj.as_ref(), "default_height")
+            .bidirectional()
+            .sync_create()
+            .build();
+
+        self.config
+            .bind_property("window_maximized", obj.as_ref(), "maximized")
+            .bidirectional()
+            .sync_create()
+            .build();
+
         obj.results().connect_items_changed(clone!(
             #[weak]
             obj,
