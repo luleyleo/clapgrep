@@ -39,6 +39,18 @@ You can check for warnings with
 just check
 ```
 
+You can install the `.Devel` flatpak with
+
+```sh
+just install-flatpak
+```
+
+You can install the regular flatpak with
+
+```sh
+just release=true install-flatpak
+```
+
 And you can update the translation messages with
 
 ```sh

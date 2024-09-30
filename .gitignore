@@ -16,3 +16,4 @@ debian/*
 flatpak/
 .flatpak-builder/
 assets/locale/
+build-aux/Makefile

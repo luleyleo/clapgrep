@@ -1,6 +1,10 @@
 # Clapgrep
 
-One app to search through all your files, powered by ripgrep.
+One app to search through all your files
+
+<a href="https://flathub.org/apps/de.leopoldluley.Clapgrep">
+  <img src="https://flathub.org/assets/badges/flathub-badge-en.png" width="240"/>
+</a>
 
 ## Description
 

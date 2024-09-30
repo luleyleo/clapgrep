@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flatpak/flatpak-builder/1.4.4/data/flatpak-manifest.schema.json",
-  "id": "de.leopoldluley.Clapgrep",
+  "id": "de.leopoldluley.Clapgrep.Devel",
   "runtime": "org.gnome.Platform",
   "runtime-version": "46",
   "sdk": "org.gnome.Sdk",
@@ -50,7 +50,7 @@
       "build-options": {
         "env": {
           "CARGO_HOME": "/run/build/clapgrep/cargo",
-          "APP_ID": "de.leopoldluley.Clapgrep"
+          "APP_ID": "de.leopoldluley.Clapgrep.Devel"
         }
       },
       "build-commands": [

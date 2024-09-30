@@ -12,7 +12,7 @@ mod search_model;
 mod search_result;
 mod search_window;
 
-const APP_ID: &str = "de.leopoldluley.Clapgrep";
+const APP_ID: &str = env!("APP_ID");
 
 fn setup_gettext() {
     let mut text_domain = gettextrs::TextDomain::new(APP_ID);
