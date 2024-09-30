@@ -23,6 +23,8 @@ For the Gtk based app:
 sudo dnf install just gtk4-devel libadwaita-devel
 ```
 
+And you have to install [blueprint-compiler](https://jwestman.pages.gitlab.gnome.org/blueprint-compiler/setup.html).
+
 ## Development
 
 You can run the app with
