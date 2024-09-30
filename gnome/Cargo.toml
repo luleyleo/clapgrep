@@ -10,3 +10,8 @@ gtk = { version = "0.9.0", package = "gtk4", features = ["blueprint", "v4_14"] }
 flume = "0.11.0"
 gettext-rs = { version = "0.7.1", features = ["gettext-system"] }
 gtk-blueprint = "0.2.0"
+
+[dependencies.cosmic-config]
+git = "https://github.com/pop-os/libcosmic.git"
+rev = "228eb4d70d581be88bacb1e261106a58603d847b"
+default-features = false
