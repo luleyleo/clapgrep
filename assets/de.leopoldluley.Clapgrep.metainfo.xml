@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>de.leopoldluley.Clapgrep</id>
   <name>Clapgrep</name>
-  <summary>One app to search through all your files, powered by ripgrep</summary>
+  <summary>Search through all your files</summary>
   <url type="homepage">https://github.com/luleyleo/clapgrep</url>
   <url type="bugtracker">https://github.com/luleyleo/clapgrep/issues</url>
   <url type="vcs-browser">https://github.com/luleyleo/clapgrep</url>
