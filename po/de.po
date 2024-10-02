@@ -98,7 +98,7 @@ msgid "Keyboard Shortcuts"
 msgstr "Tastenbindungen"
 
 #: gnome/src/search_window/search_window.blp:245
-msgid "About My App"
+msgid "About Clapgrep"
 msgstr "Über Clapgrep"
 
 #: gnome/src/error_window/error_window.blp:7

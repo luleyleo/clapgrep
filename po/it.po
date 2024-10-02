@@ -97,8 +97,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Scorciatoie da tastiera"
 
 #: gnome/src/search_window/search_window.blp:245
-msgid "About My App"
-msgstr "Informazioni sulla mia app"
+msgid "About Clapgrep"
+msgstr "Informazioni sulla Clapgrep"
 
 #: gnome/src/error_window/error_window.blp:7
 msgid "Search Errors"
