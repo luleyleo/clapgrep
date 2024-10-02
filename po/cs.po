@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06 12:26+0200\n"
+"POT-Creation-Date: 2024-10-02 14:53+0200\n"
 "PO-Revision-Date: 2024-09-26 23:16+0200\n"
 "Last-Translator: Amerey <info@amerey.eu>\n"
 "Language-Team: \n"
@@ -18,89 +18,89 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.4\n"
 
-#: gnome/src/search_window/search_window.blp:7
+#: gnome/src/search_window/search_window.blp:5
 msgid "Clapgrep"
 msgstr "Clapgrep"
 
-#: gnome/src/search_window/search_window.blp:11
+#: gnome/src/search_window/search_window.blp:9
 msgid "Search Settings"
 msgstr "Nastavení vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:30
+#: gnome/src/search_window/search_window.blp:28
 msgid "Search Pattern"
 msgstr "Vzor vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:35 gnome/src/shortcuts.blp:28
+#: gnome/src/search_window/search_window.blp:33 gnome/src/shortcuts.blp:28
 msgid "Start Search"
 msgstr "Spustit vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:43
+#: gnome/src/search_window/search_window.blp:41
 msgid "Search Path"
 msgstr "Cesta vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:61
+#: gnome/src/search_window/search_window.blp:59
 msgid "Search Options"
 msgstr "Možnosti vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:64
+#: gnome/src/search_window/search_window.blp:62
 msgid "Case Sensitive"
 msgstr "Rozlišovat malá a velká písmena"
 
-#: gnome/src/search_window/search_window.blp:69
+#: gnome/src/search_window/search_window.blp:67
 msgid "Disable Regex"
 msgstr "Zakázat Regex"
 
-#: gnome/src/search_window/search_window.blp:74
+#: gnome/src/search_window/search_window.blp:72
 msgid "Include Hidden"
 msgstr "Zahrnout skryté"
 
-#: gnome/src/search_window/search_window.blp:79
+#: gnome/src/search_window/search_window.blp:77
 msgid "Include Ignored"
 msgstr "Zahrnout ignorované"
 
-#: gnome/src/search_window/search_window.blp:85
+#: gnome/src/search_window/search_window.blp:83
 msgid "Extra File Formats"
 msgstr "Extra formáty souborů"
 
-#: gnome/src/search_window/search_window.blp:88
+#: gnome/src/search_window/search_window.blp:86
 msgid "PDF files"
 msgstr "PDF soubory"
 
-#: gnome/src/search_window/search_window.blp:93
+#: gnome/src/search_window/search_window.blp:91
 msgid "Office files"
 msgstr "Soubory Office"
 
-#: gnome/src/search_window/search_window.blp:99
+#: gnome/src/search_window/search_window.blp:97
 msgid "Current Search"
 msgstr "Aktuální vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:104
+#: gnome/src/search_window/search_window.blp:102
 msgid "Searched Files"
 msgstr "Hledané soubory"
 
-#: gnome/src/search_window/search_window.blp:113
+#: gnome/src/search_window/search_window.blp:111
 msgid "Number of Matches"
 msgstr "Počet shod"
 
-#: gnome/src/search_window/search_window.blp:122
+#: gnome/src/search_window/search_window.blp:120
 msgid "Errors Encountered"
 msgstr "Zjištěné chyby"
 
-#: gnome/src/search_window/search_window.blp:135
+#: gnome/src/search_window/search_window.blp:133
 msgid "Cancel Search"
 msgstr "Zrušit vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:150
+#: gnome/src/search_window/search_window.blp:148
 msgid "Search Results"
 msgstr "Výsledky vyhledávání"
 
-#: gnome/src/search_window/search_window.blp:240
+#: gnome/src/search_window/search_window.blp:238
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: gnome/src/search_window/search_window.blp:245
-msgid "About My App"
-msgstr "O mé aplikaci"
+#: gnome/src/search_window/search_window.blp:243
+msgid "About Clapgrep"
+msgstr "O Clapgrep"
 
 #: gnome/src/error_window/error_window.blp:7
 msgid "Search Errors"

@@ -1,10 +1,11 @@
 use adw::prelude::*;
+use gtk::gio::SimpleAction;
 use gtk::gio::{self, ApplicationFlags};
 use gtk::glib::{self, clone};
-use gtk::{gio::SimpleAction, License};
 use gtk_blueprint::include_blp;
 use std::path::PathBuf;
 
+mod about;
 mod config;
 mod error_window;
 mod search_match;
@@ -59,19 +60,7 @@ fn start(app: &adw::Application, files: &[gio::File]) {
     about_action.connect_activate(clone!(
         #[weak]
         window,
-        move |_, _| {
-            adw::AboutDialog::builder()
-                .application_name("Clapgrep")
-                .version("1.0")
-                .application_icon("de.leopoldluley.Clapgrep")
-                .developer_name("Leopold Luley")
-                .website("https://github.com/luleyleo/clapgrep")
-                .issue_url("https://github.com/luleyleo/clapgrep/issues")
-                .license_type(License::Gpl30)
-                .copyright("© 2024 Leopold Luley")
-                .build()
-                .present(Some(&window));
-        }
+        move |_, _| about::dialog().present(Some(&window))
     ));
     app.add_action(&about_action);
 

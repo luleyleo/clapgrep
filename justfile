@@ -73,7 +73,7 @@ make-makefile target='build-aux/Makefile':
 make-cargo-sources:
   python3 build-aux/flatpak-cargo-generator.py ./Cargo.lock -o build-aux/cargo-sources.json
 
-install-flatpak: setup-flatpak-repos make-makefile make-cargo-sources
+install-flatpak: setup-flatpak-repos make-makefile
   flatpak-builder flatpak-build build-aux/{{appid}}.json --force-clean --install --user
 
 setup-flatpak-repos:
@@ -103,3 +103,9 @@ build-translations:
     mkdir -p assets/locale/$lang/LC_MESSAGES; \
     msgfmt -o assets/locale/$lang/LC_MESSAGES/{{appid}}.mo po/$lang.po; \
   done
+
+prepare-release:
+  just make-cargo-sources
+  just release=true make-makefile makefile
+  flatpak-builder --force-clean --repo=repo flatpak build-aux/de.leopoldluley.Clapgrep.json
+  flatpak run --command=flatpak-builder-lint org.flatpak.Builder repo repo
