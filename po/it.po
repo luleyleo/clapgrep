@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06 12:26+0200\n"
+"POT-Creation-Date: 2024-10-02 14:53+0200\n"
 "PO-Revision-Date: 2024-09-24 20:41+0100\n"
 "Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -16,87 +16,87 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gnome/src/search_window/search_window.blp:7
+#: gnome/src/search_window/search_window.blp:5
 msgid "Clapgrep"
 msgstr "Clapgrep"
 
-#: gnome/src/search_window/search_window.blp:11
+#: gnome/src/search_window/search_window.blp:9
 msgid "Search Settings"
 msgstr "Impostazioni di ricerca"
 
-#: gnome/src/search_window/search_window.blp:30
+#: gnome/src/search_window/search_window.blp:28
 msgid "Search Pattern"
 msgstr "Modello di ricerca"
 
-#: gnome/src/search_window/search_window.blp:35 gnome/src/shortcuts.blp:28
+#: gnome/src/search_window/search_window.blp:33 gnome/src/shortcuts.blp:28
 msgid "Start Search"
 msgstr "Avvia ricerca"
 
-#: gnome/src/search_window/search_window.blp:43
+#: gnome/src/search_window/search_window.blp:41
 msgid "Search Path"
 msgstr "Percorso di ricerca"
 
-#: gnome/src/search_window/search_window.blp:61
+#: gnome/src/search_window/search_window.blp:59
 msgid "Search Options"
 msgstr "Opzioni di ricerca"
 
-#: gnome/src/search_window/search_window.blp:64
+#: gnome/src/search_window/search_window.blp:62
 msgid "Case Sensitive"
 msgstr "Maiuscole e minuscole"
 
-#: gnome/src/search_window/search_window.blp:69
+#: gnome/src/search_window/search_window.blp:67
 msgid "Disable Regex"
 msgstr "Disabilita Regex"
 
-#: gnome/src/search_window/search_window.blp:74
+#: gnome/src/search_window/search_window.blp:72
 msgid "Include Hidden"
 msgstr "Includi nascosti"
 
-#: gnome/src/search_window/search_window.blp:79
+#: gnome/src/search_window/search_window.blp:77
 msgid "Include Ignored"
 msgstr "Includi ignorati"
 
-#: gnome/src/search_window/search_window.blp:85
+#: gnome/src/search_window/search_window.blp:83
 msgid "Extra File Formats"
 msgstr "Formati di file extra"
 
-#: gnome/src/search_window/search_window.blp:88
+#: gnome/src/search_window/search_window.blp:86
 msgid "PDF files"
 msgstr "File PDF"
 
-#: gnome/src/search_window/search_window.blp:93
+#: gnome/src/search_window/search_window.blp:91
 msgid "Office files"
 msgstr "File di ufficio"
 
-#: gnome/src/search_window/search_window.blp:99
+#: gnome/src/search_window/search_window.blp:97
 msgid "Current Search"
 msgstr "Ricerca corrente"
 
-#: gnome/src/search_window/search_window.blp:104
+#: gnome/src/search_window/search_window.blp:102
 msgid "Searched Files"
 msgstr "File ricercati"
 
-#: gnome/src/search_window/search_window.blp:113
+#: gnome/src/search_window/search_window.blp:111
 msgid "Number of Matches"
 msgstr "Numero di corrispondenze"
 
-#: gnome/src/search_window/search_window.blp:122
+#: gnome/src/search_window/search_window.blp:120
 msgid "Errors Encountered"
 msgstr "Errori riscontrati"
 
-#: gnome/src/search_window/search_window.blp:135
+#: gnome/src/search_window/search_window.blp:133
 msgid "Cancel Search"
 msgstr "Annulla ricerca"
 
-#: gnome/src/search_window/search_window.blp:150
+#: gnome/src/search_window/search_window.blp:148
 msgid "Search Results"
 msgstr "Risultati della ricerca"
 
-#: gnome/src/search_window/search_window.blp:240
+#: gnome/src/search_window/search_window.blp:238
 msgid "Keyboard Shortcuts"
 msgstr "Scorciatoie da tastiera"
 
-#: gnome/src/search_window/search_window.blp:245
+#: gnome/src/search_window/search_window.blp:243
 msgid "About Clapgrep"
 msgstr "Informazioni sulla Clapgrep"
 
