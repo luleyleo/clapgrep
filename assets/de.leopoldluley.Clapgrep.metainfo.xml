@@ -32,6 +32,19 @@
     <color type="primary" scheme_preference="dark">#575243</color>
   </branding>
   <releases>
+    <release version="1.1" date="2024-10-02">
+      <description>
+        <p>New features:</p>
+        <ul>
+          <li>The app will remember its window size and maximized state.</li>
+        </ul>
+        <p>New translations:</p>
+        <ul>
+          <li>Italian</li>
+          <li>Czech</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0" date="2024-09-10">
       <description>
         <p>Initial release, with the following features:</p>
