@@ -6,6 +6,10 @@
   <url type="homepage">https://github.com/luleyleo/clapgrep</url>
   <url type="bugtracker">https://github.com/luleyleo/clapgrep/issues</url>
   <url type="vcs-browser">https://github.com/luleyleo/clapgrep</url>
+  <url type="donation">https://ko-fi.com/luleyleo</url>
+  <url type="contribute">https://github.com/luleyleo/clapgrep/blob/main/CONTRIBUTING.md</url>
+  <url type="translate">https://github.com/luleyleo/clapgrep/tree/main/po</url>
+  <url type="contact">https://mastodon.online/@luley</url>
   <developer id="de.leopoldluley">
     <name>Leopold Luley</name>
   </developer>
@@ -18,6 +22,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
+      <caption>Main window</caption>
       <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/3c043148f9d189be407119358e751dc2f5b96d7e/assets/screenshot-1.png</image>
     </screenshot>
   </screenshots>
@@ -31,6 +36,18 @@
     <color type="primary" scheme_preference="light">#fff0c3</color>
     <color type="primary" scheme_preference="dark">#575243</color>
   </branding>
+  <requires>
+    <display_length compare="ge">567</display_length>
+    <internet>offline-only</internet>
+  </requires>
+  <recommends>
+    <display_length compare="ge">900</display_length>
+  </recommends>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </supports>
   <releases>
     <release version="1.1" date="2024-10-02">
       <description>
