@@ -2,9 +2,7 @@
 
 One app to search through all your files
 
-<a href="https://flathub.org/apps/de.leopoldluley.Clapgrep">
-  <img src="https://flathub.org/assets/badges/flathub-badge-en.png" width="240"/>
-</a>
+[![Get it on Flathub](https://flathub.org/api/badge?svg&locale=en)](https://flathub.org/apps/de.leopoldluley.Clapgrep)
 
 ## Description
 
