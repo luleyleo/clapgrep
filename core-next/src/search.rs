@@ -18,7 +18,7 @@ use std::{
 };
 
 #[derive(Debug, Clone)]
-pub struct SearchParameter {
+pub struct SearchParameters {
     pub base_directory: PathBuf,
     pub pattern: String,
     pub flags: SearchFlags,
@@ -28,17 +28,22 @@ pub struct SearchParameter {
 pub struct SearchFlags {
     pub case_sensitive: bool,
     pub fixed_string: bool,
-    pub same_filesystem: bool,
-    pub follow_links: bool,
+
+    pub search_pdf: bool,
+    pub search_office: bool,
+
     pub search_hidden: bool,
     pub search_ignored: bool,
+
+    pub same_filesystem: bool,
+    pub follow_links: bool,
 }
 
 pub type SharedSearchId = Arc<AtomicUsize>;
 pub type SearchId = usize;
 
 /// Blocking content search
-pub fn run(engine: SearchEngine, params: SearchParameter) {
+pub fn run(engine: SearchEngine, params: SearchParameters) {
     let search = engine.current_search_id.load(Ordering::Acquire);
 
     let matcher = RegexMatcherBuilder::new()
@@ -159,7 +164,9 @@ impl grep::searcher::Sink for SearchSink {
         mat: &grep::searcher::SinkMatch<'_>,
     ) -> Result<bool, Self::Error> {
         let matches = self.extract_matches(searcher, mat.buffer(), mat.bytes_range_in_buffer())?;
-        let content = String::from_utf8_lossy(mat.bytes()).to_string();
+        let content = String::from_utf8_lossy(mat.bytes())
+            .trim_ascii_end()
+            .to_string();
         let line = mat.line_number().unwrap();
 
         self.entries.push(ResultEntry {

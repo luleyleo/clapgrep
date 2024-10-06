@@ -1,11 +1,6 @@
 use crate::{config::Config, error_window::ErrorWindow, search_model::SearchModel};
 use adw::subclass::prelude::*;
-use clapgrep_core::{
-    extended::ExtendedType,
-    manager::{Manager, SearchResult},
-    options::{Options, Sort},
-    search::Search,
-};
+use clapgrep_core_next::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use glib::subclass::InitializingObject;
 use gtk::{
     gio::{self, Cancellable},
@@ -59,7 +54,7 @@ pub struct SearchWindow {
     #[property(get)]
     pub has_errors: Cell<bool>,
 
-    pub manager: RefCell<Option<Manager>>,
+    pub engine: SearchEngine,
     pub config: Config,
 }
 
@@ -131,31 +126,27 @@ impl SearchWindow {
 
 impl SearchWindow {
     fn init_manager(&self) {
-        assert!(self.manager.borrow().is_none());
-
-        let (sender, receiver) = flume::unbounded();
-        let manager = Manager::new(sender);
-        manager.set_sort(Sort::Path);
-        *self.manager.borrow_mut() = Some(manager);
-
         let app = self.obj().clone();
         let model = self.results.clone();
         glib::MainContext::default().spawn_local(async move {
-            while let Ok(result) = receiver.recv_async().await {
-                match result {
-                    SearchResult::FinalResults(results) => {
-                        model.clear();
-                        model.extend_with_results(&results.data);
-                        app.set_search_running(false);
-                    }
-                    SearchResult::InterimResult(file_info) => {
-                        model.append_file_info(&file_info);
-                    }
-                    SearchResult::SearchErrors(errors) => {
-                        app.errors().extend(errors);
-                    }
-                    SearchResult::SearchCount(count) => {
-                        app.set_searched_files(count as u32);
+            let imp = app.imp();
+            while let Ok(result) = imp.engine.receiver().recv_async().await {
+                if imp.engine.is_current(&result) {
+                    match result {
+                        SearchMessage::Result(result) => {
+                            model.append_file_info(&result);
+                            app.set_searched_files(app.searched_files() + 1);
+                        }
+                        SearchMessage::Error(error) => {
+                            app.errors().append(&format!(
+                                "{}: {}",
+                                error.path.display(),
+                                error.message
+                            ));
+                        }
+                        SearchMessage::Completed { .. } => {
+                            app.set_search_running(false);
+                        }
                     }
                 }
             }
@@ -163,58 +154,39 @@ impl SearchWindow {
     }
 
     fn start_search(&self) {
-        if self.manager.borrow().is_none() {
-            self.init_manager();
-        }
-
         self.results.clear();
 
-        if let Some(manager) = self.manager.borrow().as_ref() {
-            let search = Search {
-                directory: self.search_path.borrow().clone(),
-                pattern: self.content_search.borrow().to_string(),
-            };
-            let options = Options {
-                sort: Sort::Path,
+        let search = SearchParameters {
+            base_directory: self.search_path.borrow().clone(),
+            pattern: self.content_search.borrow().to_string(),
+            flags: SearchFlags {
                 case_sensitive: self.case_sensitive.get(),
-                ignore_dot: !self.include_hidden.get(),
-                use_gitignore: !self.include_ignored.get(),
                 fixed_string: self.disable_regex.get(),
-                extended: self.get_extended_types(),
-                ..Options::default()
-            };
 
-            self.results.clear();
-            self.results
-                .set_base_path(self.search_path.borrow().clone());
-            self.errors.splice(0, self.errors.n_items(), &[]);
-            self.obj().set_searched_files(0);
-            self.obj().set_search_running(true);
+                search_pdf: self.search_pdf.get(),
+                search_office: self.search_office.get(),
 
-            manager.set_options(options);
-            manager.search(&search);
-        }
+                search_hidden: self.include_hidden.get(),
+                search_ignored: self.include_ignored.get(),
+
+                same_filesystem: false,
+                follow_links: true,
+            },
+        };
+
+        self.results.clear();
+        self.results
+            .set_base_path(self.search_path.borrow().clone());
+        self.errors.splice(0, self.errors.n_items(), &[]);
+        self.obj().set_searched_files(0);
+        self.obj().set_search_running(true);
+
+        self.engine.search(search);
     }
 
     fn stop_search(&self) {
         self.obj().set_search_running(false);
-        if let Some(manager) = self.manager.borrow().as_ref() {
-            manager.stop();
-        }
-    }
-
-    fn get_extended_types(&self) -> Vec<ExtendedType> {
-        let mut types = Vec::new();
-
-        if self.search_pdf.get() {
-            types.push(ExtendedType::Pdf);
-        }
-
-        if self.search_office.get() {
-            types.push(ExtendedType::Office);
-        }
-
-        types
+        self.engine.cancel();
     }
 }
 
@@ -275,6 +247,8 @@ impl ObjectImpl for SearchWindow {
                 self.obj().set_search_path(absolute);
             }
         }
+
+        self.init_manager();
     }
 }
 

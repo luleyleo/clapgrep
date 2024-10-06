@@ -191,7 +191,7 @@ dependencies = [
 name = "clapgrep-gnome"
 version = "1.0.0"
 dependencies = [
- "clapgrep-core",
+ "clapgrep-core-next",
  "cosmic-config",
  "flume",
  "gettext-rs",

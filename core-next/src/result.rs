@@ -4,6 +4,7 @@ use grep::matcher::Match;
 
 use crate::search::SearchId;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Location {
     Text { line: u64 },
     Document { page: u64, line: u64 },

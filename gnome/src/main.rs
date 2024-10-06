@@ -69,7 +69,8 @@ fn start(app: &adw::Application, files: &[gio::File]) {
         #[weak]
         window,
         move |_, _| {
-            let builder = gtk::Builder::from_string(include_blp!("gnome/src/shortcuts.blp"));
+            let blueprint = include_blp!("gnome/src/shortcuts.blp");
+            let builder = gtk::Builder::from_string(blueprint);
             let help_overlay = builder
                 .object::<gtk::ShortcutsWindow>("help-overlay")
                 .unwrap();

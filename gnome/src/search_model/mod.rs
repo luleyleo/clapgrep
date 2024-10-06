@@ -1,7 +1,6 @@
 mod imp;
 
 use crate::search_result::SearchResult;
-use clapgrep_core::fileinfo::FileInfo;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use imp::Section;
 use std::path::PathBuf;
@@ -27,18 +26,18 @@ impl SearchModel {
         self.items_changed(0, len as u32, 0)
     }
 
-    fn append_file_info_impl(&self, file_info: &FileInfo) -> Section {
+    fn append_file_info_impl(&self, file_info: &clapgrep_core_next::SearchResult) -> Section {
         let base_path = self.imp().base_path.borrow();
-        let search_results = file_info.matches.iter().map(|m| {
+        let search_results = file_info.entries.iter().map(|m| {
             SearchResult::new(
                 file_info
                     .path
                     .strip_prefix(base_path.as_path())
                     .unwrap_or(file_info.path.as_ref()),
                 file_info.path.as_path(),
-                m.line,
+                m.location,
                 &m.content,
-                &m.ranges,
+                &m.matches,
             )
         });
 
@@ -56,12 +55,12 @@ impl SearchModel {
         section
     }
 
-    pub fn append_file_info(&self, file_info: &FileInfo) {
+    pub fn append_file_info(&self, file_info: &clapgrep_core_next::SearchResult) {
         let Section { start, end } = self.append_file_info_impl(file_info);
         self.items_changed(start, 0, end - start);
     }
 
-    pub fn extend_with_results(&self, results: &[FileInfo]) {
+    pub fn extend_with_results(&self, results: &[clapgrep_core_next::SearchResult]) {
         let start = self.imp().data.borrow().len() as u32;
         for file_info in results {
             self.append_file_info_impl(file_info);
