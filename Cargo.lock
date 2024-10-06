@@ -178,6 +178,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "clapgrep-core-next"
+version = "1.0.0"
+dependencies = [
+ "flume",
+ "grep",
+ "ignore",
+ "regex",
+]
+
+[[package]]
 name = "clapgrep-gnome"
 version = "1.0.0"
 dependencies = [
