@@ -181,9 +181,12 @@ dependencies = [
 name = "clapgrep-core-next"
 version = "1.0.0"
 dependencies = [
+ "dotext",
+ "euclid",
  "flume",
  "grep",
  "ignore",
+ "pdf-extract",
  "regex",
 ]
 

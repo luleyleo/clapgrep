@@ -8,3 +8,10 @@ regex = "1.10"
 grep = "0.3"
 ignore = "0.4"
 flume = "0.11.0"
+
+# for office support
+dotext = "0.1.1"
+
+# for pdf support
+pdf-extract = "0.7.9"
+euclid = "0.20.5"

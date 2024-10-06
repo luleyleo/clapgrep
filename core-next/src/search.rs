@@ -1,4 +1,5 @@
 use crate::{
+    extended,
     result::{Location, SearchError},
     utils, ResultEntry, SearchEngine, SearchMessage, SearchResult,
 };
@@ -70,17 +71,23 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         .same_file_system(params.flags.same_filesystem)
         .build_parallel();
 
-    walker.run(move || {
+    let mut preprocessors: Vec<(_, extended::ExtractFn)> = Vec::new();
+    if params.flags.search_pdf {
+        preprocessors.push((extended::pdf::EXTENSIONS, extended::pdf::extract));
+    }
+    if params.flags.search_office {
+        preprocessors.push((extended::office::EXTENSIONS, extended::office::extract));
+    }
+
+    walker.run(|| {
         let engine = engine.clone();
-
         let matcher = matcher.clone();
-
+        let preprocessors = preprocessors.clone();
+        let mut sink = SearchSink::new(matcher.clone());
         let mut searcher = SearcherBuilder::new()
             .binary_detection(grep::searcher::BinaryDetection::quit(b'\x01'))
             .line_number(true)
             .build();
-
-        let mut sink = SearchSink::new(matcher.clone());
 
         Box::new(move |entry: Result<ignore::DirEntry, ignore::Error>| {
             if engine.current_search_id.load(Ordering::Relaxed) != search {
@@ -96,7 +103,34 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
                 return WalkState::Continue;
             }
 
-            if let Err(err) = searcher.search_path(&matcher, entry.path(), &mut sink) {
+            let extension = entry
+                .path()
+                .extension()
+                .unwrap_or_default()
+                .to_string_lossy();
+
+            let pre_processor = preprocessors
+                .iter()
+                .find(|(exts, _)| exts.contains(&extension.as_ref()))
+                .map(|(_, extract_fn)| extract_fn);
+
+            let search_result = match pre_processor {
+                Some(extract_fn) => {
+                    let slice = extract_fn(entry.path());
+                    if let Err(err) = slice {
+                        _ = engine.send_error(
+                            search,
+                            entry.path().to_path_buf(),
+                            format!("failed to extract text from file: {}", err),
+                        );
+                        return WalkState::Continue;
+                    }
+                    searcher.search_slice(&matcher, slice.unwrap().as_bytes(), &mut sink)
+                }
+                None => searcher.search_path(&matcher, entry.path(), &mut sink),
+            };
+
+            if let Err(err) = search_result {
                 _ = engine.send_error(
                     search,
                     entry.path().to_path_buf(),
@@ -118,6 +152,8 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
             WalkState::Continue
         })
     });
+
+    _ = engine.sender.send(SearchMessage::Completed { search });
 }
 
 struct SearchSink {
