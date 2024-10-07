@@ -10,6 +10,7 @@ use grep::{
 };
 use ignore::{WalkBuilder, WalkState};
 use std::{
+    error::Error,
     io,
     path::PathBuf,
     sync::{
@@ -71,12 +72,12 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         .same_file_system(params.flags.same_filesystem)
         .build_parallel();
 
-    let mut preprocessors: Vec<(_, extra::ExtractFn)> = Vec::new();
+    let mut preprocessors: Vec<(_, extra::ExtraFn)> = Vec::new();
     if params.flags.search_pdf {
-        preprocessors.push((extra::pdf::EXTENSIONS, extra::pdf::extract));
+        preprocessors.push((extra::pdf::EXTENSIONS, extra::pdf::process));
     }
     if params.flags.search_office {
-        preprocessors.push((extra::office::EXTENSIONS, extra::office::extract));
+        preprocessors.push((extra::office::EXTENSIONS, extra::office::process));
     }
 
     walker.run(|| {
@@ -115,18 +116,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
                 .map(|(_, extract_fn)| extract_fn);
 
             let search_result = match pre_processor {
-                Some(extract_fn) => {
-                    let slice = extract_fn(entry.path());
-                    if let Err(err) = slice {
-                        _ = engine.send_error(
-                            search,
-                            entry.path().to_path_buf(),
-                            format!("failed to extract text from file: {}", err),
-                        );
-                        return WalkState::Continue;
-                    }
-                    searcher.search_slice(&matcher, slice.unwrap().as_bytes(), &mut sink)
-                }
+                Some(process) => process(&mut searcher, &matcher, entry.path(), &mut sink),
                 None => searcher.search_path(&matcher, entry.path(), &mut sink),
             };
 
@@ -156,7 +146,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
     _ = engine.sender.send(SearchMessage::Completed { search });
 }
 
-struct SearchSink {
+pub struct SearchSink {
     matcher: RegexMatcher,
     entries: Vec<ResultEntry>,
 }
@@ -173,7 +163,7 @@ impl SearchSink {
         std::mem::take(&mut self.entries)
     }
 
-    fn extract_matches(
+    pub fn extract_matches(
         &self,
         searcher: &grep::searcher::Searcher,
         bytes: &[u8],
@@ -192,7 +182,7 @@ impl SearchSink {
 }
 
 impl grep::searcher::Sink for SearchSink {
-    type Error = io::Error;
+    type Error = Box<dyn Error>;
 
     fn matched(
         &mut self,

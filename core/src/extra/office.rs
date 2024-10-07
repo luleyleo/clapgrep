@@ -1,9 +1,22 @@
+use crate::search::SearchSink;
 use dotext::{doc::OpenOfficeDoc, *};
+use grep::{regex::RegexMatcher, searcher::Searcher};
 use std::{error::Error, io::Read, path::Path};
 
 pub static EXTENSIONS: &[&str] = &["docx", "pptx", "xlsx", "odt", "odp", "ods"];
 
-pub fn extract(path: &Path) -> Result<String, Box<dyn Error>> {
+pub fn process(
+    searcher: &mut Searcher,
+    matcher: &RegexMatcher,
+    path: &Path,
+    sink: &mut SearchSink,
+) -> Result<(), Box<dyn Error>> {
+    let text = extract(path)?;
+    searcher.search_slice(matcher, text.as_bytes(), sink)?;
+    Ok(())
+}
+
+fn extract(path: &Path) -> Result<String, Box<dyn Error>> {
     let ext = path
         .extension()
         .unwrap_or_default()
