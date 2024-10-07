@@ -49,6 +49,15 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="1.2" date="2024-10-07">
+      <description>
+        <p>New features:</p>
+        <ul>
+          <li>The app will remember whether it should search PDF and Office files.</li>
+          <li>The search backend has been completely rewritten and should be quite a bit faster.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1" date="2024-10-02">
       <description>
         <p>New features:</p>
