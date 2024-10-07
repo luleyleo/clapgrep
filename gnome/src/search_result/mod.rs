@@ -38,7 +38,7 @@ impl SearchResult {
         glib::Object::builder()
             .property("file", file)
             .property("uri", uri)
-            .property("line", line as u64)
+            .property("line", line)
             .property("content", content)
             .property("matches", matches_store)
             .build()
