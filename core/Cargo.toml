@@ -2,16 +2,16 @@
 name = "clapgrep-core"
 version = "1.0.0"
 edition = "2021"
-description = "Clapgrep core library"
 
 [dependencies]
-regex = "1.10"        # for pattern matching
-num_cpus = "1.16.0"   # for parallel search
-grep = "0.3"          # ripgrep
-ignore = "0.4"        # parallel walker from ripgrep
-walkdir = "2.4"       # walker from ripgrep
-termcolor = "1.4"     # unly used for grep to get nocolor
-pdf-extract = "0.7.9" # for pdf
-dotext = "0.1.1"      # for office docs
+regex = "1.10"
+grep = "0.3"
+ignore = "0.4"
 flume = "0.11.0"
+
+# for office support
+dotext = "0.1.1"
+
+# for pdf support
+pdf-extract = "0.7.9"
 euclid = "0.20.5"

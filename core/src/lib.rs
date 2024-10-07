@@ -1,6 +1,12 @@
+mod engine;
+mod result;
+mod search;
+mod utils;
+
 pub mod extended;
-pub mod fileinfo;
-pub mod manager;
-pub mod options;
-pub mod rgtools;
-pub mod search;
+
+pub use engine::SearchEngine;
+pub use result::{Location, ResultEntry, SearchMessage, SearchResult};
+pub use search::{SearchFlags, SearchParameters};
+
+pub use grep::matcher::Match;

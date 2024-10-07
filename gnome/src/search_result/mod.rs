@@ -1,7 +1,7 @@
 mod imp;
 
 use crate::search_match::SearchMatch;
-use clapgrep_core_next::{Location, Match};
+use clapgrep_core::{Location, Match};
 use gtk::{
     gio, glib, pango,
     prelude::{Cast, ListModelExt},

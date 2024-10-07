@@ -5,7 +5,9 @@ use pdf_extract::{
 };
 use std::{error::Error, fmt::Write, panic::catch_unwind, path::Path};
 
-pub fn extract_pdf(path: &Path) -> Result<String, Box<dyn Error>> {
+pub static EXTENSIONS: &[&str] = &["pdf"];
+
+pub fn extract(path: &Path) -> Result<String, Box<dyn Error>> {
     let path = path.to_owned();
     //because the library panics, we need to catch panics
     let res = catch_unwind(|| extract_text(&path));

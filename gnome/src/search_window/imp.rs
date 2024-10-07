@@ -1,6 +1,6 @@
 use crate::{config::Config, error_window::ErrorWindow, search_model::SearchModel};
 use adw::subclass::prelude::*;
-use clapgrep_core_next::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
+use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use glib::subclass::InitializingObject;
 use gtk::{
     gio::{self, Cancellable},
