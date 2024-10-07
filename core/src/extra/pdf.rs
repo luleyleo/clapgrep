@@ -1,11 +1,26 @@
+use crate::search::SearchSink;
 use euclid::vec2;
+use grep::{regex::RegexMatcher, searcher::Searcher};
 use pdf_extract::{
     encryption::DecryptionError, ConvertToFmt, Document, MediaBox, OutputDev, OutputError,
     Transform,
 };
 use std::{error::Error, fmt::Write, panic::catch_unwind, path::Path};
 
-pub fn extract_pdf(path: &Path) -> Result<String, Box<dyn Error>> {
+pub static EXTENSIONS: &[&str] = &["pdf"];
+
+pub fn process(
+    searcher: &mut Searcher,
+    matcher: &RegexMatcher,
+    path: &Path,
+    sink: &mut SearchSink,
+) -> Result<(), Box<dyn Error>> {
+    let text = extract(path)?;
+    searcher.search_slice(matcher, text.as_bytes(), sink)?;
+    Ok(())
+}
+
+fn extract(path: &Path) -> Result<String, Box<dyn Error>> {
     let path = path.to_owned();
     //because the library panics, we need to catch panics
     let res = catch_unwind(|| extract_text(&path));
