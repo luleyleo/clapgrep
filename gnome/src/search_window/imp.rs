@@ -214,6 +214,18 @@ impl ObjectImpl for SearchWindow {
             .sync_create()
             .build();
 
+        self.config
+            .bind_property("search_pdf", obj.as_ref(), "search_pdf")
+            .bidirectional()
+            .sync_create()
+            .build();
+
+        self.config
+            .bind_property("search_office", obj.as_ref(), "search_office")
+            .bidirectional()
+            .sync_create()
+            .build();
+
         obj.results().connect_items_changed(clone!(
             #[weak]
             obj,
