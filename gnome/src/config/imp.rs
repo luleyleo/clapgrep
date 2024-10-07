@@ -15,6 +15,11 @@ pub struct Config {
     #[property(get, set = Self::set_window_maximized, default = false)]
     window_maximized: Cell<bool>,
 
+    #[property(get, set = Self::set_search_pdf, default = false)]
+    search_pdf: Cell<bool>,
+    #[property(get, set = Self::set_search_office, default = false)]
+    search_office: Cell<bool>,
+
     config: OnceCell<cosmic_config::Config>,
 }
 
@@ -35,6 +40,18 @@ impl Config {
         let config = self.config.get().unwrap();
         let _ = config.set("window_maximized", maximized);
         self.window_maximized.set(maximized);
+    }
+
+    fn set_search_pdf(&self, search_pdf: bool) {
+        let config = self.config.get().unwrap();
+        let _ = config.set("search_pdf", search_pdf);
+        self.search_pdf.set(search_pdf);
+    }
+
+    fn set_search_office(&self, search_office: bool) {
+        let config = self.config.get().unwrap();
+        let _ = config.set("search_office", search_office);
+        self.search_office.set(search_office);
     }
 }
 
@@ -60,6 +77,14 @@ impl ObjectImpl for Config {
 
         if let Ok(window_maximized) = config.get("window_maximized") {
             self.window_maximized.set(window_maximized);
+        }
+
+        if let Ok(search_pdf) = config.get("search_pdf") {
+            self.search_pdf.set(search_pdf);
+        }
+
+        if let Ok(search_office) = config.get("search_office") {
+            self.search_office.set(search_office);
         }
 
         let _ = self.config.set(config);
