@@ -235,10 +235,10 @@ impl ObjectImpl for SearchWindow {
         ));
         obj.connect_search_path_notify(|obj| {
             let path = obj.search_path();
-            obj.imp().search_directory.set(match path.file_name() {
+            *obj.imp().search_directory.borrow_mut() = match path.file_name() {
                 Some(directory) => directory.to_string_lossy().to_string(),
                 None => path.to_string_lossy().to_string(),
-            });
+            };
             obj.notify("search-directory")
         });
 
