@@ -3,7 +3,7 @@ mod result;
 mod search;
 mod utils;
 
-pub mod extended;
+pub mod extra;
 
 pub use engine::SearchEngine;
 pub use result::{Location, ResultEntry, SearchMessage, SearchResult};

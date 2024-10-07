@@ -1,5 +1,5 @@
 use crate::{
-    extended,
+    extra,
     result::{Location, SearchError},
     utils, ResultEntry, SearchEngine, SearchMessage, SearchResult,
 };
@@ -71,12 +71,12 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         .same_file_system(params.flags.same_filesystem)
         .build_parallel();
 
-    let mut preprocessors: Vec<(_, extended::ExtractFn)> = Vec::new();
+    let mut preprocessors: Vec<(_, extra::ExtractFn)> = Vec::new();
     if params.flags.search_pdf {
-        preprocessors.push((extended::pdf::EXTENSIONS, extended::pdf::extract));
+        preprocessors.push((extra::pdf::EXTENSIONS, extra::pdf::extract));
     }
     if params.flags.search_office {
-        preprocessors.push((extended::office::EXTENSIONS, extended::office::extract));
+        preprocessors.push((extra::office::EXTENSIONS, extra::office::extract));
     }
 
     walker.run(|| {
