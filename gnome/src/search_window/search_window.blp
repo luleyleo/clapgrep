@@ -160,72 +160,97 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
           }
         }
 
-        // Adw.StatusPage {
-        //   title: _("No Results");
-        //   description: _("Try to start a search");
-        //   icon-name: "system-search-symbolic";
-        // }
-        ScrolledWindow {
-          child: ListView {
-            single-click-activate: true;
+        Stack results_stack {
+          StackPage no_search_page {
+            name: "no_search";
 
-            model: NoSelection {
-              model: bind template.results;
+            child: Adw.StatusPage {
+              title: _("No Search Yet");
+              description: _("Try to start a search");
+              icon-name: "system-search-symbolic";
             };
+          }
 
-            header-factory: BuilderListItemFactory {
-              template ListHeader {
-                child: LinkButton {
-                  margin-start: 16;
-                  halign: start;
-                  label: bind template.item as <$ClapgrepSearchResult>.file;
-                  uri: bind template.item as <$ClapgrepSearchResult>.uri;
+          StackPage no_results_page {
+            name: "no_results";
 
-                  styles [
-                    "heading"
-                  ]
+            child: Adw.StatusPage {
+              title: _("No Results");
+              icon-name: "system-search-symbolic";
+
+              child: Label {
+                use-markup: true;
+                label: _("You might want to try changing your search pattern, activating document search, or changing to a different directory");
+              };
+            };
+          }
+
+          StackPage results_page {
+            name: "results";
+
+            child: ScrolledWindow {
+              child: ListView {
+                single-click-activate: true;
+
+                model: NoSelection {
+                  model: bind template.results;
                 };
-              }
-            };
 
-            factory: BuilderListItemFactory {
-              template ListItem {
-                child: Box {
-                  orientation: horizontal;
-                  margin-top: 2;
-                  margin-start: 16;
-                  margin-end: 16;
-                  margin-bottom: 2;
+                header-factory: BuilderListItemFactory {
+                  template ListHeader {
+                    child: LinkButton {
+                      margin-start: 16;
+                      halign: start;
+                      label: bind template.item as <$ClapgrepSearchResult>.file;
+                      uri: bind template.item as <$ClapgrepSearchResult>.uri;
 
-                  Label {
-                    xalign: 1.0;
-                    width-request: 40;
-                    label: bind template.item as <$ClapgrepSearchResult>.line;
-
-                    styles [
-                      "monospace"
-                    ]
-                  }
-
-                  Label {
-                    label: ": ";
-
-                    styles [
-                      "monospace"
-                    ]
-                  }
-
-                  Label {
-                    label: bind template.item as <$ClapgrepSearchResult>.content;
-
-                    styles [
-                      "monospace"
-                    ]
+                      styles [
+                        "heading"
+                      ]
+                    };
                   }
                 };
-              }
+
+                factory: BuilderListItemFactory {
+                  template ListItem {
+                    child: Box {
+                      orientation: horizontal;
+                      margin-top: 2;
+                      margin-start: 16;
+                      margin-end: 16;
+                      margin-bottom: 2;
+
+                      Label {
+                        xalign: 1.0;
+                        width-request: 40;
+                        label: bind template.item as <$ClapgrepSearchResult>.line;
+
+                        styles [
+                          "monospace"
+                        ]
+                      }
+
+                      Label {
+                        label: ": ";
+
+                        styles [
+                          "monospace"
+                        ]
+                      }
+
+                      Label {
+                        label: bind template.item as <$ClapgrepSearchResult>.content;
+
+                        styles [
+                          "monospace"
+                        ]
+                      }
+                    };
+                  }
+                };
+              };
             };
-          };
+          }
         }
       };
     };

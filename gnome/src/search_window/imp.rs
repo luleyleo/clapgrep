@@ -54,6 +54,15 @@ pub struct SearchWindow {
     #[property(get)]
     pub has_errors: Cell<bool>,
 
+    #[template_child]
+    pub results_stack: TemplateChild<gtk::Stack>,
+    #[template_child]
+    pub no_search_page: TemplateChild<gtk::StackPage>,
+    #[template_child]
+    pub no_results_page: TemplateChild<gtk::StackPage>,
+    #[template_child]
+    pub results_page: TemplateChild<gtk::StackPage>,
+
     pub engine: SearchEngine,
     pub config: Config,
 }
@@ -252,6 +261,18 @@ impl ObjectImpl for SearchWindow {
                 None => path.to_string_lossy().to_string(),
             };
             obj.notify("search-directory")
+        });
+
+        obj.connect_search_running_notify(|obj| {
+            let imp = obj.imp();
+
+            if imp.search_running.get() || imp.number_of_matches.get() > 0 {
+                imp.results_stack
+                    .set_visible_child(&imp.results_page.child());
+            } else {
+                imp.results_stack
+                    .set_visible_child(&imp.no_results_page.child());
+            }
         });
 
         if !self.search_path.borrow().is_dir() {
