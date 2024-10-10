@@ -78,7 +78,7 @@ install-flatpak: setup-flatpak-repos make-makefile
 
 setup-flatpak-repos:
 	flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-	flatpak install --or-update --user --noninteractive flathub org.gnome.Platform//46 org.gnome.Sdk//46 org.freedesktop.Sdk.Extension.rust-stable//23.08
+	flatpak install --or-update --user --noninteractive flathub org.gnome.Platform//47 org.gnome.Sdk//47 org.freedesktop.Sdk.Extension.rust-stable//24.08
 
 gettext *args:
   xgettext \

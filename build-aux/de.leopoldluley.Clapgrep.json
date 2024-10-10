@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/flatpak/flatpak-builder/1.4.4/data/flatpak-manifest.schema.json",
   "id": "de.leopoldluley.Clapgrep",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "46",
+  "runtime-version": "47",
   "sdk": "org.gnome.Sdk",
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.rust-stable"
