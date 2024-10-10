@@ -46,6 +46,8 @@ pub struct SearchWindow {
     pub searched_files: Cell<u32>,
     #[property(get)]
     pub number_of_matches: Cell<u32>,
+    #[property(get)]
+    pub search_progress_notification: RefCell<String>,
 
     #[property(get)]
     pub errors: StringList,
@@ -53,6 +55,8 @@ pub struct SearchWindow {
     pub number_of_errors: Cell<u32>,
     #[property(get)]
     pub has_errors: Cell<bool>,
+    #[property(get)]
+    pub search_errors_notification: RefCell<String>,
 
     #[template_child]
     pub results_stack: TemplateChild<gtk::Stack>,
@@ -62,6 +66,8 @@ pub struct SearchWindow {
     pub no_results_page: TemplateChild<gtk::StackPage>,
     #[template_child]
     pub results_page: TemplateChild<gtk::StackPage>,
+    #[template_child]
+    pub search_progress_banner: TemplateChild<gtk::Revealer>,
 
     pub engine: SearchEngine,
     pub config: Config,
@@ -97,8 +103,13 @@ impl SearchWindow {
     }
 
     #[template_callback]
-    fn on_cancel_search(&self, _: &adw::ActionRow) {
+    fn on_cancel_search(&self, _: &gtk::Button) {
         self.stop_search();
+    }
+
+    #[template_callback]
+    fn on_close_search_progress(&self, _: &gtk::Button) {
+        self.search_progress_banner.set_reveal_child(false);
     }
 
     #[template_callback]
@@ -127,7 +138,7 @@ impl SearchWindow {
     }
 
     #[template_callback]
-    fn on_show_errors(&self, _: &adw::ActionRow) {
+    fn on_show_errors(&self, _: &adw::Banner) {
         let error_window = ErrorWindow::new(&self.obj());
         error_window.present();
     }
@@ -189,6 +200,7 @@ impl SearchWindow {
         self.errors.splice(0, self.errors.n_items(), &[]);
         self.obj().set_searched_files(0);
         self.obj().set_search_running(true);
+        self.search_progress_banner.set_reveal_child(true);
 
         self.engine.search(search);
     }
@@ -196,6 +208,15 @@ impl SearchWindow {
     fn stop_search(&self) {
         self.obj().set_search_running(false);
         self.engine.cancel();
+    }
+
+    fn update_search_progress(&self) {
+        let files = self.searched_files.get();
+        let matches = self.number_of_matches.get();
+        let message = format!("Searched {files} files and found {matches} matches");
+
+        *self.search_progress_notification.borrow_mut() = message;
+        self.obj().notify("search_progress_notification");
     }
 }
 
@@ -273,6 +294,20 @@ impl ObjectImpl for SearchWindow {
                 imp.results_stack
                     .set_visible_child(&imp.no_results_page.child());
             }
+        });
+
+        obj.connect_searched_files_notify(|obj| {
+            obj.imp().update_search_progress();
+        });
+        obj.connect_number_of_matches_notify(|obj| {
+            obj.imp().update_search_progress();
+        });
+
+        obj.connect_number_of_errors_notify(|obj| {
+            let errors = obj.number_of_errors();
+            *obj.imp().search_errors_notification.borrow_mut() =
+                format!("Encountered {errors} errors during search");
+            obj.notify("search_errors_notification")
         });
 
         if !self.search_path.borrow().is_dir() {

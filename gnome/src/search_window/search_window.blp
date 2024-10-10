@@ -92,54 +92,6 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               active: bind template.search_office bidirectional;
             }
           }
-
-          Adw.PreferencesGroup {
-            title: _("Current Search");
-            vexpand: true;
-            valign: end;
-
-            Adw.ActionRow {
-              title: _("Searched Files");
-              subtitle: bind template.searched_files;
-
-              styles [
-                "property"
-              ]
-            }
-
-            Adw.ActionRow {
-              title: _("Number of Matches");
-              subtitle: bind template.number_of_matches;
-
-              styles [
-                "property"
-              ]
-            }
-
-            Adw.ActionRow {
-              title: _("Errors Encountered");
-              subtitle: bind template.number_of_errors;
-              activatable: true;
-              activated => $on_show_errors() swapped;
-              visible: bind template.has_errors;
-
-              styles [
-                "property",
-                "error"
-              ]
-            }
-
-            Adw.ActionRow {
-              title: _("Cancel Search");
-              activatable: true;
-              activated => $on_cancel_search() swapped;
-              sensitive: bind template.search_running;
-
-              styles [
-                "destructive-action"
-              ]
-            }
-          }
         }
       };
     };
@@ -188,67 +140,119 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
           StackPage results_page {
             name: "results";
 
-            child: ScrolledWindow {
-              child: ListView {
-                single-click-activate: true;
+            child: Box {
+              orientation: vertical;
 
-                model: NoSelection {
-                  model: bind template.results;
-                };
+              Gtk.Revealer search_progress_banner {
+                child: Box {
+                  orientation: horizontal;
+                  margin-top: 4;
+                  margin-start: 4;
+                  margin-bottom: 4;
+                  margin-end: 4;
 
-                header-factory: BuilderListItemFactory {
-                  template ListHeader {
-                    child: LinkButton {
-                      margin-start: 16;
-                      halign: start;
-                      label: bind template.item as <$ClapgrepSearchResult>.file;
-                      uri: bind template.item as <$ClapgrepSearchResult>.uri;
+                  Label {
+                    hexpand: true;
+                    label: bind template.search_progress_notification;
 
-                      styles [
-                        "heading"
-                      ]
-                    };
+                    styles [
+                      "heading"
+                    ]
+                  }
+
+                  Button {
+                    visible: bind template.search_running;
+                    label: _("Cancel Search");
+                    clicked => $on_cancel_search() swapped;
+                  }
+
+                  Button {
+                    visible: bind template.search_running inverted;
+                    icon-name: "window-close-symbolic";
+                    clicked => $on_close_search_progress() swapped;
                   }
                 };
 
-                factory: BuilderListItemFactory {
-                  template ListItem {
-                    child: Box {
-                      orientation: horizontal;
-                      margin-top: 2;
-                      margin-start: 16;
-                      margin-end: 16;
-                      margin-bottom: 2;
+                styles [
+                  "cg-banner"
+                ]
+              }
 
-                      Label {
-                        xalign: 1.0;
-                        width-request: 40;
-                        label: bind template.item as <$ClapgrepSearchResult>.line;
+              Adw.Banner {
+                revealed: bind template.has_errors;
+                title: bind template.search_errors_notification;
+                button-label: _("Show Errors");
+                button-clicked => $on_show_errors() swapped;
+
+                styles [
+                  "error"
+                ]
+              }
+
+              ScrolledWindow {
+                vexpand: true;
+
+                child: ListView {
+                  single-click-activate: true;
+
+                  model: NoSelection {
+                    model: bind template.results;
+                  };
+
+                  header-factory: BuilderListItemFactory {
+                    template ListHeader {
+                      child: LinkButton {
+                        margin-start: 16;
+                        halign: start;
+                        label: bind template.item as <$ClapgrepSearchResult>.file;
+                        uri: bind template.item as <$ClapgrepSearchResult>.uri;
 
                         styles [
-                          "monospace"
+                          "heading"
                         ]
-                      }
+                      };
+                    }
+                  };
 
-                      Label {
-                        label: ": ";
+                  factory: BuilderListItemFactory {
+                    template ListItem {
+                      child: Box {
+                        orientation: horizontal;
+                        margin-top: 2;
+                        margin-start: 16;
+                        margin-end: 16;
+                        margin-bottom: 2;
 
-                        styles [
-                          "monospace"
-                        ]
-                      }
+                        Label {
+                          xalign: 1.0;
+                          width-request: 40;
+                          label: bind template.item as <$ClapgrepSearchResult>.line;
 
-                      Label {
-                        label: bind template.item as <$ClapgrepSearchResult>.content;
+                          styles [
+                            "monospace"
+                          ]
+                        }
 
-                        styles [
-                          "monospace"
-                        ]
-                      }
-                    };
-                  }
+                        Label {
+                          label: ": ";
+
+                          styles [
+                            "monospace"
+                          ]
+                        }
+
+                        Label {
+                          label: bind template.item as <$ClapgrepSearchResult>.content;
+
+                          styles [
+                            "monospace"
+                          ]
+                        }
+                      };
+                    }
+                  };
                 };
-              };
+              }
             };
           }
         }
