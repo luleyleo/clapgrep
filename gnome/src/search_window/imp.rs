@@ -97,7 +97,7 @@ impl SearchWindow {
     }
 
     #[template_callback]
-    fn on_cancel_search(&self, _: &adw::ActionRow) {
+    fn on_cancel_search(&self, _: &gtk::Button) {
         self.stop_search();
     }
 
@@ -127,7 +127,7 @@ impl SearchWindow {
     }
 
     #[template_callback]
-    fn on_show_errors(&self, _: &adw::ActionRow) {
+    fn on_show_errors(&self, _: &adw::Banner) {
         let error_window = ErrorWindow::new(&self.obj());
         error_window.present();
     }
