@@ -96,7 +96,7 @@ msgstr "Результаты поиска"
 
 #: gnome/src/search_window/search_window.blp:238
 msgid "Keyboard Shortcuts"
-msgstr "Клавиатурные сочетания"
+msgstr "Комбинации клавиш"
 
 #: gnome/src/search_window/search_window.blp:243
 msgid "About Clapgrep"
@@ -112,7 +112,7 @@ msgstr "Метки Clapgrep"
 
 #: gnome/src/shortcuts.blp:9
 msgid "General"
-msgstr "Общее"
+msgstr "Основные"
 
 #: gnome/src/shortcuts.blp:12
 msgid "Quit"
@@ -120,7 +120,7 @@ msgstr "Выйти"
 
 #: gnome/src/shortcuts.blp:18
 msgid "Shortcuts"
-msgstr "Горячие клавиши"
+msgstr "Комбинации клавиш"
 
 #: gnome/src/shortcuts.blp:25
 msgid "Control Search"
