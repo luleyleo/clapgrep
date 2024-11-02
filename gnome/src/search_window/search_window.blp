@@ -40,6 +40,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                 Adw.EntryRow {
                   title: _("Search Pattern");
                   text: bind template.content_search bidirectional;
+                  entry-activated => $on_entry_activated() swapped;
                 }
 
                 Adw.ActionRow {

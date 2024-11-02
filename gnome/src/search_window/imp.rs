@@ -105,6 +105,11 @@ impl SearchWindow {
     }
 
     #[template_callback]
+    fn on_entry_activated(&self, _: &adw::EntryRow) {
+        self.start_search();
+    }
+
+    #[template_callback]
     fn on_cancel_search(&self, _: &gtk::Button) {
         self.stop_search();
     }
