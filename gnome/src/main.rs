@@ -2,6 +2,7 @@ use adw::prelude::*;
 use gtk::gio::SimpleAction;
 use gtk::gio::{self, ApplicationFlags};
 use gtk::glib::{self, clone};
+use gtk::{gdk, STYLE_PROVIDER_PRIORITY_APPLICATION};
 use gtk_blueprint::include_blp;
 use std::path::PathBuf;
 
@@ -46,6 +47,15 @@ fn main() {
 
 fn start(app: &adw::Application, files: &[gio::File]) {
     let app = app.downcast_ref::<adw::Application>().unwrap();
+
+    let style_provider = gtk::CssProvider::new();
+    style_provider.load_from_string(include_str!("styles.css"));
+    gtk::style_context_add_provider_for_display(
+        &gdk::Display::default().unwrap(),
+        &style_provider,
+        STYLE_PROVIDER_PRIORITY_APPLICATION,
+    );
+
     let window = search_window::SearchWindow::new(app);
 
     if let Some(dir) = files.first() {

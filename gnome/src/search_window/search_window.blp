@@ -3,8 +3,17 @@ using Adw 1;
 
 template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   title: _("Clapgrep");
+  width-request: 400;
 
-  content: Adw.NavigationSplitView {
+  Adw.Breakpoint {
+    condition ("max-width: 800")
+
+    setters {
+      split_view.collapsed: true;
+    }
+  }
+
+  content: Adw.NavigationSplitView split_view {
     sidebar: Adw.NavigationPage {
       title: _("Search Settings");
       width-request: 400;
@@ -15,131 +24,89 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
         [top]
         Adw.HeaderBar {}
 
-        Box {
-          orientation: vertical;
-          margin-top: 10;
-          margin-start: 10;
-          margin-end: 10;
-          margin-bottom: 10;
-          spacing: 10;
+        ScrolledWindow {
+          child: Viewport {
+            hscroll-policy: minimum;
 
-          Adw.PreferencesGroup {
-            Adw.EntryRow {
-              title: _("Search Pattern");
-              text: bind template.content_search bidirectional;
-            }
+            Box {
+              orientation: vertical;
+              margin-top: 10;
+              margin-start: 10;
+              margin-end: 10;
+              margin-bottom: 10;
+              spacing: 10;
 
-            Adw.ActionRow {
-              title: _("Start Search");
-              activatable: true;
-              activated => $on_search() swapped;
-            }
-          }
+              Adw.PreferencesGroup {
+                Adw.EntryRow {
+                  title: _("Search Pattern");
+                  text: bind template.content_search bidirectional;
+                }
 
-          Adw.PreferencesGroup {
-            Adw.ActionRow {
-              title: _("Search Path");
-              focusable: false;
-              activatable: false;
+                Adw.ActionRow {
+                  title: _("Start Search");
+                  activatable: true;
+                  activated => $on_search() swapped;
+                }
+              }
 
-              Button {
-                valign: center;
-                clicked => $on_cd() swapped;
+              Adw.PreferencesGroup {
+                Adw.ActionRow {
+                  title: _("Search Path");
+                  focusable: false;
+                  activatable: false;
 
-                child: Adw.ButtonContent {
-                  icon-name: "folder-symbolic";
-                  label: bind template.search_directory;
-                  can-shrink: true;
-                };
+                  Button {
+                    valign: center;
+                    clicked => $on_cd() swapped;
+
+                    child: Adw.ButtonContent {
+                      icon-name: "folder-symbolic";
+                      label: bind template.search_directory;
+                      can-shrink: true;
+                    };
+                  }
+                }
+              }
+
+              Adw.PreferencesGroup {
+                title: _("Search Options");
+
+                Adw.SwitchRow {
+                  title: _("Case Sensitive");
+                  active: bind template.case_sensitive bidirectional;
+                }
+
+                Adw.SwitchRow {
+                  title: _("Disable Regex");
+                  active: bind template.disable_regex bidirectional;
+                }
+
+                Adw.SwitchRow {
+                  title: _("Include Hidden");
+                  active: bind template.include_hidden bidirectional;
+                }
+
+                Adw.SwitchRow {
+                  title: _("Include Ignored");
+                  active: bind template.include_ignored bidirectional;
+                }
+              }
+
+              Adw.PreferencesGroup {
+                title: _("Extra File Formats");
+
+                Adw.SwitchRow {
+                  title: _("PDF files");
+                  active: bind template.search_pdf bidirectional;
+                }
+
+                Adw.SwitchRow {
+                  title: _("Office files");
+                  active: bind template.search_office bidirectional;
+                }
               }
             }
-          }
-
-          Adw.PreferencesGroup {
-            title: _("Search Options");
-
-            Adw.SwitchRow {
-              title: _("Case Sensitive");
-              active: bind template.case_sensitive bidirectional;
-            }
-
-            Adw.SwitchRow {
-              title: _("Disable Regex");
-              active: bind template.disable_regex bidirectional;
-            }
-
-            Adw.SwitchRow {
-              title: _("Include Hidden");
-              active: bind template.include_hidden bidirectional;
-            }
-
-            Adw.SwitchRow {
-              title: _("Include Ignored");
-              active: bind template.include_ignored bidirectional;
-            }
-          }
-
-          Adw.PreferencesGroup {
-            title: _("Extra File Formats");
-
-            Adw.SwitchRow {
-              title: _("PDF files");
-              active: bind template.search_pdf bidirectional;
-            }
-
-            Adw.SwitchRow {
-              title: _("Office files");
-              active: bind template.search_office bidirectional;
-            }
-          }
-
-          Adw.PreferencesGroup {
-            title: _("Current Search");
-            vexpand: true;
-            valign: end;
-
-            Adw.ActionRow {
-              title: _("Searched Files");
-              subtitle: bind template.searched_files;
-
-              styles [
-                "property"
-              ]
-            }
-
-            Adw.ActionRow {
-              title: _("Number of Matches");
-              subtitle: bind template.number_of_matches;
-
-              styles [
-                "property"
-              ]
-            }
-
-            Adw.ActionRow {
-              title: _("Errors Encountered");
-              subtitle: bind template.number_of_errors;
-              activatable: true;
-              activated => $on_show_errors() swapped;
-              visible: bind template.has_errors;
-
-              styles [
-                "property",
-                "error"
-              ]
-            }
-
-            Adw.ActionRow {
-              title: _("Cancel Search");
-              activatable: true;
-              activated => $on_cancel_search() swapped;
-              sensitive: bind template.search_running;
-
-              styles [
-                "destructive-action"
-              ]
-            }
-          }
+          };
         }
       };
     };
@@ -160,72 +127,150 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
           }
         }
 
-        // Adw.StatusPage {
-        //   title: _("No Results");
-        //   description: _("Try to start a search");
-        //   icon-name: "system-search-symbolic";
-        // }
-        ScrolledWindow {
-          child: ListView {
-            single-click-activate: true;
+        Stack results_stack {
+          StackPage no_search_page {
+            name: "no_search";
 
-            model: NoSelection {
-              model: bind template.results;
+            child: Adw.StatusPage {
+              title: _("No Search Yet");
+              description: _("Try to start a search");
+              icon-name: "system-search-symbolic";
             };
+          }
 
-            header-factory: BuilderListItemFactory {
-              template ListHeader {
-                child: LinkButton {
-                  margin-start: 16;
-                  halign: start;
-                  label: bind template.item as <$ClapgrepSearchResult>.file;
-                  uri: bind template.item as <$ClapgrepSearchResult>.uri;
+          StackPage no_results_page {
+            name: "no_results";
 
-                  styles [
-                    "heading"
-                  ]
-                };
-              }
+            child: Adw.StatusPage {
+              title: _("No Results");
+              icon-name: "system-search-symbolic";
+
+              child: Label {
+                wrap: true;
+                use-markup: true;
+                label: _("You might want to try changing your search pattern, activating document search, or changing to a different directory");
+              };
             };
+          }
 
-            factory: BuilderListItemFactory {
-              template ListItem {
+          StackPage results_page {
+            name: "results";
+
+            child: Box {
+              orientation: vertical;
+
+              Gtk.Revealer search_progress_banner {
                 child: Box {
                   orientation: horizontal;
-                  margin-top: 2;
-                  margin-start: 16;
-                  margin-end: 16;
-                  margin-bottom: 2;
+                  margin-top: 4;
+                  margin-start: 4;
+                  margin-bottom: 4;
+                  margin-end: 4;
 
                   Label {
-                    xalign: 1.0;
-                    width-request: 40;
-                    label: bind template.item as <$ClapgrepSearchResult>.line;
+                    hexpand: true;
+                    label: bind template.search_progress_notification;
 
                     styles [
-                      "monospace"
+                      "heading"
                     ]
                   }
 
-                  Label {
-                    label: ": ";
-
-                    styles [
-                      "monospace"
-                    ]
+                  Button {
+                    visible: bind template.search_running;
+                    label: _("Cancel Search");
+                    clicked => $on_cancel_search() swapped;
                   }
 
-                  Label {
-                    label: bind template.item as <$ClapgrepSearchResult>.content;
-
-                    styles [
-                      "monospace"
-                    ]
+                  Button {
+                    visible: bind template.search_running inverted;
+                    icon-name: "window-close-symbolic";
+                    clicked => $on_close_search_progress() swapped;
                   }
+                };
+
+                styles [
+                  "cg-banner"
+                ]
+              }
+
+              Adw.Banner {
+                revealed: bind template.has_errors;
+                title: bind template.search_errors_notification;
+                button-label: _("Show Errors");
+                button-clicked => $on_show_errors() swapped;
+
+                styles [
+                  "error"
+                ]
+              }
+
+              ScrolledWindow {
+                vexpand: true;
+
+                child: ListView {
+                  single-click-activate: true;
+
+                  model: NoSelection {
+                    model: bind template.results;
+                  };
+
+                  header-factory: BuilderListItemFactory {
+                    template ListHeader {
+                      child: LinkButton {
+                        margin-start: 16;
+                        halign: start;
+                        label: bind template.item as <$ClapgrepSearchResult>.file;
+                        uri: bind template.item as <$ClapgrepSearchResult>.uri;
+
+                        styles [
+                          "heading"
+                        ]
+                      };
+                    }
+                  };
+
+                  factory: BuilderListItemFactory {
+                    template ListItem {
+                      child: Box {
+                        orientation: horizontal;
+                        margin-top: 2;
+                        margin-start: 16;
+                        margin-end: 16;
+                        margin-bottom: 2;
+
+                        Label {
+                          xalign: 1.0;
+                          width-request: 40;
+                          label: bind template.item as <$ClapgrepSearchResult>.line;
+
+                          styles [
+                            "monospace"
+                          ]
+                        }
+
+                        Label {
+                          label: ": ";
+
+                          styles [
+                            "monospace"
+                          ]
+                        }
+
+                        Label {
+                          label: bind template.item as <$ClapgrepSearchResult>.content;
+
+                          styles [
+                            "monospace"
+                          ]
+                        }
+                      };
+                    }
+                  };
                 };
               }
             };
-          };
+          }
         }
       };
     };
