@@ -68,6 +68,8 @@ pub struct SearchWindow {
     pub results_page: TemplateChild<gtk::StackPage>,
     #[template_child]
     pub search_progress_banner: TemplateChild<gtk::Revealer>,
+    #[template_child]
+    pub split_view: TemplateChild<adw::NavigationSplitView>,
 
     pub engine: SearchEngine,
     pub config: Config,
@@ -201,6 +203,7 @@ impl SearchWindow {
         self.obj().set_searched_files(0);
         self.obj().set_search_running(true);
         self.search_progress_banner.set_reveal_child(true);
+        self.split_view.set_show_content(true);
 
         self.engine.search(search);
     }

@@ -4,7 +4,15 @@ using Adw 1;
 template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   title: _("Clapgrep");
 
-  content: Adw.NavigationSplitView {
+  Adw.Breakpoint {
+    condition ("max-width: 800")
+
+    setters {
+      split_view.collapsed: true;
+    }
+  }
+
+  content: Adw.NavigationSplitView split_view {
     sidebar: Adw.NavigationPage {
       title: _("Search Settings");
       width-request: 400;
