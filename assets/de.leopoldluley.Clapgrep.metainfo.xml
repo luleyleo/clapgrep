@@ -37,11 +37,10 @@
     <color type="primary" scheme_preference="dark">#575243</color>
   </branding>
   <requires>
-    <display_length compare="ge">567</display_length>
+    <display_length compare="ge">400</display_length>
     <internet>offline-only</internet>
   </requires>
   <recommends>
-    <display_length compare="ge">900</display_length>
   </recommends>
   <supports>
     <control>keyboard</control>
