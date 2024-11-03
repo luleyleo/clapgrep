@@ -6,7 +6,10 @@ use gtk::{
     gio, glib, pango,
     prelude::{Cast, ListModelExt},
 };
-use std::path::{Path, PathBuf};
+use std::{
+    borrow::Cow,
+    path::{Path, PathBuf},
+};
 
 glib::wrapper! {
     pub struct SearchResult(ObjectSubclass<imp::SearchResult>);
@@ -33,13 +36,24 @@ impl SearchResult {
             Location::Document { page: _, line } => line,
         };
 
-        let uri = format!("file://{}", absolute_file.as_ref().to_string_lossy());
+        let uri = if cfg!(target_os = "windows") {
+            format!("{}", absolute_file.as_ref().to_string_lossy())
+        } else {
+            format!("file://{}", absolute_file.as_ref().to_string_lossy())
+        };
+
+        let content = if content.contains('\0') {
+            println!("Found <NULL> in '{content}'");
+            Cow::Owned(content.replace('\0', "<NULL>"))
+        } else {
+            Cow::Borrowed(content)
+        };
 
         glib::Object::builder()
             .property("file", file)
             .property("uri", uri)
             .property("line", line)
-            .property("content", content)
+            .property("content", content.as_ref())
             .property("matches", matches_store)
             .build()
     }
