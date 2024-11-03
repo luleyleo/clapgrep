@@ -191,13 +191,13 @@ impl SearchWindow {
                             ));
                         }
                         SearchMessage::Completed { .. } => {
-                            app.set_search_running(false);
-
                             if buffer.len() > 0 {
                                 model.extend_with_results(&buffer);
                                 app.set_searched_files(app.searched_files() + buffer.len() as u32);
                                 buffer.clear();
                             }
+
+                            app.set_search_running(false);
                         }
                     }
                 }
