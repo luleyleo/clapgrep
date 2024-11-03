@@ -11,6 +11,7 @@ use gtk::{
 use std::{
     cell::{Cell, RefCell},
     path::{Path, PathBuf},
+    time::{Duration, Instant},
 };
 
 #[derive(CompositeTemplate, glib::Properties, Default)]
@@ -157,12 +158,30 @@ impl SearchWindow {
         let model = self.results.clone();
         glib::MainContext::default().spawn_local(async move {
             let imp = app.imp();
-            while let Ok(result) = imp.engine.receiver().recv_async().await {
+            let receiver = imp.engine.receiver();
+
+            // Prevents GTK from getting overloaded with too many updates on the GUI thread.
+            const BUFFER_SIZE: usize = 1024;
+            const BUFFER_DURATION: Duration = Duration::from_millis(100);
+
+            let mut buffer = Vec::with_capacity(BUFFER_SIZE);
+            let mut last_buffer_update = Instant::now();
+
+            while let Ok(result) = receiver.recv_async().await {
                 if imp.engine.is_current(&result) {
                     match result {
                         SearchMessage::Result(result) => {
-                            model.append_file_info(&result);
-                            app.set_searched_files(app.searched_files() + 1);
+                            buffer.push(result);
+
+                            if buffer.len() >= BUFFER_SIZE
+                                || last_buffer_update.elapsed() > BUFFER_DURATION
+                            {
+                                model.extend_with_results(&buffer);
+                                app.set_searched_files(app.searched_files() + buffer.len() as u32);
+                                buffer.clear();
+                            }
+
+                            last_buffer_update = Instant::now();
                         }
                         SearchMessage::Error(error) => {
                             app.errors().append(&format!(
@@ -173,6 +192,12 @@ impl SearchWindow {
                         }
                         SearchMessage::Completed { .. } => {
                             app.set_search_running(false);
+
+                            if buffer.len() > 0 {
+                                model.extend_with_results(&buffer);
+                                app.set_searched_files(app.searched_files() + buffer.len() as u32);
+                                buffer.clear();
+                            }
                         }
                     }
                 }
