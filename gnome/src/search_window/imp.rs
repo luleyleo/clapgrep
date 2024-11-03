@@ -208,6 +208,10 @@ impl SearchWindow {
     fn start_search(&self) {
         self.results.clear();
 
+        if self.content_search.borrow().is_empty() {
+            return;
+        }
+
         let search = SearchParameters {
             base_directory: self.search_path.borrow().clone(),
             pattern: self.content_search.borrow().to_string(),
