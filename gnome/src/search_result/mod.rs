@@ -36,7 +36,11 @@ impl SearchResult {
             Location::Document { page: _, line } => line,
         };
 
-        let uri = format!("file://{}", absolute_file.as_ref().to_string_lossy());
+        let uri = if cfg!(target_os = "windows") {
+            format!("{}", absolute_file.as_ref().to_string_lossy())
+        } else {
+            format!("file://{}", absolute_file.as_ref().to_string_lossy())
+        };
 
         let content = if content.contains('\0') {
             println!("Found <NULL> in '{content}'");

@@ -191,7 +191,7 @@ impl SearchWindow {
                             ));
                         }
                         SearchMessage::Completed { .. } => {
-                            if buffer.len() > 0 {
+                            if !buffer.is_empty() {
                                 model.extend_with_results(&buffer);
                                 app.set_searched_files(app.searched_files() + buffer.len() as u32);
                                 buffer.clear();
