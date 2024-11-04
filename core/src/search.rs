@@ -64,12 +64,18 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
     }
     let matcher = matcher.unwrap();
 
+    let threads = match std::thread::available_parallelism() {
+        Ok(cores) => cores.get(),
+        Err(_) => 2,
+    };
+
     let walker = WalkBuilder::new(&params.base_directory)
         .git_ignore(!params.flags.search_ignored)
         .ignore(!params.flags.search_ignored)
         .hidden(params.flags.search_hidden)
         .follow_links(params.flags.follow_links)
         .same_file_system(params.flags.same_filesystem)
+        .threads(threads)
         .build_parallel();
 
     let mut preprocessors: Vec<(_, extra::ExtraFn)> = Vec::new();
