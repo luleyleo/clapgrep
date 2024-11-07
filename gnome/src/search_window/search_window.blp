@@ -28,82 +28,86 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
           child: Viewport {
             hscroll-policy: minimum;
 
-            Box {
-              orientation: vertical;
-              margin-top: 10;
-              margin-start: 10;
-              margin-end: 10;
-              margin-bottom: 10;
-              spacing: 10;
+            Adw.Clamp {
+              maximum-size: 400;
 
-              Adw.PreferencesGroup {
-                Adw.EntryRow {
-                  title: _("Search Pattern");
-                  text: bind template.content_search bidirectional;
-                  entry-activated => $on_entry_activated() swapped;
-                }
+              Box {
+                orientation: vertical;
+                margin-top: 10;
+                margin-start: 10;
+                margin-end: 10;
+                margin-bottom: 10;
+                spacing: 10;
 
-                Adw.ActionRow {
-                  title: _("Start Search");
-                  activatable: true;
-                  activated => $on_search() swapped;
-                }
-              }
+                Adw.PreferencesGroup {
+                  Adw.EntryRow {
+                    title: _("Search Pattern");
+                    text: bind template.content_search bidirectional;
+                    entry-activated => $on_entry_activated() swapped;
+                  }
 
-              Adw.PreferencesGroup {
-                Adw.ActionRow {
-                  title: _("Search Path");
-                  focusable: false;
-                  activatable: false;
-
-                  Button {
-                    valign: center;
-                    clicked => $on_cd() swapped;
-
-                    child: Adw.ButtonContent {
-                      icon-name: "folder-symbolic";
-                      label: bind template.search_directory;
-                      can-shrink: true;
-                    };
+                  Adw.ActionRow {
+                    title: _("Start Search");
+                    activatable: true;
+                    activated => $on_search() swapped;
                   }
                 }
-              }
 
-              Adw.PreferencesGroup {
-                title: _("Search Options");
+                Adw.PreferencesGroup {
+                  Adw.ActionRow {
+                    title: _("Search Path");
+                    focusable: false;
+                    activatable: false;
 
-                Adw.SwitchRow {
-                  title: _("Case Sensitive");
-                  active: bind template.case_sensitive bidirectional;
+                    Button {
+                      valign: center;
+                      clicked => $on_cd() swapped;
+
+                      child: Adw.ButtonContent {
+                        icon-name: "folder-symbolic";
+                        label: bind template.search_directory;
+                        can-shrink: true;
+                      };
+                    }
+                  }
                 }
 
-                Adw.SwitchRow {
-                  title: _("Disable Regex");
-                  active: bind template.disable_regex bidirectional;
+                Adw.PreferencesGroup {
+                  title: _("Search Options");
+
+                  Adw.SwitchRow {
+                    title: _("Case Sensitive");
+                    active: bind template.case_sensitive bidirectional;
+                  }
+
+                  Adw.SwitchRow {
+                    title: _("Disable Regex");
+                    active: bind template.disable_regex bidirectional;
+                  }
+
+                  Adw.SwitchRow {
+                    title: _("Include Hidden");
+                    active: bind template.include_hidden bidirectional;
+                  }
+
+                  Adw.SwitchRow {
+                    title: _("Include Ignored");
+                    active: bind template.include_ignored bidirectional;
+                  }
                 }
 
-                Adw.SwitchRow {
-                  title: _("Include Hidden");
-                  active: bind template.include_hidden bidirectional;
-                }
+                Adw.PreferencesGroup {
+                  title: _("Extra File Formats");
 
-                Adw.SwitchRow {
-                  title: _("Include Ignored");
-                  active: bind template.include_ignored bidirectional;
-                }
-              }
+                  Adw.SwitchRow {
+                    title: _("PDF files");
+                    active: bind template.search_pdf bidirectional;
+                  }
 
-              Adw.PreferencesGroup {
-                title: _("Extra File Formats");
-
-                Adw.SwitchRow {
-                  title: _("PDF files");
-                  active: bind template.search_pdf bidirectional;
-                }
-
-                Adw.SwitchRow {
-                  title: _("Office files");
-                  active: bind template.search_office bidirectional;
+                  Adw.SwitchRow {
+                    title: _("Office files");
+                    active: bind template.search_office bidirectional;
+                  }
                 }
               }
             }
