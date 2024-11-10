@@ -9,9 +9,7 @@ use std::path::PathBuf;
 mod about;
 mod config;
 mod error_window;
-mod search_match;
-mod search_model;
-mod search_result;
+mod search;
 mod search_window;
 
 const APP_ID: &str = env!("APP_ID");

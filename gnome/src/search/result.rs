@@ -1,4 +1,4 @@
-use crate::search_match::SearchMatch;
+use crate::search::SearchMatch;
 use clapgrep_core::{Location, Match};
 use gtk::{
     gio, glib, pango,

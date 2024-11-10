@@ -1,4 +1,4 @@
-use crate::{config::Config, error_window::ErrorWindow, search_model::SearchModel};
+use crate::{config::Config, error_window::ErrorWindow, search::SearchModel};
 use adw::subclass::prelude::*;
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use glib::subclass::InitializingObject;

@@ -1,4 +1,4 @@
-use crate::search_result::SearchResult;
+use crate::search::SearchResult;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use imp::Section;
 use std::path::PathBuf;
@@ -76,7 +76,7 @@ impl SearchModel {
 }
 
 mod imp {
-    use crate::search_result::SearchResult;
+    use crate::search::SearchResult;
     use gtk::{gio, glib, prelude::*, subclass::prelude::*};
     use std::{cell::RefCell, path::PathBuf};
 
