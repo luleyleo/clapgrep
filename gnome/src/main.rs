@@ -8,6 +8,7 @@ mod config;
 mod error_window;
 mod search;
 mod search_window;
+mod shortcuts;
 
 const APP_ID: &str = env!("APP_ID");
 

@@ -1,12 +1,11 @@
+use crate::{about, search_window::SearchWindow, shortcuts};
 use adw::prelude::*;
-use gtk::gio::SimpleAction;
-use gtk::gio::{self};
-use gtk::glib::{self, clone};
-use gtk::{gdk, STYLE_PROVIDER_PRIORITY_APPLICATION};
-use gtk_blueprint::include_blp;
-
-use crate::about;
-use crate::search_window::SearchWindow;
+use gtk::{
+    gdk,
+    gio::{self, SimpleAction},
+    glib::{self, clone},
+    STYLE_PROVIDER_PRIORITY_APPLICATION,
+};
 
 pub fn start(app: &adw::Application, files: &[gio::File]) {
     let app = app.downcast_ref::<adw::Application>().unwrap();
@@ -42,14 +41,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         #[weak]
         window,
         move |_, _| {
-            let blueprint = include_blp!("gnome/src/shortcuts.blp");
-            let builder = gtk::Builder::from_string(blueprint);
-            let help_overlay = builder
-                .object::<gtk::ShortcutsWindow>("help-overlay")
-                .unwrap();
-            help_overlay.set_transient_for(Some(&window));
-            help_overlay.set_application(window.application().as_ref());
-            help_overlay.present();
+            shortcuts::show_shortcuts(&window);
         }
     ));
     app.add_action(&shortcuts_action);
