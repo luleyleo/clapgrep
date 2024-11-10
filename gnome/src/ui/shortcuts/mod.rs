@@ -1,10 +1,10 @@
 use gtk::prelude::*;
 use gtk_blueprint::include_blp;
 
-use crate::search_window::SearchWindow;
+use crate::ui::SearchWindow;
 
 pub fn show_shortcuts(window: &SearchWindow) {
-    let blueprint = include_blp!("gnome/src/shortcuts.blp");
+    let blueprint = include_blp!("gnome/src/ui/shortcuts/shortcuts.blp");
     let builder = gtk::Builder::from_string(blueprint);
     let help_overlay = builder
         .object::<gtk::ShortcutsWindow>("help-overlay")

@@ -2,13 +2,10 @@ use adw::prelude::*;
 use gtk::gio::ApplicationFlags;
 use std::path::PathBuf;
 
-mod about;
 mod app;
 mod config;
-mod error_window;
 mod search;
-mod search_window;
-mod shortcuts;
+mod ui;
 
 const APP_ID: &str = env!("APP_ID");
 

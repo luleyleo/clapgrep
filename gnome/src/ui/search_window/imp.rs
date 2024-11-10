@@ -1,4 +1,4 @@
-use crate::{config::Config, error_window::ErrorWindow, search::SearchModel};
+use crate::{config::Config, search::SearchModel, ui::ErrorWindow};
 use adw::subclass::prelude::*;
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use glib::subclass::InitializingObject;
@@ -15,7 +15,7 @@ use std::{
 };
 
 #[derive(CompositeTemplate, glib::Properties, Default)]
-#[template(file = "src/search_window/search_window.blp")]
+#[template(file = "src/ui/search_window/search_window.blp")]
 #[properties(wrapper_type = super::SearchWindow)]
 pub struct SearchWindow {
     #[property(get, set)]

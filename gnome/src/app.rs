@@ -1,4 +1,4 @@
-use crate::{about, search_window::SearchWindow, shortcuts};
+use crate::ui;
 use adw::prelude::*;
 use gtk::{
     gdk,
@@ -18,7 +18,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         STYLE_PROVIDER_PRIORITY_APPLICATION,
     );
 
-    let window = SearchWindow::new(app);
+    let window = ui::SearchWindow::new(app);
 
     if let Some(dir) = files.first() {
         if let Some(path) = dir.path() {
@@ -32,7 +32,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     about_action.connect_activate(clone!(
         #[weak]
         window,
-        move |_, _| about::dialog().present(Some(&window))
+        move |_, _| ui::about_dialog().present(Some(&window))
     ));
     app.add_action(&about_action);
 
@@ -41,7 +41,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         #[weak]
         window,
         move |_, _| {
-            shortcuts::show_shortcuts(&window);
+            ui::show_shortcuts(&window);
         }
     ));
     app.add_action(&shortcuts_action);
