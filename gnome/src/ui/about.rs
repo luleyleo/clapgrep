@@ -8,7 +8,7 @@ static RELEASE_NOTES: &str = r#"
 </ul>
 "#;
 
-pub fn dialog() -> adw::AboutDialog {
+pub fn about_dialog() -> adw::AboutDialog {
     adw::AboutDialog::builder()
         .application_name("Clapgrep")
         .version("1.2")

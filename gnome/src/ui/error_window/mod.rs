@@ -3,7 +3,7 @@ mod imp;
 use glib::Object;
 use gtk::{gio, glib, prelude::*};
 
-use crate::search_window::SearchWindow;
+use crate::ui::SearchWindow;
 
 glib::wrapper! {
     pub struct ErrorWindow(ObjectSubclass<imp::ErrorWindow>)
