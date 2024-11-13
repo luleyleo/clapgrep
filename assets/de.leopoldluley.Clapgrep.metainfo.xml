@@ -40,8 +40,6 @@
     <display_length compare="ge">400</display_length>
     <internet>offline-only</internet>
   </requires>
-  <recommends>
-  </recommends>
   <supports>
     <control>keyboard</control>
     <control>pointing</control>

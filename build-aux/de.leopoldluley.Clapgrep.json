@@ -46,16 +46,13 @@
     },
     {
       "name": "clapgrep",
-      "buildsystem": "simple",
+      "no-autogen": true,
       "build-options": {
         "env": {
           "CARGO_HOME": "/run/build/clapgrep/cargo",
           "APP_ID": "de.leopoldluley.Clapgrep"
         }
       },
-      "build-commands": [
-        "make --file=build-aux/Makefile"
-      ],
       "sources": [
         {
           "type": "dir",
