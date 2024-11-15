@@ -117,7 +117,7 @@ msgstr "Ошибки поиска"
 
 #: gnome/src/ui/shortcuts/shortcuts.blp:5
 msgid "Clapgrep Shortcuts"
-msgstr "Метки Clapgrep"
+msgstr "Комбинации клавиш Shortcuts"
 
 #: gnome/src/ui/shortcuts/shortcuts.blp:9
 msgid "General"
