@@ -80,7 +80,7 @@ setup-flatpak-repos:
 	flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 	flatpak install --or-update --user --noninteractive flathub org.gnome.Platform//47 org.gnome.Sdk//47 org.freedesktop.Sdk.Extension.rust-stable//24.08
 
-gettext *args:
+gettext:
   xgettext \
     --from-code=UTF-8 \
     --add-comments \
@@ -88,8 +88,12 @@ gettext *args:
     --keyword=C_:1c,2 \
     --language=C \
     --output=po/messages.pot \
-    --files-from=po/POTFILES \
-    {{args}}
+    --files-from=po/POTFILES
+  xtr \
+    --omit-header \
+    --keywords gettext \
+    --keywords gettext_f \
+    gnome/src/main.rs >> po/messages.pot
   cat po/LINGUAS | while read lang; do \
     msgmerge -N -U po/$lang.po po/messages.pot; \
     rm -f po/$lang.po~; \
