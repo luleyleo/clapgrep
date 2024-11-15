@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-15 11:57+0100\n"
-"PO-Revision-Date: 2024-11-15 16:15+0300\n"
+"PO-Revision-Date: 2024-11-15 21:09+0300\n"
 "Last-Translator: mva <ma12@rambler.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -77,7 +77,7 @@ msgstr "Результаты поиска"
 
 #: gnome/src/ui/search_window/search_window.blp:136
 msgid "No Search Yet"
-msgstr "Поисков пока не было"
+msgstr "Пока нет поиска"
 
 #: gnome/src/ui/search_window/search_window.blp:137
 msgid "Try to start a search"
@@ -101,7 +101,7 @@ msgstr "Отменить поиск"
 
 #: gnome/src/ui/search_window/search_window.blp:201
 msgid "Show Errors"
-msgstr "Показать ошибки"
+msgstr "Просмотр ошибок"
 
 #: gnome/src/ui/search_window/search_window.blp:284
 msgid "Keyboard Shortcuts"
@@ -117,7 +117,7 @@ msgstr "Ошибки поиска"
 
 #: gnome/src/ui/shortcuts/shortcuts.blp:5
 msgid "Clapgrep Shortcuts"
-msgstr "Комбинации клавиш Clapgrep"
+msgstr "Метки Clapgrep"
 
 #: gnome/src/ui/shortcuts/shortcuts.blp:9
 msgid "General"
