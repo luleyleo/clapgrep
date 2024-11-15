@@ -1,6 +1,7 @@
-use crate::{config::Config, search::SearchModel, ui::ErrorWindow};
+use crate::{config::Config, i18n::gettext_f, search::SearchModel, ui::ErrorWindow};
 use adw::subclass::prelude::*;
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
+use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use gtk::{
     gio::{self, Cancellable},
@@ -126,7 +127,7 @@ impl SearchWindow {
         let initial_folder = gio::File::for_path(self.search_path.borrow().as_path());
 
         FileDialog::builder()
-            .title("Choose Search Path")
+            .title(gettext("Choose Search Path"))
             .initial_folder(&initial_folder)
             .modal(true)
             .build()
@@ -250,7 +251,13 @@ impl SearchWindow {
     fn update_search_progress(&self) {
         let files = self.searched_files.get();
         let matches = self.number_of_matches.get();
-        let message = format!("Searched {files} files and found {matches} matches");
+        let message = gettext_f(
+            "Searched {files} files and found {matches} matches",
+            &[
+                ("files", &files.to_string()),
+                ("matches", &matches.to_string()),
+            ],
+        );
 
         *self.search_progress_notification.borrow_mut() = message;
         self.obj().notify("search_progress_notification");
@@ -342,8 +349,10 @@ impl ObjectImpl for SearchWindow {
 
         obj.connect_number_of_errors_notify(|obj| {
             let errors = obj.number_of_errors();
-            *obj.imp().search_errors_notification.borrow_mut() =
-                format!("Encountered {errors} errors during search");
+            *obj.imp().search_errors_notification.borrow_mut() = gettext_f(
+                "Encountered {errors} errors during search",
+                &[("errors", &errors.to_string())],
+            );
             obj.notify("search_errors_notification")
         });
 

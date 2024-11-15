@@ -1,3 +1,3 @@
-gnome/src/search_window/search_window.blp
-gnome/src/error_window/error_window.blp
-gnome/src/shortcuts.blp
+gnome/src/ui/search_window/search_window.blp
+gnome/src/ui/error_window/error_window.blp
+gnome/src/ui/shortcuts/shortcuts.blp

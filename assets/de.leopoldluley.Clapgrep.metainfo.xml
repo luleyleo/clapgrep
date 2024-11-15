@@ -40,14 +40,33 @@
     <display_length compare="ge">400</display_length>
     <internet>offline-only</internet>
   </requires>
-  <recommends>
-  </recommends>
   <supports>
     <control>keyboard</control>
     <control>pointing</control>
     <control>touch</control>
   </supports>
   <releases>
+    <release version="1.3" date="2024-11-15">
+      <description>
+        <p>New features:</p>
+        <ul>
+          <li>Fully adaptive UI with mobile support.</li>
+          <li>More helpful status pages.</li>
+          <li>You can now start a search just by pressing enter.</li>
+        </ul>
+        <p>New translations:</p>
+        <ul>
+          <li>Russian</li>
+        </ul>
+        <p>Bug fixes:</p>
+        <ul>
+          <li>No more searching for empty strings.</li>
+          <li>Less lag when a lot of results are added to the UI.</li>
+          <li>No more crashing when files contain null-bytes.</li>
+          <li>Use all available cores for multi-threaded search.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.2" date="2024-10-07">
       <description>
         <p>New features:</p>
