@@ -46,6 +46,15 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="1.3.1" date="2024-11-19">
+      <description>
+        <p>Bug fixes:</p>
+        <ul>
+          <li>Fix translations for Flatpak.</li>
+          <li>Fix version in about dialog.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.3" date="2024-11-15">
       <description>
         <p>New features:</p>

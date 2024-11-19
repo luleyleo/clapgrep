@@ -1,17 +1,17 @@
 use gtk::License;
 
 static RELEASE_NOTES: &str = r#"
-<p>New features:</p>
+<p>Bug fixes:</p>
 <ul>
-    <li>The app will remember whether it should search PDF and Office files.</li>
-    <li>The search backend has been completely rewritten and should be quite a bit faster.</li>
+    <li>Fix translations for Flatpak.</li>
+    <li>Fix version in about dialog.</li>
 </ul>
 "#;
 
 pub fn about_dialog() -> adw::AboutDialog {
     adw::AboutDialog::builder()
         .application_name("Clapgrep")
-        .version("1.2")
+        .version("1.3.1")
         .release_notes(RELEASE_NOTES)
         .application_icon(crate::APP_ID)
         .developer_name("Leopold Luley")
