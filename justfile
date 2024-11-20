@@ -103,7 +103,7 @@ add-translation language:
   msginit -l {{language}}.UTF8 -o po/{{language}}.po -i po/messages.pot
 
 build-translations:
-  rm -r assets/locale
+  rm -rf assets/locale
   cat po/LINGUAS | while read lang; do \
     mkdir -p assets/locale/$lang/LC_MESSAGES; \
     msgfmt -o assets/locale/$lang/LC_MESSAGES/{{appid}}.mo po/$lang.po; \
