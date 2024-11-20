@@ -22,8 +22,16 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <caption>Main window</caption>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/3c043148f9d189be407119358e751dc2f5b96d7e/assets/screenshot-1.png</image>
+      <caption>Main window in desktop view</caption>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/88ef420e06596b1c12e1803de673fed3584a41e0/assets/screenshot-1.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Main window showing the search interface in mobile view</caption>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/88ef420e06596b1c12e1803de673fed3584a41e0/assets/screenshot-2.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Main window showing results in mobile view</caption>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/88ef420e06596b1c12e1803de673fed3584a41e0/assets/screenshot-3.png</image>
     </screenshot>
   </screenshots>
   <categories>
@@ -46,6 +54,15 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="1.3.1" date="2024-11-19">
+      <description>
+        <p>Bug fixes:</p>
+        <ul>
+          <li>Fix translations for Flatpak.</li>
+          <li>Fix version in about dialog.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.3" date="2024-11-15">
       <description>
         <p>New features:</p>
