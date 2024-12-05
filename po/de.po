@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Clapgrep 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-15 11:57+0100\n"
+"POT-Creation-Date: 2024-12-05 13:24+0100\n"
 "PO-Revision-Date: 2024-11-15 12:04+0100\n"
 "Last-Translator: Leopold Luley <git@leopoldluley.de>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -21,92 +21,88 @@ msgstr ""
 msgid "Clapgrep"
 msgstr "Clapgrep"
 
-#: gnome/src/ui/search_window/search_window.blp:18
+#: gnome/src/ui/search_window/search_window.blp:22
 msgid "Search Settings"
 msgstr "Sucheinstellungen"
 
-#: gnome/src/ui/search_window/search_window.blp:41
+#: gnome/src/ui/search_window/search_window.blp:44
 msgid "Search Pattern"
 msgstr "Suchmaske"
 
-#: gnome/src/ui/search_window/search_window.blp:47
+#: gnome/src/ui/search_window/search_window.blp:50
 #: gnome/src/ui/shortcuts/shortcuts.blp:28
 msgid "Start Search"
 msgstr "Suche beginnen"
 
-#: gnome/src/ui/search_window/search_window.blp:55
+#: gnome/src/ui/search_window/search_window.blp:58
 msgid "Search Path"
 msgstr "Suchpfad"
 
-#: gnome/src/ui/search_window/search_window.blp:73
+#: gnome/src/ui/search_window/search_window.blp:76
 msgid "Search Options"
 msgstr "Suchoptionen"
 
-#: gnome/src/ui/search_window/search_window.blp:76
+#: gnome/src/ui/search_window/search_window.blp:79
 msgid "Case Sensitive"
 msgstr "Groß-/Kleinschreibung beachten"
 
-#: gnome/src/ui/search_window/search_window.blp:81
+#: gnome/src/ui/search_window/search_window.blp:84
 msgid "Disable Regex"
 msgstr "Regex deaktivieren"
 
-#: gnome/src/ui/search_window/search_window.blp:86
+#: gnome/src/ui/search_window/search_window.blp:89
 msgid "Include Hidden"
 msgstr "Versteckte Dateien hinzunehmen"
 
-#: gnome/src/ui/search_window/search_window.blp:91
+#: gnome/src/ui/search_window/search_window.blp:94
 msgid "Include Ignored"
 msgstr "Ignorierte Dateien hinzunehmen"
 
-#: gnome/src/ui/search_window/search_window.blp:97
+#: gnome/src/ui/search_window/search_window.blp:100
 msgid "Extra File Formats"
 msgstr "Zusätzliche Dateiformate"
 
-#: gnome/src/ui/search_window/search_window.blp:100
+#: gnome/src/ui/search_window/search_window.blp:103
 msgid "PDF files"
 msgstr "PDF Dateien"
 
-#: gnome/src/ui/search_window/search_window.blp:105
+#: gnome/src/ui/search_window/search_window.blp:108
 msgid "Office files"
 msgstr "Office Dateien"
 
-#: gnome/src/ui/search_window/search_window.blp:116
+#: gnome/src/ui/search_window/search_window.blp:119
 msgid "Search Results"
 msgstr "Suchergebnisse"
 
-#: gnome/src/ui/search_window/search_window.blp:136
+#: gnome/src/ui/search_window/search_window.blp:139
 msgid "No Search Yet"
 msgstr "Noch keine Suche begonnen"
 
-#: gnome/src/ui/search_window/search_window.blp:137
+#: gnome/src/ui/search_window/search_window.blp:140
 msgid "Try to start a search"
 msgstr "Versuche, eine Suche zu starten"
 
-#: gnome/src/ui/search_window/search_window.blp:146
+#: gnome/src/ui/search_window/search_window.blp:149
 msgid "No Results"
 msgstr "Keine Ergebnisse"
 
-#: gnome/src/ui/search_window/search_window.blp:152
+#: gnome/src/ui/search_window/search_window.blp:155
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
 msgstr ""
-"Du kannst eine andere Suchmaske versuche, die Dokumentensuche "
-"aktivieren, oder zu einem anderen Suchordner wechseln"
+"Du kannst eine andere Suchmaske versuche, die Dokumentensuche aktivieren, "
+"oder zu einem anderen Suchordner wechseln"
 
-#: gnome/src/ui/search_window/search_window.blp:182
-msgid "Cancel Search"
-msgstr "Suche abbrechen"
-
-#: gnome/src/ui/search_window/search_window.blp:201
+#: gnome/src/ui/search_window/search_window.blp:176
 msgid "Show Errors"
 msgstr "Fehler anzeigen"
 
-#: gnome/src/ui/search_window/search_window.blp:284
+#: gnome/src/ui/search_window/search_window.blp:259
 msgid "Keyboard Shortcuts"
 msgstr "Tastenbindungen"
 
-#: gnome/src/ui/search_window/search_window.blp:289
+#: gnome/src/ui/search_window/search_window.blp:264
 msgid "About Clapgrep"
 msgstr "Über Clapgrep"
 
@@ -138,14 +134,22 @@ msgstr "Suche steuern"
 msgid "Stop Search"
 msgstr "Suche anhalten"
 
-#~ msgid "Current Search"
-#~ msgstr "Aktuelle Suche"
+#: gnome/src/ui/search_window/imp.rs:132
+msgid "Choose Search Path"
+msgstr ""
 
-#~ msgid "Searched Files"
-#~ msgstr "Durchsuchte Dateien"
+#: gnome/src/ui/search_window/imp.rs:257
+msgid "Searched {files} files and found {matches} matches"
+msgstr ""
 
-#~ msgid "Number of Matches"
-#~ msgstr "Anzahl Treffer"
+#: gnome/src/ui/search_window/imp.rs:337
+msgid "Cancel Search"
+msgstr "Suche abbrechen"
 
-#~ msgid "Errors Encountered"
-#~ msgstr "Fehler"
+#: gnome/src/ui/search_window/imp.rs:340
+msgid "Close"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:363
+msgid "Encountered {errors} errors during search"
+msgstr ""

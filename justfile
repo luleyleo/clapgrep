@@ -93,7 +93,10 @@ gettext:
     --omit-header \
     --keywords gettext \
     --keywords gettext_f \
-    gnome/src/main.rs >> po/messages.pot
+    --output=po/messages.rs.pot \
+    gnome/src/main.rs
+  cat po/messages.rs.pot >> po/messages.pot
+  rm po/messages.rs.pot
   cat po/LINGUAS | while read lang; do \
     msgmerge -N -U po/$lang.po po/messages.pot; \
     rm -f po/$lang.po~; \
