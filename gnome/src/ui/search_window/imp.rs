@@ -48,8 +48,13 @@ pub struct SearchWindow {
     pub searched_files: Cell<u32>,
     #[property(get)]
     pub number_of_matches: Cell<u32>,
-    #[property(get)]
+
+    #[property(get, set)]
+    pub search_progress_visible: Cell<bool>,
+    #[property(get, set)]
     pub search_progress_notification: RefCell<String>,
+    #[property(get, set)]
+    pub search_progress_action: RefCell<String>,
 
     #[property(get)]
     pub errors: StringList,
@@ -68,8 +73,6 @@ pub struct SearchWindow {
     pub no_results_page: TemplateChild<gtk::StackPage>,
     #[template_child]
     pub results_page: TemplateChild<gtk::StackPage>,
-    #[template_child]
-    pub search_progress_banner: TemplateChild<gtk::Revealer>,
     #[template_child]
     pub split_view: TemplateChild<adw::NavigationSplitView>,
 
@@ -112,13 +115,12 @@ impl SearchWindow {
     }
 
     #[template_callback]
-    fn on_cancel_search(&self, _: &gtk::Button) {
-        self.stop_search();
-    }
-
-    #[template_callback]
-    fn on_close_search_progress(&self, _: &gtk::Button) {
-        self.search_progress_banner.set_reveal_child(false);
+    fn on_search_progress_action(&self, _: &adw::Banner) {
+        if self.search_running.get() {
+            self.stop_search();
+        } else {
+            self.obj().set_search_progress_visible(false);
+        }
     }
 
     #[template_callback]
@@ -237,7 +239,7 @@ impl SearchWindow {
         self.errors.splice(0, self.errors.n_items(), &[]);
         self.obj().set_searched_files(0);
         self.obj().set_search_running(true);
-        self.search_progress_banner.set_reveal_child(true);
+        self.obj().set_search_progress_visible(true);
         self.split_view.set_show_content(true);
 
         self.engine.search(search);
@@ -330,6 +332,14 @@ impl ObjectImpl for SearchWindow {
 
         obj.connect_search_running_notify(|obj| {
             let imp = obj.imp();
+
+            if imp.search_running.get() {
+                let label = gettext("Cancel Search");
+                obj.set_search_progress_action(label);
+            } else {
+                let label = gettext("Close");
+                obj.set_search_progress_action(label);
+            }
 
             if imp.search_running.get() || imp.number_of_matches.get() > 0 {
                 imp.results_stack
