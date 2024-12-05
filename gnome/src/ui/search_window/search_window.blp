@@ -3,7 +3,7 @@ using Adw 1;
 
 template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   title: _("Clapgrep");
-  width-request: 400;
+  width-request: 300;
 
   Adw.Breakpoint {
     condition ("max-width: 800")
@@ -14,9 +14,12 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   }
 
   content: Adw.NavigationSplitView split_view {
+    min-sidebar-width: 300;
+    max-sidebar-width: 400;
+    sidebar-width-fraction: 0.3;
+
     sidebar: Adw.NavigationPage {
       title: _("Search Settings");
-      width-request: 400;
 
       child: Adw.ToolbarView {
         top-bar-style: flat;
@@ -160,39 +163,11 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
             child: Box {
               orientation: vertical;
 
-              Gtk.Revealer search_progress_banner {
-                child: Box {
-                  orientation: horizontal;
-                  margin-top: 4;
-                  margin-start: 4;
-                  margin-bottom: 4;
-                  margin-end: 4;
-
-                  Label {
-                    hexpand: true;
-                    label: bind template.search_progress_notification;
-
-                    styles [
-                      "heading"
-                    ]
-                  }
-
-                  Button {
-                    visible: bind template.search_running;
-                    label: _("Cancel Search");
-                    clicked => $on_cancel_search() swapped;
-                  }
-
-                  Button {
-                    visible: bind template.search_running inverted;
-                    icon-name: "window-close-symbolic";
-                    clicked => $on_close_search_progress() swapped;
-                  }
-                };
-
-                styles [
-                  "cg-banner"
-                ]
+              Adw.Banner {
+                revealed: bind template.search_progress_visible;
+                title: bind template.search_progress_notification;
+                button-label: bind template.search_progress_action;
+                button-clicked => $on_search_progress_action() swapped;
               }
 
               Adw.Banner {
