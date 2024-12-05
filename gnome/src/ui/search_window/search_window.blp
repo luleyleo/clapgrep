@@ -3,7 +3,7 @@ using Adw 1;
 
 template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   title: _("Clapgrep");
-  width-request: 400;
+  width-request: 300;
 
   Adw.Breakpoint {
     condition ("max-width: 800")
@@ -14,9 +14,12 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   }
 
   content: Adw.NavigationSplitView split_view {
+    min-sidebar-width: 300;
+    max-sidebar-width: 400;
+    sidebar-width-fraction: 0.3;
+
     sidebar: Adw.NavigationPage {
       title: _("Search Settings");
-      width-request: 400;
 
       child: Adw.ToolbarView {
         top-bar-style: flat;
@@ -161,7 +164,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               orientation: vertical;
 
               Gtk.Revealer search_progress_banner {
-                child: Box {
+                child: FlowBox {
                   orientation: horizontal;
                   margin-top: 4;
                   margin-start: 4;
@@ -171,6 +174,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                   Label {
                     hexpand: true;
                     label: bind template.search_progress_notification;
+                    wrap: true;
 
                     styles [
                       "heading"
@@ -181,6 +185,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                     visible: bind template.search_running;
                     label: _("Cancel Search");
                     clicked => $on_cancel_search() swapped;
+                    hexpand: false;
                   }
 
                   Button {
