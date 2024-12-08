@@ -1,0 +1,11 @@
+using Gtk 4.0;
+
+template $ClapgrepPlainPreview: Widget {
+  layout-manager: Gtk.BinLayout {};
+
+  TextView text_view {
+    vexpand: true;
+    editable: false;
+    monospace: true;
+  }
+}

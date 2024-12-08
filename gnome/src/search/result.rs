@@ -13,6 +13,12 @@ glib::wrapper! {
     pub struct SearchResult(ObjectSubclass<imp::SearchResult>);
 }
 
+impl Default for SearchResult {
+    fn default() -> Self {
+        glib::Object::new()
+    }
+}
+
 impl SearchResult {
     pub fn new(
         file: impl Into<PathBuf>,
