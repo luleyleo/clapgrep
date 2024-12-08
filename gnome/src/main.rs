@@ -12,6 +12,10 @@ const APP_ID: &str = env!("APP_ID");
 fn main() {
     i18n::setup_gettext();
 
+    let _ = gtk::init();
+    let _ = adw::init();
+    sourceview5::init();
+
     let application = adw::Application::builder()
         .application_id(APP_ID)
         .flags(ApplicationFlags::HANDLES_OPEN)

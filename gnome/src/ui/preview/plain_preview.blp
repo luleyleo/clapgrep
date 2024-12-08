@@ -1,11 +1,15 @@
 using Gtk 4.0;
+using GtkSource 5;
 
 template $ClapgrepPlainPreview: Widget {
   layout-manager: Gtk.BinLayout {};
 
-  TextView text_view {
-    vexpand: true;
-    editable: false;
-    monospace: true;
+  ScrolledWindow {
+    child: GtkSource.View text_view {
+      vexpand: true;
+      editable: false;
+      show-line-numbers: true;
+      highlight-current-line: true;
+    };
   }
 }

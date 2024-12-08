@@ -18,7 +18,7 @@ mod imp {
     use adw::subclass::prelude::*;
     use glib::subclass::InitializingObject;
     use gtk::{glib, prelude::*, CompositeTemplate};
-    use std::{cell::RefCell, fs};
+    use std::{cell::RefCell, fs, time::Duration};
 
     #[derive(CompositeTemplate, glib::Properties, Default)]
     #[template(file = "src/ui/preview/plain_preview.blp")]
@@ -28,7 +28,7 @@ mod imp {
         pub result: RefCell<SearchResult>,
 
         #[template_child]
-        pub text_view: TemplateChild<gtk::TextView>,
+        pub text_view: TemplateChild<sourceview5::View>,
     }
 
     #[glib::object_subclass]
@@ -57,13 +57,18 @@ mod imp {
             }
 
             let full_text = fs::read_to_string(result.file())
-                .expect("This can file but I don't care right now");
+                .expect("This can fail but I don't care right now");
 
             let buffer = self.text_view.buffer();
             buffer.set_text(&full_text);
             let mut cursor_position = buffer.start_iter();
-            cursor_position.forward_lines(result.line() as i32);
+            cursor_position.forward_lines((result.line() - 1) as i32);
             buffer.place_cursor(&cursor_position);
+
+            let text_view = self.text_view.clone();
+            glib::timeout_add_local_once(Duration::from_millis(100), move || {
+                text_view.scroll_to_iter(&mut cursor_position, 0.0, true, 0.0, 0.5);
+            });
         }
     }
 
