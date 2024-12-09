@@ -19,6 +19,7 @@ mod imp {
     use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use gtk::{glib, prelude::*, CompositeTemplate};
+    use sourceview5::prelude::*;
     use std::{cell::RefCell, fs, time::Duration};
 
     #[derive(CompositeTemplate, glib::Properties, Default)]
@@ -59,6 +60,13 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl PlainPreview {
+        fn buffer(&self) -> sourceview5::Buffer {
+            self.text_view
+                .buffer()
+                .downcast::<sourceview5::Buffer>()
+                .unwrap()
+        }
+
         fn update_preview(&self) {
             let result = self.result.borrow();
             let file = result.absolute_path();
@@ -68,7 +76,7 @@ mod imp {
             }
 
             if let Ok(full_text) = fs::read_to_string(&file) {
-                let buffer = self.text_view.buffer();
+                let buffer = self.buffer();
                 buffer.set_text(&full_text);
 
                 // Place cursor on result line.
@@ -95,6 +103,29 @@ mod imp {
                 self.views.set_visible_child(&self.no_preview.child());
             }
         }
+
+        fn setup_style(&self) {
+            let text_view_buffer = self.buffer();
+
+            let asm = adw::StyleManager::default();
+            let sm = sourceview5::StyleSchemeManager::default();
+
+            let light_style = sm.scheme("Adwaita").unwrap();
+            let dark_style = sm.scheme("Adwaita-dark").unwrap();
+
+            let setter = move |asm: &adw::StyleManager| {
+                let current_style = if asm.is_dark() {
+                    &dark_style
+                } else {
+                    &light_style
+                };
+
+                text_view_buffer.set_style_scheme(Some(current_style));
+            };
+
+            setter(&asm);
+            asm.connect_dark_notify(setter);
+        }
     }
 
     #[glib::derived_properties]
@@ -102,6 +133,8 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = self.obj();
+
+            self.setup_style();
 
             obj.connect_result_notify(|obj| {
                 obj.imp().update_preview();
