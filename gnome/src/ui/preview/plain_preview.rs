@@ -54,28 +54,34 @@ mod imp {
     impl PlainPreview {
         fn update_preview(&self) {
             let result = self.result.borrow();
+            let file = result.absolute_path();
 
-            if !result.file().exists() {
+            if !file.exists() {
                 return;
             }
 
-            let file = result.file();
-            let file_name = file.file_name().unwrap().to_string_lossy();
-            self.title.set_title(file_name.as_ref());
+            if let Ok(full_text) = fs::read_to_string(&file) {
+                let buffer = self.text_view.buffer();
+                buffer.set_text(&full_text);
 
-            let full_text =
-                fs::read_to_string(&file).expect("This can fail but I don't care right now");
+                // Place cursor on result line.
+                let mut cursor_position = buffer.start_iter();
+                cursor_position.forward_lines((result.line() - 1) as i32);
+                buffer.place_cursor(&cursor_position);
 
-            let buffer = self.text_view.buffer();
-            buffer.set_text(&full_text);
-            let mut cursor_position = buffer.start_iter();
-            cursor_position.forward_lines((result.line() - 1) as i32);
-            buffer.place_cursor(&cursor_position);
+                // Set title to file name.
+                let file_name = file.file_name().unwrap().to_string_lossy();
+                self.title.set_title(file_name.as_ref());
 
-            let text_view = self.text_view.clone();
-            glib::timeout_add_local_once(Duration::from_millis(100), move || {
-                text_view.scroll_to_iter(&mut cursor_position, 0.0, true, 0.0, 0.3);
-            });
+                // Scroll to result line after 100ms.
+                //
+                // The delay is needed because scroll_to_iter only works
+                // once the line hights have been calculated in an idle handler.
+                let text_view = self.text_view.clone();
+                glib::timeout_add_local_once(Duration::from_millis(100), move || {
+                    text_view.scroll_to_iter(&mut cursor_position, 0.0, true, 0.0, 0.3);
+                });
+            }
         }
     }
 

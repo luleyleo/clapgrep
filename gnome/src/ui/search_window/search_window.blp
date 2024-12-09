@@ -6,7 +6,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   width-request: 300;
 
   Adw.Breakpoint {
-    condition ("max-width: 1400sp")
+    condition ("max-width: 1600sp")
 
     setters {
       inner_split_view.collapsed: true;
@@ -213,7 +213,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                           child: LinkButton {
                             margin-start: 16;
                             halign: start;
-                            label: bind template.item as <$ClapgrepSearchResult>.file;
+                            label: bind template.item as <$ClapgrepSearchResult>.relative_path;
                             uri: bind template.item as <$ClapgrepSearchResult>.uri;
 
                             styles [
