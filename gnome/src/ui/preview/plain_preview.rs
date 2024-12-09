@@ -79,6 +79,11 @@ mod imp {
                 let buffer = self.buffer();
                 buffer.set_text(&full_text);
 
+                // Setup syntax highlighting
+                let lm = sourceview5::LanguageManager::default();
+                let language = lm.guess_language(Some(&file), None);
+                buffer.set_language(language.as_ref());
+
                 // Place cursor on result line.
                 let mut cursor_position = buffer.start_iter();
                 cursor_position.forward_lines((result.line() - 1) as i32);
