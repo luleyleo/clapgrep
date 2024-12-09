@@ -83,6 +83,8 @@ pub struct SearchWindow {
     #[template_child]
     pub inner_split_view: TemplateChild<adw::NavigationSplitView>,
     #[template_child]
+    pub preview_navigation_page: TemplateChild<adw::NavigationPage>,
+    #[template_child]
     pub preview: TemplateChild<PlainPreview>,
 
     pub engine: SearchEngine,
@@ -168,6 +170,7 @@ impl SearchWindow {
         if let Some(result) = self.results.item(position) {
             let result = result.downcast::<SearchResult>().unwrap();
             self.preview.set_result(&result);
+            self.preview_navigation_page.set_visible(true);
             self.inner_split_view.set_show_content(true);
         }
     }

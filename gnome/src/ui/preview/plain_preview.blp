@@ -1,15 +1,27 @@
 using Gtk 4.0;
+using Adw 1;
 using GtkSource 5;
 
 template $ClapgrepPlainPreview: Widget {
   layout-manager: Gtk.BinLayout {};
 
-  ScrolledWindow {
-    child: GtkSource.View text_view {
-      vexpand: true;
-      editable: false;
-      show-line-numbers: true;
-      highlight-current-line: true;
-    };
+  Adw.ToolbarView {
+    top-bar-style: flat;
+
+    [top]
+    Adw.HeaderBar {
+      title-widget: Adw.WindowTitle title {
+        title: _("Content Preview");
+      };
+    }
+
+    ScrolledWindow {
+      child: GtkSource.View text_view {
+        vexpand: true;
+        editable: false;
+        show-line-numbers: true;
+        highlight-current-line: true;
+      };
+    }
   }
 }

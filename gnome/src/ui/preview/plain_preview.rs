@@ -28,6 +28,9 @@ mod imp {
         pub result: RefCell<SearchResult>,
 
         #[template_child]
+        pub title: TemplateChild<adw::WindowTitle>,
+
+        #[template_child]
         pub text_view: TemplateChild<sourceview5::View>,
     }
 
@@ -56,8 +59,12 @@ mod imp {
                 return;
             }
 
-            let full_text = fs::read_to_string(result.file())
-                .expect("This can fail but I don't care right now");
+            let file = result.file();
+            let file_name = file.file_name().unwrap().to_string_lossy();
+            self.title.set_title(file_name.as_ref());
+
+            let full_text =
+                fs::read_to_string(&file).expect("This can fail but I don't care right now");
 
             let buffer = self.text_view.buffer();
             buffer.set_text(&full_text);
@@ -67,7 +74,7 @@ mod imp {
 
             let text_view = self.text_view.clone();
             glib::timeout_add_local_once(Duration::from_millis(100), move || {
-                text_view.scroll_to_iter(&mut cursor_position, 0.0, true, 0.0, 0.5);
+                text_view.scroll_to_iter(&mut cursor_position, 0.0, true, 0.0, 0.3);
             });
         }
     }

@@ -6,17 +6,18 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   width-request: 300;
 
   Adw.Breakpoint {
-    condition ("max-width: 800")
+    condition ("max-width: 1400sp")
 
     setters {
-      split_view.collapsed: true;
+      inner_split_view.collapsed: true;
     }
   }
 
   Adw.Breakpoint {
-    condition ("max-width: 1400")
+    condition ("max-width: 800sp")
 
     setters {
+      split_view.collapsed: true;
       inner_split_view.collapsed: true;
     }
   }
@@ -270,14 +271,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
         content: Adw.NavigationPage preview_navigation_page {
           title: _("Content Preview");
 
-          child: Adw.ToolbarView {
-            top-bar-style: flat;
-
-            [top]
-            Adw.HeaderBar {}
-
-            $ClapgrepPlainPreview preview {}
-          };
+          child: $ClapgrepPlainPreview preview {};
         };
       };
     };
