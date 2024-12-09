@@ -70,9 +70,6 @@ make-makefile target='build-aux/Makefile':
   echo "install:" >> {{target}}
   just -n release={{release}} prefix=/app install 2>&1 | sed 's/^/\t/' | sed 's/\$/$$/g' >> {{target}}
 
-make-cargo-sources:
-  python3 build-aux/flatpak-cargo-generator.py ./Cargo.lock -o build-aux/cargo-sources.json
-
 install-flatpak: setup-flatpak-repos make-makefile
   flatpak-builder flatpak-build build-aux/{{appid}}.json --force-clean --install --user
 
@@ -113,7 +110,6 @@ build-translations:
   done
 
 prepare-release:
-  just make-cargo-sources
   just release=true make-makefile makefile
   flatpak-builder --force-clean --repo=repo flatpak build-aux/de.leopoldluley.Clapgrep.json
   flatpak run --command=flatpak-builder-lint org.flatpak.Builder repo repo

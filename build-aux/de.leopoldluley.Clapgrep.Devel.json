@@ -13,7 +13,8 @@
     "--socket=fallback-x11",
     "--socket=wayland",
     "--device=dri",
-    "--filesystem=host:ro"
+    "--filesystem=host:ro",
+    "--share=network"
   ],
   "cleanup": [
     "/include",
@@ -51,7 +52,10 @@
         "env": {
           "CARGO_HOME": "/run/build/clapgrep/cargo",
           "APP_ID": "de.leopoldluley.Clapgrep.Devel"
-        }
+        },
+        "build-args": [
+          "--share=network"
+        ]
       },
       "build-commands": [
         "make --file=build-aux/Makefile"
@@ -60,8 +64,7 @@
         {
           "type": "dir",
           "path": ".."
-        },
-        "./cargo-sources.json"
+        }
       ]
     }
   ]
