@@ -83,6 +83,7 @@ mod imp {
                 let lm = sourceview5::LanguageManager::default();
                 let language = lm.guess_language(Some(&file), None);
                 buffer.set_language(language.as_ref());
+                self.text_view.set_monospace(language.is_some());
 
                 // Place cursor on result line.
                 let mut cursor_position = buffer.start_iter();
