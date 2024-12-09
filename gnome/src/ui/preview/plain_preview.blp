@@ -15,13 +15,25 @@ template $ClapgrepPlainPreview: Widget {
       };
     }
 
-    ScrolledWindow {
-      child: GtkSource.View text_view {
-        vexpand: true;
-        editable: false;
-        show-line-numbers: true;
-        highlight-current-line: true;
-      };
+    Stack views {
+      StackPage no_preview {
+        child: Adw.StatusPage {
+          title: _("No Preview Available");
+          description: _("Try clicking on on of the result lines.");
+          icon-name: "x-office-document-symbolic";
+        };
+      }
+
+      StackPage some_preview {
+        child: ScrolledWindow {
+          child: GtkSource.View text_view {
+            vexpand: true;
+            editable: false;
+            show-line-numbers: true;
+            highlight-current-line: true;
+          };
+        };
+      }
     }
   }
 }
