@@ -1,4 +1,9 @@
-use crate::{config::Config, i18n::gettext_f, search::SearchModel, ui::ErrorWindow};
+use crate::{
+    config::Config,
+    i18n::gettext_f,
+    search::{SearchModel, SearchResult},
+    ui::{preview::PlainPreview, ErrorWindow},
+};
 use adw::subclass::prelude::*;
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use gettextrs::gettext;
@@ -75,6 +80,12 @@ pub struct SearchWindow {
     pub results_page: TemplateChild<gtk::StackPage>,
     #[template_child]
     pub split_view: TemplateChild<adw::NavigationSplitView>,
+    #[template_child]
+    pub inner_split_view: TemplateChild<adw::NavigationSplitView>,
+    #[template_child]
+    pub preview_navigation_page: TemplateChild<adw::NavigationPage>,
+    #[template_child]
+    pub preview: TemplateChild<PlainPreview>,
 
     pub engine: SearchEngine,
     pub config: Config,
@@ -152,6 +163,16 @@ impl SearchWindow {
     fn on_show_errors(&self, _: &adw::Banner) {
         let error_window = ErrorWindow::new(&self.obj());
         error_window.present();
+    }
+
+    #[template_callback]
+    fn on_result_activated(&self, position: u32) {
+        if let Some(result) = self.results.item(position) {
+            let result = result.downcast::<SearchResult>().unwrap();
+            self.preview.set_result(&result);
+            self.preview_navigation_page.set_visible(true);
+            self.inner_split_view.set_show_content(true);
+        }
     }
 }
 

@@ -13,6 +13,12 @@ glib::wrapper! {
     pub struct SearchResult(ObjectSubclass<imp::SearchResult>);
 }
 
+impl Default for SearchResult {
+    fn default() -> Self {
+        glib::Object::new()
+    }
+}
+
 impl SearchResult {
     pub fn new(
         file: impl Into<PathBuf>,
@@ -48,7 +54,8 @@ impl SearchResult {
         };
 
         glib::Object::builder()
-            .property("file", file)
+            .property("relative_path", file)
+            .property("absolute_path", absolute_file.as_ref())
             .property("uri", uri)
             .property("line", line)
             .property("content", content.as_ref())
@@ -96,7 +103,9 @@ mod imp {
     #[properties(wrapper_type = super::SearchResult)]
     pub struct SearchResult {
         #[property(get, set)]
-        file: RefCell<PathBuf>,
+        relative_path: RefCell<PathBuf>,
+        #[property(get, set)]
+        absolute_path: RefCell<PathBuf>,
         #[property(get, set)]
         uri: RefCell<String>,
         #[property(get, set)]

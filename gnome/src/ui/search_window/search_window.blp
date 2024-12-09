@@ -6,10 +6,19 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
   width-request: 300;
 
   Adw.Breakpoint {
-    condition ("max-width: 800")
+    condition ("max-width: 1600sp")
+
+    setters {
+      inner_split_view.collapsed: true;
+    }
+  }
+
+  Adw.Breakpoint {
+    condition ("max-width: 800sp")
 
     setters {
       split_view.collapsed: true;
+      inner_split_view.collapsed: true;
     }
   }
 
@@ -25,7 +34,14 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
         top-bar-style: flat;
 
         [top]
-        Adw.HeaderBar {}
+        Adw.HeaderBar {
+          [end]
+          MenuButton button_menu {
+            menu-model: menu_app;
+            icon-name: "open-menu-symbolic";
+            primary: true;
+          }
+        }
 
         ScrolledWindow {
           child: Viewport {
@@ -118,136 +134,145 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
     content: Adw.NavigationPage {
       title: _("Search Results");
 
-      child: Adw.ToolbarView {
-        top-bar-style: flat;
+      child: Adw.NavigationSplitView inner_split_view {
+        sidebar-width-fraction: 0.5;
+        max-sidebar-width: 9999;
 
-        [top]
-        Adw.HeaderBar {
-          [end]
-          MenuButton button_menu {
-            menu-model: menu_app;
-            icon-name: "open-menu-symbolic";
-            primary: true;
-          }
-        }
+        sidebar: Adw.NavigationPage results_navigation_page {
+          title: _("Search Results");
 
-        Stack results_stack {
-          StackPage no_search_page {
-            name: "no_search";
+          child: Adw.ToolbarView {
+            top-bar-style: flat;
 
-            child: Adw.StatusPage {
-              title: _("No Search Yet");
-              description: _("Try to start a search");
-              icon-name: "system-search-symbolic";
-            };
-          }
+            [top]
+            Adw.HeaderBar {}
 
-          StackPage no_results_page {
-            name: "no_results";
+            Stack results_stack {
+              StackPage no_search_page {
+                name: "no_search";
 
-            child: Adw.StatusPage {
-              title: _("No Results");
-              icon-name: "system-search-symbolic";
-
-              child: Label {
-                wrap: true;
-                use-markup: true;
-                label: _("You might want to try changing your search pattern, activating document search, or changing to a different directory");
-              };
-            };
-          }
-
-          StackPage results_page {
-            name: "results";
-
-            child: Box {
-              orientation: vertical;
-
-              Adw.Banner {
-                revealed: bind template.search_progress_visible;
-                title: bind template.search_progress_notification;
-                button-label: bind template.search_progress_action;
-                button-clicked => $on_search_progress_action() swapped;
+                child: Adw.StatusPage {
+                  title: _("No Search Yet");
+                  description: _("Try to start a search");
+                  icon-name: "system-search-symbolic";
+                };
               }
 
-              Adw.Banner {
-                revealed: bind template.has_errors;
-                title: bind template.search_errors_notification;
-                button-label: _("Show Errors");
-                button-clicked => $on_show_errors() swapped;
+              StackPage no_results_page {
+                name: "no_results";
 
-                styles [
-                  "error"
-                ]
-              }
+                child: Adw.StatusPage {
+                  title: _("No Results");
+                  icon-name: "system-search-symbolic";
 
-              ScrolledWindow {
-                vexpand: true;
-
-                child: ListView {
-                  single-click-activate: true;
-
-                  model: NoSelection {
-                    model: bind template.results;
-                  };
-
-                  header-factory: BuilderListItemFactory {
-                    template ListHeader {
-                      child: LinkButton {
-                        margin-start: 16;
-                        halign: start;
-                        label: bind template.item as <$ClapgrepSearchResult>.file;
-                        uri: bind template.item as <$ClapgrepSearchResult>.uri;
-
-                        styles [
-                          "heading"
-                        ]
-                      };
-                    }
-                  };
-
-                  factory: BuilderListItemFactory {
-                    template ListItem {
-                      child: Box {
-                        orientation: horizontal;
-                        margin-top: 2;
-                        margin-start: 16;
-                        margin-end: 16;
-                        margin-bottom: 2;
-
-                        Label {
-                          xalign: 1.0;
-                          width-request: 40;
-                          label: bind template.item as <$ClapgrepSearchResult>.line;
-
-                          styles [
-                            "monospace"
-                          ]
-                        }
-
-                        Label {
-                          label: ": ";
-
-                          styles [
-                            "monospace"
-                          ]
-                        }
-
-                        Label {
-                          label: bind template.item as <$ClapgrepSearchResult>.content;
-
-                          styles [
-                            "monospace"
-                          ]
-                        }
-                      };
-                    }
+                  child: Label {
+                    wrap: true;
+                    use-markup: true;
+                    label: _("You might want to try changing your search pattern, activating document search, or changing to a different directory");
                   };
                 };
               }
-            };
-          }
-        }
+
+              StackPage results_page {
+                name: "results";
+
+                child: Box {
+                  orientation: vertical;
+
+                  Adw.Banner {
+                    revealed: bind template.search_progress_visible;
+                    title: bind template.search_progress_notification;
+                    button-label: bind template.search_progress_action;
+                    button-clicked => $on_search_progress_action() swapped;
+                  }
+
+                  Adw.Banner {
+                    revealed: bind template.has_errors;
+                    title: bind template.search_errors_notification;
+                    button-label: _("Show Errors");
+                    button-clicked => $on_show_errors() swapped;
+
+                    styles [
+                      "error"
+                    ]
+                  }
+
+                  ScrolledWindow {
+                    vexpand: true;
+
+                    child: ListView {
+                      single-click-activate: true;
+                      activate => $on_result_activated() swapped;
+
+                      model: NoSelection {
+                        model: bind template.results;
+                      };
+
+                      header-factory: BuilderListItemFactory {
+                        template ListHeader {
+                          child: LinkButton {
+                            margin-start: 16;
+                            halign: start;
+                            label: bind template.item as <$ClapgrepSearchResult>.relative_path;
+                            uri: bind template.item as <$ClapgrepSearchResult>.uri;
+
+                            styles [
+                              "heading"
+                            ]
+                          };
+                        }
+                      };
+
+                      factory: BuilderListItemFactory {
+                        template ListItem {
+                          child: Box {
+                            orientation: horizontal;
+                            margin-top: 2;
+                            margin-start: 16;
+                            margin-end: 16;
+                            margin-bottom: 2;
+
+                            Label {
+                              xalign: 1.0;
+                              width-request: 40;
+                              label: bind template.item as <$ClapgrepSearchResult>.line;
+
+                              styles [
+                                "monospace"
+                              ]
+                            }
+
+                            Label {
+                              label: ": ";
+
+                              styles [
+                                "monospace"
+                              ]
+                            }
+
+                            Label {
+                              label: bind template.item as <$ClapgrepSearchResult>.content;
+
+                              styles [
+                                "monospace"
+                              ]
+                            }
+                          };
+                        }
+                      };
+                    };
+                  }
+                };
+              }
+            }
+          };
+        };
+
+        content: Adw.NavigationPage preview_navigation_page {
+          title: _("Content Preview");
+
+          child: $ClapgrepPlainPreview preview {};
+        };
       };
     };
   };

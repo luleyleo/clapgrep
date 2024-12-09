@@ -1,0 +1,39 @@
+using Gtk 4.0;
+using Adw 1;
+using GtkSource 5;
+
+template $ClapgrepPlainPreview: Widget {
+  layout-manager: Gtk.BinLayout {};
+
+  Adw.ToolbarView {
+    top-bar-style: flat;
+
+    [top]
+    Adw.HeaderBar {
+      title-widget: Adw.WindowTitle title {
+        title: _("Content Preview");
+      };
+    }
+
+    Stack views {
+      StackPage no_preview {
+        child: Adw.StatusPage {
+          title: _("No Preview Available");
+          description: _("Try clicking on on of the result lines.");
+          icon-name: "x-office-document-symbolic";
+        };
+      }
+
+      StackPage some_preview {
+        child: ScrolledWindow {
+          child: GtkSource.View text_view {
+            vexpand: true;
+            editable: false;
+            show-line-numbers: true;
+            highlight-current-line: true;
+          };
+        };
+      }
+    }
+  }
+}

@@ -1,4 +1,7 @@
-.cg-banner {
-  background-color: var(--accent-bg-color);
-  color: var(--accent-fg-color);
+.view {
+  background-color: #00000000;
+}
+
+.view gutter {
+  background-color: #00000000;
 }
