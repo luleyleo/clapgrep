@@ -1,108 +1,110 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# SPDX-FileCopyrightText: 2024 mva <ma12@rambler.ru>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-05 13:24+0100\n"
-"PO-Revision-Date: 2024-10-26 23:27+0300\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-12-28 18:34+0300\n"
+"Last-Translator: mva <ma12@rambler.ru>\n"
+"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #: gnome/src/ui/search_window/search_window.blp:5
 msgid "Clapgrep"
 msgstr ""
 
-#: gnome/src/ui/search_window/search_window.blp:22
+#: gnome/src/ui/search_window/search_window.blp:31
 msgid "Search Settings"
 msgstr "Настройки поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:44
+#: gnome/src/ui/search_window/search_window.blp:60
 msgid "Search Pattern"
 msgstr "Шаблон поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:50
+#: gnome/src/ui/search_window/search_window.blp:66
 #: gnome/src/ui/shortcuts/shortcuts.blp:28
 msgid "Start Search"
 msgstr "Начать поиск"
 
-#: gnome/src/ui/search_window/search_window.blp:58
+#: gnome/src/ui/search_window/search_window.blp:74
 msgid "Search Path"
 msgstr "Путь поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:76
+#: gnome/src/ui/search_window/search_window.blp:92
 msgid "Search Options"
 msgstr "Параметры поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:79
+#: gnome/src/ui/search_window/search_window.blp:95
 msgid "Case Sensitive"
 msgstr "С учетом регистра"
 
-#: gnome/src/ui/search_window/search_window.blp:84
+#: gnome/src/ui/search_window/search_window.blp:100
 msgid "Disable Regex"
 msgstr "Отключить регулярное выражение"
 
-#: gnome/src/ui/search_window/search_window.blp:89
+#: gnome/src/ui/search_window/search_window.blp:105
 msgid "Include Hidden"
 msgstr "Включать скрытые"
 
-#: gnome/src/ui/search_window/search_window.blp:94
+#: gnome/src/ui/search_window/search_window.blp:110
 msgid "Include Ignored"
 msgstr "Включить игнорируемые"
 
-#: gnome/src/ui/search_window/search_window.blp:100
+#: gnome/src/ui/search_window/search_window.blp:116
 msgid "Extra File Formats"
 msgstr "Дополнительные форматы файлов"
 
-#: gnome/src/ui/search_window/search_window.blp:103
+#: gnome/src/ui/search_window/search_window.blp:119
 msgid "PDF files"
 msgstr "PDF файлы"
 
-#: gnome/src/ui/search_window/search_window.blp:108
+#: gnome/src/ui/search_window/search_window.blp:124
 msgid "Office files"
 msgstr "Файлы Office"
 
-#: gnome/src/ui/search_window/search_window.blp:119
+#: gnome/src/ui/search_window/search_window.blp:135
 msgid "Search Results"
 msgstr "Результаты поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:139
-msgid "No Search Yet"
-msgstr ""
-
-#: gnome/src/ui/search_window/search_window.blp:140
-msgid "Try to start a search"
-msgstr ""
-
-#: gnome/src/ui/search_window/search_window.blp:149
-msgid "No Results"
-msgstr ""
-
 #: gnome/src/ui/search_window/search_window.blp:155
+msgid "No Search Yet"
+msgstr "Поисков пока не было"
+
+#: gnome/src/ui/search_window/search_window.blp:156
+msgid "Try to start a search"
+msgstr "Попробуйте начать поиск"
+
+#: gnome/src/ui/search_window/search_window.blp:165
+msgid "No Results"
+msgstr "Нет результатов"
+
+#: gnome/src/ui/search_window/search_window.blp:171
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
 msgstr ""
+"Возможно, вы захотите попробовать изменить схему поиска, активировать поиск"
+" по документам"
+"или перейти в другой каталог"
 
-#: gnome/src/ui/search_window/search_window.blp:176
+#: gnome/src/ui/search_window/search_window.blp:192
 msgid "Show Errors"
-msgstr ""
+msgstr "Показать ошибки"
 
-#: gnome/src/ui/search_window/search_window.blp:259
+#: gnome/src/ui/search_window/search_window.blp:284
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: gnome/src/ui/search_window/search_window.blp:264
+#: gnome/src/ui/search_window/search_window.blp:289
 msgid "About Clapgrep"
 msgstr "О программе  Clapgrep"
 
@@ -134,22 +136,23 @@ msgstr "Управление поиском"
 msgid "Stop Search"
 msgstr "Остановить поиск"
 
-#: gnome/src/ui/search_window/imp.rs:132
+#: gnome/src/ui/search_window/imp.rs:143
 msgid "Choose Search Path"
-msgstr ""
+msgstr "Выберите путь поиска"
 
-#: gnome/src/ui/search_window/imp.rs:257
+#: gnome/src/ui/search_window/imp.rs:278
 msgid "Searched {files} files and found {matches} matches"
-msgstr ""
+msgstr "Поискал файлы {files} и нашел совпадения {matches}"
 
-#: gnome/src/ui/search_window/imp.rs:337
+#: gnome/src/ui/search_window/imp.rs:358
 msgid "Cancel Search"
 msgstr "Отменить поиск"
 
-#: gnome/src/ui/search_window/imp.rs:340
+#: gnome/src/ui/search_window/imp.rs:361
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
-#: gnome/src/ui/search_window/imp.rs:363
+#: gnome/src/ui/search_window/imp.rs:384
 msgid "Encountered {errors} errors during search"
-msgstr ""
+msgstr "Во время поиска обнаружены {errors} ошибки"
+
