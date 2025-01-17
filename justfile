@@ -26,7 +26,7 @@ setup-flatpak-repos:
   flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 ci: setup-flatpak-repos
-  flatpak-builder --keep-build-dirs --install-deps-from=flathub --build-only --ccache --force-clean flatpak build-aux/{{appid}}.json
+  flatpak-builder --keep-build-dirs --install-deps-from=flathub --user --build-only --ccache --force-clean flatpak build-aux/{{appid}}.json
   echo Check formatting:
   ./build-aux/fun.sh cargo fmt --all -- --check --verbose
   echo Check code:
