@@ -1,0 +1,16 @@
+option(
+  'profile',
+  type: 'combo',
+  choices: [
+    'default',
+    'development'
+  ],
+  value: 'default',
+  description: 'The build profile. One of "default" or "development".'
+)
+
+option(
+  'extern_cargo_env',
+  type: 'boolean',
+  value: false
+)

@@ -16,4 +16,4 @@ Clapgrep can currently search all sorts of text files, PDFs and Office documents
 
 ## Contributing
 
-See [Contributing](/CONTRIBUTING.md).
+See [CONTRIBUTING.md](/CONTRIBUTING.md) for contribution and build instructions.

@@ -13,10 +13,10 @@ debian/*
 !debian/rules
 !debian/source
 
+build/
 repo/
 flatpak/
 flatpak-build/
 .flatpak-builder/
 
 assets/locale/
-build-aux/Makefile
