@@ -47,18 +47,14 @@
     },
     {
       "name": "clapgrep",
-      "buildsystem": "simple",
+      "buildsystem": "meson",
       "build-options": {
-        "env": {
-          "CARGO_HOME": "/run/build/clapgrep/cargo",
-          "APP_ID": "de.leopoldluley.Clapgrep.Devel"
-        },
         "build-args": [
           "--share=network"
         ]
       },
-      "build-commands": [
-        "make --file=build-aux/Makefile"
+      "config-opts": [
+        "-Dprofile=development"
       ],
       "sources": [
         {

@@ -1,3 +1,8 @@
-gnome/src/ui/search_window/search_window.blp
+assets/de.leopoldluley.Clapgrep.desktop.in.in
+assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in
 gnome/src/ui/error_window/error_window.blp
+gnome/src/ui/preview/plain_preview.blp
+gnome/src/ui/search_window/search_window.blp
 gnome/src/ui/shortcuts/shortcuts.blp
+gnome/src/ui/search_window/imp.rs
+gnome/src/ui/preview/plain_preview.rs
