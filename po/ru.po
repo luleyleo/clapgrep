@@ -1,25 +1,25 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# SPDX-FileCopyrightText: 2024 mva <ma12@rambler.ru>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-17 12:58+0100\n"
-"PO-Revision-Date: 2024-10-26 23:27+0300\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2025-01-17 15:07+0100\n"
+"PO-Revision-Date: 2024-12-28 18:34+0300\n"
+"Last-Translator: mva <ma12@rambler.ru>\n"
+"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
 #: gnome/src/ui/search_window/search_window.blp:5
 msgid "Clapgrep"
 msgstr ""
@@ -140,25 +140,27 @@ msgstr "Результаты поиска"
 
 #: gnome/src/ui/search_window/search_window.blp:155
 msgid "No Search Yet"
-msgstr ""
+msgstr "Поисков пока не было"
 
 #: gnome/src/ui/search_window/search_window.blp:156
 msgid "Try to start a search"
-msgstr ""
+msgstr "Попробуйте начать поиск"
 
 #: gnome/src/ui/search_window/search_window.blp:165
 msgid "No Results"
-msgstr ""
+msgstr "Нет результатов"
 
 #: gnome/src/ui/search_window/search_window.blp:171
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
 msgstr ""
+"Возможно, вы захотите попробовать изменить схему поиска, активировать поиск "
+"по документамили перейти в другой каталог"
 
 #: gnome/src/ui/search_window/search_window.blp:192
 msgid "Show Errors"
-msgstr ""
+msgstr "Показать ошибки"
 
 #: gnome/src/ui/search_window/search_window.blp:284
 msgid "Keyboard Shortcuts"
@@ -193,9 +195,8 @@ msgid "Stop Search"
 msgstr "Остановить поиск"
 
 #: gnome/src/ui/search_window/imp.rs:143
-#, fuzzy
 msgid "Choose Search Path"
-msgstr "Путь поиска"
+msgstr "Выберите путь поиска"
 
 #: gnome/src/ui/search_window/imp.rs:358
 msgid "Cancel Search"
@@ -203,8 +204,10 @@ msgstr "Отменить поиск"
 
 #: gnome/src/ui/search_window/imp.rs:361
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
-#, fuzzy
-#~ msgid "Search PDF and Office files"
-#~ msgstr "Файлы Office"
+#~ msgid "Searched {files} files and found {matches} matches"
+#~ msgstr "Поискал файлы {files} и нашел совпадения {matches}"
+
+#~ msgid "Encountered {errors} errors during search"
+#~ msgstr "Во время поиска обнаружены {errors} ошибки"
