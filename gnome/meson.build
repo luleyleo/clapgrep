@@ -3,13 +3,14 @@ if not get_option('extern_cargo_env')
   cargo_env.set('CARGO_HOME', meson.project_build_root() / 'cargo-home')
 endif
 cargo_env.set('APP_ID', application_id)
+cargo_env.set('GRESOURCES_BUNDLE', clapgrep_resources.full_path())
 
 cargo_options = []
 cargo_options += ['--manifest-path', meson.project_source_root() / 'Cargo.toml']
 cargo_options += ['--target-dir', meson.project_build_root()]
 
 if get_option('profile') == 'default'
-  cargo_options += [ '--release' ]
+  cargo_options += ['--release']
   rust_target = 'release'
   message('Building in release mode')
 else
@@ -26,18 +27,22 @@ custom_target(
   install: true,
   install_dir: bindir,
   env: cargo_env,
+  depends: [clapgrep_resources],
   command: [
-    cargo, 'build',
+    cargo,
+    'build',
     cargo_options,
     '&&',
-    'cp', rust_target / 'clapgrep-gnome', '@OUTPUT@',
-  ]
+    'cp',
+    rust_target / 'clapgrep-gnome',
+    '@OUTPUT@',
+  ],
 )
 
 run_target(
   'cargo-clippy',
   env: cargo_env,
-  command: [cargo, 'clippy', cargo_options, '--workspace']
+  command: [cargo, 'clippy', cargo_options, '--workspace'],
 )
 
 test(
