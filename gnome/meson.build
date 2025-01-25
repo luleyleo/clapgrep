@@ -42,7 +42,17 @@ custom_target(
 run_target(
   'cargo-clippy',
   env: cargo_env,
-  command: [cargo, 'clippy', cargo_options, '--workspace'],
+  depends: [clapgrep_resources],
+  command: [
+    cargo,
+    'clippy',
+    cargo_options,
+    '--workspace',
+    '--all-targets',
+    '--all-features',
+    '--',
+    '-D', 'warnings',
+  ],
 )
 
 test(
