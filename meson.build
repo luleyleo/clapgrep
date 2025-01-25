@@ -11,6 +11,7 @@ dependency('gtk4', version: '>= 4.0.0')
 desktop_file_validate = find_program('desktop-file-validate', required: false)
 appstream_util = find_program('appstream-util', required: false)
 cargo = find_program('cargo', required: true)
+blueprint_compiler = find_program('blueprint-compiler', version: '>= 0.14.0', required: true)
 
 version = meson.project_version()
 

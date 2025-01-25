@@ -29,10 +29,9 @@ ci: setup-flatpak-repos
   flatpak-builder --keep-build-dirs --install-deps-from=flathub --user --build-only --ccache --force-clean flatpak build-aux/{{appid}}.json
   echo Check formatting:
   ./build-aux/fun.sh cargo fmt --all -- --check --verbose
-  echo Check code:
-  ./build-aux/fun.sh cargo check
   echo Check code with Clippy:
-  ./build-aux/fun.sh cargo clippy --workspace --all-targets --all-features -- -D warnings
+  ./build-aux/fun.sh meson setup -Dprofile=development /run/build/clapgrep/build-ci
+  ./build-aux/fun.sh meson compile -C /run/build/clapgrep/build-ci cargo-clippy
 
 install-flatpak: setup-flatpak-repos
   flatpak-builder flatpak-build build-aux/{{appid}}.json --force-clean --install --install-deps-from=flathub --user

@@ -36,16 +36,6 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     ));
     app.add_action(&about_action);
 
-    let shortcuts_action = SimpleAction::new("shortcuts", None);
-    shortcuts_action.connect_activate(clone!(
-        #[weak]
-        window,
-        move |_, _| {
-            ui::show_shortcuts(&window);
-        }
-    ));
-    app.add_action(&shortcuts_action);
-
     let quit_action = SimpleAction::new("quit", None);
     quit_action.connect_activate(clone!(
         #[weak]
@@ -59,7 +49,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     app.set_accels_for_action("app.quit", &["<ctrl>q"]);
     app.set_accels_for_action("app.shortcuts", &["<ctrl>h"]);
     app.set_accels_for_action("win.start-search", &["<ctrl>Return"]);
-    app.set_accels_for_action("app.stop-search", &["<ctrl>s"]);
+    app.set_accels_for_action("win.stop-search", &["<ctrl>c"]);
 
     window.present();
 }

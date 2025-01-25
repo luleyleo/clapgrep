@@ -1,5 +1,8 @@
 use adw::prelude::*;
-use gtk::gio::ApplicationFlags;
+use gtk::{
+    gio::{self, ApplicationFlags},
+    glib,
+};
 
 mod app;
 mod config;
@@ -15,6 +18,11 @@ fn main() {
     let _ = gtk::init();
     let _ = adw::init();
     sourceview5::init();
+
+    let resource_bytes = include_bytes!(env!("GRESOURCES_BUNDLE"));
+    gio::resources_register(
+        &gio::Resource::from_data(&glib::Bytes::from_static(resource_bytes)).unwrap(),
+    );
 
     let application = adw::Application::builder()
         .application_id(APP_ID)

@@ -1,6 +1,6 @@
 using Gtk 4.0;
 
-ShortcutsWindow help-overlay {
+ShortcutsWindow help_overlay {
   modal: true;
   title: _("Clapgrep Shortcuts");
 
@@ -10,13 +10,11 @@ ShortcutsWindow help-overlay {
 
       ShortcutsShortcut {
         title: _("Quit");
-        accelerator: "<ctrl>q";
         action-name: "app.quit";
       }
 
       ShortcutsShortcut {
         title: _("Shortcuts");
-        accelerator: "<ctrl>h";
         action-name: "app.shortcuts";
       }
     }
@@ -26,13 +24,11 @@ ShortcutsWindow help-overlay {
 
       ShortcutsShortcut {
         title: _("Start Search");
-        accelerator: "<ctrl>Return";
         action-name: "win.start-search";
       }
 
       ShortcutsShortcut {
         title: _("Stop Search");
-        accelerator: "<ctrl>s";
         action-name: "win.stop-search";
       }
     }
