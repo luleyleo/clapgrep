@@ -17,6 +17,7 @@ impl Default for Config {
 }
 
 mod imp {
+    use anyhow::Context;
     use glib::prelude::*;
     use gtk::{glib, subclass::prelude::*};
     use std::{cell::RefCell, path::PathBuf};
@@ -60,12 +61,29 @@ mod imp {
             config_dir.join("config.toml")
         }
 
-        pub fn load(&self) {
+        fn read_config() -> anyhow::Result<FullConfig> {
             let config_path = Self::config_path();
-            let config = std::fs::read_to_string(&config_path)
-                .ok()
-                .and_then(|str| toml::from_str::<FullConfig>(&str).ok())
-                .unwrap_or_default();
+            if config_path.is_file() {
+                let config_txt =
+                    std::fs::read_to_string(&config_path).context("Failed to read config file")?;
+                let config = toml::from_str::<FullConfig>(&config_txt)
+                    .context("Failed to parse config file")?;
+
+                Ok(config)
+            } else {
+                log::info!("No existing config file was found");
+                Ok(FullConfig::default())
+            }
+        }
+
+        pub fn load(&self) {
+            let config = match Self::read_config() {
+                Ok(config) => config,
+                Err(err) => {
+                    log::error!("Failed to read config file: {err}");
+                    FullConfig::default()
+                }
+            };
 
             self.window.replace(config.window);
             self.search.replace(config.search);
@@ -76,9 +94,11 @@ mod imp {
                 window: *self.window.borrow(),
                 search: *self.search.borrow(),
             };
-            let config_txt = toml::to_string(&config).unwrap();
+            let config_txt = toml::to_string(&config).expect("Failed to serialize config");
             let config_path = Self::config_path();
-            std::fs::write(config_path, config_txt).unwrap();
+            if let Err(err) = std::fs::write(&config_path, config_txt) {
+                log::error!("Failed to write config ({config_path:?}): {err}");
+            }
         }
     }
 

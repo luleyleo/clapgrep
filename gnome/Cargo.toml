@@ -13,3 +13,6 @@ gtk-blueprint = "0.2.0"
 sourceview5 = { version = "0.9.1", features = ["gtk_v4_12", "v5_12"] }
 toml = "0.8.19"
 serde = { version = "1.0.217", features = ["derive"] }
+log = "0.4.25"
+env_logger = { version = "0.11.6", default-features = false }
+anyhow = "1.0.95"
