@@ -32,7 +32,15 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     about_action.connect_activate(clone!(
         #[weak]
         window,
-        move |_, _| ui::about_dialog().present(Some(&window))
+        move |_, _| {
+            let app = window.application().unwrap();
+            let app_path = app.resource_base_path().unwrap();
+            let dialog = adw::AboutDialog::from_appdata(
+                &format!("{app_path}/metainfo.xml"),
+                Some(env!("APP_VERSION")),
+            );
+            dialog.present(Some(&window));
+        }
     ));
     app.add_action(&about_action);
 
