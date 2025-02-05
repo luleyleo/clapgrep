@@ -17,29 +17,24 @@ impl Default for Config {
 }
 
 mod imp {
-    use cosmic_config::{ConfigGet, ConfigSet};
+    use anyhow::Context;
     use glib::prelude::*;
     use gtk::{glib, subclass::prelude::*};
-    use std::cell::{Cell, OnceCell};
+    use std::{cell::RefCell, path::PathBuf};
 
     use crate::APP_ID;
 
     #[derive(Default, glib::Properties)]
     #[properties(wrapper_type = super::Config)]
     pub struct Config {
-        #[property(get, set = Self::set_window_width, default = 1600)]
-        window_width: Cell<i32>,
-        #[property(get, set = Self::set_window_height, default = 900)]
-        window_height: Cell<i32>,
-        #[property(get, set = Self::set_window_maximized, default = false)]
-        window_maximized: Cell<bool>,
+        #[property(name = "window-width", get, set, type = i32, member = width)]
+        #[property(name = "window-height", get, set, type = i32, member = height)]
+        #[property(name = "window-maximized", get, set, type = bool, member = maximized)]
+        window: RefCell<WindowConfig>,
 
-        #[property(get, set = Self::set_search_pdf, default = false)]
-        search_pdf: Cell<bool>,
-        #[property(get, set = Self::set_search_office, default = false)]
-        search_office: Cell<bool>,
-
-        config: OnceCell<cosmic_config::Config>,
+        #[property(name = "search-pdf", get, set, type = bool, member = pdf)]
+        #[property(name = "search-office", get, set, type = bool, member = office)]
+        search: RefCell<SearchConfig>,
     }
 
     #[glib::object_subclass]
@@ -51,61 +46,95 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for Config {
         fn constructed(&self) {
-            let config = cosmic_config::Config::new(APP_ID, 1).expect("failed to open config");
+            self.load();
 
-            if let Ok(window_width) = config.get("window_width") {
-                self.window_width.set(window_width);
-            }
-
-            if let Ok(window_height) = config.get("window_height") {
-                self.window_height.set(window_height);
-            }
-
-            if let Ok(window_maximized) = config.get("window_maximized") {
-                self.window_maximized.set(window_maximized);
-            }
-
-            if let Ok(search_pdf) = config.get("search_pdf") {
-                self.search_pdf.set(search_pdf);
-            }
-
-            if let Ok(search_office) = config.get("search_office") {
-                self.search_office.set(search_office);
-            }
-
-            let _ = self.config.set(config);
+            self.obj().connect_notify(None, |obj, _| {
+                obj.imp().save();
+            });
         }
     }
 
     impl Config {
-        fn set_window_width(&self, width: i32) {
-            let config = self.config.get().unwrap();
-            let _ = config.set("window_width", width);
-            self.window_width.set(width);
+        fn config_path() -> PathBuf {
+            let config_dir = glib::user_config_dir().join(APP_ID);
+            std::fs::create_dir_all(&config_dir).unwrap();
+            config_dir.join("config.toml")
         }
 
-        fn set_window_height(&self, height: i32) {
-            let config = self.config.get().unwrap();
-            let _ = config.set("window_height", height);
-            self.window_height.set(height);
+        fn read_config() -> anyhow::Result<FullConfig> {
+            let config_path = Self::config_path();
+            if config_path.is_file() {
+                let config_txt =
+                    std::fs::read_to_string(&config_path).context("Failed to read config file")?;
+                let config = toml::from_str::<FullConfig>(&config_txt)
+                    .context("Failed to parse config file")?;
+
+                Ok(config)
+            } else {
+                log::info!("No existing config file was found");
+                Ok(FullConfig::default())
+            }
         }
 
-        fn set_window_maximized(&self, maximized: bool) {
-            let config = self.config.get().unwrap();
-            let _ = config.set("window_maximized", maximized);
-            self.window_maximized.set(maximized);
+        pub fn load(&self) {
+            let config = match Self::read_config() {
+                Ok(config) => config,
+                Err(err) => {
+                    log::error!("Failed to read config file: {err}");
+                    FullConfig::default()
+                }
+            };
+
+            self.window.replace(config.window);
+            self.search.replace(config.search);
         }
 
-        fn set_search_pdf(&self, search_pdf: bool) {
-            let config = self.config.get().unwrap();
-            let _ = config.set("search_pdf", search_pdf);
-            self.search_pdf.set(search_pdf);
+        pub fn save(&self) {
+            let config = FullConfig {
+                window: *self.window.borrow(),
+                search: *self.search.borrow(),
+            };
+            let config_txt = toml::to_string(&config).expect("Failed to serialize config");
+            let config_path = Self::config_path();
+            if let Err(err) = std::fs::write(&config_path, config_txt) {
+                log::error!("Failed to write config ({config_path:?}): {err}");
+            }
         }
+    }
 
-        fn set_search_office(&self, search_office: bool) {
-            let config = self.config.get().unwrap();
-            let _ = config.set("search_office", search_office);
-            self.search_office.set(search_office);
+    #[derive(Default, Clone, serde::Serialize, serde::Deserialize)]
+    struct FullConfig {
+        window: WindowConfig,
+        search: SearchConfig,
+    }
+
+    #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
+    struct WindowConfig {
+        width: i32,
+        height: i32,
+        maximized: bool,
+    }
+    impl Default for WindowConfig {
+        fn default() -> Self {
+            WindowConfig {
+                width: 1600,
+                height: 900,
+                maximized: false,
+            }
+        }
+    }
+
+    #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
+    struct SearchConfig {
+        pdf: bool,
+        office: bool,
+    }
+    impl Default for SearchConfig {
+        fn default() -> Self {
+            SearchConfig {
+                pdf: true,
+                office: true,
+            }
         }
     }
 }

@@ -11,8 +11,8 @@ flume = "0.11.0"
 gettext-rs = { version = "0.7.1", features = ["gettext-system"] }
 gtk-blueprint = "0.2.0"
 sourceview5 = { version = "0.9.1", features = ["gtk_v4_12", "v5_12"] }
-
-[dependencies.cosmic-config]
-git = "https://github.com/pop-os/libcosmic.git"
-rev = "228eb4d70d581be88bacb1e261106a58603d847b"
-default-features = false
+toml = "0.8.19"
+serde = { version = "1.0.217", features = ["derive"] }
+log = "0.4.25"
+env_logger = { version = "0.11.6", default-features = false }
+anyhow = "1.0.95"
