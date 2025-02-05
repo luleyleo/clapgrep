@@ -1,6 +1,3 @@
-mod about;
-pub use about::about_dialog;
-
 mod error_window;
 pub use error_window::ErrorWindow;
 
