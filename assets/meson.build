@@ -1,9 +1,9 @@
+subdir('gtk')
+
 install_data(
   'icons' / 'hicolor' / 'scalable' / 'apps' / '@0@.svg'.format(application_id),
   install_dir: iconsdir / 'hicolor' / 'scalable' / 'apps',
 )
-
-subdir('resources')
 
 # Desktop file
 desktop_conf = configuration_data()
@@ -56,3 +56,17 @@ if appstream_util.found()
     depends: appdata_file,
   )
 endif
+
+conf = configuration_data()
+conf.set('APP_PATH', application_path)
+clapgrep_resources = gnome.compile_resources(
+  'resources',
+  configure_file(
+    input: 'resources.xml.in',
+    output: 'resources.xml',
+    configuration: conf,
+  ),
+  gresource_bundle: true,
+  source_dir: meson.current_build_dir(),
+  dependencies: [help_overlay, appdata_file],
+)[0]
