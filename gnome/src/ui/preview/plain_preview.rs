@@ -37,6 +37,8 @@ mod imp {
         #[template_child]
         pub views: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub no_selection: TemplateChild<gtk::StackPage>,
+        #[template_child]
         pub no_preview: TemplateChild<gtk::StackPage>,
         #[template_child]
         pub some_preview: TemplateChild<gtk::StackPage>,
