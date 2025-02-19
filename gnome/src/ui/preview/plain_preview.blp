@@ -16,11 +16,18 @@ template $ClapgrepPlainPreview: Widget {
     }
 
     Stack views {
+      StackPage no_selection {
+        child: Adw.StatusPage {
+          title: _("Nothing Selected...");
+          description: _("Try clicking on on of the result lines.");
+        };
+      }
+
       StackPage no_preview {
         child: Adw.StatusPage {
-          title: _("No Preview Available");
-          description: _("Try clicking on on of the result lines.");
-          icon-name: "x-office-document-symbolic";
+          title: _("Under Construction");
+          description: _("Preview for this file type has not been implemented yet.");
+          icon-name: "applications-engineering-symbolic";
         };
       }
 
