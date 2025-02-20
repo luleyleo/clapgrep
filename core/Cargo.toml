@@ -13,5 +13,5 @@ flume = "0.11.1"
 dotext = "0.1.1"
 
 # for pdf support
-pdf-extract = "0.8.0"
-euclid = "0.20.14"     # must match pdf-extract::euclid version
+poppler-rs = "0.24.1"
+gio = "0.20.9"

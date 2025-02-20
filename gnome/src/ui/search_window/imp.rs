@@ -2,7 +2,7 @@ use crate::{
     config::Config,
     i18n::gettext_f,
     search::{SearchModel, SearchResult},
-    ui::{preview::PlainPreview, ErrorWindow},
+    ui::{preview::Preview, ErrorWindow},
 };
 use adw::subclass::prelude::*;
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
@@ -85,7 +85,7 @@ pub struct SearchWindow {
     #[template_child]
     pub preview_navigation_page: TemplateChild<adw::NavigationPage>,
     #[template_child]
-    pub preview: TemplateChild<PlainPreview>,
+    pub preview: TemplateChild<Preview>,
 
     pub engine: SearchEngine,
     pub config: Config,

@@ -3,11 +3,11 @@ use gtk::glib::{self, Object};
 use crate::search::SearchResult;
 
 glib::wrapper! {
-    pub struct PlainPreview(ObjectSubclass<imp::PlainPreview>)
+    pub struct TextPreview(ObjectSubclass<imp::TextPreview>)
         @extends gtk::Widget;
 }
 
-impl PlainPreview {
+impl TextPreview {
     pub fn new(result: &SearchResult) -> Self {
         Object::builder().property("result", result).build()
     }
@@ -16,38 +16,26 @@ impl PlainPreview {
 mod imp {
     use crate::search::SearchResult;
     use adw::subclass::prelude::*;
-    use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use gtk::{glib, prelude::*, CompositeTemplate};
     use sourceview5::prelude::*;
     use std::{cell::RefCell, fs, time::Duration};
 
     #[derive(CompositeTemplate, glib::Properties, Default)]
-    #[template(file = "src/ui/preview/plain_preview.blp")]
-    #[properties(wrapper_type = super::PlainPreview)]
-    pub struct PlainPreview {
+    #[template(file = "src/ui/preview/text_preview.blp")]
+    #[properties(wrapper_type = super::TextPreview)]
+    pub struct TextPreview {
         #[property(get, set)]
         pub result: RefCell<SearchResult>,
 
         #[template_child]
-        pub title: TemplateChild<adw::WindowTitle>,
-        #[template_child]
         pub text_view: TemplateChild<sourceview5::View>,
-
-        #[template_child]
-        pub views: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub no_selection: TemplateChild<gtk::StackPage>,
-        #[template_child]
-        pub no_preview: TemplateChild<gtk::StackPage>,
-        #[template_child]
-        pub some_preview: TemplateChild<gtk::StackPage>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for PlainPreview {
-        const NAME: &'static str = "ClapgrepPlainPreview";
-        type Type = super::PlainPreview;
+    impl ObjectSubclass for TextPreview {
+        const NAME: &'static str = "ClapgrepTextPreview";
+        type Type = super::TextPreview;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
@@ -61,7 +49,7 @@ mod imp {
     }
 
     #[gtk::template_callbacks]
-    impl PlainPreview {
+    impl TextPreview {
         fn buffer(&self) -> sourceview5::Buffer {
             self.text_view
                 .buffer()
@@ -92,10 +80,6 @@ mod imp {
                 cursor_position.forward_lines((result.line() - 1) as i32);
                 buffer.place_cursor(&cursor_position);
 
-                // Set title to file name.
-                let file_name = file.file_name().unwrap().to_string_lossy();
-                self.title.set_title(file_name.as_ref());
-
                 // Scroll to result line after 100ms.
                 //
                 // The delay is needed because scroll_to_iter only works
@@ -104,11 +88,8 @@ mod imp {
                 glib::timeout_add_local_once(Duration::from_millis(100), move || {
                     text_view.scroll_to_iter(&mut cursor_position, 0.0, true, 0.0, 0.3);
                 });
-
-                self.views.set_visible_child(&self.some_preview.child());
             } else {
-                self.title.set_title(&gettext("Content Preview"));
-                self.views.set_visible_child(&self.no_preview.child());
+                self.buffer().set_text("Failed to load file...");
             }
         }
 
@@ -137,7 +118,7 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for PlainPreview {
+    impl ObjectImpl for TextPreview {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = self.obj();
@@ -150,5 +131,5 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for PlainPreview {}
+    impl WidgetImpl for TextPreview {}
 }

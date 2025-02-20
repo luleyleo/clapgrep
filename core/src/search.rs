@@ -153,6 +153,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
 }
 
 pub struct SearchSink {
+    pub page: Option<u64>,
     matcher: RegexMatcher,
     entries: Vec<ResultEntry>,
 }
@@ -160,12 +161,14 @@ pub struct SearchSink {
 impl SearchSink {
     pub fn new(matcher: RegexMatcher) -> Self {
         SearchSink {
+            page: None,
             matcher,
             entries: Vec::new(),
         }
     }
 
     pub fn take_entries(&mut self) -> Vec<ResultEntry> {
+        self.page = None;
         std::mem::take(&mut self.entries)
     }
 
@@ -199,10 +202,15 @@ impl grep::searcher::Sink for SearchSink {
         let content = String::from_utf8_lossy(mat.bytes())
             .trim_ascii_end()
             .to_string();
+
         let line = mat.line_number().unwrap();
+        let location = match self.page {
+            None => Location::Text { line },
+            Some(page) => Location::Document { page, line },
+        };
 
         self.entries.push(ResultEntry {
-            location: Location::Text { line },
+            location,
             content,
             matches,
         });
