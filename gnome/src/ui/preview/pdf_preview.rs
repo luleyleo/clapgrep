@@ -65,6 +65,14 @@ mod imp {
                     let (cw, ch) = (cw as f64, ch as f64);
                     let (pw, ph) = page.size();
                     let scale = f64::min(cw / pw, ch / ph);
+
+                    // center horizontally when fit to height
+                    if (cw / pw) > (ch / ph) {
+                        let tx = (cw - pw * scale) / 2.0;
+                        context.translate(tx, 0.0);
+                    }
+
+                    // fit page to drawing area
                     context.scale(scale, scale);
 
                     // draw background
