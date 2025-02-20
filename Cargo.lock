@@ -161,6 +161,7 @@ dependencies = [
  "gtk4",
  "libadwaita",
  "log",
+ "poppler-rs",
  "serde",
  "sourceview5",
  "toml",

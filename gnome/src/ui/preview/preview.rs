@@ -13,7 +13,10 @@ impl Preview {
 }
 
 mod imp {
-    use crate::{search::SearchResult, ui::preview::TextPreview};
+    use crate::{
+        search::SearchResult,
+        ui::preview::{PdfPreview, TextPreview},
+    };
     use adw::subclass::prelude::*;
     use gettextrs::gettext;
     use glib::subclass::InitializingObject;
@@ -38,9 +41,13 @@ mod imp {
         pub no_preview: TemplateChild<gtk::StackPage>,
         #[template_child]
         pub some_text_preview: TemplateChild<gtk::StackPage>,
+        #[template_child]
+        pub some_pdf_preview: TemplateChild<gtk::StackPage>,
 
         #[template_child]
         pub text_preview: TemplateChild<TextPreview>,
+        #[template_child]
+        pub pdf_preview: TemplateChild<PdfPreview>,
     }
 
     #[glib::object_subclass]
@@ -75,8 +82,8 @@ mod imp {
             if let Some(ext) = file.extension().and_then(|ext| ext.to_str()) {
                 // Try PDF
                 if clapgrep_core::extra::pdf::EXTENSIONS.contains(&ext) {
-                    self.title.set_title(&gettext("Content Preview"));
-                    self.views.set_visible_child(&self.no_preview.child());
+                    self.pdf_preview.set_result(self.obj().result());
+                    self.views.set_visible_child(&self.some_pdf_preview.child());
                     return;
                 }
 
