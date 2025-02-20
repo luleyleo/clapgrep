@@ -51,6 +51,7 @@
       "name": "poppler",
       "buildsystem": "cmake-ninja",
       "config-opts": [
+        "-DCMAKE_INSTALL_LIBDIR=/app/lib",
         "-DBUILD_GTK_TESTS=OFF",
         "-DBUILD_CPP_TESTS=OFF",
         "-DENABLE_CPP=OFF",
