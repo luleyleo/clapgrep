@@ -58,6 +58,7 @@ if appstream_util.found()
 endif
 
 conf = configuration_data()
+conf.set('APP_ID', application_id)
 conf.set('APP_PATH', application_path)
 clapgrep_resources = gnome.compile_resources(
   'resources',
