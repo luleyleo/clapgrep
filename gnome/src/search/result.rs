@@ -37,7 +37,7 @@ impl SearchResult {
 
         let line = match line {
             Location::Text { line } => line,
-            Location::Document { page: _, line } => line,
+            Location::Document { page, line: _ } => page,
         };
 
         let uri = if cfg!(target_os = "windows") {
