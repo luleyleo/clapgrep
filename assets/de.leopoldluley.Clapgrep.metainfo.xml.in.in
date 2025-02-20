@@ -66,6 +66,7 @@
       <description translate="no">
         <p>New features:</p>
         <ul>
+          <li>Implmented PDF preview.</li>
           <li>Much faster PDF search using Poppler.</li>
           <li>PDF results are now per line rather than per page.</li>
         </ul>
