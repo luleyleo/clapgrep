@@ -3,11 +3,11 @@ use gtk::glib::{self, Object};
 use crate::search::SearchResult;
 
 glib::wrapper! {
-    pub struct PlainPreview(ObjectSubclass<imp::PlainPreview>)
+    pub struct TextPreview(ObjectSubclass<imp::TextPreview>)
         @extends gtk::Widget;
 }
 
-impl PlainPreview {
+impl TextPreview {
     pub fn new(result: &SearchResult) -> Self {
         Object::builder().property("result", result).build()
     }
@@ -22,9 +22,9 @@ mod imp {
     use std::{cell::RefCell, fs, time::Duration};
 
     #[derive(CompositeTemplate, glib::Properties, Default)]
-    #[template(file = "src/ui/preview/plain_preview.blp")]
-    #[properties(wrapper_type = super::PlainPreview)]
-    pub struct PlainPreview {
+    #[template(file = "src/ui/preview/text_preview.blp")]
+    #[properties(wrapper_type = super::TextPreview)]
+    pub struct TextPreview {
         #[property(get, set)]
         pub result: RefCell<SearchResult>,
 
@@ -33,9 +33,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for PlainPreview {
-        const NAME: &'static str = "ClapgrepPlainPreview";
-        type Type = super::PlainPreview;
+    impl ObjectSubclass for TextPreview {
+        const NAME: &'static str = "ClapgrepTextPreview";
+        type Type = super::TextPreview;
         type ParentType = gtk::Widget;
 
         fn class_init(klass: &mut Self::Class) {
@@ -49,7 +49,7 @@ mod imp {
     }
 
     #[gtk::template_callbacks]
-    impl PlainPreview {
+    impl TextPreview {
         fn buffer(&self) -> sourceview5::Buffer {
             self.text_view
                 .buffer()
@@ -118,7 +118,7 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for PlainPreview {
+    impl ObjectImpl for TextPreview {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = self.obj();
@@ -131,5 +131,5 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for PlainPreview {}
+    impl WidgetImpl for TextPreview {}
 }

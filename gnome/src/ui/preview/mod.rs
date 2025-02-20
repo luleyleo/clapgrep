@@ -1,5 +1,5 @@
-mod plain_preview;
-pub use plain_preview::PlainPreview;
+mod text_preview;
+pub use text_preview::TextPreview;
 
 mod preview;
 pub use preview::Preview;

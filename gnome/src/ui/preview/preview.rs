@@ -13,7 +13,7 @@ impl Preview {
 }
 
 mod imp {
-    use crate::{search::SearchResult, ui::preview::PlainPreview};
+    use crate::{search::SearchResult, ui::preview::TextPreview};
     use adw::subclass::prelude::*;
     use gettextrs::gettext;
     use glib::subclass::InitializingObject;
@@ -40,7 +40,7 @@ mod imp {
         pub some_text_preview: TemplateChild<gtk::StackPage>,
 
         #[template_child]
-        pub text_preview: TemplateChild<PlainPreview>,
+        pub text_preview: TemplateChild<TextPreview>,
     }
 
     #[glib::object_subclass]
