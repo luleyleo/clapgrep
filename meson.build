@@ -8,6 +8,7 @@ gnome = import('gnome')
 dependency('glib-2.0', version: '>= 2.66')
 dependency('gio-2.0', version: '>= 2.66')
 dependency('gtk4', version: '>= 4.0.0')
+dependency('poppler-glib', version: '>= 24.08.0')
 
 desktop_file_validate = find_program('desktop-file-validate', required: false)
 appstream_util = find_program('appstream-util', required: false)
