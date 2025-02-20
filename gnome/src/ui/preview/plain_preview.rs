@@ -16,7 +16,6 @@ impl PlainPreview {
 mod imp {
     use crate::search::SearchResult;
     use adw::subclass::prelude::*;
-    use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use gtk::{glib, prelude::*, CompositeTemplate};
     use sourceview5::prelude::*;
@@ -30,18 +29,7 @@ mod imp {
         pub result: RefCell<SearchResult>,
 
         #[template_child]
-        pub title: TemplateChild<adw::WindowTitle>,
-        #[template_child]
         pub text_view: TemplateChild<sourceview5::View>,
-
-        #[template_child]
-        pub views: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub no_selection: TemplateChild<gtk::StackPage>,
-        #[template_child]
-        pub no_preview: TemplateChild<gtk::StackPage>,
-        #[template_child]
-        pub some_preview: TemplateChild<gtk::StackPage>,
     }
 
     #[glib::object_subclass]
@@ -92,10 +80,6 @@ mod imp {
                 cursor_position.forward_lines((result.line() - 1) as i32);
                 buffer.place_cursor(&cursor_position);
 
-                // Set title to file name.
-                let file_name = file.file_name().unwrap().to_string_lossy();
-                self.title.set_title(file_name.as_ref());
-
                 // Scroll to result line after 100ms.
                 //
                 // The delay is needed because scroll_to_iter only works
@@ -104,11 +88,8 @@ mod imp {
                 glib::timeout_add_local_once(Duration::from_millis(100), move || {
                     text_view.scroll_to_iter(&mut cursor_position, 0.0, true, 0.0, 0.3);
                 });
-
-                self.views.set_visible_child(&self.some_preview.child());
             } else {
-                self.title.set_title(&gettext("Content Preview"));
-                self.views.set_visible_child(&self.no_preview.child());
+                self.buffer().set_text("Failed to load file...");
             }
         }
 

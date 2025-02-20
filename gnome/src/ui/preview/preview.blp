@@ -1,0 +1,38 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ClapgrepPreview: Widget {
+  layout-manager: Gtk.BinLayout {};
+
+  Adw.ToolbarView {
+    top-bar-style: flat;
+
+    [top]
+    Adw.HeaderBar {
+      title-widget: Adw.WindowTitle title {
+        title: _("Content Preview");
+      };
+    }
+
+    Stack views {
+      StackPage no_selection {
+        child: Adw.StatusPage {
+          title: _("Nothing Selected...");
+          description: _("Try clicking on on of the result lines.");
+        };
+      }
+
+      StackPage no_preview {
+        child: Adw.StatusPage {
+          title: _("Under Construction");
+          description: _("Preview for this file type has not been implemented yet.");
+          icon-name: "applications-engineering-symbolic";
+        };
+      }
+
+      StackPage some_text_preview {
+        child: $ClapgrepPlainPreview text_preview {};
+      }
+    }
+  }
+}
