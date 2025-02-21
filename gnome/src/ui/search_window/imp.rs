@@ -3,6 +3,7 @@ use crate::{
     i18n::gettext_f,
     search::{SearchModel, SearchResult},
     ui::{preview::Preview, ErrorWindow},
+    APP_ID,
 };
 use adw::subclass::prelude::*;
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
@@ -292,6 +293,10 @@ impl ObjectImpl for SearchWindow {
     fn constructed(&self) {
         self.parent_constructed();
         let obj = self.obj();
+
+        if APP_ID.contains("Devel") {
+            obj.add_css_class("devel");
+        }
 
         self.config
             .bind_property("window_width", obj.as_ref(), "default_width")
