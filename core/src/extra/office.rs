@@ -17,14 +17,10 @@ pub fn process(
 }
 
 fn extract(path: &Path) -> Result<String, Box<dyn Error>> {
-    let ext = path
-        .extension()
-        .unwrap_or_default()
-        .to_string_lossy()
-        .to_string();
+    let ext = path.extension().unwrap_or_default().to_string_lossy();
 
     let mut string = String::new();
-    match ext.as_str() {
+    match ext.as_ref() {
         "docx" => {
             let mut docx = Docx::open(path)?;
             docx.read_to_string(&mut string)?;
