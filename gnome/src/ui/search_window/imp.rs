@@ -2,7 +2,7 @@ use crate::{
     config::Config,
     i18n::gettext_f,
     search::{SearchModel, SearchResult},
-    ui::{preview::Preview, ErrorWindow},
+    ui::{preview::Preview, ErrorWindow, ResultView},
     APP_ID,
 };
 use adw::subclass::prelude::*;
@@ -99,6 +99,7 @@ impl ObjectSubclass for SearchWindow {
     type ParentType = adw::ApplicationWindow;
 
     fn class_init(klass: &mut Self::Class) {
+        ResultView::static_type();
         klass.bind_template();
         klass.bind_template_callbacks();
         klass.install_action("win.start-search", None, |win, _, _| {
