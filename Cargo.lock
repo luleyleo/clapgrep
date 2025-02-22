@@ -204,8 +204,7 @@ checksum = "22ec99545bb0ed0ea7bb9b8e1e9122ea386ff8a48c0922e43f36d45ab09e0e80"
 [[package]]
 name = "dotext"
 version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aebbebabe29bf24057077dc5a2352253d0c5dc4d254cd024da38fd17dfd4aed6"
+source = "git+https://github.com/anvie/dotext.git?rev=06b1600#06b16004f1efb7a31e03e1e7e890c36e73bb3df0"
 dependencies = [
  "quick-xml",
  "zip",
