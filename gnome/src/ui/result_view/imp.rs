@@ -19,6 +19,8 @@ pub struct ResultView {
     pub result: RefCell<Option<SearchResult>>,
 
     #[template_child]
+    pub container: TemplateChild<gtk::Box>,
+    #[template_child]
     pub content: TemplateChild<gtk::Label>,
 
     highlight_color: Cell<Color>,
@@ -107,6 +109,11 @@ impl ObjectImpl for ResultView {
         obj.connect_result_notify(|obj| {
             obj.imp().update_content();
         });
+    }
+
+    fn dispose(&self) {
+        // See https://gitlab.gnome.org/GNOME/gtk/-/issues/7302
+        self.container.unparent();
     }
 }
 

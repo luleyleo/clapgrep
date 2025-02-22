@@ -17,14 +17,10 @@ pub fn process(
 }
 
 fn extract(path: &Path) -> Result<String, Box<dyn Error>> {
-    let ext = path
-        .extension()
-        .unwrap_or_default()
-        .to_string_lossy()
-        .to_string();
+    let ext = path.extension().unwrap_or_default().to_string_lossy();
 
     let mut string = String::new();
-    match ext.as_str() {
+    match ext.as_ref() {
         "docx" => {
             let mut docx = Docx::open(path)?;
             docx.read_to_string(&mut string)?;
@@ -41,10 +37,10 @@ fn extract(path: &Path) -> Result<String, Box<dyn Error>> {
             let mut odt = Odt::open(path)?;
             odt.read_to_string(&mut string)?;
         }
-        // "ods" => {
-        //     let ods = Ods::open(&path)?;
-        //     ods.read_to_string(&mut string)?;
-        // }
+        "ods" => {
+            let mut ods = Ods::open(path)?;
+            ods.read_to_string(&mut string)?;
+        }
         "odp" => {
             let mut odp = Odp::open(path)?;
             odp.read_to_string(&mut string)?;
