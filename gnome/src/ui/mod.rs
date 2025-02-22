@@ -4,4 +4,7 @@ pub use error_window::ErrorWindow;
 mod search_window;
 pub use search_window::SearchWindow;
 
+mod result_view;
+pub use result_view::ResultView;
+
 mod preview;
