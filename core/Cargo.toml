@@ -10,7 +10,7 @@ ignore = "0.4"
 flume = "0.11.1"
 
 # for office support
-dotext = "0.1.1"
+dotext = { git = "https://github.com/anvie/dotext.git", rev = "06b1600" }
 
 # for pdf support
 poppler-rs = "0.24.1"
