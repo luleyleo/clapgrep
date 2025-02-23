@@ -50,9 +50,6 @@ impl SearchModel {
         data.extend(search_results);
         let end = data.len() as u32;
 
-        drop(data);
-        drop(base_path);
-
         let section = Section { start, end };
         self.imp().sections.borrow_mut().push(section);
 
