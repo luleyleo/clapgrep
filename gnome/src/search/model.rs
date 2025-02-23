@@ -27,6 +27,7 @@ impl SearchModel {
         let imp = self.imp();
         let len = imp.data.borrow().len();
         imp.data.borrow_mut().clear();
+        imp.sections.borrow_mut().clear();
         self.items_changed(0, len as u32, 0)
     }
 
