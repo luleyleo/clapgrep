@@ -27,6 +27,7 @@ impl SearchModel {
         let imp = self.imp();
         let len = imp.data.borrow().len();
         imp.data.borrow_mut().clear();
+        imp.sections.borrow_mut().clear();
         self.items_changed(0, len as u32, 0)
     }
 
@@ -50,9 +51,6 @@ impl SearchModel {
         data.extend(search_results);
         let end = data.len() as u32;
 
-        drop(data);
-        drop(base_path);
-
         let section = Section { start, end };
         self.imp().sections.borrow_mut().push(section);
 
@@ -67,7 +65,9 @@ impl SearchModel {
     pub fn extend_with_results(&self, results: &[clapgrep_core::SearchResult]) {
         let start = self.imp().data.borrow().len() as u32;
         for file_info in results {
-            self.append_file_info_impl(file_info);
+            if !file_info.entries.is_empty() {
+                self.append_file_info_impl(file_info);
+            }
         }
         let end = self.imp().data.borrow().len() as u32;
 

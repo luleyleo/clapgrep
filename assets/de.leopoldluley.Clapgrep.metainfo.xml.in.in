@@ -73,7 +73,7 @@
         </ul>
         <p>Bug fixes:</p>
         <ul>
-          <li>None yet.</li>
+          <li>Repeated searches now display their results correctly again.</li>
         </ul>
       </description>
     </release>
