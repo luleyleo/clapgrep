@@ -64,7 +64,9 @@ impl SearchModel {
     pub fn extend_with_results(&self, results: &[clapgrep_core::SearchResult]) {
         let start = self.imp().data.borrow().len() as u32;
         for file_info in results {
-            self.append_file_info_impl(file_info);
+            if !file_info.entries.is_empty() {
+                self.append_file_info_impl(file_info);
+            }
         }
         let end = self.imp().data.borrow().len() as u32;
 
