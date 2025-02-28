@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-17 15:07+0100\n"
+"POT-Creation-Date: 2025-02-28 22:21+0100\n"
 "PO-Revision-Date: 2024-12-28 18:34+0300\n"
 "Last-Translator: mva <ma12@rambler.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -59,29 +59,45 @@ msgid "Main window in desktop view"
 msgstr ""
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:29
-msgid "Main window showing the search interface in mobile view"
+msgid "Preview in desktop view"
 msgstr ""
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:33
-msgid "Main window showing results in mobile view"
+msgid "Search interface in mobile view"
+msgstr ""
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:37
+msgid "Results in mobile view"
+msgstr ""
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:41
+msgid "Preview in mobile view"
 msgstr ""
 
 #: gnome/src/ui/error_window/error_window.blp:7
 msgid "Search Errors"
 msgstr "Ошибки поиска"
 
-#: gnome/src/ui/preview/plain_preview.blp:14
-#: gnome/src/ui/search_window/search_window.blp:272
-#: gnome/src/ui/preview/plain_preview.rs:108
+#: gnome/src/ui/preview/preview.blp:13
+#: gnome/src/ui/search_window/search_window.blp:242
+#: gnome/src/ui/preview/mod.rs:95
 msgid "Content Preview"
 msgstr ""
 
-#: gnome/src/ui/preview/plain_preview.blp:21
-msgid "No Preview Available"
+#: gnome/src/ui/preview/preview.blp:20
+msgid "Nothing Selected..."
 msgstr ""
 
-#: gnome/src/ui/preview/plain_preview.blp:22
+#: gnome/src/ui/preview/preview.blp:21
 msgid "Try clicking on on of the result lines."
+msgstr ""
+
+#: gnome/src/ui/preview/preview.blp:27
+msgid "Under Construction"
+msgstr ""
+
+#: gnome/src/ui/preview/preview.blp:28
+msgid "Preview for this file type has not been implemented yet."
 msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:31
@@ -93,7 +109,6 @@ msgid "Search Pattern"
 msgstr "Шаблон поиска"
 
 #: gnome/src/ui/search_window/search_window.blp:66
-#: gnome/src/ui/shortcuts/shortcuts.blp:28
 msgid "Start Search"
 msgstr "Начать поиск"
 
@@ -162,49 +177,43 @@ msgstr ""
 msgid "Show Errors"
 msgstr "Показать ошибки"
 
-#: gnome/src/ui/search_window/search_window.blp:284
+#: gnome/src/ui/search_window/search_window.blp:254
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: gnome/src/ui/search_window/search_window.blp:289
+#: gnome/src/ui/search_window/search_window.blp:259
 msgid "About Clapgrep"
 msgstr "О программе  Clapgrep"
 
-#: gnome/src/ui/shortcuts/shortcuts.blp:5
-msgid "Clapgrep Shortcuts"
-msgstr "Метки Clapgrep"
-
-#: gnome/src/ui/shortcuts/shortcuts.blp:9
-msgid "General"
-msgstr "Основные"
-
-#: gnome/src/ui/shortcuts/shortcuts.blp:12
-msgid "Quit"
-msgstr "Выйти"
-
-#: gnome/src/ui/shortcuts/shortcuts.blp:18
-msgid "Shortcuts"
-msgstr "Комбинации клавиш"
-
-#: gnome/src/ui/shortcuts/shortcuts.blp:25
-msgid "Control Search"
-msgstr "Управление поиском"
-
-#: gnome/src/ui/shortcuts/shortcuts.blp:34
-msgid "Stop Search"
-msgstr "Остановить поиск"
-
-#: gnome/src/ui/search_window/imp.rs:143
+#: gnome/src/ui/search_window/imp.rs:145
 msgid "Choose Search Path"
 msgstr "Выберите путь поиска"
 
-#: gnome/src/ui/search_window/imp.rs:358
+#: gnome/src/ui/search_window/imp.rs:364
 msgid "Cancel Search"
 msgstr "Отменить поиск"
 
-#: gnome/src/ui/search_window/imp.rs:361
+#: gnome/src/ui/search_window/imp.rs:367
 msgid "Close"
 msgstr "Закрыть"
+
+#~ msgid "Clapgrep Shortcuts"
+#~ msgstr "Метки Clapgrep"
+
+#~ msgid "General"
+#~ msgstr "Основные"
+
+#~ msgid "Quit"
+#~ msgstr "Выйти"
+
+#~ msgid "Shortcuts"
+#~ msgstr "Комбинации клавиш"
+
+#~ msgid "Control Search"
+#~ msgstr "Управление поиском"
+
+#~ msgid "Stop Search"
+#~ msgstr "Остановить поиск"
 
 #~ msgid "Searched {files} files and found {matches} matches"
 #~ msgstr "Поискал файлы {files} и нашел совпадения {matches}"
