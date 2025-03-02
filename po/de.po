@@ -1,14 +1,14 @@
 # German translations for Clapgrep application.
 # Copyright (C) 2024 Leopold Luley
 # This file is distributed under the same license as the Clapgrep application.
-# Leopold Luley <git@leopoldluley.de>, 2024.
+# Leopold Luley <git@leopoldluley.de>, 2024-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Clapgrep 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-28 22:21+0100\n"
-"PO-Revision-Date: 2024-12-05 13:34+0100\n"
+"PO-Revision-Date: 2025-03-02 10:42+0100\n"
 "Last-Translator: Leopold Luley <git@leopoldluley.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -27,11 +27,11 @@ msgstr "Clapgrep"
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
 msgid "Search through all your files"
-msgstr ""
+msgstr "Durchsuche all deine Dateien"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:10
 msgid "grep;ripgrep;search;pdf;"
-msgstr ""
+msgstr "grep;ripgrep;suche;pdf;"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:19
 msgid ""
@@ -39,6 +39,10 @@ msgid ""
 "what you're looking for. But you did not know in which file. So you had to "
 "search each of them at a time..."
 msgstr ""
+"Hattest du schon einmal einen Ordner voller PDF-Dateien, von denen du "
+"wusstest, dass sich irgendwo darin die gesuchte Datei befindet? Aber du "
+"wusstest nicht, in welcher Datei. Also musstest du jede von ihnen einzeln "
+"durchsuchen..."
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:20
 msgid ""
@@ -47,32 +51,38 @@ msgid ""
 "finding out on which page / line in which file the information is that you "
 "are looking for!"
 msgstr ""
+"Mit Clapgrep ist das nicht mehr nötig! Öffne einfach den Ordner mit "
+"Clapgrep, gib den Suchbegriff ein, und Clapgrep macht die ganze harte "
+"Arbeit, um herauszufinden, auf welcher Seite/Zeile in welcher Datei sich die "
+"gesuchte Information befindet!"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:21
 msgid ""
 "Clapgrep can currently search all sorts of text files, PDFs and Office "
 "documents, with more to come."
 msgstr ""
+"Clapgrep kann derzeit alle Arten von Textdateien, PDFs und Office-Dokumenten "
+"durchsuchen, und weitere werden folgen."
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
 msgid "Main window in desktop view"
-msgstr ""
+msgstr "Hauptfenster in der Desktopansicht"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:29
 msgid "Preview in desktop view"
-msgstr ""
+msgstr "Vorschau in der Desktopansicht"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:33
 msgid "Search interface in mobile view"
-msgstr ""
+msgstr "Suche in der mobilen Ansicht"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:37
 msgid "Results in mobile view"
-msgstr ""
+msgstr "Ergebnisse in der mobilen Ansicht"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:41
 msgid "Preview in mobile view"
-msgstr ""
+msgstr "Vorschau in der mobilen Ansicht"
 
 #: gnome/src/ui/error_window/error_window.blp:7
 msgid "Search Errors"
@@ -82,23 +92,23 @@ msgstr "Suchfehler"
 #: gnome/src/ui/search_window/search_window.blp:242
 #: gnome/src/ui/preview/mod.rs:95
 msgid "Content Preview"
-msgstr ""
+msgstr "Vorschau"
 
 #: gnome/src/ui/preview/preview.blp:20
 msgid "Nothing Selected..."
-msgstr ""
+msgstr "Nichts ausgewählt..."
 
 #: gnome/src/ui/preview/preview.blp:21
 msgid "Try clicking on on of the result lines."
-msgstr ""
+msgstr "Click auf eines der Ergebnisse."
 
 #: gnome/src/ui/preview/preview.blp:27
 msgid "Under Construction"
-msgstr ""
+msgstr "In der Entwicklung"
 
 #: gnome/src/ui/preview/preview.blp:28
 msgid "Preview for this file type has not been implemented yet."
-msgstr ""
+msgstr "Die Vorschau wurde für diesen Dateityp noch nicht implementiert."
 
 #: gnome/src/ui/search_window/search_window.blp:31
 msgid "Search Settings"
