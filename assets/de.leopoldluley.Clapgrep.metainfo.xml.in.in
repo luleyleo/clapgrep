@@ -62,18 +62,19 @@
     <control>touch</control>
   </supports>
   <releases>
-    <release version="25.03" date="2025-03-01">
+    <release version="25.03" date="2025-03-03">
       <description translate="no">
         <p>New features:</p>
         <ul>
           <li>Matches are now highlighted and easier to spot.</li>
-          <li>The preview no supports PDF files.</li>
           <li>Much faster PDF search using Poppler.</li>
           <li>PDF results are now per line rather than per page.</li>
+          <li>The preview now supports PDF files.</li>
         </ul>
         <p>Bug fixes:</p>
         <ul>
-          <li>Repeated searches now display their results correctly again.</li>
+          <li>Searching LibreOffice files should be more reliable.</li>
+          <li>Repeated searches now display their results correctly.</li>
         </ul>
       </description>
     </release>
