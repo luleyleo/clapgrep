@@ -1,4 +1,4 @@
-project('clapgrep', 'rust', version: '25.02', meson_version: '>= 1.5')
+project('clapgrep', 'rust', version: '25.03', meson_version: '>= 1.5')
 base_id = 'de.leopoldluley.Clapgrep'
 base_path = '/de/leopoldluley/Clapgrep'
 
