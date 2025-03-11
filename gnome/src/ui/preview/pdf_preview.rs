@@ -60,6 +60,13 @@ mod imp {
                     .context("Failed to open document")?;
             let page = doc.page(page_index as i32).expect("out of range");
 
+            let matched_strings = result.matched_strings();
+            let highlights = matched_strings
+                .iter()
+                .map(|m| page.find_text(m))
+                .flatten()
+                .collect::<Vec<_>>();
+
             self.pdf_view
                 .set_draw_func(move |_pdf_view, context, cw, ch| {
                     let (cw, ch) = (cw as f64, ch as f64);
@@ -82,6 +89,13 @@ mod imp {
 
                     // draw pdf
                     page.render(context);
+
+                    // draw highlights
+                    context.set_source_rgba(1.0, 0.0, 0.0, 0.3);
+                    for h in highlights.iter() {
+                        context.rectangle(h.x1(), ph - h.y2(), h.x2() - h.x1(), h.y2() - h.y1());
+                        _ = context.fill();
+                    }
                 });
 
             Ok(())
