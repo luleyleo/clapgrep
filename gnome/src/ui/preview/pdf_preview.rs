@@ -63,8 +63,7 @@ mod imp {
             let matched_strings = result.matched_strings();
             let highlights = matched_strings
                 .iter()
-                .map(|m| page.find_text(m))
-                .flatten()
+                .flat_map(|m| page.find_text(m))
                 .collect::<Vec<_>>();
 
             self.pdf_view
