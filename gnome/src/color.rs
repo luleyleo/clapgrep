@@ -13,13 +13,16 @@ pub fn pango_color_from_rgba(rgba: &gdk::RGBA) -> pango::Color {
     pango::Color::parse(&encode_rgba(rgba)).unwrap()
 }
 
-fn accent_color_from_style_manager(style_manager: &adw::StyleManager) -> pango::Color {
-    let dark = style_manager.is_dark();
-    let accent_color = style_manager.accent_color().to_standalone_rgba(dark);
-    pango_color_from_rgba(&accent_color)
+pub fn default_accent_color() -> pango::Color {
+    pango::Color::parse("#000").unwrap()
 }
 
-pub fn watch_accent_color(handler: impl Fn(pango::Color) + Clone + 'static) {
+fn accent_color_from_style_manager(style_manager: &adw::StyleManager) -> gdk::RGBA {
+    let dark = style_manager.is_dark();
+    style_manager.accent_color().to_standalone_rgba(dark)
+}
+
+pub fn watch_accent_color(handler: impl Fn(gdk::RGBA) + Clone + 'static) {
     let style_manager = adw::StyleManager::default();
 
     let handler1 = handler.clone();

@@ -1,5 +1,5 @@
 use crate::{
-    color::{pango_color_from_rgba, watch_accent_color},
+    color::{default_accent_color, pango_color_from_rgba, watch_accent_color},
     search::{SearchMatch, SearchResult},
 };
 use adw::subclass::prelude::*;
@@ -28,13 +28,9 @@ impl Default for ResultView {
             result: Default::default(),
             container: Default::default(),
             content: Default::default(),
-            highlight_color: RefCell::new(default_highlight_color()),
+            highlight_color: RefCell::new(default_accent_color()),
         }
     }
-}
-
-fn default_highlight_color() -> pango::Color {
-    pango::Color::parse("#000").unwrap()
 }
 
 #[glib::object_subclass]
@@ -53,13 +49,6 @@ impl ObjectSubclass for ResultView {
 }
 
 impl ResultView {
-    fn update_color(&self, style_manager: &adw::StyleManager) {
-        let dark = style_manager.is_dark();
-        let accent_color = style_manager.accent_color().to_standalone_rgba(dark);
-        let accent_color = pango_color_from_rgba(&accent_color);
-        self.highlight_color.replace(accent_color);
-    }
-
     fn update_content(&self) {
         let highlight_color = self.highlight_color.borrow();
         let result = self.result.borrow();
@@ -97,29 +86,11 @@ impl ObjectImpl for ResultView {
             #[weak]
             obj,
             move |accent_color| {
+                let accent_color = pango_color_from_rgba(&accent_color);
                 obj.imp().highlight_color.replace(accent_color);
                 obj.imp().update_content();
             }
         ));
-
-        let style_manager = adw::StyleManager::default();
-        style_manager.connect_accent_color_notify(glib::clone!(
-            #[weak]
-            obj,
-            move |style_manager| {
-                obj.imp().update_color(style_manager);
-                obj.imp().update_content();
-            }
-        ));
-        style_manager.connect_dark_notify(glib::clone!(
-            #[weak]
-            obj,
-            move |style_manager| {
-                obj.imp().update_color(style_manager);
-                obj.imp().update_content();
-            }
-        ));
-        obj.imp().update_color(&style_manager);
 
         obj.connect_result_notify(|obj| {
             obj.imp().update_content();
