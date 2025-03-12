@@ -19,6 +19,9 @@ check: setup
 build: setup
   meson compile -C build
 
+test: setup
+  meson test -C build
+
 run: setup
   meson compile -C build && env RUST_BACKTRACE=full build/gnome/clapgrep
 
