@@ -1,5 +1,5 @@
 use crate::{
-    color::pango_color_from_rgba,
+    color::{pango_color_from_rgba, watch_accent_color},
     search::{SearchMatch, SearchResult},
 };
 use adw::subclass::prelude::*;
@@ -92,6 +92,15 @@ impl ObjectImpl for ResultView {
     fn constructed(&self) {
         self.parent_constructed();
         let obj = self.obj();
+
+        watch_accent_color(glib::clone!(
+            #[weak]
+            obj,
+            move |accent_color| {
+                obj.imp().highlight_color.replace(accent_color);
+                obj.imp().update_content();
+            }
+        ));
 
         let style_manager = adw::StyleManager::default();
         style_manager.connect_accent_color_notify(glib::clone!(
