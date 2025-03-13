@@ -5,6 +5,7 @@ use gtk::{
 };
 
 mod app;
+mod color;
 mod config;
 mod i18n;
 mod search;

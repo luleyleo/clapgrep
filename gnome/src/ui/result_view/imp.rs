@@ -1,17 +1,13 @@
-use crate::search::{SearchMatch, SearchResult};
+use crate::{
+    color::{default_accent_color, pango_color_from_rgba, watch_accent_color},
+    search::{SearchMatch, SearchResult},
+};
 use adw::subclass::prelude::*;
 use glib::subclass::InitializingObject;
 use gtk::{glib, pango, prelude::*, CompositeTemplate};
-use std::cell::{Cell, RefCell};
+use std::cell::RefCell;
 
-#[derive(Default, Clone, Copy)]
-struct Color {
-    pub r: u16,
-    pub g: u16,
-    pub b: u16,
-}
-
-#[derive(CompositeTemplate, glib::Properties, Default)]
+#[derive(CompositeTemplate, glib::Properties)]
 #[template(file = "src/ui/result_view/result_view.blp")]
 #[properties(wrapper_type = super::ResultView)]
 pub struct ResultView {
@@ -23,7 +19,18 @@ pub struct ResultView {
     #[template_child]
     pub content: TemplateChild<gtk::Label>,
 
-    highlight_color: Cell<Color>,
+    highlight_color: RefCell<pango::Color>,
+}
+
+impl Default for ResultView {
+    fn default() -> Self {
+        Self {
+            result: Default::default(),
+            container: Default::default(),
+            content: Default::default(),
+            highlight_color: RefCell::new(default_accent_color()),
+        }
+    }
 }
 
 #[glib::object_subclass]
@@ -42,20 +49,8 @@ impl ObjectSubclass for ResultView {
 }
 
 impl ResultView {
-    fn update_color(&self, style_manager: &adw::StyleManager) {
-        let dark = style_manager.is_dark();
-        let accent_color = style_manager.accent_color().to_standalone_rgba(dark);
-        let accent_color = Color {
-            r: (accent_color.red() * (0xFFFF as f32)) as u16,
-            g: (accent_color.green() * (0xFFFF as f32)) as u16,
-            b: (accent_color.blue() * (0xFFFF as f32)) as u16,
-        };
-        self.highlight_color.set(accent_color);
-    }
-
     fn update_content(&self) {
-        let highlight_color = self.highlight_color.get();
-
+        let highlight_color = self.highlight_color.borrow();
         let result = self.result.borrow();
         if let Some(result) = result.as_ref() {
             let content = result.content();
@@ -67,9 +62,9 @@ impl ResultView {
                 for m in matches.iter::<SearchMatch>() {
                     let m = m.expect("expected SearchMatch");
                     let mut highlight = pango::AttrColor::new_foreground(
-                        highlight_color.r,
-                        highlight_color.g,
-                        highlight_color.b,
+                        highlight_color.red(),
+                        highlight_color.green(),
+                        highlight_color.blue(),
                     );
                     highlight.set_start_index(m.start());
                     highlight.set_end_index(m.end());
@@ -87,24 +82,15 @@ impl ObjectImpl for ResultView {
         self.parent_constructed();
         let obj = self.obj();
 
-        let style_manager = adw::StyleManager::default();
-        style_manager.connect_accent_color_notify(glib::clone!(
+        watch_accent_color(glib::clone!(
             #[weak]
             obj,
-            move |style_manager| {
-                obj.imp().update_color(style_manager);
+            move |accent_color| {
+                let accent_color = pango_color_from_rgba(&accent_color);
+                obj.imp().highlight_color.replace(accent_color);
                 obj.imp().update_content();
             }
         ));
-        style_manager.connect_dark_notify(glib::clone!(
-            #[weak]
-            obj,
-            move |style_manager| {
-                obj.imp().update_color(style_manager);
-                obj.imp().update_content();
-            }
-        ));
-        obj.imp().update_color(&style_manager);
 
         obj.connect_result_notify(|obj| {
             obj.imp().update_content();

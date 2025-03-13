@@ -6,6 +6,7 @@ use gtk::{
 };
 use std::{
     borrow::Cow,
+    collections::HashSet,
     path::{Path, PathBuf},
 };
 
@@ -85,6 +86,30 @@ impl SearchResult {
         }
 
         Vec::new()
+    }
+
+    pub fn matched_strings(&self) -> HashSet<String> {
+        let matches = self.matches();
+        let content = self.content();
+
+        if let Some(matches) = matches {
+            let mut matched_strings = HashSet::new();
+
+            for m in matches.into_iter() {
+                if let Ok(m) = m {
+                    let search_match = m.downcast::<SearchMatch>().unwrap();
+                    let (start, end) = (search_match.start() as usize, search_match.end() as usize);
+                    let matched_string = content[start..end].to_string();
+                    matched_strings.insert(matched_string);
+                } else {
+                    break;
+                }
+            }
+
+            return matched_strings;
+        }
+
+        Default::default()
     }
 }
 
