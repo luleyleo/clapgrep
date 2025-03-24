@@ -22,7 +22,6 @@ endif
 custom_target(
   'cargo-build',
   build_by_default: true,
-  build_always_stale: true,
   output: meson.project_name(),
   console: true,
   install: true,
