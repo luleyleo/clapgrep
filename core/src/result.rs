@@ -19,6 +19,7 @@ pub struct ResultEntry {
 pub struct SearchResult {
     pub search: SearchId,
     pub path: PathBuf,
+    pub path_matches: Vec<Match>,
     pub entries: Vec<ResultEntry>,
 }
 
