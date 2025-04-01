@@ -33,22 +33,43 @@ impl SearchModel {
 
     fn append_file_info_impl(&self, file_info: &clapgrep_core::SearchResult) -> Section {
         let base_path = self.imp().base_path.borrow();
-        let search_results = file_info.entries.iter().map(|m| {
-            SearchResult::new(
-                file_info
-                    .path
-                    .strip_prefix(base_path.as_path())
-                    .unwrap_or(file_info.path.as_ref()),
-                file_info.path.as_path(),
-                m.location,
-                &m.content,
-                &m.matches,
-            )
-        });
 
         let mut data = self.imp().data.borrow_mut();
         let start = data.len() as u32;
-        data.extend(search_results);
+        if file_info.entries.is_empty() {
+            debug_assert!(
+                !file_info.path_matches.is_empty(),
+                "file_info.path_matches must not be empty"
+            );
+
+            data.push(SearchResult::new(
+                base_path.clone(),
+                file_info.path.clone(),
+                &file_info.path_matches,
+                0,
+                0,
+                "",
+                &[],
+            ));
+        } else {
+            let search_results = file_info.entries.iter().enumerate().map(|(i, m)| {
+                let (line, page) = match m.location {
+                    clapgrep_core::Location::Text { line } => (line, 0),
+                    clapgrep_core::Location::Document { page, line } => (line, page),
+                };
+
+                SearchResult::new(
+                    base_path.clone(),
+                    file_info.path.clone(),
+                    if i == 0 { &file_info.path_matches } else { &[] },
+                    line,
+                    page,
+                    &m.content,
+                    &m.matches,
+                )
+            });
+            data.extend(search_results);
+        }
         let end = data.len() as u32;
 
         let section = Section { start, end };
@@ -65,7 +86,7 @@ impl SearchModel {
     pub fn extend_with_results(&self, results: &[clapgrep_core::SearchResult]) {
         let start = self.imp().data.borrow().len() as u32;
         for file_info in results {
-            if !file_info.entries.is_empty() {
+            if !file_info.entries.is_empty() || !file_info.path_matches.is_empty() {
                 self.append_file_info_impl(file_info);
             }
         }
