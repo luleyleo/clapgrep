@@ -68,6 +68,7 @@
         <ul>
           <li>Matches are now highlighted in PDF preview.</li>
           <li>File names can now be searched as well.</li>
+          <li>Search flags are now persistent across restarts.</li>
           <li>Updated UI to match Gnome 48.</li>
         </ul>
         <p>Translations:</p>

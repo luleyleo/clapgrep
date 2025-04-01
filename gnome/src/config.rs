@@ -32,6 +32,12 @@ mod imp {
         #[property(name = "window-maximized", get, set, type = bool, member = maximized)]
         window: RefCell<WindowConfig>,
 
+        #[property(name = "case-sensitive", get, set, type = bool, member = case_sensitive)]
+        #[property(name = "include-hidden", get, set, type = bool, member = include_hidden)]
+        #[property(name = "include-ignored", get, set, type = bool, member = include_ignored)]
+        #[property(name = "disable-regex", get, set, type = bool, member = disable_regex)]
+        flags: RefCell<SearchFlags>,
+
         #[property(name = "search-names", get, set, type = bool, member = names)]
         #[property(name = "search-pdf", get, set, type = bool, member = pdf)]
         #[property(name = "search-office", get, set, type = bool, member = office)]
@@ -87,12 +93,14 @@ mod imp {
             };
 
             self.window.replace(config.window);
+            self.flags.replace(config.flags);
             self.search.replace(config.search);
         }
 
         pub fn save(&self) {
             let config = FullConfig {
                 window: *self.window.borrow(),
+                flags: *self.flags.borrow(),
                 search: *self.search.borrow(),
             };
             let config_txt = toml::to_string(&config).expect("Failed to serialize config");
@@ -106,6 +114,7 @@ mod imp {
     #[derive(Default, Clone, serde::Serialize, serde::Deserialize)]
     struct FullConfig {
         window: WindowConfig,
+        flags: SearchFlags,
         search: SearchConfig,
     }
 
@@ -123,6 +132,14 @@ mod imp {
                 maximized: false,
             }
         }
+    }
+
+    #[derive(Clone, Copy, Default, serde::Serialize, serde::Deserialize)]
+    struct SearchFlags {
+        pub case_sensitive: bool,
+        pub include_hidden: bool,
+        pub include_ignored: bool,
+        pub disable_regex: bool,
     }
 
     #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
