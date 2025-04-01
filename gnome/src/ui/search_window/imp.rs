@@ -326,6 +326,12 @@ impl ObjectImpl for SearchWindow {
             .build();
 
         self.config
+            .bind_property("search_names", obj.as_ref(), "search_names")
+            .bidirectional()
+            .sync_create()
+            .build();
+
+        self.config
             .bind_property("search_pdf", obj.as_ref(), "search_pdf")
             .bidirectional()
             .sync_create()
