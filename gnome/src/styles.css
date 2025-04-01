@@ -5,3 +5,8 @@
 .view gutter {
   background-color: #00000000;
 }
+
+.file-entry label {
+	color: var(--window-fg-color);
+	text-decoration: none;
+}

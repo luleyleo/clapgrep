@@ -1,0 +1,15 @@
+using Gtk 4.0;
+
+template $ClapgrepResultHeaderView: Widget {
+  layout-manager: Gtk.BinLayout {};
+
+  LinkButton content {
+    margin-start: 16;
+    halign: start;
+
+    styles [
+      "heading",
+      "file-entry",
+    ]
+  }
+}

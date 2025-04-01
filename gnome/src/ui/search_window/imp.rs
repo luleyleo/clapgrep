@@ -2,7 +2,7 @@ use crate::{
     config::Config,
     i18n::gettext_f,
     search::{SearchModel, SearchResult},
-    ui::{preview::Preview, ErrorWindow, ResultView},
+    ui::{preview::Preview, ErrorWindow, ResultHeaderView, ResultView},
     APP_ID,
 };
 use adw::subclass::prelude::*;
@@ -43,6 +43,8 @@ pub struct SearchWindow {
     #[property(get, set)]
     pub disable_regex: Cell<bool>,
 
+    #[property(get, set)]
+    pub search_names: Cell<bool>,
     #[property(get, set)]
     pub search_pdf: Cell<bool>,
     #[property(get, set)]
@@ -100,8 +102,11 @@ impl ObjectSubclass for SearchWindow {
 
     fn class_init(klass: &mut Self::Class) {
         ResultView::static_type();
+        ResultHeaderView::static_type();
+
         klass.bind_template();
         klass.bind_template_callbacks();
+
         klass.install_action("win.start-search", None, |win, _, _| {
             win.imp().start_search();
         });
@@ -171,9 +176,11 @@ impl SearchWindow {
     fn on_result_activated(&self, position: u32) {
         if let Some(result) = self.results.item(position) {
             let result = result.downcast::<SearchResult>().unwrap();
-            self.preview.set_result(&result);
-            self.preview_navigation_page.set_visible(true);
-            self.inner_split_view.set_show_content(true);
+            if !result.content().is_empty() {
+                self.preview.set_result(&result);
+                self.preview_navigation_page.set_visible(true);
+                self.inner_split_view.set_show_content(true);
+            }
         }
     }
 }
@@ -245,6 +252,7 @@ impl SearchWindow {
                 case_sensitive: self.case_sensitive.get(),
                 fixed_string: self.disable_regex.get(),
 
+                search_names: self.search_names.get(),
                 search_pdf: self.search_pdf.get(),
                 search_office: self.search_office.get(),
 
@@ -313,6 +321,12 @@ impl ObjectImpl for SearchWindow {
 
         self.config
             .bind_property("window_maximized", obj.as_ref(), "maximized")
+            .bidirectional()
+            .sync_create()
+            .build();
+
+        self.config
+            .bind_property("search_names", obj.as_ref(), "search_names")
             .bidirectional()
             .sync_create()
             .build();

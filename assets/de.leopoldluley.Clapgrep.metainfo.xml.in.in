@@ -67,10 +67,8 @@
         <p>New features:</p>
         <ul>
           <li>Matches are now highlighted in PDF preview.</li>
-        </ul>
-        <p>Bug fixes:</p>
-        <ul>
-          <li>None</li>
+          <li>File names can now be searched as well.</li>
+          <li>Updated UI to match Gnome 48.</li>
         </ul>
         <p>Translations:</p>
         <ul>

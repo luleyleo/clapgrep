@@ -13,10 +13,10 @@ template $ClapgrepResultView: Widget {
     Label {
       xalign: 1.0;
       width-request: 40;
-      label: bind template.result as <$ClapgrepSearchResult>.line;
+      label: bind template.number;
 
       styles [
-        "monospace"
+        "monospace",
       ]
     }
 
@@ -24,13 +24,13 @@ template $ClapgrepResultView: Widget {
       label: ": ";
 
       styles [
-        "monospace"
+        "monospace",
       ]
     }
 
     Label content {
       styles [
-        "monospace"
+        "monospace",
       ]
     }
   }

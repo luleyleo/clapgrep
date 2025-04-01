@@ -32,6 +32,7 @@ mod imp {
         #[property(name = "window-maximized", get, set, type = bool, member = maximized)]
         window: RefCell<WindowConfig>,
 
+        #[property(name = "search-names", get, set, type = bool, member = names)]
         #[property(name = "search-pdf", get, set, type = bool, member = pdf)]
         #[property(name = "search-office", get, set, type = bool, member = office)]
         search: RefCell<SearchConfig>,
@@ -126,12 +127,14 @@ mod imp {
 
     #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
     struct SearchConfig {
+        names: bool,
         pdf: bool,
         office: bool,
     }
     impl Default for SearchConfig {
         fn default() -> Self {
             SearchConfig {
+                names: true,
                 pdf: true,
                 office: true,
             }

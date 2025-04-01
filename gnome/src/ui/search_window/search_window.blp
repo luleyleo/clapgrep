@@ -116,12 +116,17 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                 title: _("Extra File Formats");
 
                 Adw.SwitchRow {
-                  title: _("PDF files");
+                  title: _("File Names");
+                  active: bind template.search_names bidirectional;
+                }
+
+                Adw.SwitchRow {
+                  title: _("PDF Files");
                   active: bind template.search_pdf bidirectional;
                 }
 
                 Adw.SwitchRow {
-                  title: _("Office files");
+                  title: _("Office Files");
                   active: bind template.search_office bidirectional;
                 }
               }
@@ -193,7 +198,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                     button-clicked => $on_show_errors() swapped;
 
                     styles [
-                      "error"
+                      "error",
                     ]
                   }
 
@@ -210,15 +215,8 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
 
                       header-factory: BuilderListItemFactory {
                         template ListHeader {
-                          child: LinkButton {
-                            margin-start: 16;
-                            halign: start;
-                            label: bind template.item as <$ClapgrepSearchResult>.relative_path;
-                            uri: bind template.item as <$ClapgrepSearchResult>.uri;
-
-                            styles [
-                              "heading"
-                            ]
+                          child: $ClapgrepResultHeaderView {
+                            result: bind template.item;
                           };
                         }
                       };

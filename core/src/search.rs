@@ -4,7 +4,7 @@ use crate::{
     utils, ResultEntry, SearchEngine, SearchMessage, SearchResult,
 };
 use grep::{
-    matcher::Match,
+    matcher::{Match, Matcher},
     regex::{RegexMatcher, RegexMatcherBuilder},
     searcher::SearcherBuilder,
 };
@@ -12,6 +12,7 @@ use ignore::{WalkBuilder, WalkState};
 use std::{
     error::Error,
     io,
+    os::unix::ffi::OsStrExt,
     path::PathBuf,
     sync::{
         atomic::{AtomicUsize, Ordering},
@@ -31,6 +32,7 @@ pub struct SearchFlags {
     pub case_sensitive: bool,
     pub fixed_string: bool,
 
+    pub search_names: bool,
     pub search_pdf: bool,
     pub search_office: bool,
 
@@ -105,8 +107,24 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
                 return WalkState::Continue;
             }
             let entry = entry.unwrap();
+            let file_type = entry.file_type().unwrap();
 
-            if !entry.file_type().unwrap().is_file() {
+            if file_type.is_symlink() {
+                return WalkState::Continue;
+            }
+
+            let mut path_matches = Vec::new();
+            if params.flags.search_names {
+                let file_name = entry.file_name();
+                matcher
+                    .find_iter(file_name.as_bytes(), |m| {
+                        path_matches.push(m);
+                        true
+                    })
+                    .expect("RegexMatcher should never throw an error");
+            }
+
+            if !file_type.is_file() {
                 return WalkState::Continue;
             }
 
@@ -138,6 +156,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
             let result = SearchResult {
                 search,
                 path: entry.path().to_path_buf(),
+                path_matches,
                 entries: sink.take_entries(),
             };
 

@@ -148,11 +148,11 @@ msgid "Extra File Formats"
 msgstr "Formati di file extra"
 
 #: gnome/src/ui/search_window/search_window.blp:119
-msgid "PDF files"
+msgid "PDF Files"
 msgstr "File PDF"
 
 #: gnome/src/ui/search_window/search_window.blp:124
-msgid "Office files"
+msgid "Office Files"
 msgstr "File di ufficio"
 
 #: gnome/src/ui/search_window/search_window.blp:135

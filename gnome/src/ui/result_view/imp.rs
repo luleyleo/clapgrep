@@ -3,9 +3,10 @@ use crate::{
     search::{SearchMatch, SearchResult},
 };
 use adw::subclass::prelude::*;
+use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use gtk::{glib, pango, prelude::*, CompositeTemplate};
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 
 #[derive(CompositeTemplate, glib::Properties)]
 #[template(file = "src/ui/result_view/result_view.blp")]
@@ -13,6 +14,9 @@ use std::cell::RefCell;
 pub struct ResultView {
     #[property(get, set)]
     pub result: RefCell<Option<SearchResult>>,
+
+    #[property(get, set)]
+    pub number: Cell<u64>,
 
     #[template_child]
     pub container: TemplateChild<gtk::Box>,
@@ -26,6 +30,7 @@ impl Default for ResultView {
     fn default() -> Self {
         Self {
             result: Default::default(),
+            number: Default::default(),
             container: Default::default(),
             content: Default::default(),
             highlight_color: RefCell::new(default_accent_color()),
@@ -54,23 +59,36 @@ impl ResultView {
         let result = self.result.borrow();
         if let Some(result) = result.as_ref() {
             let content = result.content();
-            self.content.set_text(&content);
 
-            let matches = result.matches();
-            if let Some(matches) = matches {
-                let attributes = pango::AttrList::new();
-                for m in matches.iter::<SearchMatch>() {
-                    let m = m.expect("expected SearchMatch");
-                    let mut highlight = pango::AttrColor::new_foreground(
-                        highlight_color.red(),
-                        highlight_color.green(),
-                        highlight_color.blue(),
-                    );
-                    highlight.set_start_index(m.start());
-                    highlight.set_end_index(m.end());
-                    attributes.insert(highlight);
+            if content.is_empty() {
+                self.content.set_text(&gettext("No match within the file."));
+                self.content.set_attributes(None);
+                self.obj().set_number(0);
+            } else {
+                self.content.set_text(&content);
+
+                if result.page() == 0 {
+                    self.obj().set_number(result.line());
+                } else {
+                    self.obj().set_number(result.page());
                 }
-                self.content.set_attributes(Some(&attributes));
+
+                let matches = result.content_matches();
+                if let Some(matches) = matches {
+                    let attributes = pango::AttrList::new();
+                    for m in matches.iter::<SearchMatch>() {
+                        let m = m.expect("expected SearchMatch");
+                        let mut highlight = pango::AttrColor::new_foreground(
+                            highlight_color.red(),
+                            highlight_color.green(),
+                            highlight_color.blue(),
+                        );
+                        highlight.set_start_index(m.start());
+                        highlight.set_end_index(m.end());
+                        attributes.insert(highlight);
+                    }
+                    self.content.set_attributes(Some(&attributes));
+                }
             }
         }
     }
