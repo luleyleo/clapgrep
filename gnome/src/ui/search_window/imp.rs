@@ -44,6 +44,8 @@ pub struct SearchWindow {
     pub disable_regex: Cell<bool>,
 
     #[property(get, set)]
+    pub search_names: Cell<bool>,
+    #[property(get, set)]
     pub search_pdf: Cell<bool>,
     #[property(get, set)]
     pub search_office: Cell<bool>,
@@ -250,6 +252,7 @@ impl SearchWindow {
                 case_sensitive: self.case_sensitive.get(),
                 fixed_string: self.disable_regex.get(),
 
+                search_names: self.search_names.get(),
                 search_pdf: self.search_pdf.get(),
                 search_office: self.search_office.get(),
 

@@ -32,6 +32,7 @@ pub struct SearchFlags {
     pub case_sensitive: bool,
     pub fixed_string: bool,
 
+    pub search_names: bool,
     pub search_pdf: bool,
     pub search_office: bool,
 
@@ -112,14 +113,16 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
                 return WalkState::Continue;
             }
 
-            let file_name = entry.file_name();
             let mut path_matches = Vec::new();
-            matcher
-                .find_iter(file_name.as_bytes(), |m| {
-                    path_matches.push(m);
-                    true
-                })
-                .expect("RegexMatcher should never throw an error");
+            if params.flags.search_names {
+                let file_name = entry.file_name();
+                matcher
+                    .find_iter(file_name.as_bytes(), |m| {
+                        path_matches.push(m);
+                        true
+                    })
+                    .expect("RegexMatcher should never throw an error");
+            }
 
             if !file_type.is_file() {
                 return WalkState::Continue;

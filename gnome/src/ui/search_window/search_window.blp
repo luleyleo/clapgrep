@@ -116,12 +116,17 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                 title: _("Extra File Formats");
 
                 Adw.SwitchRow {
-                  title: _("PDF files");
+                  title: _("File Names");
+                  active: bind template.search_names bidirectional;
+                }
+
+                Adw.SwitchRow {
+                  title: _("PDF Files");
                   active: bind template.search_pdf bidirectional;
                 }
 
                 Adw.SwitchRow {
-                  title: _("Office files");
+                  title: _("Office Files");
                   active: bind template.search_office bidirectional;
                 }
               }
