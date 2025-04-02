@@ -28,6 +28,20 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         }
     }
 
+    let donate_action = SimpleAction::new("donate", None);
+    donate_action.connect_activate(clone!(
+        #[weak]
+        window,
+        move |_, _| {
+            gtk::UriLauncher::new("https://ko-fi.com/luleyleo").launch(
+                Some(&window),
+                gio::Cancellable::NONE,
+                |_| {},
+            );
+        }
+    ));
+    app.add_action(&donate_action);
+
     let about_action = SimpleAction::new("about", None);
     about_action.connect_activate(clone!(
         #[weak]
@@ -43,6 +57,41 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         }
     ));
     app.add_action(&about_action);
+
+    let news_action = SimpleAction::new("news", None);
+    news_action.connect_activate(clone!(
+        #[weak]
+        window,
+        move |_, _| {
+            let app = window.application().unwrap();
+            let app_path = app.resource_base_path().unwrap();
+            let dialog = adw::AboutDialog::from_appdata(
+                &format!("{app_path}/metainfo.xml"),
+                Some(env!("APP_VERSION")),
+            );
+            dialog.present(Some(&window));
+
+            let navigation_view = dialog
+                .first_child() // adw::BreakpointBin
+                .unwrap()
+                .first_child() // adw::FloatingSheet
+                .unwrap()
+                .first_child()
+                .unwrap()
+                .next_sibling() // adw::Gizmo
+                .unwrap()
+                .first_child() // adw::BreakpointBin
+                .unwrap()
+                .first_child() // adw::ToastOverlay
+                .unwrap()
+                .first_child() // adw::NaviationView
+                .unwrap()
+                .downcast::<adw::NavigationView>()
+                .unwrap();
+            navigation_view.push_by_tag("whatsnew");
+        }
+    ));
+    app.add_action(&news_action);
 
     let quit_action = SimpleAction::new("quit", None);
     quit_action.connect_activate(clone!(
