@@ -42,6 +42,9 @@ mod imp {
         #[property(name = "search-pdf", get, set, type = bool, member = pdf)]
         #[property(name = "search-office", get, set, type = bool, member = office)]
         search: RefCell<SearchConfig>,
+
+        #[property(get, set)]
+        last_version: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -95,6 +98,7 @@ mod imp {
             self.window.replace(config.window);
             self.flags.replace(config.flags);
             self.search.replace(config.search);
+            self.last_version.replace(config.last_version);
         }
 
         pub fn save(&self) {
@@ -102,6 +106,7 @@ mod imp {
                 window: *self.window.borrow(),
                 flags: *self.flags.borrow(),
                 search: *self.search.borrow(),
+                last_version: self.last_version.borrow().clone(),
             };
             let config_txt = toml::to_string(&config).expect("Failed to serialize config");
             let config_path = Self::config_path();
@@ -111,11 +116,23 @@ mod imp {
         }
     }
 
-    #[derive(Default, Clone, serde::Serialize, serde::Deserialize)]
+    #[derive(Clone, serde::Serialize, serde::Deserialize)]
     struct FullConfig {
         window: WindowConfig,
         flags: SearchFlags,
         search: SearchConfig,
+        last_version: String,
+    }
+
+    impl Default for FullConfig {
+        fn default() -> Self {
+            Self {
+                window: Default::default(),
+                flags: Default::default(),
+                search: Default::default(),
+                last_version: env!("APP_VERSION").to_string(),
+            }
+        }
     }
 
     #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]

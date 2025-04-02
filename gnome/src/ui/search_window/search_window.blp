@@ -88,6 +88,34 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                 }
               }
 
+              Adw.PreferencesGroup update_banner {
+                visible: false;
+
+                [header-suffix]
+                Button {
+                  clicked => $on_hide_update_banner() swapped;
+
+                  child: Adw.ButtonContent {
+                    icon-name: "window-close-symbolic";
+                  };
+
+                  styles [
+                    "flat",
+                  ]
+                }
+
+                Adw.ButtonRow {
+                  title: _("See what's new");
+                  end-icon-name: "right-small-symbolic";
+                  action-name: "app.news";
+                }
+
+                Adw.ButtonRow {
+                  title: _("Donate 💝");
+                  action-name: "app.donate";
+                }
+              }
+
               Adw.PreferencesGroup {
                 title: _("Search Options");
 
@@ -248,6 +276,11 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
 
 menu menu_app {
   section {
+    item {
+      label: "Donate 💝";
+      action: "app.donate";
+    }
+
     item {
       label: _("Keyboard Shortcuts");
       action: "win.show-help-overlay";

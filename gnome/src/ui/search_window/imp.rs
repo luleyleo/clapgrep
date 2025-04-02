@@ -5,7 +5,7 @@ use crate::{
     ui::{preview::Preview, ErrorWindow, ResultHeaderView, ResultView},
     APP_ID,
 };
-use adw::subclass::prelude::*;
+use adw::{prelude::PreferencesGroupExt, subclass::prelude::*};
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
@@ -73,6 +73,8 @@ pub struct SearchWindow {
     #[property(get)]
     pub search_errors_notification: RefCell<String>,
 
+    #[template_child]
+    pub update_banner: TemplateChild<adw::PreferencesGroup>,
     #[template_child]
     pub results_stack: TemplateChild<gtk::Stack>,
     #[template_child]
@@ -182,6 +184,11 @@ impl SearchWindow {
                 self.inner_split_view.set_show_content(true);
             }
         }
+    }
+
+    #[template_callback]
+    fn on_hide_update_banner(&self) {
+        self.update_banner.set_visible(false);
     }
 }
 
@@ -295,6 +302,14 @@ impl SearchWindow {
         *self.search_progress_notification.borrow_mut() = message;
         self.obj().notify("search_progress_notification");
     }
+
+    fn show_update_banner(&self, version: &str) {
+        self.update_banner.set_title(&gettext_f(
+            "Updated to {version} 🎉",
+            &[("version", version)],
+        ));
+        self.update_banner.set_visible(true);
+    }
 }
 
 #[glib::derived_properties]
@@ -366,6 +381,11 @@ impl ObjectImpl for SearchWindow {
             .bidirectional()
             .sync_create()
             .build();
+
+        if self.config.last_version() != env!("APP_VERSION") {
+            self.show_update_banner(env!("APP_VERSION"));
+            self.config.set_last_version(env!("APP_VERSION"));
+        }
 
         obj.results().connect_items_changed(clone!(
             #[weak]
