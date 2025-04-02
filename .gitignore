@@ -3,3 +3,5 @@ repo/
 flatpak/
 flatpak-build/
 .flatpak-builder/
+.idea/
+samples/
