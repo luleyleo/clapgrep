@@ -4,7 +4,9 @@ gnome/src/ui/error_window/error_window.blp
 gnome/src/ui/preview/pdf_preview.blp
 gnome/src/ui/preview/preview.blp
 gnome/src/ui/preview/text_preview.blp
+gnome/src/ui/result_header_view/result_header_view.blp
 gnome/src/ui/result_view/result_view.blp
 gnome/src/ui/search_window/search_window.blp
 gnome/src/ui/search_window/imp.rs
 gnome/src/ui/preview/mod.rs
+gnome/src/ui/result_view/imp.rs

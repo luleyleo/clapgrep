@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-28 22:21+0100\n"
+"POT-Creation-Date: 2025-04-03 12:39+0200\n"
 "PO-Revision-Date: 2024-12-28 18:34+0300\n"
 "Last-Translator: mva <ma12@rambler.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -79,7 +79,7 @@ msgid "Search Errors"
 msgstr "Ошибки поиска"
 
 #: gnome/src/ui/preview/preview.blp:13
-#: gnome/src/ui/search_window/search_window.blp:242
+#: gnome/src/ui/search_window/search_window.blp:268
 #: gnome/src/ui/preview/mod.rs:95
 msgid "Content Preview"
 msgstr ""
@@ -116,56 +116,68 @@ msgstr "Начать поиск"
 msgid "Search Path"
 msgstr "Путь поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:92
+#: gnome/src/ui/search_window/search_window.blp:108
+msgid "See what's new"
+msgstr ""
+
+#: gnome/src/ui/search_window/search_window.blp:114
+msgid "Donate 💝"
+msgstr ""
+
+#: gnome/src/ui/search_window/search_window.blp:120
 msgid "Search Options"
 msgstr "Параметры поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:95
+#: gnome/src/ui/search_window/search_window.blp:123
 msgid "Case Sensitive"
 msgstr "С учетом регистра"
 
-#: gnome/src/ui/search_window/search_window.blp:100
+#: gnome/src/ui/search_window/search_window.blp:128
 msgid "Disable Regex"
 msgstr "Отключить регулярное выражение"
 
-#: gnome/src/ui/search_window/search_window.blp:105
+#: gnome/src/ui/search_window/search_window.blp:133
 msgid "Include Hidden"
 msgstr "Включать скрытые"
 
-#: gnome/src/ui/search_window/search_window.blp:110
+#: gnome/src/ui/search_window/search_window.blp:138
 msgid "Include Ignored"
 msgstr "Включить игнорируемые"
 
-#: gnome/src/ui/search_window/search_window.blp:116
+#: gnome/src/ui/search_window/search_window.blp:144
 msgid "Extra File Formats"
 msgstr "Дополнительные форматы файлов"
 
-#: gnome/src/ui/search_window/search_window.blp:119
+#: gnome/src/ui/search_window/search_window.blp:147
+msgid "File Names"
+msgstr ""
+
+#: gnome/src/ui/search_window/search_window.blp:152
 msgid "PDF Files"
 msgstr "PDF файлы"
 
-#: gnome/src/ui/search_window/search_window.blp:124
+#: gnome/src/ui/search_window/search_window.blp:157
 msgid "Office Files"
 msgstr "Файлы Office"
 
-#: gnome/src/ui/search_window/search_window.blp:135
-#: gnome/src/ui/search_window/search_window.blp:142
+#: gnome/src/ui/search_window/search_window.blp:168
+#: gnome/src/ui/search_window/search_window.blp:175
 msgid "Search Results"
 msgstr "Результаты поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:155
+#: gnome/src/ui/search_window/search_window.blp:188
 msgid "No Search Yet"
 msgstr "Поисков пока не было"
 
-#: gnome/src/ui/search_window/search_window.blp:156
+#: gnome/src/ui/search_window/search_window.blp:189
 msgid "Try to start a search"
 msgstr "Попробуйте начать поиск"
 
-#: gnome/src/ui/search_window/search_window.blp:165
+#: gnome/src/ui/search_window/search_window.blp:198
 msgid "No Results"
 msgstr "Нет результатов"
 
-#: gnome/src/ui/search_window/search_window.blp:171
+#: gnome/src/ui/search_window/search_window.blp:204
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
@@ -173,29 +185,33 @@ msgstr ""
 "Возможно, вы захотите попробовать изменить схему поиска, активировать поиск "
 "по документамили перейти в другой каталог"
 
-#: gnome/src/ui/search_window/search_window.blp:192
+#: gnome/src/ui/search_window/search_window.blp:225
 msgid "Show Errors"
 msgstr "Показать ошибки"
 
-#: gnome/src/ui/search_window/search_window.blp:254
+#: gnome/src/ui/search_window/search_window.blp:285
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: gnome/src/ui/search_window/search_window.blp:259
+#: gnome/src/ui/search_window/search_window.blp:290
 msgid "About Clapgrep"
 msgstr "О программе  Clapgrep"
 
-#: gnome/src/ui/search_window/imp.rs:145
+#: gnome/src/ui/search_window/imp.rs:152
 msgid "Choose Search Path"
 msgstr "Выберите путь поиска"
 
-#: gnome/src/ui/search_window/imp.rs:364
+#: gnome/src/ui/search_window/imp.rs:422
 msgid "Cancel Search"
 msgstr "Отменить поиск"
 
-#: gnome/src/ui/search_window/imp.rs:367
+#: gnome/src/ui/search_window/imp.rs:425
 msgid "Close"
 msgstr "Закрыть"
+
+#: gnome/src/ui/result_view/imp.rs:64
+msgid "No match within the file."
+msgstr ""
 
 #~ msgid "Clapgrep Shortcuts"
 #~ msgstr "Метки Clapgrep"

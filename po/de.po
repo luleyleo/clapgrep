@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Clapgrep 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-28 22:21+0100\n"
-"PO-Revision-Date: 2025-03-02 10:42+0100\n"
+"POT-Creation-Date: 2025-04-03 12:39+0200\n"
+"PO-Revision-Date: 2025-04-03 12:41+0200\n"
 "Last-Translator: Leopold Luley <git@leopoldluley.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 47.1\n"
+"X-Generator: Gtranslator 48.0\n"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
@@ -89,7 +89,7 @@ msgid "Search Errors"
 msgstr "Suchfehler"
 
 #: gnome/src/ui/preview/preview.blp:13
-#: gnome/src/ui/search_window/search_window.blp:242
+#: gnome/src/ui/search_window/search_window.blp:268
 #: gnome/src/ui/preview/mod.rs:95
 msgid "Content Preview"
 msgstr "Vorschau"
@@ -126,56 +126,68 @@ msgstr "Suche beginnen"
 msgid "Search Path"
 msgstr "Suchpfad"
 
-#: gnome/src/ui/search_window/search_window.blp:92
+#: gnome/src/ui/search_window/search_window.blp:108
+msgid "See what's new"
+msgstr "Neuigkeiten anzeigen"
+
+#: gnome/src/ui/search_window/search_window.blp:114
+msgid "Donate 💝"
+msgstr "Unterstützen 💝"
+
+#: gnome/src/ui/search_window/search_window.blp:120
 msgid "Search Options"
 msgstr "Suchoptionen"
 
-#: gnome/src/ui/search_window/search_window.blp:95
+#: gnome/src/ui/search_window/search_window.blp:123
 msgid "Case Sensitive"
 msgstr "Groß-/Kleinschreibung beachten"
 
-#: gnome/src/ui/search_window/search_window.blp:100
+#: gnome/src/ui/search_window/search_window.blp:128
 msgid "Disable Regex"
 msgstr "Regex deaktivieren"
 
-#: gnome/src/ui/search_window/search_window.blp:105
+#: gnome/src/ui/search_window/search_window.blp:133
 msgid "Include Hidden"
 msgstr "Versteckte Dateien hinzunehmen"
 
-#: gnome/src/ui/search_window/search_window.blp:110
+#: gnome/src/ui/search_window/search_window.blp:138
 msgid "Include Ignored"
 msgstr "Ignorierte Dateien hinzunehmen"
 
-#: gnome/src/ui/search_window/search_window.blp:116
+#: gnome/src/ui/search_window/search_window.blp:144
 msgid "Extra File Formats"
 msgstr "Zusätzliche Dateiformate"
 
-#: gnome/src/ui/search_window/search_window.blp:119
+#: gnome/src/ui/search_window/search_window.blp:147
+msgid "File Names"
+msgstr "Dateinamen"
+
+#: gnome/src/ui/search_window/search_window.blp:152
 msgid "PDF Files"
 msgstr "PDF Dateien"
 
-#: gnome/src/ui/search_window/search_window.blp:124
+#: gnome/src/ui/search_window/search_window.blp:157
 msgid "Office Files"
 msgstr "Office Dateien"
 
-#: gnome/src/ui/search_window/search_window.blp:135
-#: gnome/src/ui/search_window/search_window.blp:142
+#: gnome/src/ui/search_window/search_window.blp:168
+#: gnome/src/ui/search_window/search_window.blp:175
 msgid "Search Results"
 msgstr "Suchergebnisse"
 
-#: gnome/src/ui/search_window/search_window.blp:155
+#: gnome/src/ui/search_window/search_window.blp:188
 msgid "No Search Yet"
 msgstr "Noch keine Suche begonnen"
 
-#: gnome/src/ui/search_window/search_window.blp:156
+#: gnome/src/ui/search_window/search_window.blp:189
 msgid "Try to start a search"
 msgstr "Versuche, eine Suche zu starten"
 
-#: gnome/src/ui/search_window/search_window.blp:165
+#: gnome/src/ui/search_window/search_window.blp:198
 msgid "No Results"
 msgstr "Keine Ergebnisse"
 
-#: gnome/src/ui/search_window/search_window.blp:171
+#: gnome/src/ui/search_window/search_window.blp:204
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
@@ -183,29 +195,33 @@ msgstr ""
 "Du kannst eine andere Suchmaske versuche, die Dokumentensuche aktivieren, "
 "oder zu einem anderen Suchordner wechseln"
 
-#: gnome/src/ui/search_window/search_window.blp:192
+#: gnome/src/ui/search_window/search_window.blp:225
 msgid "Show Errors"
 msgstr "Fehler anzeigen"
 
-#: gnome/src/ui/search_window/search_window.blp:254
+#: gnome/src/ui/search_window/search_window.blp:285
 msgid "Keyboard Shortcuts"
 msgstr "Tastenbindungen"
 
-#: gnome/src/ui/search_window/search_window.blp:259
+#: gnome/src/ui/search_window/search_window.blp:290
 msgid "About Clapgrep"
 msgstr "Über Clapgrep"
 
-#: gnome/src/ui/search_window/imp.rs:145
+#: gnome/src/ui/search_window/imp.rs:152
 msgid "Choose Search Path"
 msgstr "Suchpfad auswählen"
 
-#: gnome/src/ui/search_window/imp.rs:364
+#: gnome/src/ui/search_window/imp.rs:422
 msgid "Cancel Search"
 msgstr "Suche abbrechen"
 
-#: gnome/src/ui/search_window/imp.rs:367
+#: gnome/src/ui/search_window/imp.rs:425
 msgid "Close"
 msgstr "Schließen"
+
+#: gnome/src/ui/result_view/imp.rs:64
+msgid "No match within the file."
+msgstr "Kein Treffer in der Datei."
 
 #~ msgid "Clapgrep Shortcuts"
 #~ msgstr "Clapgrep Tastenbindungen"
