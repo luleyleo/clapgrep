@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-28 22:21+0100\n"
+"POT-Creation-Date: 2025-04-03 12:39+0200\n"
 "PO-Revision-Date: 2025-03-03 21:41+0100\n"
 "Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -37,9 +37,9 @@ msgid ""
 "what you're looking for. But you did not know in which file. So you had to "
 "search each of them at a time..."
 msgstr ""
-"Mai avuto una cartella piena di file PDF, dove sapevi, da qualche parte lì dentro, che c'era "
-"quello che stavi cercando. Ma non sapevi in ​​quale file. Quindi dovevi "
-"cercarli tutti alla volta..."
+"Mai avuto una cartella piena di file PDF, dove sapevi, da qualche parte lì "
+"dentro, che c'era quello che stavi cercando. Ma non sapevi in ​​quale file. "
+"Quindi dovevi cercarli tutti alla volta..."
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:20
 msgid ""
@@ -49,17 +49,17 @@ msgid ""
 "are looking for!"
 msgstr ""
 "Con Clapgrep questo non è più necessario! Basta aprire la cartella con "
-"Clapgrep, immettere il termine di ricerca e Clapgrep farà tutto il duro lavoro di "
-"scoprire in quale pagina/riga di quale file si trovano le informazioni che "
-"stai cercando!"
+"Clapgrep, immettere il termine di ricerca e Clapgrep farà tutto il duro "
+"lavoro di scoprire in quale pagina/riga di quale file si trovano le "
+"informazioni che stai cercando!"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:21
 msgid ""
 "Clapgrep can currently search all sorts of text files, PDFs and Office "
 "documents, with more to come."
 msgstr ""
-"Clapgrep può attualmente cercare tutti i tipi di file di testo, PDF e documenti di Office "
-"e presto ne arriveranno altri."
+"Clapgrep può attualmente cercare tutti i tipi di file di testo, PDF e "
+"documenti di Office e presto ne arriveranno altri."
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
 msgid "Main window in desktop view"
@@ -86,7 +86,7 @@ msgid "Search Errors"
 msgstr "Errori di ricerca"
 
 #: gnome/src/ui/preview/preview.blp:13
-#: gnome/src/ui/search_window/search_window.blp:242
+#: gnome/src/ui/search_window/search_window.blp:268
 #: gnome/src/ui/preview/mod.rs:95
 msgid "Content Preview"
 msgstr "Anteprima del contenuto"
@@ -123,86 +123,102 @@ msgstr "Avvia ricerca"
 msgid "Search Path"
 msgstr "Percorso di ricerca"
 
-#: gnome/src/ui/search_window/search_window.blp:92
+#: gnome/src/ui/search_window/search_window.blp:108
+msgid "See what's new"
+msgstr ""
+
+#: gnome/src/ui/search_window/search_window.blp:114
+msgid "Donate 💝"
+msgstr ""
+
+#: gnome/src/ui/search_window/search_window.blp:120
 msgid "Search Options"
 msgstr "Opzioni di ricerca"
 
-#: gnome/src/ui/search_window/search_window.blp:95
+#: gnome/src/ui/search_window/search_window.blp:123
 msgid "Case Sensitive"
 msgstr "Maiuscole e minuscole"
 
-#: gnome/src/ui/search_window/search_window.blp:100
+#: gnome/src/ui/search_window/search_window.blp:128
 msgid "Disable Regex"
 msgstr "Disabilita Regex"
 
-#: gnome/src/ui/search_window/search_window.blp:105
+#: gnome/src/ui/search_window/search_window.blp:133
 msgid "Include Hidden"
 msgstr "Includi nascosti"
 
-#: gnome/src/ui/search_window/search_window.blp:110
+#: gnome/src/ui/search_window/search_window.blp:138
 msgid "Include Ignored"
 msgstr "Includi ignorati"
 
-#: gnome/src/ui/search_window/search_window.blp:116
+#: gnome/src/ui/search_window/search_window.blp:144
 msgid "Extra File Formats"
 msgstr "Formati di file extra"
 
-#: gnome/src/ui/search_window/search_window.blp:119
+#: gnome/src/ui/search_window/search_window.blp:147
+msgid "File Names"
+msgstr ""
+
+#: gnome/src/ui/search_window/search_window.blp:152
 msgid "PDF Files"
 msgstr "File PDF"
 
-#: gnome/src/ui/search_window/search_window.blp:124
+#: gnome/src/ui/search_window/search_window.blp:157
 msgid "Office Files"
 msgstr "File di ufficio"
 
-#: gnome/src/ui/search_window/search_window.blp:135
-#: gnome/src/ui/search_window/search_window.blp:142
+#: gnome/src/ui/search_window/search_window.blp:168
+#: gnome/src/ui/search_window/search_window.blp:175
 msgid "Search Results"
 msgstr "Risultati della ricerca"
 
-#: gnome/src/ui/search_window/search_window.blp:155
+#: gnome/src/ui/search_window/search_window.blp:188
 msgid "No Search Yet"
 msgstr "Ancora nessuna ricerca"
 
-#: gnome/src/ui/search_window/search_window.blp:156
+#: gnome/src/ui/search_window/search_window.blp:189
 msgid "Try to start a search"
 msgstr "Prova ad avviare una ricerca"
 
-#: gnome/src/ui/search_window/search_window.blp:165
+#: gnome/src/ui/search_window/search_window.blp:198
 msgid "No Results"
 msgstr "Nessun risultato"
 
-#: gnome/src/ui/search_window/search_window.blp:171
+#: gnome/src/ui/search_window/search_window.blp:204
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
 msgstr ""
-"Potresti provare a cambiare il tuo schema di ricerca, attivando la ricerca dei documenti"
-"o passando a una directory diversa"
+"Potresti provare a cambiare il tuo schema di ricerca, attivando la ricerca "
+"dei documentio passando a una directory diversa"
 
-#: gnome/src/ui/search_window/search_window.blp:192
+#: gnome/src/ui/search_window/search_window.blp:225
 msgid "Show Errors"
 msgstr "Mostra errori"
 
-#: gnome/src/ui/search_window/search_window.blp:254
+#: gnome/src/ui/search_window/search_window.blp:285
 msgid "Keyboard Shortcuts"
 msgstr "Scorciatoie da tastiera"
 
-#: gnome/src/ui/search_window/search_window.blp:259
+#: gnome/src/ui/search_window/search_window.blp:290
 msgid "About Clapgrep"
 msgstr "Informazioni sulla Clapgrep"
 
-#: gnome/src/ui/search_window/imp.rs:145
+#: gnome/src/ui/search_window/imp.rs:152
 msgid "Choose Search Path"
 msgstr "Scegli il percorso di ricerca"
 
-#: gnome/src/ui/search_window/imp.rs:364
+#: gnome/src/ui/search_window/imp.rs:422
 msgid "Cancel Search"
 msgstr "Annulla ricerca"
 
-#: gnome/src/ui/search_window/imp.rs:367
+#: gnome/src/ui/search_window/imp.rs:425
 msgid "Close"
 msgstr "Chiudi"
+
+#: gnome/src/ui/result_view/imp.rs:64
+msgid "No match within the file."
+msgstr ""
 
 #~ msgid "Clapgrep Shortcuts"
 #~ msgstr "Scorciatoie di Clapgrep"

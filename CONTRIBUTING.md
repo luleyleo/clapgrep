@@ -11,22 +11,28 @@ Clapgrep consists of two modules:
 
 ## Requirements (for Fedora Rawhide toolbox)
 
-For the build system and OpenGL support:
+These are required when building Clapgrep on Fedora Rawhide **without Flatpak**.
+This is only useful for development and the `just check/build/test/run` commands.
 
 ```sh
 sudo dnf install just meson appstream cargo clippy gcc libglvnd-gles
+sudo dnf install just gtk4-devel libadwaita-devel gtksourceview5-devel poppler-glib-devel
 ```
 
-For the Gtk based app:
-
-```sh
-sudo dnf install just gtk4-devel libadwaita-devel
-```
-
-And you have to install [blueprint-compiler](https://jwestman.pages.gitlab.gnome.org/blueprint-compiler/setup.html).
+And you have to install [blueprint-compiler](https://jwestman.pages.gitlab.gnome.org/blueprint-compiler/setup.html) which also requires `python3-gobject`.
 
 ## Compilation and Development
 
 - Clapgrep requires up-to-date library versions (Fedora Rawhide or newest Gnome SDK)
 - The [`justfile`](./justfile) provides convenient commands for compilation and development.
 - `just ci` can be used to run the CI locally.
+
+## Translations
+
+I recommend using the [Translation Editor](https://flathub.org/apps/org.gnome.Gtranslator) app to edit translation files.
+
+New translations can be added by running
+
+```sh
+just add-translation [language code]
+```
