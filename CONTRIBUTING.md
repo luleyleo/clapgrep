@@ -26,3 +26,13 @@ And you have to install [blueprint-compiler](https://jwestman.pages.gitlab.gnome
 - Clapgrep requires up-to-date library versions (Fedora Rawhide or newest Gnome SDK)
 - The [`justfile`](./justfile) provides convenient commands for compilation and development.
 - `just ci` can be used to run the CI locally.
+
+## Translations
+
+I recommend using the [Translation Editor](https://flathub.org/apps/org.gnome.Gtranslator) app to edit translation files.
+
+New translations can be added by running
+
+```sh
+just add-translation [language code]
+```
