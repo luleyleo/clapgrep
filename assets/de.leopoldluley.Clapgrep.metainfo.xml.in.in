@@ -23,23 +23,23 @@
   <screenshots>
     <screenshot type="default">
       <caption>Main window in desktop view</caption>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/cd224ecc274693a4c8ffd541d990c3bedac84e14/assets/screenshot-1.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/c42280ad61fb8cb8ef34844508fa169f9f20e219/assets/screenshot-1.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Preview in desktop view</caption>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/cd224ecc274693a4c8ffd541d990c3bedac84e14/assets/screenshot-2.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/c42280ad61fb8cb8ef34844508fa169f9f20e219/assets/screenshot-2.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Search interface in mobile view</caption>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/cd224ecc274693a4c8ffd541d990c3bedac84e14/assets/screenshot-3.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/c42280ad61fb8cb8ef34844508fa169f9f20e219/assets/screenshot-3.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Results in mobile view</caption>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/cd224ecc274693a4c8ffd541d990c3bedac84e14/assets/screenshot-4.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/c42280ad61fb8cb8ef34844508fa169f9f20e219/assets/screenshot-4.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Preview in mobile view</caption>
-      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/cd224ecc274693a4c8ffd541d990c3bedac84e14/assets/screenshot-5.png</image>
+      <image type="source">https://raw.githubusercontent.com/luleyleo/clapgrep/c42280ad61fb8cb8ef34844508fa169f9f20e219/assets/screenshot-5.png</image>
     </screenshot>
   </screenshots>
   <categories>
