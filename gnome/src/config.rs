@@ -117,11 +117,17 @@ mod imp {
     }
 
     #[derive(Clone, serde::Serialize, serde::Deserialize)]
+    #[serde(default)]
     struct FullConfig {
         window: WindowConfig,
         flags: SearchFlags,
         search: SearchConfig,
+        #[serde(default = "old_last_version")]
         last_version: String,
+    }
+
+    fn old_last_version() -> String {
+        "24.03".to_string()
     }
 
     impl Default for FullConfig {
@@ -136,6 +142,7 @@ mod imp {
     }
 
     #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
+    #[serde(default)]
     struct WindowConfig {
         width: i32,
         height: i32,
@@ -152,6 +159,7 @@ mod imp {
     }
 
     #[derive(Clone, Copy, Default, serde::Serialize, serde::Deserialize)]
+    #[serde(default)]
     struct SearchFlags {
         pub case_sensitive: bool,
         pub include_hidden: bool,
@@ -160,6 +168,7 @@ mod imp {
     }
 
     #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
+    #[serde(default)]
     struct SearchConfig {
         names: bool,
         pdf: bool,
