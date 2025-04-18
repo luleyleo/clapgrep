@@ -1,4 +1,4 @@
-appid := 'de.leopoldluley.Clapgrep.Devel'
+appid := 'de.leopoldluley.Clapgrep'
 
 default:
   just --list
@@ -29,7 +29,7 @@ setup-flatpak-repos:
   flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 ci: setup-flatpak-repos
-  flatpak-builder --keep-build-dirs --install-deps-from=flathub --user --build-only --ccache --force-clean flatpak build-aux/{{appid}}.json
+  flatpak-builder --keep-build-dirs --install-deps-from=flathub --user --build-only --ccache --force-clean flatpak build-aux/{{appid}}.CI.json
   echo Check formatting:
   ./build-aux/fun.sh cargo fmt --all -- --check --verbose
   echo Check code with Clippy:
@@ -37,7 +37,7 @@ ci: setup-flatpak-repos
   ./build-aux/fun.sh meson compile -C /run/build/clapgrep/build-ci cargo-clippy
 
 install-flatpak: setup-flatpak-repos
-  flatpak-builder flatpak-build build-aux/{{appid}}.json --force-clean --install --install-deps-from=flathub --user
+  flatpak-builder flatpak-build build-aux/{{appid}}.Devel.json --force-clean --install --install-deps-from=flathub --user
 
 update-potfiles:
   rm -f po/POTFILES
