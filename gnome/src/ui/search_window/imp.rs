@@ -17,7 +17,7 @@ use gtk::{
 };
 use std::{
     cell::{Cell, RefCell},
-    path::{Path, PathBuf},
+    path::PathBuf,
     time::{Duration, Instant},
 };
 
@@ -382,6 +382,12 @@ impl ObjectImpl for SearchWindow {
             .sync_create()
             .build();
 
+        self.config
+            .bind_property("search_path", obj.as_ref(), "search_path")
+            .bidirectional()
+            .sync_create()
+            .build();
+
         if self.config.last_version() != env!("APP_VERSION") {
             self.show_update_banner(env!("APP_VERSION"));
             self.config.set_last_version(env!("APP_VERSION"));
@@ -450,12 +456,6 @@ impl ObjectImpl for SearchWindow {
             );
             obj.notify("search_errors_notification")
         });
-
-        if !self.search_path.borrow().is_dir() {
-            if let Ok(absolute) = Path::new(".").canonicalize() {
-                self.obj().set_search_path(absolute);
-            }
-        }
 
         self.init_manager();
     }

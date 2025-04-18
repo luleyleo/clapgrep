@@ -27,6 +27,11 @@ mod imp {
     #[derive(Default, glib::Properties)]
     #[properties(wrapper_type = super::Config)]
     pub struct Config {
+        #[property(get, set)]
+        last_version: RefCell<String>,
+        #[property(get, set)]
+        search_path: RefCell<PathBuf>,
+
         #[property(name = "window-width", get, set, type = i32, member = width)]
         #[property(name = "window-height", get, set, type = i32, member = height)]
         #[property(name = "window-maximized", get, set, type = bool, member = maximized)]
@@ -42,9 +47,6 @@ mod imp {
         #[property(name = "search-pdf", get, set, type = bool, member = pdf)]
         #[property(name = "search-office", get, set, type = bool, member = office)]
         search: RefCell<SearchConfig>,
-
-        #[property(get, set)]
-        last_version: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -95,18 +97,20 @@ mod imp {
                 }
             };
 
+            self.last_version.replace(config.last_version);
+            self.search_path.replace(config.search_path);
             self.window.replace(config.window);
             self.flags.replace(config.flags);
             self.search.replace(config.search);
-            self.last_version.replace(config.last_version);
         }
 
         pub fn save(&self) {
             let config = FullConfig {
+                last_version: self.last_version.borrow().clone(),
+                search_path: self.search_path.borrow().clone(),
                 window: *self.window.borrow(),
                 flags: *self.flags.borrow(),
                 search: *self.search.borrow(),
-                last_version: self.last_version.borrow().clone(),
             };
             let config_txt = toml::to_string(&config).expect("Failed to serialize config");
             let config_path = Self::config_path();
@@ -119,24 +123,31 @@ mod imp {
     #[derive(Clone, serde::Serialize, serde::Deserialize)]
     #[serde(default)]
     struct FullConfig {
+        #[serde(default = "old_last_version")]
+        last_version: String,
+        search_path: PathBuf,
+
         window: WindowConfig,
         flags: SearchFlags,
         search: SearchConfig,
-        #[serde(default = "old_last_version")]
-        last_version: String,
     }
 
     fn old_last_version() -> String {
         "24.03".to_string()
     }
 
+    fn home_directory() -> PathBuf {
+        glib::home_dir()
+    }
+
     impl Default for FullConfig {
         fn default() -> Self {
             Self {
+                last_version: env!("APP_VERSION").to_string(),
+                search_path: home_directory(),
                 window: Default::default(),
                 flags: Default::default(),
                 search: Default::default(),
-                last_version: env!("APP_VERSION").to_string(),
             }
         }
     }
