@@ -62,6 +62,22 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="25.05" date="2025-05-01">
+      <description translate="no">
+        <p>New features:</p>
+        <ul>
+          <li>The search path is now persistent across restarts.</li>
+        </ul>
+        <p>Bug fixes:</p>
+        <ul>
+          <li>~</li>
+        </ul>
+        <p>Translations:</p>
+        <ul>
+          <li>~</li>
+        </ul>
+      </description>
+    </release>
     <release version="25.04" date="2025-04-01">
       <description translate="no">
         <p>New features:</p>
