@@ -22,8 +22,8 @@ build: setup
 test: setup
   meson test -C build
 
-run: setup
-  meson compile -C build && env RUST_BACKTRACE=full build/gnome/clapgrep
+run *args: setup
+  meson compile -C build && env RUST_BACKTRACE=full build/gnome/clapgrep {{args}}
 
 setup-flatpak-repos:
   flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
