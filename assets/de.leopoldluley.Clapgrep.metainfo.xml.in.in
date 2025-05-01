@@ -67,14 +67,15 @@
         <p>New features:</p>
         <ul>
           <li>The search path is now persistent across restarts.</li>
+          <li>"flatpak run de.leopoldluley.Clapgrep ." will search in the current directory.</li>
         </ul>
         <p>Bug fixes:</p>
         <ul>
-          <li>~</li>
+          <li>PDF preview works again.</li>
         </ul>
         <p>Translations:</p>
         <ul>
-          <li>~</li>
+          <li>Added Occitan translations.</li>
         </ul>
       </description>
     </release>
