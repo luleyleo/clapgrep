@@ -66,7 +66,7 @@ mod imp {
             let result = self.result.borrow();
             if let Some(result) = result.as_ref() {
                 let file = result.absolute_path();
-                let page_index = result.line() - 1;
+                let page_index = result.page() - 1;
 
                 let doc =
                     Document::from_gfile(&gio::File::for_path(&file), None, gio::Cancellable::NONE)
