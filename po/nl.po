@@ -1,0 +1,220 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the clapgrep package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: clapgrep\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-03 12:39+0200\n"
+"PO-Revision-Date: 2025-05-01 14:42+0200\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
+#: gnome/src/ui/search_window/search_window.blp:5
+msgid "Clapgrep"
+msgstr "Clapgrep"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
+msgid "Search through all your files"
+msgstr "Doorzoek uw bestanden"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:10
+msgid "grep;ripgrep;search;pdf;"
+msgstr "grep;ripgrep;zoeken;pdf;"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:19
+msgid ""
+"Ever had a folder full of PDF files, where you knew, somewhere in there, is "
+"what you're looking for. But you did not know in which file. So you had to "
+"search each of them at a time..."
+msgstr ""
+"Had u ooit al eens een map vol pdf-bestanden, waarvan u wist dat er iets in "
+"een bestand stond dat u zocht? Dan is deze toepassing voor u bedoeld. "
+"Verdoe geen tijd meer aan het doorzoeken van individuele bestanden…"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:20
+msgid ""
+"With Clapgrep this is no longer necessary! Simply open the folder with "
+"Clapgrep, enter the search term, and Clapgrep will do all the hard work of "
+"finding out on which page / line in which file the information is that you "
+"are looking for!"
+msgstr ""
+"Met Clapgrep kunt u een map openen, een zoekopdracht invoeren en "
+"geautomatiseerd zoeken naar pagina's/regels die de gevraagde tekst bevatten!"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:21
+msgid ""
+"Clapgrep can currently search all sorts of text files, PDFs and Office "
+"documents, with more to come."
+msgstr ""
+"Clapgrep heeft ondersteuning voor tekst- en pdf-bestanden, evenals "
+"documenten. Meer bestandsondersteuning volgt."
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
+msgid "Main window in desktop view"
+msgstr "Hoofdvenster (computerweergave)"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:29
+msgid "Preview in desktop view"
+msgstr "Voorvertoning (computerweergave)"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:33
+msgid "Search interface in mobile view"
+msgstr "Zoekvenster (mobiele weergave)"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:37
+msgid "Results in mobile view"
+msgstr "Resultaten (mobiele weergave)"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:41
+msgid "Preview in mobile view"
+msgstr "Voorvertoning (mobiele weergave)"
+
+#: gnome/src/ui/error_window/error_window.blp:7
+msgid "Search Errors"
+msgstr "Zoekfouten"
+
+#: gnome/src/ui/preview/preview.blp:13
+#: gnome/src/ui/search_window/search_window.blp:268
+#: gnome/src/ui/preview/mod.rs:95
+msgid "Content Preview"
+msgstr "Voorvertoning"
+
+#: gnome/src/ui/preview/preview.blp:20
+msgid "Nothing Selected..."
+msgstr "Er is niets geselecteerd…"
+
+#: gnome/src/ui/preview/preview.blp:21
+msgid "Try clicking on on of the result lines."
+msgstr "Klik op een van de resultaten."
+
+#: gnome/src/ui/preview/preview.blp:27
+msgid "Under Construction"
+msgstr "In aanbouw"
+
+#: gnome/src/ui/preview/preview.blp:28
+msgid "Preview for this file type has not been implemented yet."
+msgstr "Dit bestandstype kan nog niet worden voorvertoond."
+
+#: gnome/src/ui/search_window/search_window.blp:31
+msgid "Search Settings"
+msgstr "Zoekvoorkeuren"
+
+#: gnome/src/ui/search_window/search_window.blp:60
+msgid "Search Pattern"
+msgstr "Zoekpatroon"
+
+#: gnome/src/ui/search_window/search_window.blp:66
+msgid "Start Search"
+msgstr "Zoekopdracht starten"
+
+#: gnome/src/ui/search_window/search_window.blp:74
+msgid "Search Path"
+msgstr "Zoeklocatie"
+
+#: gnome/src/ui/search_window/search_window.blp:108
+msgid "See what's new"
+msgstr "Wijzigingslog"
+
+#: gnome/src/ui/search_window/search_window.blp:114
+msgid "Donate 💝"
+msgstr "Doneren 💝"
+
+#: gnome/src/ui/search_window/search_window.blp:120
+msgid "Search Options"
+msgstr "Zoekopties"
+
+#: gnome/src/ui/search_window/search_window.blp:123
+msgid "Case Sensitive"
+msgstr "Hoofdlettergevoelig"
+
+#: gnome/src/ui/search_window/search_window.blp:128
+msgid "Disable Regex"
+msgstr "Geen reguliere uitdrukkingen"
+
+#: gnome/src/ui/search_window/search_window.blp:133
+msgid "Include Hidden"
+msgstr "Ook verborgen bestanden"
+
+#: gnome/src/ui/search_window/search_window.blp:138
+msgid "Include Ignored"
+msgstr "Ook genegeerde bestanden"
+
+#: gnome/src/ui/search_window/search_window.blp:144
+msgid "Extra File Formats"
+msgstr "Aanvullende bestandsformaten"
+
+#: gnome/src/ui/search_window/search_window.blp:147
+msgid "File Names"
+msgstr "Bestandsnamen"
+
+#: gnome/src/ui/search_window/search_window.blp:152
+msgid "PDF Files"
+msgstr "Pdf-bestanden"
+
+#: gnome/src/ui/search_window/search_window.blp:157
+msgid "Office Files"
+msgstr "Documenten"
+
+#: gnome/src/ui/search_window/search_window.blp:168
+#: gnome/src/ui/search_window/search_window.blp:175
+msgid "Search Results"
+msgstr "Zoekresultaten"
+
+#: gnome/src/ui/search_window/search_window.blp:188
+msgid "No Search Yet"
+msgstr "Er zijn geen resultaten"
+
+#: gnome/src/ui/search_window/search_window.blp:189
+msgid "Try to start a search"
+msgstr "Voer een zoekopdracht in"
+
+#: gnome/src/ui/search_window/search_window.blp:198
+msgid "No Results"
+msgstr "Er zijn geen zoekresultaten"
+
+#: gnome/src/ui/search_window/search_window.blp:204
+msgid ""
+"You might want to try changing your search pattern, activating document "
+"search, or changing to a different directory"
+msgstr ""
+"Probeer uw zoekpatroon aan te passen, doorzoek documenten of een andere map"
+
+#: gnome/src/ui/search_window/search_window.blp:225
+msgid "Show Errors"
+msgstr "Foutmeldingen tonen"
+
+#: gnome/src/ui/search_window/search_window.blp:285
+msgid "Keyboard Shortcuts"
+msgstr "Sneltoetsen"
+
+#: gnome/src/ui/search_window/search_window.blp:290
+msgid "About Clapgrep"
+msgstr "Over Clapgrep"
+
+#: gnome/src/ui/search_window/imp.rs:152
+msgid "Choose Search Path"
+msgstr "Kies een zoeklocatie"
+
+#: gnome/src/ui/search_window/imp.rs:422
+msgid "Cancel Search"
+msgstr "Zoekopdracht afbreken"
+
+#: gnome/src/ui/search_window/imp.rs:425
+msgid "Close"
+msgstr "Sluiten"
+
+#: gnome/src/ui/result_view/imp.rs:64
+msgid "No match within the file."
+msgstr "Er zijn geen overeenkomsten."
