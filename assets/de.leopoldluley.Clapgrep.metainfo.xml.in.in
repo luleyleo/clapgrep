@@ -62,7 +62,7 @@
     <control>touch</control>
   </supports>
   <releases>
-    <release version="25.05" date="2025-05-01">
+    <release version="25.05" date="2025-05-02">
       <description translate="no">
         <p>New features:</p>
         <ul>
@@ -76,6 +76,7 @@
         <p>Translations:</p>
         <ul>
           <li>Added Occitan translations.</li>
+          <li>Added Dutch translations.</li>
         </ul>
       </description>
     </release>
