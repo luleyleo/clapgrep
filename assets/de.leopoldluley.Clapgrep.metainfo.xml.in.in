@@ -62,6 +62,14 @@
     <control>touch</control>
   </supports>
   <releases>
+  <release version="25.05+1" date="2025-05-03">
+    <description translate="no">
+      <p>Bug fixes:</p>
+      <ul>
+        <li>Translations are working again.</li>
+      </ul>
+    </description>
+  </release>
     <release version="25.05" date="2025-05-02">
       <description translate="no">
         <p>New features:</p>
