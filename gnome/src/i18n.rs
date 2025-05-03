@@ -7,12 +7,13 @@ pub fn setup_gettext() {
     if cfg!(debug_assertions) {
         let assets_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("..")
-            .join("assets");
+            .join("build");
+        log::debug!("Looking for PO files in {assets_dir:?}");
         text_domain = text_domain.push(assets_dir);
     }
 
     if let Err(error) = text_domain.init() {
-        println!("Failed to setup gettext: {}", error);
+        log::error!("Failed to setup gettext: {}", error);
     };
 }
 
