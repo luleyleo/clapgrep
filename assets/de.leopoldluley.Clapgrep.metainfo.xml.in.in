@@ -62,6 +62,14 @@
     <control>touch</control>
   </supports>
   <releases>
+  <release version="25.06" date="2025-06-01">
+    <description translate="no">
+      <p>New Features:</p>
+      <ul>
+        <li>Automatically move keyboard focus to the results when starting a search.</li>
+      </ul>
+    </description>
+  </release>
   <release version="25.05+1" date="2025-05-03">
     <description translate="no">
       <p>Bug fixes:</p>
