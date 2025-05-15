@@ -76,6 +76,8 @@ pub struct SearchWindow {
     #[template_child]
     pub update_banner: TemplateChild<adw::PreferencesGroup>,
     #[template_child]
+    pub progress_banner: TemplateChild<adw::Banner>,
+    #[template_child]
     pub results_stack: TemplateChild<gtk::Stack>,
     #[template_child]
     pub no_search_page: TemplateChild<gtk::StackPage>,
@@ -280,7 +282,30 @@ impl SearchWindow {
         self.obj().set_search_progress_visible(true);
         self.split_view.set_show_content(true);
 
+        let progress_banner_button =
+            Self::find_child_by_name(self.progress_banner.upcast_ref::<gtk::Widget>(), "button")
+                .and_downcast::<gtk::Button>()
+                .expect("failed to find banner button");
+        progress_banner_button.grab_focus();
+
         self.engine.search(search);
+    }
+
+    fn find_child_by_name(widget: &gtk::Widget, child_name: &str) -> Option<gtk::Widget> {
+        if widget.css_name() == child_name {
+            return Some(widget.clone());
+        }
+
+        let mut child = widget.first_child();
+        while let Some(a_child) = child {
+            let the_child = Self::find_child_by_name(&a_child, child_name);
+            if the_child.is_some() {
+                return the_child;
+            }
+            child = a_child.next_sibling();
+        }
+
+        None
     }
 
     fn stop_search(&self) {
