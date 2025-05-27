@@ -1,3 +1,26 @@
 [workspace]
 members = ["core", "gnome"]
 resolver = "2"
+
+[workspace.dependencies]
+# For communication between core and ui
+flume = "0.11.1"
+
+# Anything glib related
+gtk = { version = "0.9.6", package = "gtk4", features = ["blueprint", "v4_16"] }
+adw = { version = "0.7.2", package = "libadwaita", features = ["v1_6"] }
+sourceview5 = { version = "0.9.1", features = ["gtk_v4_12", "v5_12"] }
+gio = "0.20.11"
+poppler-rs = "0.24.1"
+
+# Everything else
+regex = "1.11"
+grep = "0.3"
+ignore = "0.4"
+dotext = { git = "https://github.com/anvie/dotext.git", rev = "06b1600" }
+gettext-rs = { version = "0.7.2", features = ["gettext-system"] }
+toml = "0.8.22"
+serde = { version = "1.0.219", features = ["derive"] }
+log = "0.4.27"
+env_logger = { version = "0.11.8", default-features = false }
+anyhow = "1.0.98"

@@ -4,14 +4,14 @@ version = "1.0.0"
 edition = "2021"
 
 [dependencies]
-regex = "1.11"
-grep = "0.3"
-ignore = "0.4"
-flume = "0.11.1"
+regex = { workspace = true }
+grep = { workspace = true }
+ignore = { workspace = true }
+flume = { workspace = true }
 
 # for office support
-dotext = { git = "https://github.com/anvie/dotext.git", rev = "06b1600" }
+dotext = { workspace = true }
 
 # for pdf support
-poppler-rs = "0.24.1"
-gio = "0.20.9"
+poppler-rs = { workspace = true }
+gio = { workspace = true }
