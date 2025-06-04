@@ -1040,9 +1040,8 @@ checksum = "b18befed8bc2b61abc79a457295e7e838417326da1586050b919414073977f19"
 
 [[package]]
 name = "poppler-rs"
-version = "0.24.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45b1f21ffe55c78cbe3b301950cf15a143c8ff2a0f05a2b9e8e9c80605347206"
+version = "0.25.0"
+source = "git+https://gitlab.gnome.org/luleyleo/poppler-rs.git?branch=backport#f487d9ba2bb9de8b6d68eaf16f1e7f33ab911f6c"
 dependencies = [
  "cairo-rs",
  "gio",
@@ -1053,9 +1052,8 @@ dependencies = [
 
 [[package]]
 name = "poppler-sys-rs"
-version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e970afd57f25a79b8e526c257bf9c8cd5a6a68973331b6da341c422a6db47755"
+version = "0.25.0"
+source = "git+https://gitlab.gnome.org/luleyleo/poppler-rs.git?branch=backport#f487d9ba2bb9de8b6d68eaf16f1e7f33ab911f6c"
 dependencies = [
  "cairo-sys-rs",
  "gio-sys",
