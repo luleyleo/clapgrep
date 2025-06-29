@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-03 12:39+0200\n"
-"PO-Revision-Date: 2025-06-28 22:43+0300\n"
+"PO-Revision-Date: 2025-06-29 17:15+0300\n"
 "Last-Translator: Вячеслав <ma12@rambler.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr ""
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
 msgid "Search through all your files"
-msgstr "Искать по всем вашим файлам"
+msgstr "Поиск фраз в содержимом различных файлов"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:10
 msgid "grep;ripgrep;search;pdf;"
@@ -39,10 +39,9 @@ msgid ""
 "what you're looking for. But you did not know in which file. So you had to "
 "search each of them at a time..."
 msgstr ""
-"У вас когда-нибудь была папка, полная PDF-файлов, и вы знали, что где-то там"
-" находится то,"
-"что вы ищете. Но вы не знали, в каком файле. Так что вам пришлось"
-"обыскивать каждый из них по очереди..."
+"У вас когда-нибудь была папка, полная PDF-файлов, и вы знали, что где-то там "
+"находится то,что вы ищете. Но вы не знали, в каком файле. Так что вам "
+"пришлосьобыскивать каждый из них по очереди..."
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:20
 msgid ""
@@ -52,20 +51,17 @@ msgid ""
 "are looking for!"
 msgstr ""
 "С Clapgrep в этом больше нет необходимости! Просто откройте папку с помощью "
-"Clapgrep, введите поисковый запрос, и Clapgrep выполнит всю тяжелую работу по"
-" поиску. "
-"узнайте, на какой странице / строке в каком файле находится информация,"
-" которую вы"
-"ищете!"
+"Clapgrep, введите поисковый запрос, и Clapgrep выполнит всю тяжелую работу "
+"по поиску. узнайте, на какой странице / строке в каком файле находится "
+"информация, которую выищете!"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:21
 msgid ""
 "Clapgrep can currently search all sorts of text files, PDFs and Office "
 "documents, with more to come."
 msgstr ""
-"Clapgrep может выполнять поиск по всем видам текстовых файлов, PDF-файлов и"
-" офисных"
-"документов, и это еще не все."
+"Clapgrep может выполнять поиск по всем видам текстовых файлов, PDF-файлов и "
+"офисныхдокументов, и это еще не все."
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
 msgid "Main window in desktop view"
@@ -135,7 +131,7 @@ msgstr "Посмотрите, что нового"
 
 #: gnome/src/ui/search_window/search_window.blp:114
 msgid "Donate 💝"
-msgstr "Пожертвовать 💝"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:120
 msgid "Search Options"
@@ -226,27 +222,31 @@ msgstr "Закрыть"
 msgid "No match within the file."
 msgstr "В файле нет совпадений."
 
+#: assets/gtk/help-overlay.blp:9
 msgid "General"
 msgstr "Основные"
 
+#: assets/gtk/help-overlay.blp:12
 msgid "Quit"
 msgstr "Выйти"
 
+#: assets/gtk/help-overlay.blp:17
 msgid "Shortcuts"
 msgstr "Комбинации клавиш"
 
+#: assets/gtk/help-overlay.blp:23
 msgid "Control Search"
 msgstr "Управление поиском"
 
+#: assets/gtk/help-overlay.blp:31
 msgid "Stop Search"
 msgstr "Остановить поиск"
 
+#: gnome/src/ui/search_window/imp.rs:320
 msgid "Searched {files} files and found {matches} matches"
 msgstr "Поискал в {files} файлах и нашёл {matches} совпадения"
 
+#: gnome/src/ui/search_window/imp.rs:479
 msgid "Encountered {errors} errors during search"
 msgstr "Во время поиска обнаружены {errors} ошибки"
-
-
-
 
