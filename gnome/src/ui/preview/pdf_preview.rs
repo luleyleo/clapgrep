@@ -141,14 +141,14 @@ mod imp {
                 move |accent_color| {
                     obj.imp().highlight_color.replace(accent_color);
                     if let Err(err) = obj.imp().update_preview() {
-                        log::error!("Failed to udpate PDF preview after color change: {}", err);
+                        log::error!("Failed to udpate PDF preview after color change: {err}");
                     }
                 }
             ));
 
             obj.connect_result_notify(|obj| {
                 if let Err(err) = obj.imp().update_preview() {
-                    log::error!("Failed to udpate PDF preview: {}", err);
+                    log::error!("Failed to udpate PDF preview: {err}");
                 }
             });
         }
