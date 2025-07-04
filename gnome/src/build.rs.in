@@ -1,3 +1,5 @@
+#![cfg_attr(rustfmt, rustfmt_skip)]
+
 pub static APP_ID: &str = @APP_ID@;
 pub static APP_VERSION: &str = @APP_VERSION@;
 pub static GRESOURCES_BUNDLE: &[u8] = include_bytes!(@GRESOURCES_BUNDLE@);
