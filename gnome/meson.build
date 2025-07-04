@@ -1,10 +1,9 @@
+subdir('src')
+
 cargo_env = environment()
 if not get_option('extern_cargo_env')
   cargo_env.set('CARGO_HOME', meson.project_build_root() / 'cargo-home')
 endif
-cargo_env.set('APP_ID', application_id)
-cargo_env.set('APP_VERSION', meson.project_version())
-cargo_env.set('GRESOURCES_BUNDLE', clapgrep_resources.full_path())
 
 cargo_options = []
 cargo_options += ['--manifest-path', meson.project_source_root() / 'Cargo.toml']

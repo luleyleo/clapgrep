@@ -5,3 +5,5 @@ flatpak-build/
 .flatpak-builder/
 .idea/
 samples/
+
+gnome/src/build.rs

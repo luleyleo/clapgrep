@@ -17,12 +17,11 @@ impl Default for Config {
 }
 
 mod imp {
+    use crate::build::{APP_ID, APP_VERSION};
     use anyhow::Context;
     use glib::prelude::*;
     use gtk::{glib, subclass::prelude::*};
     use std::{cell::RefCell, path::PathBuf};
-
-    use crate::APP_ID;
 
     #[derive(Default, glib::Properties)]
     #[properties(wrapper_type = super::Config)]
@@ -143,7 +142,7 @@ mod imp {
     impl Default for FullConfig {
         fn default() -> Self {
             Self {
-                last_version: env!("APP_VERSION").to_string(),
+                last_version: APP_VERSION.to_string(),
                 search_path: home_directory(),
                 window: Default::default(),
                 flags: Default::default(),

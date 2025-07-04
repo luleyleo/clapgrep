@@ -1,9 +1,9 @@
 use crate::{
+    build::{APP_ID, APP_VERSION},
     config::Config,
     i18n::gettext_f,
     search::{SearchModel, SearchResult},
     ui::{preview::Preview, ErrorWindow, ResultHeaderView, ResultView},
-    APP_ID,
 };
 use adw::{prelude::PreferencesGroupExt, subclass::prelude::*};
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
@@ -413,9 +413,9 @@ impl ObjectImpl for SearchWindow {
             .sync_create()
             .build();
 
-        if self.config.last_version() != env!("APP_VERSION") {
-            self.show_update_banner(env!("APP_VERSION"));
-            self.config.set_last_version(env!("APP_VERSION"));
+        if self.config.last_version() != APP_VERSION {
+            self.show_update_banner(APP_VERSION);
+            self.config.set_last_version(APP_VERSION);
         }
 
         obj.results().connect_items_changed(clone!(

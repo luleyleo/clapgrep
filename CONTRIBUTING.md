@@ -26,6 +26,7 @@ And you have to install [blueprint-compiler](https://jwestman.pages.gitlab.gnome
 - Clapgrep requires up-to-date library versions (Fedora Rawhide or newest Gnome SDK)
 - The [`justfile`](./justfile) provides convenient commands for compilation and development.
 - `just ci` can be used to run the CI locally.
+- You have to run `just setup` once to make `rust-analyzer` work.
 
 ## Translations
 
