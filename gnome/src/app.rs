@@ -1,4 +1,4 @@
-use crate::ui;
+use crate::{build, ui};
 use adw::prelude::*;
 use gtk::{
     gdk,
@@ -51,7 +51,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
             let app_path = app.resource_base_path().unwrap();
             let dialog = adw::AboutDialog::from_appdata(
                 &format!("{app_path}/metainfo.xml"),
-                Some(env!("APP_VERSION")),
+                Some(build::APP_VERSION),
             );
             dialog.present(Some(&window));
         }
@@ -67,7 +67,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
             let app_path = app.resource_base_path().unwrap();
             let dialog = adw::AboutDialog::from_appdata(
                 &format!("{app_path}/metainfo.xml"),
-                Some(env!("APP_VERSION")),
+                Some(build::APP_VERSION),
             );
             dialog.present(Some(&window));
 

@@ -1,8 +1,9 @@
+use crate::build;
 use gettextrs::{gettext, ngettext};
 use std::path::PathBuf;
 
 pub fn setup_gettext() {
-    let mut text_domain = gettextrs::TextDomain::new(crate::APP_ID);
+    let mut text_domain = gettextrs::TextDomain::new(build::APP_ID);
 
     if cfg!(debug_assertions) {
         let assets_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
