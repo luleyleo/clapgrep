@@ -13,7 +13,7 @@ pub fn setup_gettext() {
     }
 
     if let Err(error) = text_domain.init() {
-        log::error!("Failed to setup gettext: {}", error);
+        log::error!("Failed to setup gettext: {error}");
     };
 }
 

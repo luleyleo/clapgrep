@@ -59,7 +59,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         _ = engine.sender.send(SearchMessage::Error(SearchError {
             search,
             path: params.base_directory,
-            message: format!("Failed to start search: {}", err),
+            message: format!("Failed to start search: {err}"),
         }));
         _ = engine.sender.send(SearchMessage::Completed { search });
         return;
@@ -148,7 +148,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
                 _ = engine.send_error(
                     search,
                     entry.path().to_path_buf(),
-                    format!("failed to search file: {}", err),
+                    format!("failed to search file: {err}"),
                 );
                 return WalkState::Continue;
             }
