@@ -1,0 +1,218 @@
+# Ukrainian translation for clapgrep.
+# Copyright (C) 2025 THE clapgrep'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the clapgrep package.
+# freeducks-debug, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: clapgrep\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-03 12:39+0200\n"
+"PO-Revision-Date: 2025-07-09 12:35+0300\n"
+"Last-Translator: freeducks-debug <applesause454@gmail.com>\n"
+"Language-Team: \n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
+#: gnome/src/ui/search_window/search_window.blp:5
+msgid "Clapgrep"
+msgstr "Clapgrep"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
+msgid "Search through all your files"
+msgstr "Шукайте всередині ваших файлів"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:10
+msgid "grep;ripgrep;search;pdf;"
+msgstr "grep;ripgrep;search;pdf;греп;ріпгреп;пдф;пошук;документи;документів;файлів;файлу;файл;"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:19
+msgid ""
+"Ever had a folder full of PDF files, where you knew, somewhere in there, is what you're "
+"looking for. But you did not know in which file. So you had to search each of them at a "
+"time..."
+msgstr ""
+"Чи виникала у вас ситуація, коли у вас є тека повна PDF файлів, і ви знаєте що в одному з "
+"них є те, що ви шукаєте. Але ви не знаєте у якому саме файлі. Через що вам треба було шукати "
+"у кожному файлі окремо..."
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:20
+msgid ""
+"With Clapgrep this is no longer necessary! Simply open the folder with Clapgrep, enter the "
+"search term, and Clapgrep will do all the hard work of finding out on which page / line in "
+"which file the information is that you are looking for!"
+msgstr ""
+"З допомогою Clapgrep - це більше не потрібно! Відкрийте теку у Clapgrep, введіть запит для "
+"пошуку і Clapgrep знайде на якій сторінці/рядку якого файлу інформація, яку ви шукаєте!"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:21
+msgid ""
+"Clapgrep can currently search all sorts of text files, PDFs and Office documents, with more "
+"to come."
+msgstr ""
+"На цей момент, Clapgrep може шукати всередині багатьох текстових файлів, PDF файлів, офісних "
+"документів, і більшому числі форматів в майбутньому."
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
+msgid "Main window in desktop view"
+msgstr "Головне вікно у настільному перегляді"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:29
+msgid "Preview in desktop view"
+msgstr "Попередній перегляд у настільному перегляді"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:33
+msgid "Search interface in mobile view"
+msgstr "Інтерфейс пошуку у мобільному перегляді"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:37
+msgid "Results in mobile view"
+msgstr "Результати у мобільному перегляді"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:41
+msgid "Preview in mobile view"
+msgstr "Попередній перегляд у мобільному перегляді"
+
+#: gnome/src/ui/error_window/error_window.blp:7
+msgid "Search Errors"
+msgstr "Помилки пошуку"
+
+#: gnome/src/ui/preview/preview.blp:13 gnome/src/ui/search_window/search_window.blp:268
+#: gnome/src/ui/preview/mod.rs:95
+msgid "Content Preview"
+msgstr "Попередній перегляд вмісту"
+
+#: gnome/src/ui/preview/preview.blp:20
+msgid "Nothing Selected..."
+msgstr "Нічого не обрано..."
+
+#: gnome/src/ui/preview/preview.blp:21
+msgid "Try clicking on on of the result lines."
+msgstr "Спробуйте клацнути на один з рядків результату."
+
+#: gnome/src/ui/preview/preview.blp:27
+msgid "Under Construction"
+msgstr "Ще розроблюється"
+
+#: gnome/src/ui/preview/preview.blp:28
+msgid "Preview for this file type has not been implemented yet."
+msgstr "Попередній перегляд для цього типу файлу ще не реалізований."
+
+#: gnome/src/ui/search_window/search_window.blp:31
+msgid "Search Settings"
+msgstr "Налаштування пошуку"
+
+#: gnome/src/ui/search_window/search_window.blp:60
+msgid "Search Pattern"
+msgstr "Шаблон пошуку"
+
+#: gnome/src/ui/search_window/search_window.blp:66
+msgid "Start Search"
+msgstr "Почати пошук"
+
+#: gnome/src/ui/search_window/search_window.blp:74
+msgid "Search Path"
+msgstr "Шлях пошуку"
+
+#: gnome/src/ui/search_window/search_window.blp:108
+msgid "See what's new"
+msgstr "Дізнатися що нового"
+
+#: gnome/src/ui/search_window/search_window.blp:114
+msgid "Donate 💝"
+msgstr "Зробити пожертвування 💝"
+
+#: gnome/src/ui/search_window/search_window.blp:120
+msgid "Search Options"
+msgstr "Налаштування пошуку"
+
+#: gnome/src/ui/search_window/search_window.blp:123
+msgid "Case Sensitive"
+msgstr "Чутливість до регістру"
+
+#: gnome/src/ui/search_window/search_window.blp:128
+msgid "Disable Regex"
+msgstr "Вимкнути регулярні вирази (regex)"
+
+#: gnome/src/ui/search_window/search_window.blp:133
+msgid "Include Hidden"
+msgstr "Включати приховані"
+
+#: gnome/src/ui/search_window/search_window.blp:138
+msgid "Include Ignored"
+msgstr "Включати ігноровані"
+
+#: gnome/src/ui/search_window/search_window.blp:144
+msgid "Extra File Formats"
+msgstr "Додаткові формати файлів"
+
+#: gnome/src/ui/search_window/search_window.blp:147
+msgid "File Names"
+msgstr "Назви файлів"
+
+#: gnome/src/ui/search_window/search_window.blp:152
+msgid "PDF Files"
+msgstr "Файли PDF"
+
+#: gnome/src/ui/search_window/search_window.blp:157
+msgid "Office Files"
+msgstr "Файли Офісу"
+
+#: gnome/src/ui/search_window/search_window.blp:168
+#: gnome/src/ui/search_window/search_window.blp:175
+msgid "Search Results"
+msgstr "Результати пошуку"
+
+#: gnome/src/ui/search_window/search_window.blp:188
+msgid "No Search Yet"
+msgstr "Ще не було пошуків"
+
+#: gnome/src/ui/search_window/search_window.blp:189
+msgid "Try to start a search"
+msgstr "Спробуйте пошукати щось"
+
+#: gnome/src/ui/search_window/search_window.blp:198
+msgid "No Results"
+msgstr "Немає результатів"
+
+#: gnome/src/ui/search_window/search_window.blp:204
+msgid ""
+"You might want to try changing your search pattern, activating document search, or changing "
+"to a different directory"
+msgstr ""
+"Ви можете спробувати змінити шаблон пошуку, ввімкнути пошук документів або змінити теку"
+
+#: gnome/src/ui/search_window/search_window.blp:225
+msgid "Show Errors"
+msgstr "Показати помилки"
+
+#: gnome/src/ui/search_window/search_window.blp:285
+msgid "Keyboard Shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: gnome/src/ui/search_window/search_window.blp:290
+msgid "About Clapgrep"
+msgstr "Про \"Clapgrep\""
+
+#: gnome/src/ui/search_window/imp.rs:152
+msgid "Choose Search Path"
+msgstr "Обрати шлях пошуку"
+
+#: gnome/src/ui/search_window/imp.rs:422
+msgid "Cancel Search"
+msgstr "Зупинити пошук"
+
+#: gnome/src/ui/search_window/imp.rs:425
+msgid "Close"
+msgstr "Закрити"
+
+#: gnome/src/ui/result_view/imp.rs:64
+msgid "No match within the file."
+msgstr "Нічого не знайдено всередині файлу."
