@@ -27,11 +27,11 @@ features = ["blueprint", "v4_16"]
 [workspace.dependencies.adw]
 version = "0.8.0"
 package = "libadwaita"
-features = ["v1_8"]
+features = ["v1_7"]
 
 [workspace.dependencies.gio]
 version = "0.21.0"
-features = ["v2_86"]
+features = ["v2_84"]
 
 [workspace.dependencies.sourceview5]
 version = "0.10.0"
