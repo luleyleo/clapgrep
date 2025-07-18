@@ -6,7 +6,8 @@ mod text_preview;
 
 glib::wrapper! {
     pub struct Preview(ObjectSubclass<imp::Preview>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Preview {

@@ -7,7 +7,8 @@ use crate::search::SearchResult;
 
 glib::wrapper! {
     pub struct ResultView(ObjectSubclass<imp::ResultView>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl ResultView {

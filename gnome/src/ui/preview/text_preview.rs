@@ -4,7 +4,8 @@ use crate::search::SearchResult;
 
 glib::wrapper! {
     pub struct TextPreview(ObjectSubclass<imp::TextPreview>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl TextPreview {

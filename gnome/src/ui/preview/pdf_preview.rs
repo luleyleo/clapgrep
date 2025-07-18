@@ -3,7 +3,8 @@ use gtk::glib::{self, Object};
 
 glib::wrapper! {
     pub struct PdfPreview(ObjectSubclass<imp::PdfPreview>)
-        @extends gtk::Widget;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl PdfPreview {
