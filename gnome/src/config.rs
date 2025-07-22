@@ -36,6 +36,7 @@ mod imp {
         #[property(name = "window-maximized", get, set, type = bool, member = maximized)]
         window: RefCell<WindowConfig>,
 
+        #[property(name = "path-pattern-explicit", get, set, type = bool, member = path_pattern_explicit)]
         #[property(name = "case-sensitive", get, set, type = bool, member = case_sensitive)]
         #[property(name = "include-hidden", get, set, type = bool, member = include_hidden)]
         #[property(name = "include-ignored", get, set, type = bool, member = include_ignored)]
@@ -171,6 +172,7 @@ mod imp {
     #[derive(Clone, Copy, Default, serde::Serialize, serde::Deserialize)]
     #[serde(default)]
     struct SearchFlags {
+        pub path_pattern_explicit: bool,
         pub case_sensitive: bool,
         pub include_hidden: bool,
         pub include_ignored: bool,

@@ -30,6 +30,8 @@ pub struct SearchParameters {
 
 #[derive(Debug, Default, Clone, Copy)]
 pub struct SearchFlags {
+    pub path_pattern_explicit: bool,
+
     pub case_sensitive: bool,
     pub fixed_string: bool,
 
@@ -79,8 +81,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         None
     };
 
-    let base_directory = params.base_directory;
-    let walker = WalkBuilder::new(&base_directory)
+    let walker = WalkBuilder::new(&params.base_directory)
         .git_ignore(!params.flags.search_ignored)
         .ignore(!params.flags.search_ignored)
         .hidden(params.flags.search_hidden)
@@ -89,8 +90,15 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         .threads(threads)
         .filter_entry(move |dir| match (dir.path().is_file(), pattern.as_ref()) {
             (true, Some(pattern)) => {
-                let relative_dir = dir.path().strip_prefix(&base_directory).unwrap();
-                pattern.matches_path(relative_dir)
+                let relative_dir = dir.path().strip_prefix(&params.base_directory).unwrap();
+                pattern.matches_path_with(
+                    relative_dir,
+                    glob::MatchOptions {
+                        case_sensitive: false,
+                        require_literal_separator: params.flags.path_pattern_explicit,
+                        require_literal_leading_dot: false,
+                    },
+                )
             }
             _ => true,
         })
