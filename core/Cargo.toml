@@ -10,10 +10,8 @@ ignore = { workspace = true }
 flume = { workspace = true }
 glob = { workspace = true }
 log = { workspace = true }
-
-# for office support
-dotext = { workspace = true }
-
-# for pdf support
 poppler-rs = { workspace = true }
 gio = { workspace = true }
+xml = { workspace = true }
+zip = { workspace = true }
+anyhow = { workspace = true }

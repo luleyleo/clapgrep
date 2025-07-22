@@ -70,6 +70,7 @@
         <li>Improved how the current search path is displayed.</li>
         <li>Added a configurable limit for the number of search results.</li>
         <li>Added an option to install the Nautilus integration.</li>
+        <li>When searching presentations like odp and pptx, results are now numbered by slide.</li>
         <li>Automatically move keyboard focus to the results when starting a search.</li>
         <li>Changed the "Start Search" button to an actual button.</li>
       </ul>
