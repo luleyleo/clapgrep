@@ -62,12 +62,19 @@
     <control>touch</control>
   </supports>
   <releases>
-  <release version="25.06" date="2025-06-01">
+  <release version="25.07" date="2025-07-01">
     <description translate="no">
       <p>New Features:</p>
       <ul>
+        <li>Changed the "Start Search" button to an actual button.</li>
         <li>Automatically move keyboard focus to the results when starting a search.</li>
       </ul>
+      <p>Translations:</p>
+      <ul>
+        <li>Added Ukrainian translations.</li>
+        <li>Updated Russion translations.</li>
+      </ul>
+      <p>And lots of internal cleanup 😅</p>
     </description>
   </release>
   <release version="25.05+1" date="2025-05-03">
