@@ -62,10 +62,14 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                   entry-activated => $on_entry_activated() swapped;
                 }
 
-                Adw.ActionRow {
+                Adw.ButtonRow {
                   title: _("Start Search");
                   activatable: true;
                   activated => $on_search() swapped;
+
+                  styles [
+                    "suggested-action",
+                  ]
                 }
               }
 
