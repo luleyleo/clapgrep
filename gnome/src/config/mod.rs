@@ -1,5 +1,7 @@
 use gtk::glib;
 
+mod v1;
+
 glib::wrapper! {
     pub struct Config(ObjectSubclass<imp::Config>);
 }
@@ -22,6 +24,8 @@ mod imp {
     use glib::prelude::*;
     use gtk::{glib, subclass::prelude::*};
     use std::{cell::RefCell, path::PathBuf};
+
+    use super::v1::*;
 
     #[derive(Default, glib::Properties)]
     #[properties(wrapper_type = super::Config)]
@@ -116,82 +120,6 @@ mod imp {
             let config_path = Self::config_path();
             if let Err(err) = std::fs::write(&config_path, config_txt) {
                 log::error!("Failed to write config ({config_path:?}): {err}");
-            }
-        }
-    }
-
-    #[derive(Clone, serde::Serialize, serde::Deserialize)]
-    #[serde(default)]
-    struct FullConfig {
-        #[serde(default = "old_last_version")]
-        last_version: String,
-        search_path: PathBuf,
-
-        window: WindowConfig,
-        flags: SearchFlags,
-        search: SearchConfig,
-    }
-
-    fn old_last_version() -> String {
-        "24.03".to_string()
-    }
-
-    fn home_directory() -> PathBuf {
-        glib::home_dir()
-    }
-
-    impl Default for FullConfig {
-        fn default() -> Self {
-            Self {
-                last_version: APP_VERSION.to_string(),
-                search_path: home_directory(),
-                window: Default::default(),
-                flags: Default::default(),
-                search: Default::default(),
-            }
-        }
-    }
-
-    #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
-    #[serde(default)]
-    struct WindowConfig {
-        width: i32,
-        height: i32,
-        maximized: bool,
-    }
-    impl Default for WindowConfig {
-        fn default() -> Self {
-            WindowConfig {
-                width: 1600,
-                height: 900,
-                maximized: false,
-            }
-        }
-    }
-
-    #[derive(Clone, Copy, Default, serde::Serialize, serde::Deserialize)]
-    #[serde(default)]
-    struct SearchFlags {
-        pub path_pattern_explicit: bool,
-        pub case_sensitive: bool,
-        pub include_hidden: bool,
-        pub include_ignored: bool,
-        pub disable_regex: bool,
-    }
-
-    #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
-    #[serde(default)]
-    struct SearchConfig {
-        names: bool,
-        pdf: bool,
-        office: bool,
-    }
-    impl Default for SearchConfig {
-        fn default() -> Self {
-            SearchConfig {
-                names: true,
-                pdf: true,
-                office: true,
             }
         }
     }
