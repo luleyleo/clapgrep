@@ -1,0 +1,33 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ClapgrepPreferencesDialog: Adw.PreferencesDialog {
+  Adw.PreferencesPage {
+    title: _("General");
+
+    Adw.PreferencesGroup {
+      title: _("Search");
+
+      Adw.SpinRow max_results_spinner {
+        title: _("Maximum number of search results");
+        numeric: true;
+
+        adjustment: Adjustment {
+          lower: 100;
+          upper: 10000;
+          step-increment: 100;
+          page-increment: 1000;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Integrations");
+
+      Adw.SwitchRow nautilus_integration_toggle {
+        title: _("Nautilus");
+        subtitle: _("You must have nautilus-python installed!");
+      }
+    }
+  }
+}

@@ -11,3 +11,6 @@ mod result_header_view;
 pub use result_header_view::ResultHeaderView;
 
 mod preview;
+
+mod preferences;
+pub use preferences::PreferencesDialog;

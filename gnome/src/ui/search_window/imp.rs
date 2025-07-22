@@ -373,19 +373,19 @@ impl ObjectImpl for SearchWindow {
         }
 
         self.config
-            .bind_property("window_width", obj.as_ref(), "default_width")
+            .bind_property("window-width", obj.as_ref(), "default-width")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("window_height", obj.as_ref(), "default_height")
+            .bind_property("window-height", obj.as_ref(), "default-height")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("window_maximized", obj.as_ref(), "maximized")
+            .bind_property("window-maximized", obj.as_ref(), "maximized")
             .bidirectional()
             .sync_create()
             .build();
@@ -448,9 +448,9 @@ impl ObjectImpl for SearchWindow {
             .sync_create()
             .build();
 
-        if self.config.last_version() != APP_VERSION {
+        if self.config.last_app_version() != APP_VERSION {
             self.show_update_banner(APP_VERSION);
-            self.config.set_last_version(APP_VERSION);
+            self.config.set_last_app_version(APP_VERSION);
         }
 
         obj.results().connect_items_changed(clone!(
@@ -459,6 +459,13 @@ impl ObjectImpl for SearchWindow {
             move |items, _, _, _| {
                 obj.imp().number_of_matches.set(items.n_items());
                 obj.notify("number_of_matches");
+
+                if items.n_items() >= obj.imp().config.max_search_results() {
+                    log::info!(
+                        "Search was cancelled because the max number of results was reached.",
+                    );
+                    obj.imp().stop_search();
+                }
             }
         ));
         obj.errors().connect_items_changed(clone!(
