@@ -30,7 +30,11 @@ pub struct SearchWindow {
     #[property(get)]
     pub search_directory: RefCell<String>,
     #[property(get, set)]
-    pub content_search: RefCell<String>,
+    pub path_pattern: RefCell<String>,
+    #[property(get, set)]
+    pub path_pattern_explicit: Cell<bool>,
+    #[property(get, set)]
+    pub content_pattern: RefCell<String>,
     #[property(get)]
     pub results: SearchModel,
 
@@ -126,8 +130,13 @@ impl ObjectSubclass for SearchWindow {
 
 #[gtk::template_callbacks]
 impl SearchWindow {
+    #[template_callback(function = true)]
+    fn is_not_empty(value: &str) -> bool {
+        !value.is_empty()
+    }
+
     #[template_callback]
-    fn on_search(&self, _: &adw::ActionRow) {
+    fn on_search(&self, _: &adw::ButtonRow) {
         self.start_search();
     }
 
@@ -250,14 +259,17 @@ impl SearchWindow {
     fn start_search(&self) {
         self.results.clear();
 
-        if self.content_search.borrow().is_empty() {
+        if self.content_pattern.borrow().is_empty() {
             return;
         }
 
         let search = SearchParameters {
             base_directory: self.search_path.borrow().clone(),
-            pattern: self.content_search.borrow().to_string(),
+            content_pattern: self.content_pattern.borrow().to_string(),
+            path_pattern: self.path_pattern.borrow().to_string(),
             flags: SearchFlags {
+                path_pattern_explicit: self.path_pattern_explicit.get(),
+
                 case_sensitive: self.case_sensitive.get(),
                 fixed_string: self.disable_regex.get(),
 
@@ -272,6 +284,8 @@ impl SearchWindow {
                 follow_links: true,
             },
         };
+
+        log::debug!("starting search: {search:?}");
 
         self.results.clear();
         self.results
@@ -361,6 +375,16 @@ impl ObjectImpl for SearchWindow {
 
         self.config
             .bind_property("window_maximized", obj.as_ref(), "maximized")
+            .bidirectional()
+            .sync_create()
+            .build();
+
+        self.config
+            .bind_property(
+                "path-pattern-explicit",
+                obj.as_ref(),
+                "path-pattern-explicit",
+            )
             .bidirectional()
             .sync_create()
             .build();

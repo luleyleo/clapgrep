@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-03 12:39+0200\n"
+"POT-Creation-Date: 2025-07-22 12:28+0200\n"
 "PO-Revision-Date: 2025-06-29 17:15+0300\n"
 "Last-Translator: Вячеслав <ma12@rambler.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -14,9 +14,39 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Lokalize 23.08.4\n"
+
+#: assets/gtk/help-overlay.blp:5
+#, fuzzy
+msgid "Clapgrep Shortcuts"
+msgstr "Комбинации клавиш"
+
+#: assets/gtk/help-overlay.blp:9
+msgid "General"
+msgstr "Основные"
+
+#: assets/gtk/help-overlay.blp:12
+msgid "Quit"
+msgstr "Выйти"
+
+#: assets/gtk/help-overlay.blp:17
+msgid "Shortcuts"
+msgstr "Комбинации клавиш"
+
+#: assets/gtk/help-overlay.blp:23
+msgid "Control Search"
+msgstr "Управление поиском"
+
+#: assets/gtk/help-overlay.blp:26
+#: gnome/src/ui/search_window/search_window.blp:66
+msgid "Start Search"
+msgstr "Начать поиск"
+
+#: assets/gtk/help-overlay.blp:31
+msgid "Stop Search"
+msgstr "Остановить поиск"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
@@ -88,8 +118,8 @@ msgid "Search Errors"
 msgstr "Ошибки поиска"
 
 #: gnome/src/ui/preview/preview.blp:13
-#: gnome/src/ui/search_window/search_window.blp:268
-#: gnome/src/ui/preview/mod.rs:95
+#: gnome/src/ui/search_window/search_window.blp:283
+#: gnome/src/ui/preview/mod.rs:96
 msgid "Content Preview"
 msgstr "Предпросмотр содержимого"
 
@@ -117,76 +147,81 @@ msgstr "Настройки поиска"
 msgid "Search Pattern"
 msgstr "Шаблон поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:66
-msgid "Start Search"
-msgstr "Начать поиск"
-
-#: gnome/src/ui/search_window/search_window.blp:74
+#: gnome/src/ui/search_window/search_window.blp:78
 msgid "Search Path"
 msgstr "Путь поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:108
+#: gnome/src/ui/search_window/search_window.blp:95
+#, fuzzy
+msgid "File Pattern"
+msgstr "Шаблон поиска"
+
+#: gnome/src/ui/search_window/search_window.blp:100
+msgid "Match Entire Path"
+msgstr ""
+
+#: gnome/src/ui/search_window/search_window.blp:123
 msgid "See what's new"
 msgstr "Посмотрите, что нового"
 
-#: gnome/src/ui/search_window/search_window.blp:114
+#: gnome/src/ui/search_window/search_window.blp:129
 msgid "Donate 💝"
 msgstr ""
 
-#: gnome/src/ui/search_window/search_window.blp:120
+#: gnome/src/ui/search_window/search_window.blp:135
 msgid "Search Options"
 msgstr "Параметры поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:123
+#: gnome/src/ui/search_window/search_window.blp:138
 msgid "Case Sensitive"
 msgstr "С учетом регистра"
 
-#: gnome/src/ui/search_window/search_window.blp:128
+#: gnome/src/ui/search_window/search_window.blp:143
 msgid "Disable Regex"
 msgstr "Отключить регулярное выражение"
 
-#: gnome/src/ui/search_window/search_window.blp:133
+#: gnome/src/ui/search_window/search_window.blp:148
 msgid "Include Hidden"
 msgstr "Включать скрытые"
 
-#: gnome/src/ui/search_window/search_window.blp:138
+#: gnome/src/ui/search_window/search_window.blp:153
 msgid "Include Ignored"
 msgstr "Включить игнорируемые"
 
-#: gnome/src/ui/search_window/search_window.blp:144
+#: gnome/src/ui/search_window/search_window.blp:159
 msgid "Extra File Formats"
 msgstr "Дополнительные форматы файлов"
 
-#: gnome/src/ui/search_window/search_window.blp:147
+#: gnome/src/ui/search_window/search_window.blp:162
 msgid "File Names"
 msgstr "Имена файлов"
 
-#: gnome/src/ui/search_window/search_window.blp:152
+#: gnome/src/ui/search_window/search_window.blp:167
 msgid "PDF Files"
 msgstr "PDF файлы"
 
-#: gnome/src/ui/search_window/search_window.blp:157
+#: gnome/src/ui/search_window/search_window.blp:172
 msgid "Office Files"
 msgstr "Файлы Office"
 
-#: gnome/src/ui/search_window/search_window.blp:168
-#: gnome/src/ui/search_window/search_window.blp:175
+#: gnome/src/ui/search_window/search_window.blp:183
+#: gnome/src/ui/search_window/search_window.blp:190
 msgid "Search Results"
 msgstr "Результаты поиска"
 
-#: gnome/src/ui/search_window/search_window.blp:188
+#: gnome/src/ui/search_window/search_window.blp:203
 msgid "No Search Yet"
 msgstr "Поисков пока не было"
 
-#: gnome/src/ui/search_window/search_window.blp:189
+#: gnome/src/ui/search_window/search_window.blp:204
 msgid "Try to start a search"
 msgstr "Попробуйте начать поиск"
 
-#: gnome/src/ui/search_window/search_window.blp:198
+#: gnome/src/ui/search_window/search_window.blp:213
 msgid "No Results"
 msgstr "Нет результатов"
 
-#: gnome/src/ui/search_window/search_window.blp:204
+#: gnome/src/ui/search_window/search_window.blp:219
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
@@ -194,27 +229,27 @@ msgstr ""
 "Возможно, вы захотите попробовать изменить схему поиска, активировать поиск "
 "по документамили перейти в другой каталог"
 
-#: gnome/src/ui/search_window/search_window.blp:225
+#: gnome/src/ui/search_window/search_window.blp:240
 msgid "Show Errors"
 msgstr "Показать ошибки"
 
-#: gnome/src/ui/search_window/search_window.blp:285
+#: gnome/src/ui/search_window/search_window.blp:300
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: gnome/src/ui/search_window/search_window.blp:290
+#: gnome/src/ui/search_window/search_window.blp:305
 msgid "About Clapgrep"
 msgstr "О программе  Clapgrep"
 
-#: gnome/src/ui/search_window/imp.rs:152
+#: gnome/src/ui/search_window/imp.rs:163
 msgid "Choose Search Path"
 msgstr "Выберите путь поиска"
 
-#: gnome/src/ui/search_window/imp.rs:422
+#: gnome/src/ui/search_window/imp.rs:477
 msgid "Cancel Search"
 msgstr "Отменить поиск"
 
-#: gnome/src/ui/search_window/imp.rs:425
+#: gnome/src/ui/search_window/imp.rs:480
 msgid "Close"
 msgstr "Закрыть"
 
@@ -222,31 +257,8 @@ msgstr "Закрыть"
 msgid "No match within the file."
 msgstr "В файле нет совпадений."
 
-#: assets/gtk/help-overlay.blp:9
-msgid "General"
-msgstr "Основные"
+#~ msgid "Searched {files} files and found {matches} matches"
+#~ msgstr "Поискал в {files} файлах и нашёл {matches} совпадения"
 
-#: assets/gtk/help-overlay.blp:12
-msgid "Quit"
-msgstr "Выйти"
-
-#: assets/gtk/help-overlay.blp:17
-msgid "Shortcuts"
-msgstr "Комбинации клавиш"
-
-#: assets/gtk/help-overlay.blp:23
-msgid "Control Search"
-msgstr "Управление поиском"
-
-#: assets/gtk/help-overlay.blp:31
-msgid "Stop Search"
-msgstr "Остановить поиск"
-
-#: gnome/src/ui/search_window/imp.rs:320
-msgid "Searched {files} files and found {matches} matches"
-msgstr "Поискал в {files} файлах и нашёл {matches} совпадения"
-
-#: gnome/src/ui/search_window/imp.rs:479
-msgid "Encountered {errors} errors during search"
-msgstr "Во время поиска обнаружены {errors} ошибки"
-
+#~ msgid "Encountered {errors} errors during search"
+#~ msgstr "Во время поиска обнаружены {errors} ошибки"

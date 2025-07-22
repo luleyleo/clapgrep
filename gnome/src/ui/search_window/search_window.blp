@@ -58,7 +58,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               Adw.PreferencesGroup {
                 Adw.EntryRow {
                   title: _("Search Pattern");
-                  text: bind template.content_search bidirectional;
+                  text: bind template.content_pattern bidirectional;
                   entry-activated => $on_entry_activated() swapped;
                 }
 
@@ -89,6 +89,17 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                       can-shrink: true;
                     };
                   }
+                }
+
+                Adw.EntryRow {
+                  title: _("File Pattern");
+                  text: bind template.path_pattern bidirectional;
+                }
+
+                Adw.SwitchRow {
+                  title: _("Match Entire Path");
+                  active: bind template.path_pattern_explicit bidirectional;
+                  visible: bind $is_not_empty(template.path_pattern) as <bool>;
                 }
               }
 

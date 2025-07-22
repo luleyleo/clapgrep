@@ -40,15 +40,16 @@ install-flatpak: setup-flatpak-repos
   flatpak-builder flatpak-build build-aux/{{appid}}.Devel.json --force-clean --install --install-deps-from=flathub --user
 
 update-potfiles:
-  rm -f po/POTFILES
-  echo assets/de.leopoldluley.Clapgrep.desktop.in.in >> po/POTFILES
-  echo assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in >> po/POTFILES
-  fd .blp gnome/src/ui >> po/POTFILES
-  rg -l gettext gnome/src/ui >> po/POTFILES
+  rm -f locale/POTFILES
+  echo assets/gtk/help-overlay.blp >> locale/POTFILES
+  echo assets/de.leopoldluley.Clapgrep.desktop.in.in >> locale/POTFILES
+  echo assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in >> locale/POTFILES
+  fd .blp gnome/src/ui >> locale/POTFILES
+  rg -l gettext gnome/src/ui >> locale/POTFILES
 
 update-translations: update-potfiles
-  meson compile -C build clapgrep-pot
-  meson compile -C build clapgrep-update-po
+  meson compile -C build {{appid}}-pot
+  meson compile -C build {{appid}}-update-po
 
 add-translation language:
   msginit -l {{language}}.UTF8 -o po/{{language}}.po -i po/clapgrep.pot

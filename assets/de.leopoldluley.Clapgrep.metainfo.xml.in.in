@@ -66,8 +66,9 @@
     <description translate="no">
       <p>New Features:</p>
       <ul>
-        <li>Changed the "Start Search" button to an actual button.</li>
+        <li>Added option to filter which file names or paths should be searched.</li>
         <li>Automatically move keyboard focus to the results when starting a search.</li>
+        <li>Changed the "Start Search" button to an actual button.</li>
       </ul>
       <p>Translations:</p>
       <ul>
