@@ -23,7 +23,8 @@ use std::{
 #[derive(Debug, Clone)]
 pub struct SearchParameters {
     pub base_directory: PathBuf,
-    pub pattern: String,
+    pub content_pattern: String,
+    pub path_pattern: String,
     pub flags: SearchFlags,
 }
 
@@ -53,7 +54,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
     let matcher = RegexMatcherBuilder::new()
         .case_insensitive(!params.flags.case_sensitive)
         .fixed_strings(params.flags.fixed_string)
-        .build(&params.pattern);
+        .build(&params.content_pattern);
 
     if let Err(err) = matcher {
         _ = engine.sender.send(SearchMessage::Error(SearchError {
@@ -71,13 +72,28 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         Err(_) => 2,
     };
 
-    let walker = WalkBuilder::new(&params.base_directory)
+    let pattern = if !params.path_pattern.is_empty() {
+        // Validity of path patterns should be checked externally.
+        glob::Pattern::new(&params.path_pattern).ok()
+    } else {
+        None
+    };
+
+    let base_directory = params.base_directory;
+    let walker = WalkBuilder::new(&base_directory)
         .git_ignore(!params.flags.search_ignored)
         .ignore(!params.flags.search_ignored)
         .hidden(params.flags.search_hidden)
         .follow_links(params.flags.follow_links)
         .same_file_system(params.flags.same_filesystem)
         .threads(threads)
+        .filter_entry(move |dir| match (dir.path().is_file(), pattern.as_ref()) {
+            (true, Some(pattern)) => {
+                let relative_dir = dir.path().strip_prefix(&base_directory).unwrap();
+                pattern.matches_path(relative_dir)
+            }
+            _ => true,
+        })
         .build_parallel();
 
     let mut preprocessors: Vec<(_, extra::ExtraFn)> = Vec::new();

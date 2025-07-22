@@ -8,6 +8,8 @@ regex = { workspace = true }
 grep = { workspace = true }
 ignore = { workspace = true }
 flume = { workspace = true }
+glob = { workspace = true }
+log = { workspace = true }
 
 # for office support
 dotext = { workspace = true }
