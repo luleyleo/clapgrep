@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 #[serde(default)]
-pub struct FullConfig {
+pub struct Config {
     #[serde(default = "default_config_version")]
     pub version: u32,
     #[serde(default = "default_app_version")]
@@ -16,6 +16,12 @@ pub struct FullConfig {
     pub search: SearchConfig,
 }
 
+impl Config {
+    pub fn version() -> u32 {
+        1
+    }
+}
+
 fn default_app_version() -> String {
     "24.03".to_string()
 }
@@ -24,10 +30,10 @@ fn default_config_version() -> u32 {
     1
 }
 
-impl Default for FullConfig {
+impl Default for Config {
     fn default() -> Self {
         Self {
-            version: 1,
+            version: Self::version(),
             last_version: APP_VERSION.to_string(),
             search_path: glib::home_dir(),
             window: Default::default(),
@@ -67,9 +73,9 @@ pub struct SearchFlags {
 #[derive(Clone, Copy, serde::Serialize, serde::Deserialize)]
 #[serde(default)]
 pub struct SearchConfig {
-    names: bool,
-    pdf: bool,
-    office: bool,
+    pub names: bool,
+    pub pdf: bool,
+    pub office: bool,
 }
 impl Default for SearchConfig {
     fn default() -> Self {
