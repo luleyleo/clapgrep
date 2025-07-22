@@ -36,7 +36,9 @@ mod imp {
     pub struct Config {
         #[property(name = "version", get, type = u32, member = version)]
         #[property(name = "last-app-version", get, set, type = String, member = last_app_version)]
+        // Search
         #[property(name = "search-path", get, set, type = String, member = search_path)]
+        #[property(name = "max-search-results", get, set, type = u32, member = max_search_results)]
         // Window
         #[property(name = "window-width", get, set, type = i32, member = window_width)]
         #[property(name = "window-height", get, set, type = i32, member = window_height)]

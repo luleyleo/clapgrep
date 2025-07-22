@@ -292,7 +292,12 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
 menu menu_app {
   section {
     item {
-      label: "Donate 💝";
+      label: _("Preferences");
+      action: "app.preferences";
+    }
+
+    item {
+      label: _("Donate 💝");
       action: "app.donate";
     }
 

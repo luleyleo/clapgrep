@@ -1,4 +1,7 @@
-use crate::{build, ui};
+use crate::{
+    build,
+    ui::{self, PreferencesDialog},
+};
 use adw::prelude::*;
 use gtk::{
     gdk,
@@ -27,6 +30,16 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
             }
         }
     }
+
+    let preferences_action = SimpleAction::new("preferences", None);
+    preferences_action.connect_activate(clone!(
+        #[weak]
+        window,
+        move |_, _| {
+            PreferencesDialog::new().present(Some(&window));
+        }
+    ));
+    app.add_action(&preferences_action);
 
     let donate_action = SimpleAction::new("donate", None);
     donate_action.connect_activate(clone!(
@@ -105,6 +118,7 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
 
     app.set_accels_for_action("app.quit", &["<ctrl>q"]);
     app.set_accels_for_action("app.shortcuts", &["<ctrl>h"]);
+    app.set_accels_for_action("app.preferences", &["<ctrl>comma"]);
     app.set_accels_for_action("win.start-search", &["<ctrl>Return"]);
     app.set_accels_for_action("win.stop-search", &["<ctrl>c"]);
 

@@ -15,7 +15,9 @@ impl Config {
 pub struct Config {
     pub version: u32,
     pub last_app_version: String,
+
     pub search_path: PathBuf,
+    pub max_search_results: u32,
 
     pub window_width: i32,
     pub window_height: i32,
@@ -37,7 +39,9 @@ impl Default for Config {
         Self {
             version: Self::version(),
             last_app_version: APP_VERSION.to_string(),
+
             search_path: glib::home_dir(),
+            max_search_results: 1000,
 
             window_width: 1600,
             window_height: 900,
@@ -76,6 +80,8 @@ impl From<v1::Config> for Config {
             search_names: old.search.names,
             search_pdf: old.search.pdf,
             search_office: old.search.office,
+
+            ..Self::default()
         }
     }
 }

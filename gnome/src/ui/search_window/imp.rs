@@ -459,6 +459,13 @@ impl ObjectImpl for SearchWindow {
             move |items, _, _, _| {
                 obj.imp().number_of_matches.set(items.n_items());
                 obj.notify("number_of_matches");
+
+                if items.n_items() >= obj.imp().config.max_search_results() {
+                    log::info!(
+                        "Search was cancelled because the max number of results was reached.",
+                    );
+                    obj.imp().stop_search();
+                }
             }
         ));
         obj.errors().connect_items_changed(clone!(
