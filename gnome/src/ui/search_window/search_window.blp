@@ -84,7 +84,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                     clicked => $on_cd() swapped;
 
                     child: Adw.ButtonContent {
-                      icon-name: "folder-symbolic";
+                      icon-name: "search-folder-symbolic";
                       label: bind template.search_directory;
                       can-shrink: true;
                     };
@@ -191,7 +191,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                 child: Adw.StatusPage {
                   title: _("No Search Yet");
                   description: _("Try to start a search");
-                  icon-name: "system-search-symbolic";
+                  icon-name: "edit-find-symbolic";
                 };
               }
 
@@ -200,7 +200,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
 
                 child: Adw.StatusPage {
                   title: _("No Results");
-                  icon-name: "system-search-symbolic";
+                  icon-name: "edit-find-symbolic";
 
                   child: Label {
                     wrap: true;

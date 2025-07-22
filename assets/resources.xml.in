@@ -5,6 +5,16 @@
     <file compressed="true" preprocess="xml-stripblanks" alias="metainfo.xml">@APP_ID@.metainfo.xml</file>
   </gresource>
   <gresource prefix="@APP_PATH@/icons/scalable/actions/">
+    <file preprocess="xml-stripblanks" alias="edit-find-symbolic.svg">icons/hicolor/scalable/actions/edit-find-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="external-link-symbolic.svg">icons/hicolor/scalable/actions/external-link-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="adw-external-link-symbolic.svg">icons/hicolor/scalable/actions/external-link-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="go-next-symbolic.svg">icons/hicolor/scalable/actions/go-next-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="go-previous-symbolic.svg">icons/hicolor/scalable/actions/go-previous-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="open-menu-symbolic.svg">icons/hicolor/scalable/actions/open-menu-symbolic.svg</file>
     <file preprocess="xml-stripblanks" alias="right-small-symbolic.svg">icons/hicolor/scalable/actions/right-small-symbolic.svg</file>
+    <file preprocess="xml-stripblanks" alias="search-folder-symbolic.svg">icons/hicolor/scalable/actions/search-folder-symbolic.svg</file>
+  </gresource>
+  <gresource prefix="@APP_PATH@/icons/scalable/apps/">
+    <file preprocess="xml-stripblanks" alias="@APP_ID@.svg">icons/hicolor/scalable/apps/@APP_ID@.svg</file>
   </gresource>
 </gresources>
