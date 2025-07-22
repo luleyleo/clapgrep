@@ -152,13 +152,12 @@ msgid "Search Path"
 msgstr "Suchpfad"
 
 #: gnome/src/ui/search_window/search_window.blp:95
-#, fuzzy
 msgid "File Pattern"
-msgstr "Suchmaske"
+msgstr "Dateisuchmaske"
 
 #: gnome/src/ui/search_window/search_window.blp:100
 msgid "Match Entire Path"
-msgstr ""
+msgstr "Gesamten Pfad filtern"
 
 #: gnome/src/ui/search_window/search_window.blp:123
 msgid "See what's new"
