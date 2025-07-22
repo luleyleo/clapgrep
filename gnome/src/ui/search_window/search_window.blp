@@ -76,19 +76,19 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               Adw.PreferencesGroup {
                 Adw.ActionRow {
                   title: _("Search Path");
-                  focusable: false;
-                  activatable: false;
+                  subtitle: bind $full_path(template.search_path) as <string>;
+                  activatable: true;
+                  activated => $on_cd() swapped;
 
-                  Button {
-                    valign: center;
-                    clicked => $on_cd() swapped;
-
-                    child: Adw.ButtonContent {
-                      icon-name: "search-folder-symbolic";
-                      label: bind template.search_directory;
-                      can-shrink: true;
-                    };
+                  [suffix]
+                  Adw.ButtonContent {
+                    icon-name: "search-folder-symbolic";
+                    margin-end: 8;
                   }
+
+                  styles [
+                    "property",
+                  ]
                 }
 
                 Adw.EntryRow {
