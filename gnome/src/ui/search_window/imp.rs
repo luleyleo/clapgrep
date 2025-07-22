@@ -17,7 +17,8 @@ use gtk::{
 };
 use std::{
     cell::{Cell, RefCell},
-    path::PathBuf,
+    env,
+    path::{Path, PathBuf},
     time::{Duration, Instant},
 };
 
@@ -27,8 +28,6 @@ use std::{
 pub struct SearchWindow {
     #[property(get, set)]
     pub search_path: RefCell<PathBuf>,
-    #[property(get)]
-    pub search_directory: RefCell<String>,
     #[property(get, set)]
     pub path_pattern: RefCell<String>,
     #[property(get, set)]
@@ -135,6 +134,18 @@ impl SearchWindow {
         !value.is_empty()
     }
 
+    #[template_callback(function = true)]
+    fn full_path(value: PathBuf) -> String {
+        let home_var = env::var("HOME").ok();
+        let home = home_var.as_ref().map(Path::new);
+
+        if home.is_some() && value.starts_with(home.unwrap()) {
+            format!("~/{}", value.strip_prefix(home.unwrap()).unwrap().display())
+        } else {
+            format!("{}", value.as_path().display())
+        }
+    }
+
     #[template_callback]
     fn on_search(&self, _: &adw::ButtonRow) {
         self.start_search();
@@ -155,7 +166,7 @@ impl SearchWindow {
     }
 
     #[template_callback]
-    fn on_cd(&self, _: &gtk::Button) {
+    fn on_cd(&self, _: &adw::ActionRow) {
         let obj = self.obj();
         let initial_folder = gio::File::for_path(self.search_path.borrow().as_path());
 
@@ -461,14 +472,6 @@ impl ObjectImpl for SearchWindow {
                 obj.notify("has_errors");
             }
         ));
-        obj.connect_search_path_notify(|obj| {
-            let path = obj.search_path();
-            *obj.imp().search_directory.borrow_mut() = match path.file_name() {
-                Some(directory) => directory.to_string_lossy().to_string(),
-                None => path.to_string_lossy().to_string(),
-            };
-            obj.notify("search-directory")
-        });
 
         obj.connect_search_running_notify(|obj| {
             let imp = obj.imp();
