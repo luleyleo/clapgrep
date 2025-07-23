@@ -23,6 +23,12 @@ fn main() {
     adw::init().expect("Failed to initialize Adwaita");
     sourceview5::init();
 
+    log::info!(target: "env", "user = {:?}", glib::user_name());
+    log::info!(target: "env", "home = {:?}", glib::home_dir());
+    log::info!(target: "env", "data = {:?}", glib::user_data_dir());
+    log::info!(target: "env", "config = {:?}", glib::user_config_dir());
+    log::info!(target: "env", "state = {:?}", glib::user_state_dir());
+
     gio::resources_register(
         &gio::Resource::from_data(&glib::Bytes::from_static(build::GRESOURCES_BUNDLE)).unwrap(),
     );
