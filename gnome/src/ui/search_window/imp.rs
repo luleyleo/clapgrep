@@ -139,8 +139,15 @@ impl SearchWindow {
         let home_var = env::var("HOME").ok();
         let home = home_var.as_ref().map(Path::new);
 
-        if home.is_some() && value.starts_with(home.unwrap()) {
-            format!("~/{}", value.strip_prefix(home.unwrap()).unwrap().display())
+        let Some(home) = home else {
+            return format!("{}", value.as_path().display());
+        };
+
+        let var_home = Path::new("/var").join(home);
+        if value.starts_with(home) {
+            format!("~/{}", value.strip_prefix(home).unwrap().display())
+        } else if value.starts_with(&var_home) {
+            format!("~/{}", value.strip_prefix(&var_home).unwrap().display())
         } else {
             format!("{}", value.as_path().display())
         }
