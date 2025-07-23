@@ -2,6 +2,7 @@ assets/gtk/help-overlay.blp
 assets/de.leopoldluley.Clapgrep.desktop.in.in
 assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in
 gnome/src/ui/error_window/error_window.blp
+gnome/src/ui/preferences/preferences.blp
 gnome/src/ui/preview/pdf_preview.blp
 gnome/src/ui/preview/preview.blp
 gnome/src/ui/preview/text_preview.blp

@@ -1,57 +1,56 @@
-# Czech translation for Clapgrep.
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Amerey <info@amerey.eu>, 2024.
+# This file is distributed under the same license as the de.leopoldluley.Clapgrep.Devel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: de.leopoldluley.Clapgrep.Devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-23 13:31+0200\n"
-"PO-Revision-Date: 2024-09-26 23:16+0200\n"
-"Last-Translator: Amerey <info@amerey.eu>\n"
-"Language-Team: \n"
-"Language: cs\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.4\n"
 
 #: assets/gtk/help-overlay.blp:5
 msgid "Clapgrep Shortcuts"
-msgstr "Zkratky Clapgrep"
+msgstr ""
 
 #: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences/preferences.blp:6
 msgid "General"
-msgstr "Obecné"
+msgstr ""
 
 #: assets/gtk/help-overlay.blp:12
 msgid "Quit"
-msgstr "Konec"
+msgstr ""
 
 #: assets/gtk/help-overlay.blp:17
 msgid "Shortcuts"
-msgstr "Zkratky"
+msgstr ""
 
 #: assets/gtk/help-overlay.blp:23
 msgid "Control Search"
-msgstr "Ovládání vyhledávání"
+msgstr ""
 
 #: assets/gtk/help-overlay.blp:26
 #: gnome/src/ui/search_window/search_window.blp:66
 msgid "Start Search"
-msgstr "Spustit vyhledávání"
+msgstr ""
 
 #: assets/gtk/help-overlay.blp:31
 msgid "Stop Search"
-msgstr "Zastavit vyhledávání"
+msgstr ""
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
 #: gnome/src/ui/search_window/search_window.blp:5
 msgid "Clapgrep"
-msgstr "Clapgrep"
+msgstr ""
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
@@ -105,12 +104,12 @@ msgstr ""
 
 #: gnome/src/ui/error_window/error_window.blp:7
 msgid "Search Errors"
-msgstr "Chyby vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/preferences/preferences.blp:9
 #: gnome/src/ui/search_window/search_window.blp:31
 msgid "Search"
-msgstr "Nastavení vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/preferences/preferences.blp:12
 msgid "Maximum number of search results"
@@ -152,16 +151,15 @@ msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:60
 msgid "Search Pattern"
-msgstr "Vzor vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:78
 msgid "Search Path"
-msgstr "Cesta vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:95
-#, fuzzy
 msgid "File Pattern"
-msgstr "Vzor vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:100
 msgid "Match Entire Path"
@@ -178,27 +176,27 @@ msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:135
 msgid "Search Options"
-msgstr "Možnosti vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:138
 msgid "Case Sensitive"
-msgstr "Rozlišovat malá a velká písmena"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:143
 msgid "Disable Regex"
-msgstr "Zakázat Regex"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:148
 msgid "Include Hidden"
-msgstr "Zahrnout skryté"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:153
 msgid "Include Ignored"
-msgstr "Zahrnout ignorované"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:159
 msgid "Extra File Formats"
-msgstr "Extra formáty souborů"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:162
 msgid "File Names"
@@ -206,16 +204,16 @@ msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:167
 msgid "PDF Files"
-msgstr "PDF soubory"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:172
 msgid "Office Files"
-msgstr "Soubory Office"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:183
 #: gnome/src/ui/search_window/search_window.blp:190
 msgid "Results"
-msgstr "Výsledky vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:203
 msgid "No Search Yet"
@@ -245,20 +243,19 @@ msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:300
 msgid "Keyboard Shortcuts"
-msgstr "Klávesové zkratky"
+msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:305
 msgid "About Clapgrep"
-msgstr "O Clapgrep"
+msgstr ""
 
 #: gnome/src/ui/search_window/imp.rs:181
-#, fuzzy
 msgid "Choose Search Path"
-msgstr "Cesta vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/search_window/imp.rs:494
 msgid "Cancel Search"
-msgstr "Zrušit vyhledávání"
+msgstr ""
 
 #: gnome/src/ui/search_window/imp.rs:497
 msgid "Close"
@@ -267,11 +264,3 @@ msgstr ""
 #: gnome/src/ui/result_view/imp.rs:64
 msgid "No match within the file."
 msgstr ""
-
-#, fuzzy
-#~ msgid "Search PDF and Office files"
-#~ msgstr "Soubory Office"
-
-#, fuzzy
-#~ msgid "Clapgrep@PROFILE@"
-#~ msgstr "Clapgrep"
