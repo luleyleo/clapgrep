@@ -3,19 +3,23 @@ use gtk::glib;
 mod v1;
 mod v2;
 
+thread_local! {
+    static INSTANCE: Config = Config::new();
+}
+
 glib::wrapper! {
     pub struct Config(ObjectSubclass<imp::Config>);
 }
 
 impl Config {
-    pub fn new() -> Config {
+    fn new() -> Config {
         glib::Object::new()
     }
 }
 
 impl Default for Config {
     fn default() -> Self {
-        Self::new()
+        INSTANCE.with(|i| i.clone())
     }
 }
 
