@@ -31,7 +31,7 @@ class ClapgrepMenuProvider(GObject.GObject, Nautilus.MenuProvider):
             return item
 
     def get_file_items(self, files):
-        if len(files) == 1 and os.path.isdir(files[0]):
+        if len(files) == 1:
             item = self.__create_sub_menu(files[0], "File")
 
             return (item,)

@@ -1,15 +1,12 @@
-use std::fs;
-use std::path::PathBuf;
-
+use crate::build::APP_PATH;
+use crate::config::Config;
 use adw::subclass::prelude::*;
 use gtk::gio::{self, Cancellable, FileCopyFlags};
 use gtk::glib;
 use gtk::glib::subclass::InitializingObject;
 use gtk::CompositeTemplate;
 use sourceview5::prelude::{FileExt, ObjectExt};
-
-use crate::build::APP_PATH;
-use crate::config::Config;
+use std::fs;
 
 #[derive(CompositeTemplate, Default)]
 #[template(file = "src/ui/preferences/preferences.blp")]
@@ -42,8 +39,34 @@ impl ObjectSubclass for PreferencesDialog {
 impl PreferencesDialog {}
 
 impl PreferencesDialog {
-    fn nautilus_extension_path() -> PathBuf {
-        glib::user_data_dir().join("nautilus-python/extensions/clapgrep.py")
+    fn connect_nautilus_integration_toggle(&self) {
+        // TODO: This should use `glib::user_data_dir()`, but that doesn't work inside of Flatpak.
+        let nautilus_extension_path = glib::home_dir()
+            .join(".local/share")
+            .join("nautilus-python/extensions/clapgrep.py");
+
+        let is_nautilus_integration_installed = nautilus_extension_path.is_file();
+
+        self.nautilus_integration_toggle
+            .set_active(is_nautilus_integration_installed);
+
+        self.nautilus_integration_toggle
+            .connect_active_notify(move |toggle| {
+                if toggle.is_active() {
+                    let extension_file = gio::File::for_path(&nautilus_extension_path);
+                    let resource_file = gio::File::for_uri(&format!(
+                        "resource://{APP_PATH}/integrations/nautilus/clapgrep.py"
+                    ));
+                    let _ = resource_file.copy(
+                        &extension_file,
+                        FileCopyFlags::NONE,
+                        Cancellable::NONE,
+                        None,
+                    );
+                } else {
+                    let _ = fs::remove_file(&nautilus_extension_path);
+                }
+            });
     }
 }
 
@@ -57,26 +80,7 @@ impl ObjectImpl for PreferencesDialog {
             .sync_create()
             .build();
 
-        let is_nautilus_integration_installed = Self::nautilus_extension_path().is_file();
-        self.nautilus_integration_toggle
-            .set_active(is_nautilus_integration_installed);
-        self.nautilus_integration_toggle
-            .connect_active_notify(|toggle| {
-                if toggle.is_active() {
-                    let extension_file = gio::File::for_path(Self::nautilus_extension_path());
-                    let resource_file = gio::File::for_uri(&format!(
-                        "resource://{APP_PATH}/integrations/nautilus/clapgrep.py"
-                    ));
-                    let _ = resource_file.copy(
-                        &extension_file,
-                        FileCopyFlags::NONE,
-                        Cancellable::NONE,
-                        None,
-                    );
-                } else {
-                    let _ = fs::remove_file(Self::nautilus_extension_path());
-                }
-            });
+        self.connect_nautilus_integration_toggle();
     }
 }
 

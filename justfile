@@ -48,8 +48,8 @@ update-potfiles:
   rg -l gettext gnome/src/ui >> locale/POTFILES
 
 update-translations: update-potfiles
-  meson compile -C build {{appid}}-pot
-  meson compile -C build {{appid}}-update-po
+  meson compile -C build {{appid}}.Devel-pot
+  meson compile -C build {{appid}}.Devel-update-po
 
 add-translation language:
   msginit -l {{language}}.UTF8 -o po/{{language}}.po -i po/clapgrep.pot

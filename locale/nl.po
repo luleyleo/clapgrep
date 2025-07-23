@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clapgrep\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-22 12:28+0200\n"
+"POT-Creation-Date: 2025-07-23 13:41+0200\n"
 "PO-Revision-Date: 2025-05-01 14:42+0200\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Clapgrep Shortcuts"
 msgstr "Sneltoetsen"
 
-#: assets/gtk/help-overlay.blp:9
+#: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences/preferences.blp:6
 msgid "General"
 msgstr ""
 
@@ -118,6 +118,23 @@ msgstr "Voorvertoning (mobiele weergave)"
 msgid "Search Errors"
 msgstr "Zoekfouten"
 
+#: gnome/src/ui/preferences/preferences.blp:9
+#: gnome/src/ui/search_window/search_window.blp:31
+msgid "Search"
+msgstr "Zoekvoorkeuren"
+
+#: gnome/src/ui/preferences/preferences.blp:12
+msgid "Maximum number of search results"
+msgstr ""
+
+#: gnome/src/ui/preferences/preferences.blp:25
+msgid "Integrations"
+msgstr ""
+
+#: gnome/src/ui/preferences/preferences.blp:29
+msgid "You must have nautilus-python installed"
+msgstr ""
+
 #: gnome/src/ui/preview/preview.blp:13
 #: gnome/src/ui/search_window/search_window.blp:283
 #: gnome/src/ui/preview/mod.rs:96
@@ -139,10 +156,6 @@ msgstr "In aanbouw"
 #: gnome/src/ui/preview/preview.blp:28
 msgid "Preview for this file type has not been implemented yet."
 msgstr "Dit bestandstype kan nog niet worden voorvertoond."
-
-#: gnome/src/ui/search_window/search_window.blp:31
-msgid "Search Settings"
-msgstr "Zoekvoorkeuren"
 
 #: gnome/src/ui/search_window/search_window.blp:60
 msgid "Search Pattern"
@@ -166,6 +179,7 @@ msgid "See what's new"
 msgstr "Wijzigingslog"
 
 #: gnome/src/ui/search_window/search_window.blp:129
+#: gnome/src/ui/search_window/search_window.blp:310
 msgid "Donate 💝"
 msgstr "Doneren 💝"
 
@@ -207,7 +221,7 @@ msgstr "Documenten"
 
 #: gnome/src/ui/search_window/search_window.blp:183
 #: gnome/src/ui/search_window/search_window.blp:190
-msgid "Search Results"
+msgid "Results"
 msgstr "Zoekresultaten"
 
 #: gnome/src/ui/search_window/search_window.blp:203
@@ -233,6 +247,10 @@ msgstr ""
 msgid "Show Errors"
 msgstr "Foutmeldingen tonen"
 
+#: gnome/src/ui/search_window/search_window.blp:295
+msgid "Preferences"
+msgstr ""
+
 #: gnome/src/ui/search_window/search_window.blp:300
 msgid "Keyboard Shortcuts"
 msgstr "Sneltoetsen"
@@ -241,17 +259,32 @@ msgstr "Sneltoetsen"
 msgid "About Clapgrep"
 msgstr "Over Clapgrep"
 
-#: gnome/src/ui/search_window/imp.rs:163
+#: gnome/src/ui/search_window/imp.rs:181
 msgid "Choose Search Path"
 msgstr "Kies een zoeklocatie"
 
-#: gnome/src/ui/search_window/imp.rs:477
+#: gnome/src/ui/search_window/imp.rs:352
+#, rust-format
+msgid "Searched {files} files and found {matches} matches"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:365
+#, rust-format
+msgid "Updated to {version} 🎉"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:494
 msgid "Cancel Search"
 msgstr "Zoekopdracht afbreken"
 
-#: gnome/src/ui/search_window/imp.rs:480
+#: gnome/src/ui/search_window/imp.rs:497
 msgid "Close"
 msgstr "Sluiten"
+
+#: gnome/src/ui/search_window/imp.rs:520
+#, rust-format
+msgid "Encountered {errors} errors during search"
+msgstr ""
 
 #: gnome/src/ui/result_view/imp.rs:64
 msgid "No match within the file."
