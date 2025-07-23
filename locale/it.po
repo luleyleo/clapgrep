@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 13:31+0200\n"
+"POT-Creation-Date: 2025-07-23 13:33+0200\n"
 "PO-Revision-Date: 2025-03-03 21:41+0100\n"
 "Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -127,12 +127,8 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: gnome/src/ui/preferences/preferences.blp:28
-msgid "Nautilus"
-msgstr ""
-
 #: gnome/src/ui/preferences/preferences.blp:29
-msgid "You must have nautilus-python installed!"
+msgid "You must have nautilus-python installed"
 msgstr ""
 
 #: gnome/src/ui/preview/preview.blp:13
