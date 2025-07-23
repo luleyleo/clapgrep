@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 13:33+0200\n"
+"POT-Creation-Date: 2025-07-23 13:41+0200\n"
 "PO-Revision-Date: 2024-09-26 23:16+0200\n"
 "Last-Translator: Amerey <info@amerey.eu>\n"
 "Language-Team: \n"
@@ -252,12 +252,27 @@ msgstr "O Clapgrep"
 msgid "Choose Search Path"
 msgstr "Cesta vyhledávání"
 
+#: gnome/src/ui/search_window/imp.rs:352
+#, rust-format
+msgid "Searched {files} files and found {matches} matches"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:365
+#, rust-format
+msgid "Updated to {version} 🎉"
+msgstr ""
+
 #: gnome/src/ui/search_window/imp.rs:494
 msgid "Cancel Search"
 msgstr "Zrušit vyhledávání"
 
 #: gnome/src/ui/search_window/imp.rs:497
 msgid "Close"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:520
+#, rust-format
+msgid "Encountered {errors} errors during search"
 msgstr ""
 
 #: gnome/src/ui/result_view/imp.rs:64

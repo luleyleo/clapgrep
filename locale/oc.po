@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clapgrep\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 13:33+0200\n"
+"POT-Creation-Date: 2025-07-23 13:41+0200\n"
 "PO-Revision-Date: 2025-04-27 09:47+1000\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: \n"
@@ -266,6 +266,16 @@ msgstr "A prepaus de Clapgrep"
 msgid "Choose Search Path"
 msgstr "Causir l’emplaçament de la recèrca"
 
+#: gnome/src/ui/search_window/imp.rs:352
+#, rust-format
+msgid "Searched {files} files and found {matches} matches"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:365
+#, rust-format
+msgid "Updated to {version} 🎉"
+msgstr ""
+
 #: gnome/src/ui/search_window/imp.rs:494
 msgid "Cancel Search"
 msgstr "Anullar la recèrca"
@@ -273,6 +283,11 @@ msgstr "Anullar la recèrca"
 #: gnome/src/ui/search_window/imp.rs:497
 msgid "Close"
 msgstr "Tampar"
+
+#: gnome/src/ui/search_window/imp.rs:520
+#, rust-format
+msgid "Encountered {errors} errors during search"
+msgstr ""
 
 #: gnome/src/ui/result_view/imp.rs:64
 msgid "No match within the file."

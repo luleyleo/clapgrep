@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de.leopoldluley.Clapgrep.Devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 13:33+0200\n"
+"POT-Creation-Date: 2025-07-23 13:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -249,12 +249,27 @@ msgstr ""
 msgid "Choose Search Path"
 msgstr ""
 
+#: gnome/src/ui/search_window/imp.rs:352
+#, rust-format
+msgid "Searched {files} files and found {matches} matches"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:365
+#, rust-format
+msgid "Updated to {version} 🎉"
+msgstr ""
+
 #: gnome/src/ui/search_window/imp.rs:494
 msgid "Cancel Search"
 msgstr ""
 
 #: gnome/src/ui/search_window/imp.rs:497
 msgid "Close"
+msgstr ""
+
+#: gnome/src/ui/search_window/imp.rs:520
+#, rust-format
+msgid "Encountered {errors} errors during search"
 msgstr ""
 
 #: gnome/src/ui/result_view/imp.rs:64

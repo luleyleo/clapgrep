@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Clapgrep 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 13:33+0200\n"
+"POT-Creation-Date: 2025-07-23 13:41+0200\n"
 "PO-Revision-Date: 2025-04-03 12:41+0200\n"
 "Last-Translator: Leopold Luley <git@leopoldluley.de>\n"
 "Language-Team: German\n"
@@ -124,15 +124,15 @@ msgstr "Suche"
 
 #: gnome/src/ui/preferences/preferences.blp:12
 msgid "Maximum number of search results"
-msgstr ""
+msgstr "Maximale Anzahl an Suchergebnissen"
 
 #: gnome/src/ui/preferences/preferences.blp:25
 msgid "Integrations"
-msgstr ""
+msgstr "Integrationen"
 
 #: gnome/src/ui/preferences/preferences.blp:29
 msgid "You must have nautilus-python installed"
-msgstr ""
+msgstr "Du musst nautilus-python installiert haben"
 
 #: gnome/src/ui/preview/preview.blp:13
 #: gnome/src/ui/search_window/search_window.blp:283
@@ -262,6 +262,16 @@ msgstr "Über Clapgrep"
 msgid "Choose Search Path"
 msgstr "Suchpfad auswählen"
 
+#: gnome/src/ui/search_window/imp.rs:352
+#, rust-format
+msgid "Searched {files} files and found {matches} matches"
+msgstr "{files} durchsucht und {matches} gefunden"
+
+#: gnome/src/ui/search_window/imp.rs:365
+#, rust-format
+msgid "Updated to {version} 🎉"
+msgstr ""
+
 #: gnome/src/ui/search_window/imp.rs:494
 msgid "Cancel Search"
 msgstr "Suche abbrechen"
@@ -269,6 +279,11 @@ msgstr "Suche abbrechen"
 #: gnome/src/ui/search_window/imp.rs:497
 msgid "Close"
 msgstr "Schließen"
+
+#: gnome/src/ui/search_window/imp.rs:520
+#, rust-format
+msgid "Encountered {errors} errors during search"
+msgstr "Es gab {errors} Suchfehler"
 
 #: gnome/src/ui/result_view/imp.rs:64
 msgid "No match within the file."
@@ -281,9 +296,3 @@ msgstr "Kein Treffer in der Datei."
 #, fuzzy
 #~ msgid "Clapgrep@PROFILE@"
 #~ msgstr "Clapgrep"
-
-#~ msgid "Searched {files} files and found {matches} matches"
-#~ msgstr "{files} durchsucht und {matches} gefunden"
-
-#~ msgid "Encountered {errors} errors during search"
-#~ msgstr "Es gab {errors} Suchfehler"

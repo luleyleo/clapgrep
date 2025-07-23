@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 13:33+0200\n"
+"POT-Creation-Date: 2025-07-23 13:41+0200\n"
 "PO-Revision-Date: 2025-06-29 17:15+0300\n"
 "Last-Translator: Вячеслав <ma12@rambler.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -263,6 +263,16 @@ msgstr "О программе  Clapgrep"
 msgid "Choose Search Path"
 msgstr "Выберите путь поиска"
 
+#: gnome/src/ui/search_window/imp.rs:352
+#, rust-format
+msgid "Searched {files} files and found {matches} matches"
+msgstr "Поискал в {files} файлах и нашёл {matches} совпадения"
+
+#: gnome/src/ui/search_window/imp.rs:365
+#, rust-format
+msgid "Updated to {version} 🎉"
+msgstr ""
+
 #: gnome/src/ui/search_window/imp.rs:494
 msgid "Cancel Search"
 msgstr "Отменить поиск"
@@ -271,12 +281,11 @@ msgstr "Отменить поиск"
 msgid "Close"
 msgstr "Закрыть"
 
+#: gnome/src/ui/search_window/imp.rs:520
+#, rust-format
+msgid "Encountered {errors} errors during search"
+msgstr "Во время поиска обнаружены {errors} ошибки"
+
 #: gnome/src/ui/result_view/imp.rs:64
 msgid "No match within the file."
 msgstr "В файле нет совпадений."
-
-#~ msgid "Searched {files} files and found {matches} matches"
-#~ msgstr "Поискал в {files} файлах и нашёл {matches} совпадения"
-
-#~ msgid "Encountered {errors} errors during search"
-#~ msgstr "Во время поиска обнаружены {errors} ошибки"
