@@ -141,7 +141,7 @@ msgid "Preview for this file type has not been implemented yet."
 msgstr "Dit bestandstype kan nog niet worden voorvertoond."
 
 #: gnome/src/ui/search_window/search_window.blp:31
-msgid "Search Settings"
+msgid "Search"
 msgstr "Zoekvoorkeuren"
 
 #: gnome/src/ui/search_window/search_window.blp:60
@@ -207,7 +207,7 @@ msgstr "Documenten"
 
 #: gnome/src/ui/search_window/search_window.blp:183
 #: gnome/src/ui/search_window/search_window.blp:190
-msgid "Search Results"
+msgid "Results"
 msgstr "Zoekresultaten"
 
 #: gnome/src/ui/search_window/search_window.blp:203

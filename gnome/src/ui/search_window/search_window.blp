@@ -28,7 +28,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
     sidebar-width-fraction: 0.3;
 
     sidebar: Adw.NavigationPage {
-      title: _("Search Settings");
+      title: _("Search");
 
       child: Adw.ToolbarView {
         top-bar-style: flat;
@@ -180,14 +180,14 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
     };
 
     content: Adw.NavigationPage {
-      title: _("Search Results");
+      title: _("Results");
 
       child: Adw.NavigationSplitView inner_split_view {
         sidebar-width-fraction: 0.5;
         max-sidebar-width: 9999;
 
         sidebar: Adw.NavigationPage results_navigation_page {
-          title: _("Search Results");
+          title: _("Results");
 
           child: Adw.ToolbarView {
             top-bar-style: flat;

@@ -143,7 +143,7 @@ msgid "Preview for this file type has not been implemented yet."
 msgstr "L’apercebut per aqueste tipe de fichièr es pas encara implementat."
 
 #: gnome/src/ui/search_window/search_window.blp:31
-msgid "Search Settings"
+msgid "Search"
 msgstr "Paramètres de recèrca"
 
 #: gnome/src/ui/search_window/search_window.blp:60
@@ -209,7 +209,7 @@ msgstr "Fichièrs Office"
 
 #: gnome/src/ui/search_window/search_window.blp:183
 #: gnome/src/ui/search_window/search_window.blp:190
-msgid "Search Results"
+msgid "Results"
 msgstr "Resultats de la recèrca"
 
 #: gnome/src/ui/search_window/search_window.blp:203

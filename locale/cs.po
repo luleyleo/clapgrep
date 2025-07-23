@@ -130,7 +130,7 @@ msgid "Preview for this file type has not been implemented yet."
 msgstr ""
 
 #: gnome/src/ui/search_window/search_window.blp:31
-msgid "Search Settings"
+msgid "Search"
 msgstr "Nastavení vyhledávání"
 
 #: gnome/src/ui/search_window/search_window.blp:60
@@ -196,7 +196,7 @@ msgstr "Soubory Office"
 
 #: gnome/src/ui/search_window/search_window.blp:183
 #: gnome/src/ui/search_window/search_window.blp:190
-msgid "Search Results"
+msgid "Results"
 msgstr "Výsledky vyhledávání"
 
 #: gnome/src/ui/search_window/search_window.blp:203

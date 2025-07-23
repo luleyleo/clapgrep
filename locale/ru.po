@@ -140,7 +140,7 @@ msgid "Preview for this file type has not been implemented yet."
 msgstr "Предпросмотр этого типа файла еще не реализован."
 
 #: gnome/src/ui/search_window/search_window.blp:31
-msgid "Search Settings"
+msgid "Search"
 msgstr "Настройки поиска"
 
 #: gnome/src/ui/search_window/search_window.blp:60
@@ -206,7 +206,7 @@ msgstr "Файлы Office"
 
 #: gnome/src/ui/search_window/search_window.blp:183
 #: gnome/src/ui/search_window/search_window.blp:190
-msgid "Search Results"
+msgid "Results"
 msgstr "Результаты поиска"
 
 #: gnome/src/ui/search_window/search_window.blp:203
