@@ -17,7 +17,6 @@ use gtk::{
 };
 use std::{
     cell::{Cell, RefCell},
-    env,
     path::{Path, PathBuf},
     time::{Duration, Instant},
 };
@@ -136,21 +135,18 @@ impl SearchWindow {
 
     #[template_callback(function = true)]
     fn full_path(value: PathBuf) -> String {
-        let home_var = env::var("HOME").ok();
-        let home = home_var.as_ref().map(Path::new);
+        let home = &glib::home_dir();
+        let var_home = &Path::new("/var").join(home.strip_prefix("/").unwrap());
 
-        let Some(home) = home else {
-            return format!("{}", value.as_path().display());
-        };
-
-        let var_home = Path::new("/var").join(home);
-        if value.starts_with(home) {
-            format!("~/{}", value.strip_prefix(home).unwrap().display())
-        } else if value.starts_with(&var_home) {
-            format!("~/{}", value.strip_prefix(&var_home).unwrap().display())
-        } else {
-            format!("{}", value.as_path().display())
+        if let Ok(value) = value.strip_prefix(home) {
+            return format!("~/{}", value.display());
         }
+
+        if let Ok(value) = value.strip_prefix(var_home) {
+            return format!("~/{}", value.display());
+        }
+
+        format!("{}", value.display())
     }
 
     #[template_callback]
