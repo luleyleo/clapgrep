@@ -13,7 +13,8 @@
     "--socket=fallback-x11",
     "--socket=wayland",
     "--device=dri",
-    "--filesystem=host",
+    "--filesystem=host:ro",
+    "--filesystem=~/.local/share/nautilus-python",
     "--share=network"
   ],
   "cleanup": [

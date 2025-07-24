@@ -10,7 +10,7 @@ use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use gtk::{
-    gio::{self, Cancellable},
+    gio::{self, Cancellable, FileQueryInfoFlags},
     glib::{self, clone},
     prelude::*,
     CompositeTemplate, FileDialog, StringList,
@@ -186,7 +186,7 @@ impl SearchWindow {
                     obj,
                     move |result| {
                         if let Ok(result) = result {
-                            obj.set_search_path(result.path().unwrap());
+                            obj.imp().cd_to(result);
                         }
                     }
                 ),
@@ -218,6 +218,25 @@ impl SearchWindow {
 }
 
 impl SearchWindow {
+    fn cd_to(&self, directory: gio::File) {
+        const HOST_PATH_ATTR: &str = "xattr::document-portal.host-path";
+        let file_info = directory
+            .query_info(HOST_PATH_ATTR, FileQueryInfoFlags::NONE, Cancellable::NONE)
+            .unwrap();
+
+        if let Some(path) = file_info.attribute_string(HOST_PATH_ATTR) {
+            self.obj().set_search_path(Path::new(path.as_str()));
+            return;
+        }
+
+        if let Some(path) = directory.path() {
+            self.obj().set_search_path(path);
+            return;
+        }
+
+        log::error!("Failed to get cd to {directory:?}");
+    }
+
     fn init_manager(&self) {
         let app = self.obj().clone();
         let model = self.results.clone();
