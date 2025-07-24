@@ -1,117 +1,117 @@
 {
-  "$schema": "https://raw.githubusercontent.com/flatpak/flatpak-builder/1.4.4/data/flatpak-manifest.schema.json",
-  "id": "de.leopoldluley.Clapgrep.Devel",
-  "runtime": "org.gnome.Platform",
-  "runtime-version": "48",
-  "sdk": "org.gnome.Sdk",
-  "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.rust-stable"
-  ],
-  "command": "clapgrep",
-  "finish-args": [
-    "--share=ipc",
-    "--socket=fallback-x11",
-    "--socket=wayland",
-    "--device=dri",
-    "--filesystem=host:ro",
-    "--share=network"
-  ],
-  "cleanup": [
-    "/include",
-    "/lib/pkgconfig",
-    "/man",
-    "/share/doc",
-    "/share/gtk-doc",
-    "/share/man",
-    "/share/pkgconfig",
-    "*.la",
-    "*.a"
-  ],
-  "build-options": {
-    "append-path": "/usr/lib/sdk/rust-stable/bin"
-  },
-  "modules": [
-    {
-      "name": "popplerdata",
-      "buildsystem": "cmake-ninja",
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz",
-          "sha256": "c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74",
-          "x-checker-data": {
-            "type": "anitya",
-            "project-id": 3687,
-            "url-template": "https://poppler.freedesktop.org/poppler-data-$version.tar.gz"
-          }
-        }
-      ]
+    "$schema": "https://raw.githubusercontent.com/flatpak/flatpak-builder/1.4.4/data/flatpak-manifest.schema.json",
+    "id": "de.leopoldluley.Clapgrep.Devel",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "48",
+    "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.rust-stable"
+    ],
+    "command": "clapgrep",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--device=dri",
+        "--filesystem=~/.local/share/nautilus-python",
+        "--share=network"
+    ],
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/man",
+        "/share/doc",
+        "/share/gtk-doc",
+        "/share/man",
+        "/share/pkgconfig",
+        "*.la",
+        "*.a"
+    ],
+    "build-options": {
+        "append-path": "/usr/lib/sdk/rust-stable/bin"
     },
-    {
-      "name": "poppler",
-      "buildsystem": "cmake-ninja",
-      "config-opts": [
-        "-DCMAKE_INSTALL_LIBDIR=/app/lib",
-        "-DBUILD_GTK_TESTS=OFF",
-        "-DBUILD_CPP_TESTS=OFF",
-        "-DENABLE_CPP=OFF",
-        "-DENABLE_BOOST=OFF",
-        "-DENABLE_GOBJECT_INTROSPECTION=ON",
-        "-DENABLE_LIBOPENJPEG=openjpeg2",
-        "-DENABLE_QT5=OFF",
-        "-DENABLE_QT6=OFF"
-      ],
-      "cleanup": [
-        "/bin"
-      ],
-      "sources": [
+    "modules": [
         {
-          "type": "archive",
-          "url": "https://poppler.freedesktop.org/poppler-25.03.0.tar.xz",
-          "sha256": "97da4ff88517a6bbd729529f195f85c8d7a0c3bb4a3d57cb0c685cbb052fe837",
-          "x-checker-data": {
-            "type": "anitya",
-            "project-id": 3686,
-            "url-template": "https://poppler.freedesktop.org/poppler-$version.tar.xz"
-          }
-        }
-      ]
-    },
-    {
-      "name": "blueprint-compiler",
-      "buildsystem": "meson",
-      "cleanup": [
-        "*"
-      ],
-      "sources": [
+            "name": "popplerdata",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz",
+                    "sha256": "c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 3687,
+                        "url-template": "https://poppler.freedesktop.org/poppler-data-$version.tar.gz"
+                    }
+                }
+            ]
+        },
         {
-          "type": "git",
-          "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler",
-          "tag": "v0.16.0",
-          "x-checker-data": {
-            "type": "git",
-            "tag-pattern": "^v([\\d.]+)$"
-          }
-        }
-      ]
-    },
-    {
-      "name": "clapgrep",
-      "buildsystem": "simple",
-      "build-options": {
-        "build-args": [
-          "--share=network"
-        ]
-      },
-      "build-commands": [
-        "echo Ready"
-      ],
-      "sources": [
+            "name": "poppler",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DCMAKE_INSTALL_LIBDIR=/app/lib",
+                "-DBUILD_GTK_TESTS=OFF",
+                "-DBUILD_CPP_TESTS=OFF",
+                "-DENABLE_CPP=OFF",
+                "-DENABLE_BOOST=OFF",
+                "-DENABLE_GOBJECT_INTROSPECTION=ON",
+                "-DENABLE_LIBOPENJPEG=openjpeg2",
+                "-DENABLE_QT5=OFF",
+                "-DENABLE_QT6=OFF"
+            ],
+            "cleanup": [
+                "/bin"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://poppler.freedesktop.org/poppler-25.07.0.tar.xz",
+                    "sha256": "c504a9066dbdfebe377ad53cec641fd971ee96c4e1e8ca74e6c9c03d46d817ae",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 3686,
+                        "url-template": "https://poppler.freedesktop.org/poppler-$version.tar.xz"
+                    }
+                }
+            ]
+        },
         {
-          "type": "dir",
-          "path": ".."
+            "name": "blueprint-compiler",
+            "buildsystem": "meson",
+            "cleanup": [
+                "*"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler",
+                    "tag": "v0.18.0",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^v([\\d.]+)$"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "clapgrep",
+            "buildsystem": "simple",
+            "build-options": {
+                "build-args": [
+                    "--share=network"
+                ]
+            },
+            "build-commands": [
+                "echo Ready"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": ".."
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
