@@ -53,15 +53,8 @@ pub struct SearchWindowImp {
     pub search_running: Cell<bool>,
     #[property(get, set)]
     pub searched_files: Cell<u32>,
-    #[property(get)]
+    #[property(get, set)]
     pub number_of_matches: Cell<u32>,
-
-    #[property(get, set)]
-    pub search_progress_visible: Cell<bool>,
-    #[property(get, set)]
-    pub search_progress_notification: RefCell<String>,
-    #[property(get, set)]
-    pub search_progress_action: RefCell<String>,
 
     #[template_child]
     pub update_banner: TemplateChild<adw::PreferencesGroup>,
@@ -154,7 +147,7 @@ impl SearchWindowImp {
         if self.search_running.get() {
             self.stop_search();
         } else {
-            self.obj().set_search_progress_visible(false);
+            self.progress_banner.set_revealed(false);
         }
     }
 
@@ -326,7 +319,7 @@ impl SearchWindowImp {
         self.errors.splice(0, self.errors.n_items(), &[]);
         self.obj().set_searched_files(0);
         self.obj().set_search_running(true);
-        self.obj().set_search_progress_visible(true);
+        self.progress_banner.set_revealed(true);
         self.split_view.set_show_content(true);
 
         let progress_banner_button =
@@ -370,9 +363,7 @@ impl SearchWindowImp {
                 ("matches", &matches.to_string()),
             ],
         );
-
-        *self.search_progress_notification.borrow_mut() = message;
-        self.obj().notify("search_progress_notification");
+        self.progress_banner.set_title(&message);
     }
 
     fn show_update_banner(&self, version: &str) {
@@ -479,8 +470,7 @@ impl ObjectImpl for SearchWindowImp {
             #[weak]
             obj,
             move |items, _, _, _| {
-                obj.imp().number_of_matches.set(items.n_items());
-                obj.notify("number_of_matches");
+                obj.set_number_of_matches(items.n_items());
 
                 if items.n_items() >= obj.imp().config.max_search_results() {
                     log::info!(
@@ -508,13 +498,12 @@ impl ObjectImpl for SearchWindowImp {
         obj.connect_search_running_notify(|obj| {
             let imp = obj.imp();
 
-            if imp.search_running.get() {
-                let label = gettext("Cancel Search");
-                obj.set_search_progress_action(label);
+            let label = if imp.search_running.get() {
+                gettext("Cancel Search")
             } else {
-                let label = gettext("Close");
-                obj.set_search_progress_action(label);
-            }
+                gettext("Close")
+            };
+            imp.progress_banner.set_button_label(Some(&label));
 
             if imp.search_running.get() || imp.number_of_matches.get() > 0 {
                 imp.results_stack
@@ -528,6 +517,7 @@ impl ObjectImpl for SearchWindowImp {
         obj.connect_searched_files_notify(|obj| {
             obj.imp().update_search_progress();
         });
+
         obj.connect_number_of_matches_notify(|obj| {
             obj.imp().update_search_progress();
         });

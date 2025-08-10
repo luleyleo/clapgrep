@@ -218,9 +218,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                   orientation: vertical;
 
                   Adw.Banner progress_banner {
-                    revealed: bind template.search_progress_visible;
-                    title: bind template.search_progress_notification;
-                    button-label: bind template.search_progress_action;
+                    revealed: false;
                     button-clicked => $on_progress_banner_activated() swapped;
                   }
 
