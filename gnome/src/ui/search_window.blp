@@ -59,13 +59,13 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                 Adw.EntryRow {
                   title: _("Search Pattern");
                   text: bind template.content_pattern bidirectional;
-                  entry-activated => $on_entry_activated() swapped;
+                  entry-activated => $on_search_entry_activated() swapped;
                 }
 
                 Adw.ButtonRow {
                   title: _("Start Search");
                   activatable: true;
-                  activated => $on_search() swapped;
+                  activated => $on_search_button_activated() swapped;
 
                   styles [
                     "suggested-action",
@@ -231,14 +231,12 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                     revealed: bind template.search_progress_visible;
                     title: bind template.search_progress_notification;
                     button-label: bind template.search_progress_action;
-                    button-clicked => $on_search_progress_action() swapped;
+                    button-clicked => $on_progress_banner_activated() swapped;
                   }
 
-                  Adw.Banner {
-                    revealed: bind template.has_errors;
-                    title: bind template.search_errors_notification;
+                  Adw.Banner error_banner {
                     button-label: _("Show Errors");
-                    button-clicked => $on_show_errors() swapped;
+                    button-clicked => $on_error_banner_activated() swapped;
 
                     styles [
                       "error",

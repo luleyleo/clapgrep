@@ -47,8 +47,11 @@ pub struct SearchWindowImp {
     pub path_pattern_explicit: Cell<bool>,
     #[property(get, set)]
     pub content_pattern: RefCell<String>,
+
     #[property(get)]
     pub results: SearchModel,
+    #[property(get)]
+    pub errors: StringList,
 
     #[property(get, set)]
     pub case_sensitive: Cell<bool>,
@@ -80,19 +83,12 @@ pub struct SearchWindowImp {
     #[property(get, set)]
     pub search_progress_action: RefCell<String>,
 
-    #[property(get)]
-    pub errors: StringList,
-    #[property(get)]
-    pub number_of_errors: Cell<u32>,
-    #[property(get)]
-    pub has_errors: Cell<bool>,
-    #[property(get)]
-    pub search_errors_notification: RefCell<String>,
-
     #[template_child]
     pub update_banner: TemplateChild<adw::PreferencesGroup>,
     #[template_child]
     pub progress_banner: TemplateChild<adw::Banner>,
+    #[template_child]
+    pub error_banner: TemplateChild<adw::Banner>,
     #[template_child]
     pub results_stack: TemplateChild<gtk::Stack>,
     #[template_child]
@@ -164,17 +160,17 @@ impl SearchWindowImp {
     }
 
     #[template_callback]
-    fn on_search(&self, _: &adw::ButtonRow) {
+    fn on_search_button_activated(&self, _: &adw::ButtonRow) {
         self.start_search();
     }
 
     #[template_callback]
-    fn on_entry_activated(&self, _: &adw::EntryRow) {
+    fn on_search_entry_activated(&self, _: &adw::EntryRow) {
         self.start_search();
     }
 
     #[template_callback]
-    fn on_search_progress_action(&self, _: &adw::Banner) {
+    fn on_progress_banner_activated(&self, _: &adw::Banner) {
         if self.search_running.get() {
             self.stop_search();
         } else {
@@ -208,7 +204,7 @@ impl SearchWindowImp {
     }
 
     #[template_callback]
-    fn on_show_errors(&self, _: &adw::Banner) {
+    fn on_error_banner_activated(&self, _: &adw::Banner) {
         let error_window = ErrorWindow::new(&self.obj());
         error_window.present();
     }
@@ -508,11 +504,14 @@ impl ObjectImpl for SearchWindowImp {
             #[weak]
             obj,
             move |items, _, _, _| {
-                obj.imp().number_of_errors.set(items.n_items());
-                obj.notify("number_of_errors");
+                let number_of_errors = items.n_items();
+                let error_banner = &obj.imp().error_banner;
 
-                obj.imp().has_errors.set(items.n_items() > 0);
-                obj.notify("has_errors");
+                error_banner.set_revealed(number_of_errors > 0);
+                error_banner.set_title(&gettext_f(
+                    "Encountered {errors} errors during search",
+                    &[("errors", &number_of_errors.to_string())],
+                ));
             }
         ));
 
@@ -541,15 +540,6 @@ impl ObjectImpl for SearchWindowImp {
         });
         obj.connect_number_of_matches_notify(|obj| {
             obj.imp().update_search_progress();
-        });
-
-        obj.connect_number_of_errors_notify(|obj| {
-            let errors = obj.number_of_errors();
-            *obj.imp().search_errors_notification.borrow_mut() = gettext_f(
-                "Encountered {errors} errors during search",
-                &[("errors", &errors.to_string())],
-            );
-            obj.notify("search_errors_notification")
         });
 
         self.init_manager();
