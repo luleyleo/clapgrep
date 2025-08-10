@@ -74,11 +74,10 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               }
 
               Adw.PreferencesGroup {
-                Adw.ActionRow {
+                Adw.ActionRow search_path_row {
                   title: _("Search Path");
-                  subtitle: bind $full_path(template.search_path) as <string>;
                   activatable: true;
-                  activated => $on_cd() swapped;
+                  activated => $on_search_path_row_activated() swapped;
 
                   [suffix]
                   Adw.ButtonContent {
@@ -96,10 +95,8 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                   text: bind template.path_pattern bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow path_pattern_explicit_switch {
                   title: _("Match Entire Path");
-                  active: bind template.path_pattern_explicit bidirectional;
-                  visible: bind $is_not_empty(template.path_pattern) as <bool>;
                 }
               }
 

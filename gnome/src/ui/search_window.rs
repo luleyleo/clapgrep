@@ -40,11 +40,7 @@ impl SearchWindow {
 #[properties(wrapper_type = SearchWindow)]
 pub struct SearchWindowImp {
     #[property(get, set)]
-    pub search_path: RefCell<PathBuf>,
-    #[property(get, set)]
     pub path_pattern: RefCell<String>,
-    #[property(get, set)]
-    pub path_pattern_explicit: Cell<bool>,
     #[property(get, set)]
     pub content_pattern: RefCell<String>,
 
@@ -73,6 +69,11 @@ pub struct SearchWindowImp {
     pub progress_banner: TemplateChild<adw::Banner>,
     #[template_child]
     pub error_banner: TemplateChild<adw::Banner>,
+
+    #[template_child]
+    pub search_path_row: TemplateChild<adw::ActionRow>,
+    #[template_child]
+    pub path_pattern_explicit_switch: TemplateChild<adw::SwitchRow>,
 
     #[template_child]
     pub case_sensitive_switch: TemplateChild<adw::SwitchRow>,
@@ -140,27 +141,6 @@ impl ObjectSubclass for SearchWindowImp {
 
 #[gtk::template_callbacks]
 impl SearchWindowImp {
-    #[template_callback(function = true)]
-    fn is_not_empty(value: &str) -> bool {
-        !value.is_empty()
-    }
-
-    #[template_callback(function = true)]
-    fn full_path(value: PathBuf) -> String {
-        let home = &glib::home_dir();
-        let var_home = &Path::new("/var").join(home.strip_prefix("/").unwrap());
-
-        if let Ok(value) = value.strip_prefix(home) {
-            return format!("~/{}", value.display());
-        }
-
-        if let Ok(value) = value.strip_prefix(var_home) {
-            return format!("~/{}", value.display());
-        }
-
-        format!("{}", value.display())
-    }
-
     #[template_callback]
     fn on_search_button_activated(&self, _: &adw::ButtonRow) {
         self.start_search();
@@ -181,9 +161,9 @@ impl SearchWindowImp {
     }
 
     #[template_callback]
-    fn on_cd(&self, _: &adw::ActionRow) {
+    fn on_search_path_row_activated(&self, _: &adw::ActionRow) {
         let obj = self.obj();
-        let initial_folder = gio::File::for_path(self.search_path.borrow().as_path());
+        let initial_folder = gio::File::for_path(self.config.search_path());
 
         FileDialog::builder()
             .title(gettext("Choose Search Path"))
@@ -203,6 +183,15 @@ impl SearchWindowImp {
                     }
                 ),
             );
+    }
+
+    fn cd_to(&self, directory: gio::File) {
+        let Some(path) = directory.path() else {
+            log::error!("Failed to get directory path for {:?}", directory);
+            return;
+        };
+
+        self.config.set_search_path(path);
     }
 
     #[template_callback]
@@ -230,23 +219,29 @@ impl SearchWindowImp {
 }
 
 impl SearchWindowImp {
-    fn cd_to(&self, directory: gio::File) {
+    fn display_search_path(value: PathBuf) -> String {
+        let mut search_path = value;
+
         const HOST_PATH_ATTR: &str = "xattr::document-portal.host-path";
-        let file_info = directory
+        let file_info = gio::File::for_path(&search_path)
             .query_info(HOST_PATH_ATTR, FileQueryInfoFlags::NONE, Cancellable::NONE)
             .unwrap();
-
         if let Some(path) = file_info.attribute_string(HOST_PATH_ATTR) {
-            self.obj().set_search_path(Path::new(path.as_str()));
-            return;
+            search_path = PathBuf::from(path.as_str());
         }
 
-        if let Some(path) = directory.path() {
-            self.obj().set_search_path(path);
-            return;
+        let home = &glib::home_dir();
+        let var_home = &Path::new("/var").join(home.strip_prefix("/").unwrap());
+
+        if let Ok(value) = search_path.strip_prefix(var_home) {
+            return format!("~/{}", value.display());
         }
 
-        log::error!("Failed to get cd to {directory:?}");
+        if let Ok(value) = search_path.strip_prefix(home) {
+            return format!("~/{}", value.display());
+        }
+
+        format!("{}", search_path.display())
     }
 
     fn init_manager(&self) {
@@ -309,21 +304,18 @@ impl SearchWindowImp {
         }
 
         let search = SearchParameters {
-            base_directory: self.search_path.borrow().clone(),
+            base_directory: self.config.search_path(),
             content_pattern: self.content_pattern.borrow().to_string(),
             path_pattern: self.path_pattern.borrow().to_string(),
             flags: SearchFlags {
-                path_pattern_explicit: self.path_pattern_explicit.get(),
-
+                path_pattern_explicit: self.config.path_pattern_explicit(),
                 case_sensitive: self.config.case_sensitive(),
                 fixed_string: self.config.disable_regex(),
-
+                search_hidden: self.config.include_hidden(),
+                search_ignored: self.config.include_ignored(),
                 search_names: self.config.search_names(),
                 search_pdf: self.config.search_pdf(),
                 search_office: self.config.search_office(),
-
-                search_hidden: self.config.include_hidden(),
-                search_ignored: self.config.include_ignored(),
 
                 same_filesystem: false,
                 follow_links: true,
@@ -333,8 +325,7 @@ impl SearchWindowImp {
         log::debug!("starting search: {search:?}");
 
         self.results.clear();
-        self.results
-            .set_base_path(self.search_path.borrow().clone());
+        self.results.set_base_path(self.config.search_path());
         self.errors.splice(0, self.errors.n_items(), &[]);
         self.obj().set_searched_files(0);
         self.obj().set_search_running(true);
@@ -427,8 +418,8 @@ impl ObjectImpl for SearchWindowImp {
         self.config
             .bind_property(
                 "path-pattern-explicit",
-                obj.as_ref(),
-                "path-pattern-explicit",
+                &*self.path_pattern_explicit_switch,
+                "active",
             )
             .bidirectional()
             .sync_create()
@@ -477,8 +468,8 @@ impl ObjectImpl for SearchWindowImp {
             .build();
 
         self.config
-            .bind_property("search_path", obj.as_ref(), "search_path")
-            .bidirectional()
+            .bind_property("search_path", &*self.search_path_row, "subtitle")
+            .transform_to(|_, path| Some(Self::display_search_path(path)))
             .sync_create()
             .build();
 

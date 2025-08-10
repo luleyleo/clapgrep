@@ -1,5 +1,6 @@
 use crate::{
     build,
+    config::Config,
     ui::{self, PreferencesDialog},
 };
 use adw::prelude::*;
@@ -21,15 +22,17 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         STYLE_PROVIDER_PRIORITY_APPLICATION,
     );
 
-    let window = ui::SearchWindow::new(app);
+    let config = Config::default();
 
     if let Some(dir) = files.first() {
         if let Some(path) = dir.path() {
             if path.is_dir() {
-                window.set_search_path(path);
+                config.set_search_path(path);
             }
         }
     }
+
+    let window = ui::SearchWindow::new(app);
 
     let preferences_action = SimpleAction::new("preferences", None);
     preferences_action.connect_activate(clone!(
