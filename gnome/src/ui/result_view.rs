@@ -8,10 +8,22 @@ use glib::subclass::InitializingObject;
 use gtk::{glib, pango, prelude::*, CompositeTemplate};
 use std::cell::{Cell, RefCell};
 
+glib::wrapper! {
+    pub struct ResultView(ObjectSubclass<ResultViewImp>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl ResultView {
+    pub fn new(result: &SearchResult) -> Self {
+        glib::Object::builder().property("result", result).build()
+    }
+}
+
 #[derive(CompositeTemplate, glib::Properties)]
-#[template(file = "src/ui/result_view/result_view.blp")]
-#[properties(wrapper_type = super::ResultView)]
-pub struct ResultView {
+#[template(file = "src/ui/result_view.blp")]
+#[properties(wrapper_type = ResultView)]
+pub struct ResultViewImp {
     #[property(get, set)]
     pub result: RefCell<Option<SearchResult>>,
 
@@ -26,7 +38,7 @@ pub struct ResultView {
     highlight_color: RefCell<pango::Color>,
 }
 
-impl Default for ResultView {
+impl Default for ResultViewImp {
     fn default() -> Self {
         Self {
             result: Default::default(),
@@ -39,9 +51,9 @@ impl Default for ResultView {
 }
 
 #[glib::object_subclass]
-impl ObjectSubclass for ResultView {
+impl ObjectSubclass for ResultViewImp {
     const NAME: &'static str = "ClapgrepResultView";
-    type Type = super::ResultView;
+    type Type = ResultView;
     type ParentType = gtk::Widget;
 
     fn class_init(klass: &mut Self::Class) {
@@ -53,7 +65,7 @@ impl ObjectSubclass for ResultView {
     }
 }
 
-impl ResultView {
+impl ResultViewImp {
     fn update_content(&self) {
         let highlight_color = self.highlight_color.borrow();
         let result = self.result.borrow();
@@ -95,7 +107,7 @@ impl ResultView {
 }
 
 #[glib::derived_properties]
-impl ObjectImpl for ResultView {
+impl ObjectImpl for ResultViewImp {
     fn constructed(&self) {
         self.parent_constructed();
         let obj = self.obj();
@@ -121,4 +133,4 @@ impl ObjectImpl for ResultView {
     }
 }
 
-impl WidgetImpl for ResultView {}
+impl WidgetImpl for ResultViewImp {}
