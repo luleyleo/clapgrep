@@ -54,22 +54,6 @@ pub struct SearchWindowImp {
     pub errors: StringList,
 
     #[property(get, set)]
-    pub case_sensitive: Cell<bool>,
-    #[property(get, set)]
-    pub include_hidden: Cell<bool>,
-    #[property(get, set)]
-    pub include_ignored: Cell<bool>,
-    #[property(get, set)]
-    pub disable_regex: Cell<bool>,
-
-    #[property(get, set)]
-    pub search_names: Cell<bool>,
-    #[property(get, set)]
-    pub search_pdf: Cell<bool>,
-    #[property(get, set)]
-    pub search_office: Cell<bool>,
-
-    #[property(get, set)]
     pub search_running: Cell<bool>,
     #[property(get, set)]
     pub searched_files: Cell<u32>,
@@ -89,6 +73,22 @@ pub struct SearchWindowImp {
     pub progress_banner: TemplateChild<adw::Banner>,
     #[template_child]
     pub error_banner: TemplateChild<adw::Banner>,
+
+    #[template_child]
+    pub case_sensitive_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub disable_regex_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub include_hidden_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub include_ignored_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub search_names_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub search_pdf_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub search_office_switch: TemplateChild<adw::SwitchRow>,
+
     #[template_child]
     pub results_stack: TemplateChild<gtk::Stack>,
     #[template_child]
@@ -97,10 +97,12 @@ pub struct SearchWindowImp {
     pub no_results_page: TemplateChild<gtk::StackPage>,
     #[template_child]
     pub results_page: TemplateChild<gtk::StackPage>,
+
     #[template_child]
     pub split_view: TemplateChild<adw::NavigationSplitView>,
     #[template_child]
     pub inner_split_view: TemplateChild<adw::NavigationSplitView>,
+
     #[template_child]
     pub preview_navigation_page: TemplateChild<adw::NavigationPage>,
     #[template_child]
@@ -313,15 +315,15 @@ impl SearchWindowImp {
             flags: SearchFlags {
                 path_pattern_explicit: self.path_pattern_explicit.get(),
 
-                case_sensitive: self.case_sensitive.get(),
-                fixed_string: self.disable_regex.get(),
+                case_sensitive: self.config.case_sensitive(),
+                fixed_string: self.config.disable_regex(),
 
-                search_names: self.search_names.get(),
-                search_pdf: self.search_pdf.get(),
-                search_office: self.search_office.get(),
+                search_names: self.config.search_names(),
+                search_pdf: self.config.search_pdf(),
+                search_office: self.config.search_office(),
 
-                search_hidden: self.include_hidden.get(),
-                search_ignored: self.include_ignored.get(),
+                search_hidden: self.config.include_hidden(),
+                search_ignored: self.config.include_ignored(),
 
                 same_filesystem: false,
                 follow_links: true,
@@ -433,43 +435,43 @@ impl ObjectImpl for SearchWindowImp {
             .build();
 
         self.config
-            .bind_property("case-sensitive", obj.as_ref(), "case-sensitive")
+            .bind_property("case-sensitive", &*self.case_sensitive_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("include-hidden", obj.as_ref(), "include-hidden")
+            .bind_property("include-hidden", &*self.include_hidden_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("include-ignored", obj.as_ref(), "include-ignored")
+            .bind_property("include-ignored", &*self.include_ignored_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("disable-regex", obj.as_ref(), "disable-regex")
+            .bind_property("disable-regex", &*self.disable_regex_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("search_names", obj.as_ref(), "search_names")
+            .bind_property("search_names", &*self.search_names_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("search_pdf", obj.as_ref(), "search_pdf")
+            .bind_property("search_pdf", &*self.search_pdf_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("search_office", obj.as_ref(), "search_office")
+            .bind_property("search_office", &*self.search_office_switch, "active")
             .bidirectional()
             .sync_create()
             .build();

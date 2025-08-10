@@ -134,43 +134,36 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               Adw.PreferencesGroup {
                 title: _("Search Options");
 
-                Adw.SwitchRow {
+                Adw.SwitchRow case_sensitive_switch {
                   title: _("Case Sensitive");
-                  active: bind template.case_sensitive bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow disable_regex_switch {
                   title: _("Disable Regex");
-                  active: bind template.disable_regex bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow include_hidden_switch {
                   title: _("Include Hidden");
-                  active: bind template.include_hidden bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow include_ignored_switch {
                   title: _("Include Ignored");
-                  active: bind template.include_ignored bidirectional;
                 }
               }
 
               Adw.PreferencesGroup {
                 title: _("Extra File Formats");
 
-                Adw.SwitchRow {
+                Adw.SwitchRow search_names_switch {
                   title: _("File Names");
-                  active: bind template.search_names bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow search_pdf_switch {
                   title: _("PDF Files");
-                  active: bind template.search_pdf bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow search_office_switch {
                   title: _("Office Files");
-                  active: bind template.search_office bidirectional;
                 }
               }
             }
