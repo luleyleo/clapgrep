@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Clapgrep 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 13:41+0200\n"
+"POT-Creation-Date: 2025-08-10 17:47+0200\n"
 "PO-Revision-Date: 2025-04-03 12:41+0200\n"
 "Last-Translator: Leopold Luley <git@leopoldluley.de>\n"
 "Language-Team: German\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Clapgrep Shortcuts"
 msgstr "Clapgrep Tastenbindungen"
 
-#: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences/preferences.blp:6
+#: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences.blp:6
 msgid "General"
 msgstr "Generell"
 
@@ -38,8 +38,7 @@ msgstr "Tastenbindungen"
 msgid "Control Search"
 msgstr "Suche steuern"
 
-#: assets/gtk/help-overlay.blp:26
-#: gnome/src/ui/search_window/search_window.blp:66
+#: assets/gtk/help-overlay.blp:26 gnome/src/ui/search_window.blp:66
 msgid "Start Search"
 msgstr "Suche beginnen"
 
@@ -49,7 +48,7 @@ msgstr "Suche anhalten"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
-#: gnome/src/ui/search_window/search_window.blp:5
+#: gnome/src/ui/search_window.blp:5
 msgid "Clapgrep"
 msgstr "Clapgrep"
 
@@ -113,128 +112,124 @@ msgstr "Ergebnisse in der mobilen Ansicht"
 msgid "Preview in mobile view"
 msgstr "Vorschau in der mobilen Ansicht"
 
-#: gnome/src/ui/error_window/error_window.blp:7
+#: gnome/src/ui/error_window.blp:7
 msgid "Search Errors"
 msgstr "Suchfehler"
 
-#: gnome/src/ui/preferences/preferences.blp:9
-#: gnome/src/ui/search_window/search_window.blp:31
+#: gnome/src/ui/preferences.blp:9 gnome/src/ui/search_window.blp:31
 msgid "Search"
 msgstr "Suche"
 
-#: gnome/src/ui/preferences/preferences.blp:12
+#: gnome/src/ui/preferences.blp:12
 msgid "Maximum number of search results"
 msgstr "Maximale Anzahl an Suchergebnissen"
 
-#: gnome/src/ui/preferences/preferences.blp:25
+#: gnome/src/ui/preferences.blp:25
 msgid "Integrations"
 msgstr "Integrationen"
 
-#: gnome/src/ui/preferences/preferences.blp:29
+#: gnome/src/ui/preferences.blp:29
 msgid "You must have nautilus-python installed"
 msgstr "Du musst nautilus-python installiert haben"
 
-#: gnome/src/ui/preview/preview.blp:13
-#: gnome/src/ui/search_window/search_window.blp:283
-#: gnome/src/ui/preview/mod.rs:96
+#: gnome/src/ui/preview.blp:13 gnome/src/ui/search_window.blp:261
+#: gnome/src/ui/preview.rs:92
 msgid "Content Preview"
 msgstr "Vorschau"
 
-#: gnome/src/ui/preview/preview.blp:20
+#: gnome/src/ui/preview.blp:20
 msgid "Nothing Selected..."
 msgstr "Nichts ausgewählt..."
 
-#: gnome/src/ui/preview/preview.blp:21
+#: gnome/src/ui/preview.blp:21
 msgid "Try clicking on on of the result lines."
 msgstr "Click auf eines der Ergebnisse."
 
-#: gnome/src/ui/preview/preview.blp:27
+#: gnome/src/ui/preview.blp:27
 msgid "Under Construction"
 msgstr "In der Entwicklung"
 
-#: gnome/src/ui/preview/preview.blp:28
+#: gnome/src/ui/preview.blp:28
 msgid "Preview for this file type has not been implemented yet."
 msgstr "Die Vorschau wurde für diesen Dateityp noch nicht implementiert."
 
-#: gnome/src/ui/search_window/search_window.blp:60
+#: gnome/src/ui/search_window.blp:60
 msgid "Search Pattern"
 msgstr "Suchmaske"
 
-#: gnome/src/ui/search_window/search_window.blp:78
+#: gnome/src/ui/search_window.blp:78
 msgid "Search Path"
 msgstr "Suchpfad"
 
-#: gnome/src/ui/search_window/search_window.blp:95
+#: gnome/src/ui/search_window.blp:94
 msgid "File Pattern"
 msgstr "Dateisuchmaske"
 
-#: gnome/src/ui/search_window/search_window.blp:100
+#: gnome/src/ui/search_window.blp:99
 msgid "Match Entire Path"
 msgstr "Gesamten Pfad filtern"
 
-#: gnome/src/ui/search_window/search_window.blp:123
+#: gnome/src/ui/search_window.blp:120
 msgid "See what's new"
 msgstr "Neuigkeiten anzeigen"
 
-#: gnome/src/ui/search_window/search_window.blp:129
-#: gnome/src/ui/search_window/search_window.blp:310
+#: gnome/src/ui/search_window.blp:126 gnome/src/ui/search_window.blp:288
 msgid "Donate 💝"
 msgstr "Unterstützen 💝"
 
-#: gnome/src/ui/search_window/search_window.blp:135
+#: gnome/src/ui/search_window.blp:132
 msgid "Search Options"
 msgstr "Suchoptionen"
 
-#: gnome/src/ui/search_window/search_window.blp:138
+#: gnome/src/ui/search_window.blp:135
 msgid "Case Sensitive"
 msgstr "Groß-/Kleinschreibung beachten"
 
-#: gnome/src/ui/search_window/search_window.blp:143
+#: gnome/src/ui/search_window.blp:139
 msgid "Disable Regex"
 msgstr "Regex deaktivieren"
 
-#: gnome/src/ui/search_window/search_window.blp:148
+#: gnome/src/ui/search_window.blp:143
 msgid "Include Hidden"
 msgstr "Versteckte Dateien hinzunehmen"
 
-#: gnome/src/ui/search_window/search_window.blp:153
+#: gnome/src/ui/search_window.blp:147
 msgid "Include Ignored"
 msgstr "Ignorierte Dateien hinzunehmen"
 
-#: gnome/src/ui/search_window/search_window.blp:159
+#: gnome/src/ui/search_window.blp:152
 msgid "Extra File Formats"
 msgstr "Zusätzliche Dateiformate"
 
-#: gnome/src/ui/search_window/search_window.blp:162
+#: gnome/src/ui/search_window.blp:155
 msgid "File Names"
 msgstr "Dateinamen"
 
-#: gnome/src/ui/search_window/search_window.blp:167
+#: gnome/src/ui/search_window.blp:159
 msgid "PDF Files"
 msgstr "PDF Dateien"
 
-#: gnome/src/ui/search_window/search_window.blp:172
+#: gnome/src/ui/search_window.blp:163
 msgid "Office Files"
 msgstr "Office Dateien"
 
-#: gnome/src/ui/search_window/search_window.blp:183
-#: gnome/src/ui/search_window/search_window.blp:190
+#: gnome/src/ui/search_window.blp:173 gnome/src/ui/search_window.blp:180
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: gnome/src/ui/search_window/search_window.blp:203
+#: gnome/src/ui/search_window.blp:193
 msgid "No Search Yet"
 msgstr "Noch keine Suche begonnen"
 
-#: gnome/src/ui/search_window/search_window.blp:204
+#: gnome/src/ui/search_window.blp:194
 msgid "Try to start a search"
 msgstr "Versuche, eine Suche zu starten"
 
-#: gnome/src/ui/search_window/search_window.blp:213
+#: gnome/src/ui/search_window.blp:203
 msgid "No Results"
 msgstr "Keine Ergebnisse"
 
-#: gnome/src/ui/search_window/search_window.blp:219
+#: gnome/src/ui/search_window.blp:209
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
@@ -242,52 +237,51 @@ msgstr ""
 "Du kannst eine andere Suchmaske versuche, die Dokumentensuche aktivieren, "
 "oder zu einem anderen Suchordner wechseln"
 
-#: gnome/src/ui/search_window/search_window.blp:240
+#: gnome/src/ui/search_window.blp:226
 msgid "Show Errors"
 msgstr "Fehler anzeigen"
 
-#: gnome/src/ui/search_window/search_window.blp:295
+#: gnome/src/ui/search_window.blp:273
 msgid "Preferences"
 msgstr ""
 
-#: gnome/src/ui/search_window/search_window.blp:300
+#: gnome/src/ui/search_window.blp:278
 msgid "Keyboard Shortcuts"
 msgstr "Tastenbindungen"
 
-#: gnome/src/ui/search_window/search_window.blp:305
+#: gnome/src/ui/search_window.blp:283
 msgid "About Clapgrep"
 msgstr "Über Clapgrep"
 
-#: gnome/src/ui/search_window/imp.rs:181
+#: gnome/src/ui/search_window.rs:158
 msgid "Choose Search Path"
 msgstr "Suchpfad auswählen"
 
-#: gnome/src/ui/search_window/imp.rs:352
+#: gnome/src/ui/search_window.rs:358
 #, rust-format
 msgid "Searched {files} files and found {matches} matches"
 msgstr "{files} durchsucht und {matches} gefunden"
 
-#: gnome/src/ui/search_window/imp.rs:365
+#: gnome/src/ui/search_window.rs:369
 #, rust-format
 msgid "Updated to {version} 🎉"
 msgstr ""
 
-#: gnome/src/ui/search_window/imp.rs:494
-msgid "Cancel Search"
-msgstr "Suche abbrechen"
-
-#: gnome/src/ui/search_window/imp.rs:497
-msgid "Close"
-msgstr "Schließen"
-
-#: gnome/src/ui/search_window/imp.rs:520
+#: gnome/src/ui/search_window.rs:490
 #, rust-format
 msgid "Encountered {errors} errors during search"
 msgstr "Es gab {errors} Suchfehler"
 
-#: gnome/src/ui/result_view/imp.rs:64
-msgid "No match within the file."
-msgstr "Kein Treffer in der Datei."
+#: gnome/src/ui/search_window.rs:500
+msgid "Cancel Search"
+msgstr "Suche abbrechen"
+
+#: gnome/src/ui/search_window.rs:502
+msgid "Close"
+msgstr "Schließen"
+
+#~ msgid "No match within the file."
+#~ msgstr "Kein Treffer in der Datei."
 
 #, fuzzy
 #~ msgid "Search PDF and Office files"
