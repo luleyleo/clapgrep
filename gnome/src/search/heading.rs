@@ -23,7 +23,7 @@ impl Default for SearchHeading {
 impl SearchHeading {
     pub fn new(search_path: &Path, file_path: &Path, file_name_matches: &[Match]) -> SearchHeading {
         let file_path = file_path
-            .strip_prefix(&search_path)
+            .strip_prefix(search_path)
             .expect("failed to strip file_path prefix");
 
         let file_name_matches_store = (!file_name_matches.is_empty()).then(|| {

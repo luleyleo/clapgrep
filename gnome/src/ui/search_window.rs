@@ -195,7 +195,6 @@ impl SearchWindowImp {
             if let Some(result) = result.downcast_ref::<SearchResult>() {
                 self.preview.set_result(result);
                 self.inner_split_view.set_show_content(true);
-                return;
             }
             if let Some(heading) = result.downcast_ref::<SearchHeading>() {
                 let file = gio::File::for_path(heading.absolute_path());
@@ -211,7 +210,6 @@ impl SearchWindowImp {
                     Cancellable::NONE,
                     |_| {},
                 );
-                return;
             }
         }
     }
