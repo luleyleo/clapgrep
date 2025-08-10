@@ -58,9 +58,10 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     let about_action = SimpleAction::new("about", None);
     about_action.connect_activate(clone!(
         #[weak]
+        app,
+        #[weak]
         window,
         move |_, _| {
-            let app = window.application().unwrap();
             let app_path = app.resource_base_path().unwrap();
             let dialog = adw::AboutDialog::from_appdata(
                 &format!("{app_path}/metainfo.xml"),
@@ -74,9 +75,10 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     let news_action = SimpleAction::new("news", None);
     news_action.connect_activate(clone!(
         #[weak]
+        app,
+        #[weak]
         window,
         move |_, _| {
-            let app = window.application().unwrap();
             let app_path = app.resource_base_path().unwrap();
             let dialog = adw::AboutDialog::from_appdata(
                 &format!("{app_path}/metainfo.xml"),
