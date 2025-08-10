@@ -1,7 +1,9 @@
-use gtk::glib;
+use glib::prelude::*;
+use gtk::{glib, subclass::prelude::*};
+use std::cell::Cell;
 
 glib::wrapper! {
-    pub struct SearchMatch(ObjectSubclass<imp::SearchMatch>);
+    pub struct SearchMatch(ObjectSubclass<SearchMatchImp>);
 }
 
 impl SearchMatch {
@@ -13,26 +15,20 @@ impl SearchMatch {
     }
 }
 
-mod imp {
-    use glib::prelude::*;
-    use gtk::{glib, subclass::prelude::*};
-    use std::cell::Cell;
-
-    #[derive(Default, glib::Properties)]
-    #[properties(wrapper_type = super::SearchMatch)]
-    pub struct SearchMatch {
-        #[property(get, set)]
-        start: Cell<u32>,
-        #[property(get, set)]
-        end: Cell<u32>,
-    }
-
-    #[glib::object_subclass]
-    impl ObjectSubclass for SearchMatch {
-        const NAME: &'static str = "ClapgrepSearchMatch";
-        type Type = super::SearchMatch;
-    }
-
-    #[glib::derived_properties]
-    impl ObjectImpl for SearchMatch {}
+#[derive(Default, glib::Properties)]
+#[properties(wrapper_type = SearchMatch)]
+pub struct SearchMatchImp {
+    #[property(get, set)]
+    start: Cell<u32>,
+    #[property(get, set)]
+    end: Cell<u32>,
 }
+
+#[glib::object_subclass]
+impl ObjectSubclass for SearchMatchImp {
+    const NAME: &'static str = "ClapgrepSearchMatch";
+    type Type = SearchMatch;
+}
+
+#[glib::derived_properties]
+impl ObjectImpl for SearchMatchImp {}

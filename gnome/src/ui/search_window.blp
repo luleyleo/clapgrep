@@ -59,13 +59,13 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                 Adw.EntryRow {
                   title: _("Search Pattern");
                   text: bind template.content_pattern bidirectional;
-                  entry-activated => $on_entry_activated() swapped;
+                  entry-activated => $on_search_entry_activated() swapped;
                 }
 
                 Adw.ButtonRow {
                   title: _("Start Search");
                   activatable: true;
-                  activated => $on_search() swapped;
+                  activated => $on_search_button_activated() swapped;
 
                   styles [
                     "suggested-action",
@@ -74,11 +74,10 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               }
 
               Adw.PreferencesGroup {
-                Adw.ActionRow {
+                Adw.ActionRow search_path_row {
                   title: _("Search Path");
-                  subtitle: bind $full_path(template.search_path) as <string>;
                   activatable: true;
-                  activated => $on_cd() swapped;
+                  activated => $on_search_path_row_activated() swapped;
 
                   [suffix]
                   Adw.ButtonContent {
@@ -96,10 +95,8 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                   text: bind template.path_pattern bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow path_pattern_explicit_switch {
                   title: _("Match Entire Path");
-                  active: bind template.path_pattern_explicit bidirectional;
-                  visible: bind $is_not_empty(template.path_pattern) as <bool>;
                 }
               }
 
@@ -134,43 +131,36 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
               Adw.PreferencesGroup {
                 title: _("Search Options");
 
-                Adw.SwitchRow {
+                Adw.SwitchRow case_sensitive_switch {
                   title: _("Case Sensitive");
-                  active: bind template.case_sensitive bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow disable_regex_switch {
                   title: _("Disable Regex");
-                  active: bind template.disable_regex bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow include_hidden_switch {
                   title: _("Include Hidden");
-                  active: bind template.include_hidden bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow include_ignored_switch {
                   title: _("Include Ignored");
-                  active: bind template.include_ignored bidirectional;
                 }
               }
 
               Adw.PreferencesGroup {
                 title: _("Extra File Formats");
 
-                Adw.SwitchRow {
+                Adw.SwitchRow search_names_switch {
                   title: _("File Names");
-                  active: bind template.search_names bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow search_pdf_switch {
                   title: _("PDF Files");
-                  active: bind template.search_pdf bidirectional;
                 }
 
-                Adw.SwitchRow {
+                Adw.SwitchRow search_office_switch {
                   title: _("Office Files");
-                  active: bind template.search_office bidirectional;
                 }
               }
             }
@@ -186,7 +176,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
         sidebar-width-fraction: 0.5;
         max-sidebar-width: 9999;
 
-        sidebar: Adw.NavigationPage results_navigation_page {
+        sidebar: Adw.NavigationPage {
           title: _("Results");
 
           child: Adw.ToolbarView {
@@ -228,17 +218,13 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                   orientation: vertical;
 
                   Adw.Banner progress_banner {
-                    revealed: bind template.search_progress_visible;
-                    title: bind template.search_progress_notification;
-                    button-label: bind template.search_progress_action;
-                    button-clicked => $on_search_progress_action() swapped;
+                    revealed: false;
+                    button-clicked => $on_progress_banner_activated() swapped;
                   }
 
-                  Adw.Banner {
-                    revealed: bind template.has_errors;
-                    title: bind template.search_errors_notification;
+                  Adw.Banner error_banner {
                     button-label: _("Show Errors");
-                    button-clicked => $on_show_errors() swapped;
+                    button-clicked => $on_error_banner_activated() swapped;
 
                     styles [
                       "error",
@@ -256,18 +242,10 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                         model: bind template.results;
                       };
 
-                      header-factory: BuilderListItemFactory {
-                        template ListHeader {
-                          child: $ClapgrepResultHeaderView {
-                            result: bind template.item;
-                          };
-                        }
-                      };
-
                       factory: BuilderListItemFactory {
                         template ListItem {
                           child: $ClapgrepResultView {
-                            result: bind template.item;
+                            item: bind template.item;
                           };
                         }
                       };
@@ -279,7 +257,7 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
           };
         };
 
-        content: Adw.NavigationPage preview_navigation_page {
+        content: Adw.NavigationPage {
           title: _("Content Preview");
 
           child: $ClapgrepPreview preview {};

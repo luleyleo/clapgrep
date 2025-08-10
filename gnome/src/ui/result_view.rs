@@ -1,12 +1,11 @@
 use crate::{
     color::{default_accent_color, pango_color_from_rgba, watch_accent_color},
-    search::{SearchMatch, SearchResult},
+    search::{SearchHeading, SearchMatch, SearchResult},
 };
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use gtk::{glib, pango, prelude::*, CompositeTemplate};
-use std::cell::{Cell, RefCell};
+use std::cell::RefCell;
 
 glib::wrapper! {
     pub struct ResultView(ObjectSubclass<ResultViewImp>)
@@ -15,8 +14,8 @@ glib::wrapper! {
 }
 
 impl ResultView {
-    pub fn new(result: &SearchResult) -> Self {
-        glib::Object::builder().property("result", result).build()
+    pub fn new(item: &glib::Object) -> Self {
+        glib::Object::builder().property("item", item).build()
     }
 }
 
@@ -25,15 +24,16 @@ impl ResultView {
 #[properties(wrapper_type = ResultView)]
 pub struct ResultViewImp {
     #[property(get, set)]
-    pub result: RefCell<Option<SearchResult>>,
-
-    #[property(get, set)]
-    pub number: Cell<u64>,
+    pub item: RefCell<Option<glib::Object>>,
 
     #[template_child]
-    pub container: TemplateChild<gtk::Box>,
+    pub header_view: TemplateChild<gtk::Label>,
     #[template_child]
-    pub content: TemplateChild<gtk::Label>,
+    pub result_view: TemplateChild<gtk::Box>,
+    #[template_child]
+    pub result_location: TemplateChild<gtk::Label>,
+    #[template_child]
+    pub result_content: TemplateChild<gtk::Label>,
 
     highlight_color: RefCell<pango::Color>,
 }
@@ -41,10 +41,11 @@ pub struct ResultViewImp {
 impl Default for ResultViewImp {
     fn default() -> Self {
         Self {
-            result: Default::default(),
-            number: Default::default(),
-            container: Default::default(),
-            content: Default::default(),
+            item: Default::default(),
+            header_view: Default::default(),
+            result_view: Default::default(),
+            result_location: Default::default(),
+            result_content: Default::default(),
             highlight_color: RefCell::new(default_accent_color()),
         }
     }
@@ -67,39 +68,90 @@ impl ObjectSubclass for ResultViewImp {
 
 impl ResultViewImp {
     fn update_content(&self) {
+        let item = self.item.borrow();
+
+        if let Some(item) = item.as_ref().and_then(|r| r.downcast_ref::<SearchResult>()) {
+            self.header_view.set_visible(false);
+            self.result_view.set_visible(true);
+            self.update_result(item);
+            return;
+        }
+
+        if let Some(item) = item
+            .as_ref()
+            .and_then(|r| r.downcast_ref::<SearchHeading>())
+        {
+            self.result_view.set_visible(false);
+            self.header_view.set_visible(true);
+            self.update_heading(item);
+            return;
+        }
+
+        self.update_parent_role();
+    }
+
+    fn update_heading(&self, result: &SearchHeading) {
         let highlight_color = self.highlight_color.borrow();
-        let result = self.result.borrow();
-        if let Some(result) = result.as_ref() {
-            let content = result.content();
 
-            if content.is_empty() {
-                self.content.set_text(&gettext("No match within the file."));
-                self.content.set_attributes(None);
-                self.obj().set_number(0);
-            } else {
-                self.content.set_text(&content);
+        self.header_view
+            .set_label(&result.file_path().to_string_lossy());
 
-                if result.page() == 0 {
-                    self.obj().set_number(result.line());
+        let matches = result.file_name_matches();
+        if let Some(matches) = matches {
+            let attributes = pango::AttrList::new();
+            for m in matches.iter::<SearchMatch>() {
+                let m = m.expect("expected SearchMatch");
+                let mut highlight = pango::AttrColor::new_foreground(
+                    highlight_color.red(),
+                    highlight_color.green(),
+                    highlight_color.blue(),
+                );
+                highlight.set_start_index(m.start());
+                highlight.set_end_index(m.end());
+                attributes.insert(highlight);
+            }
+            self.header_view.set_attributes(Some(&attributes));
+        }
+    }
+
+    fn update_result(&self, result: &SearchResult) {
+        let highlight_color = self.highlight_color.borrow();
+
+        self.result_content.set_text(&result.content());
+
+        if result.page() == 0 {
+            self.result_location
+                .set_label(&format!("{}", result.line()));
+        } else {
+            self.result_location
+                .set_label(&format!("{}", result.page()));
+        }
+
+        let matches = result.content_matches();
+        if let Some(matches) = matches {
+            let attributes = pango::AttrList::new();
+            for m in matches.iter::<SearchMatch>() {
+                let m = m.expect("expected SearchMatch");
+                let mut highlight = pango::AttrColor::new_foreground(
+                    highlight_color.red(),
+                    highlight_color.green(),
+                    highlight_color.blue(),
+                );
+                highlight.set_start_index(m.start());
+                highlight.set_end_index(m.end());
+                attributes.insert(highlight);
+            }
+            self.result_content.set_attributes(Some(&attributes));
+        }
+    }
+
+    fn update_parent_role(&self) {
+        if let Some(item) = self.item.borrow().as_ref() {
+            if let Some(parent) = self.obj().parent() {
+                if item.type_() == SearchResult::static_type() {
+                    parent.set_accessible_role(gtk::AccessibleRole::ListItem);
                 } else {
-                    self.obj().set_number(result.page());
-                }
-
-                let matches = result.content_matches();
-                if let Some(matches) = matches {
-                    let attributes = pango::AttrList::new();
-                    for m in matches.iter::<SearchMatch>() {
-                        let m = m.expect("expected SearchMatch");
-                        let mut highlight = pango::AttrColor::new_foreground(
-                            highlight_color.red(),
-                            highlight_color.green(),
-                            highlight_color.blue(),
-                        );
-                        highlight.set_start_index(m.start());
-                        highlight.set_end_index(m.end());
-                        attributes.insert(highlight);
-                    }
-                    self.content.set_attributes(Some(&attributes));
+                    parent.set_accessible_role(gtk::AccessibleRole::RowHeader);
                 }
             }
         }
@@ -122,15 +174,21 @@ impl ObjectImpl for ResultViewImp {
             }
         ));
 
-        obj.connect_result_notify(|obj| {
+        obj.connect_item_notify(|obj| {
             obj.imp().update_content();
         });
     }
 
     fn dispose(&self) {
         // See https://gitlab.gnome.org/GNOME/gtk/-/issues/7302
-        self.container.unparent();
+        self.header_view.unparent();
+        self.result_view.unparent();
     }
 }
 
-impl WidgetImpl for ResultViewImp {}
+impl WidgetImpl for ResultViewImp {
+    fn realize(&self) {
+        self.parent_realize();
+        self.update_parent_role();
+    }
+}

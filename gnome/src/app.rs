@@ -1,5 +1,6 @@
 use crate::{
     build,
+    config::Config,
     ui::{self, PreferencesDialog},
 };
 use adw::prelude::*;
@@ -21,15 +22,17 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         STYLE_PROVIDER_PRIORITY_APPLICATION,
     );
 
-    let window = ui::SearchWindow::new(app);
+    let config = Config::default();
 
     if let Some(dir) = files.first() {
         if let Some(path) = dir.path() {
             if path.is_dir() {
-                window.set_search_path(path);
+                config.set_search_path(path);
             }
         }
     }
+
+    let window = ui::SearchWindow::new(app);
 
     let preferences_action = SimpleAction::new("preferences", None);
     preferences_action.connect_activate(clone!(
@@ -58,9 +61,10 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     let about_action = SimpleAction::new("about", None);
     about_action.connect_activate(clone!(
         #[weak]
+        app,
+        #[weak]
         window,
         move |_, _| {
-            let app = window.application().unwrap();
             let app_path = app.resource_base_path().unwrap();
             let dialog = adw::AboutDialog::from_appdata(
                 &format!("{app_path}/metainfo.xml"),
@@ -74,9 +78,10 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
     let news_action = SimpleAction::new("news", None);
     news_action.connect_activate(clone!(
         #[weak]
+        app,
+        #[weak]
         window,
         move |_, _| {
-            let app = window.application().unwrap();
             let app_path = app.resource_base_path().unwrap();
             let dialog = adw::AboutDialog::from_appdata(
                 &format!("{app_path}/metainfo.xml"),

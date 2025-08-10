@@ -2,8 +2,8 @@ use crate::{
     build::{APP_ID, APP_VERSION},
     config::Config,
     i18n::gettext_f,
-    search::{SearchModel, SearchResult},
-    ui::{preview::Preview, ErrorWindow, ResultHeaderView, ResultView},
+    search::{SearchHeading, SearchModel, SearchResult},
+    ui::{preview::Preview, ErrorWindow, ResultView},
 };
 use adw::{prelude::PreferencesGroupExt, subclass::prelude::*};
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
@@ -19,7 +19,6 @@ use gtk::{
 use std::{
     cell::{Cell, RefCell},
     path::{Path, PathBuf},
-    time::{Duration, Instant},
 };
 
 glib::wrapper! {
@@ -40,59 +39,49 @@ impl SearchWindow {
 #[properties(wrapper_type = SearchWindow)]
 pub struct SearchWindowImp {
     #[property(get, set)]
-    pub search_path: RefCell<PathBuf>,
-    #[property(get, set)]
     pub path_pattern: RefCell<String>,
     #[property(get, set)]
-    pub path_pattern_explicit: Cell<bool>,
-    #[property(get, set)]
     pub content_pattern: RefCell<String>,
+
     #[property(get)]
     pub results: SearchModel,
-
-    #[property(get, set)]
-    pub case_sensitive: Cell<bool>,
-    #[property(get, set)]
-    pub include_hidden: Cell<bool>,
-    #[property(get, set)]
-    pub include_ignored: Cell<bool>,
-    #[property(get, set)]
-    pub disable_regex: Cell<bool>,
-
-    #[property(get, set)]
-    pub search_names: Cell<bool>,
-    #[property(get, set)]
-    pub search_pdf: Cell<bool>,
-    #[property(get, set)]
-    pub search_office: Cell<bool>,
+    #[property(get)]
+    pub errors: StringList,
 
     #[property(get, set)]
     pub search_running: Cell<bool>,
     #[property(get, set)]
     pub searched_files: Cell<u32>,
-    #[property(get)]
+    #[property(get, set)]
     pub number_of_matches: Cell<u32>,
-
-    #[property(get, set)]
-    pub search_progress_visible: Cell<bool>,
-    #[property(get, set)]
-    pub search_progress_notification: RefCell<String>,
-    #[property(get, set)]
-    pub search_progress_action: RefCell<String>,
-
-    #[property(get)]
-    pub errors: StringList,
-    #[property(get)]
-    pub number_of_errors: Cell<u32>,
-    #[property(get)]
-    pub has_errors: Cell<bool>,
-    #[property(get)]
-    pub search_errors_notification: RefCell<String>,
 
     #[template_child]
     pub update_banner: TemplateChild<adw::PreferencesGroup>,
     #[template_child]
     pub progress_banner: TemplateChild<adw::Banner>,
+    #[template_child]
+    pub error_banner: TemplateChild<adw::Banner>,
+
+    #[template_child]
+    pub search_path_row: TemplateChild<adw::ActionRow>,
+    #[template_child]
+    pub path_pattern_explicit_switch: TemplateChild<adw::SwitchRow>,
+
+    #[template_child]
+    pub case_sensitive_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub disable_regex_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub include_hidden_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub include_ignored_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub search_names_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub search_pdf_switch: TemplateChild<adw::SwitchRow>,
+    #[template_child]
+    pub search_office_switch: TemplateChild<adw::SwitchRow>,
+
     #[template_child]
     pub results_stack: TemplateChild<gtk::Stack>,
     #[template_child]
@@ -101,12 +90,12 @@ pub struct SearchWindowImp {
     pub no_results_page: TemplateChild<gtk::StackPage>,
     #[template_child]
     pub results_page: TemplateChild<gtk::StackPage>,
+
     #[template_child]
     pub split_view: TemplateChild<adw::NavigationSplitView>,
     #[template_child]
     pub inner_split_view: TemplateChild<adw::NavigationSplitView>,
-    #[template_child]
-    pub preview_navigation_page: TemplateChild<adw::NavigationPage>,
+
     #[template_child]
     pub preview: TemplateChild<Preview>,
 
@@ -122,7 +111,6 @@ impl ObjectSubclass for SearchWindowImp {
 
     fn class_init(klass: &mut Self::Class) {
         ResultView::static_type();
-        ResultHeaderView::static_type();
 
         klass.bind_template();
         klass.bind_template_callbacks();
@@ -142,50 +130,29 @@ impl ObjectSubclass for SearchWindowImp {
 
 #[gtk::template_callbacks]
 impl SearchWindowImp {
-    #[template_callback(function = true)]
-    fn is_not_empty(value: &str) -> bool {
-        !value.is_empty()
-    }
-
-    #[template_callback(function = true)]
-    fn full_path(value: PathBuf) -> String {
-        let home = &glib::home_dir();
-        let var_home = &Path::new("/var").join(home.strip_prefix("/").unwrap());
-
-        if let Ok(value) = value.strip_prefix(home) {
-            return format!("~/{}", value.display());
-        }
-
-        if let Ok(value) = value.strip_prefix(var_home) {
-            return format!("~/{}", value.display());
-        }
-
-        format!("{}", value.display())
-    }
-
     #[template_callback]
-    fn on_search(&self, _: &adw::ButtonRow) {
+    fn on_search_button_activated(&self, _: &adw::ButtonRow) {
         self.start_search();
     }
 
     #[template_callback]
-    fn on_entry_activated(&self, _: &adw::EntryRow) {
+    fn on_search_entry_activated(&self, _: &adw::EntryRow) {
         self.start_search();
     }
 
     #[template_callback]
-    fn on_search_progress_action(&self, _: &adw::Banner) {
+    fn on_progress_banner_activated(&self, _: &adw::Banner) {
         if self.search_running.get() {
             self.stop_search();
         } else {
-            self.obj().set_search_progress_visible(false);
+            self.progress_banner.set_revealed(false);
         }
     }
 
     #[template_callback]
-    fn on_cd(&self, _: &adw::ActionRow) {
+    fn on_search_path_row_activated(&self, _: &adw::ActionRow) {
         let obj = self.obj();
-        let initial_folder = gio::File::for_path(self.search_path.borrow().as_path());
+        let initial_folder = gio::File::for_path(self.config.search_path());
 
         FileDialog::builder()
             .title(gettext("Choose Search Path"))
@@ -207,8 +174,17 @@ impl SearchWindowImp {
             );
     }
 
+    fn cd_to(&self, directory: gio::File) {
+        let Some(path) = directory.path() else {
+            log::error!("Failed to get directory path for {:?}", directory);
+            return;
+        };
+
+        self.config.set_search_path(path);
+    }
+
     #[template_callback]
-    fn on_show_errors(&self, _: &adw::Banner) {
+    fn on_error_banner_activated(&self, _: &adw::Banner) {
         let error_window = ErrorWindow::new(&self.obj());
         error_window.present();
     }
@@ -216,11 +192,24 @@ impl SearchWindowImp {
     #[template_callback]
     fn on_result_activated(&self, position: u32) {
         if let Some(result) = self.results.item(position) {
-            let result = result.downcast::<SearchResult>().unwrap();
-            if !result.content().is_empty() {
-                self.preview.set_result(&result);
-                self.preview_navigation_page.set_visible(true);
+            if let Some(result) = result.downcast_ref::<SearchResult>() {
+                self.preview.set_result(result);
                 self.inner_split_view.set_show_content(true);
+            }
+            if let Some(heading) = result.downcast_ref::<SearchHeading>() {
+                let file = gio::File::for_path(heading.absolute_path());
+                let window = self
+                    .obj()
+                    .root()
+                    .unwrap()
+                    .downcast::<gtk::ApplicationWindow>()
+                    .unwrap();
+
+                gtk::FileLauncher::new(Some(&file)).launch(
+                    Some(&window),
+                    Cancellable::NONE,
+                    |_| {},
+                );
             }
         }
     }
@@ -232,54 +221,50 @@ impl SearchWindowImp {
 }
 
 impl SearchWindowImp {
-    fn cd_to(&self, directory: gio::File) {
+    fn display_search_path(value: PathBuf) -> String {
+        let mut search_path = value;
+
         const HOST_PATH_ATTR: &str = "xattr::document-portal.host-path";
-        let file_info = directory
+        let file_info = gio::File::for_path(&search_path)
             .query_info(HOST_PATH_ATTR, FileQueryInfoFlags::NONE, Cancellable::NONE)
             .unwrap();
-
         if let Some(path) = file_info.attribute_string(HOST_PATH_ATTR) {
-            self.obj().set_search_path(Path::new(path.as_str()));
-            return;
+            search_path = PathBuf::from(path.as_str());
         }
 
-        if let Some(path) = directory.path() {
-            self.obj().set_search_path(path);
-            return;
+        let home = &glib::home_dir();
+        let var_home = &Path::new("/var").join(home.strip_prefix("/").unwrap());
+
+        if let Ok(value) = search_path.strip_prefix(var_home) {
+            return format!("~/{}", value.display());
         }
 
-        log::error!("Failed to get cd to {directory:?}");
+        if let Ok(value) = search_path.strip_prefix(home) {
+            return format!("~/{}", value.display());
+        }
+
+        format!("{}", search_path.display())
     }
 
     fn init_manager(&self) {
         let app = self.obj().clone();
-        let model = self.results.clone();
-        glib::MainContext::default().spawn_local(async move {
+        let receiver = self.engine.receiver();
+
+        let context = glib::MainContext::default();
+        context.spawn_local_with_priority(glib::Priority::LOW, async move {
             let imp = app.imp();
-            let receiver = imp.engine.receiver();
-
-            // Prevents GTK from getting overloaded with too many updates on the GUI thread.
-            const BUFFER_SIZE: usize = 1024;
-            const BUFFER_DURATION: Duration = Duration::from_millis(100);
-
-            let mut buffer = Vec::with_capacity(BUFFER_SIZE);
-            let mut last_buffer_update = Instant::now();
-
             while let Ok(result) = receiver.recv_async().await {
                 if imp.engine.is_current(&result) {
                     match result {
                         SearchMessage::Result(result) => {
-                            buffer.push(result);
-
-                            if buffer.len() >= BUFFER_SIZE
-                                || last_buffer_update.elapsed() > BUFFER_DURATION
-                            {
-                                model.extend_with_results(&buffer);
-                                app.set_searched_files(app.searched_files() + buffer.len() as u32);
-                                buffer.clear();
+                            app.set_searched_files(app.searched_files() + 1);
+                            if !result.is_empty() {
+                                let app = app.clone();
+                                glib::idle_add_local_once(move || {
+                                    let imp = app.imp();
+                                    imp.results.append(result);
+                                });
                             }
-
-                            last_buffer_update = Instant::now();
                         }
                         SearchMessage::Error(error) => {
                             app.errors().append(&format!(
@@ -289,12 +274,6 @@ impl SearchWindowImp {
                             ));
                         }
                         SearchMessage::Completed { .. } => {
-                            if !buffer.is_empty() {
-                                model.extend_with_results(&buffer);
-                                app.set_searched_files(app.searched_files() + buffer.len() as u32);
-                                buffer.clear();
-                            }
-
                             app.set_search_running(false);
                         }
                     }
@@ -311,21 +290,18 @@ impl SearchWindowImp {
         }
 
         let search = SearchParameters {
-            base_directory: self.search_path.borrow().clone(),
+            base_directory: self.config.search_path(),
             content_pattern: self.content_pattern.borrow().to_string(),
             path_pattern: self.path_pattern.borrow().to_string(),
             flags: SearchFlags {
-                path_pattern_explicit: self.path_pattern_explicit.get(),
-
-                case_sensitive: self.case_sensitive.get(),
-                fixed_string: self.disable_regex.get(),
-
-                search_names: self.search_names.get(),
-                search_pdf: self.search_pdf.get(),
-                search_office: self.search_office.get(),
-
-                search_hidden: self.include_hidden.get(),
-                search_ignored: self.include_ignored.get(),
+                path_pattern_explicit: self.config.path_pattern_explicit(),
+                case_sensitive: self.config.case_sensitive(),
+                fixed_string: self.config.disable_regex(),
+                search_hidden: self.config.include_hidden(),
+                search_ignored: self.config.include_ignored(),
+                search_names: self.config.search_names(),
+                search_pdf: self.config.search_pdf(),
+                search_office: self.config.search_office(),
 
                 same_filesystem: false,
                 follow_links: true,
@@ -335,12 +311,11 @@ impl SearchWindowImp {
         log::debug!("starting search: {search:?}");
 
         self.results.clear();
-        self.results
-            .set_base_path(self.search_path.borrow().clone());
+        self.results.set_base_path(self.config.search_path());
         self.errors.splice(0, self.errors.n_items(), &[]);
         self.obj().set_searched_files(0);
         self.obj().set_search_running(true);
-        self.obj().set_search_progress_visible(true);
+        self.progress_banner.set_revealed(true);
         self.split_view.set_show_content(true);
 
         let progress_banner_button =
@@ -384,9 +359,7 @@ impl SearchWindowImp {
                 ("matches", &matches.to_string()),
             ],
         );
-
-        *self.search_progress_notification.borrow_mut() = message;
-        self.obj().notify("search_progress_notification");
+        self.progress_banner.set_title(&message);
     }
 
     fn show_update_banner(&self, version: &str) {
@@ -429,58 +402,58 @@ impl ObjectImpl for SearchWindowImp {
         self.config
             .bind_property(
                 "path-pattern-explicit",
-                obj.as_ref(),
-                "path-pattern-explicit",
+                &*self.path_pattern_explicit_switch,
+                "active",
             )
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("case-sensitive", obj.as_ref(), "case-sensitive")
+            .bind_property("case-sensitive", &*self.case_sensitive_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("include-hidden", obj.as_ref(), "include-hidden")
+            .bind_property("include-hidden", &*self.include_hidden_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("include-ignored", obj.as_ref(), "include-ignored")
+            .bind_property("include-ignored", &*self.include_ignored_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("disable-regex", obj.as_ref(), "disable-regex")
+            .bind_property("disable-regex", &*self.disable_regex_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("search_names", obj.as_ref(), "search_names")
+            .bind_property("search_names", &*self.search_names_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("search_pdf", obj.as_ref(), "search_pdf")
+            .bind_property("search_pdf", &*self.search_pdf_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("search_office", obj.as_ref(), "search_office")
+            .bind_property("search_office", &*self.search_office_switch, "active")
             .bidirectional()
             .sync_create()
             .build();
 
         self.config
-            .bind_property("search_path", obj.as_ref(), "search_path")
-            .bidirectional()
+            .bind_property("search_path", &*self.search_path_row, "subtitle")
+            .transform_to(|_, path| Some(Self::display_search_path(path)))
             .sync_create()
             .build();
 
@@ -493,8 +466,7 @@ impl ObjectImpl for SearchWindowImp {
             #[weak]
             obj,
             move |items, _, _, _| {
-                obj.imp().number_of_matches.set(items.n_items());
-                obj.notify("number_of_matches");
+                obj.set_number_of_matches(items.n_items());
 
                 if items.n_items() >= obj.imp().config.max_search_results() {
                     log::info!(
@@ -508,24 +480,26 @@ impl ObjectImpl for SearchWindowImp {
             #[weak]
             obj,
             move |items, _, _, _| {
-                obj.imp().number_of_errors.set(items.n_items());
-                obj.notify("number_of_errors");
+                let number_of_errors = items.n_items();
+                let error_banner = &obj.imp().error_banner;
 
-                obj.imp().has_errors.set(items.n_items() > 0);
-                obj.notify("has_errors");
+                error_banner.set_revealed(number_of_errors > 0);
+                error_banner.set_title(&gettext_f(
+                    "Encountered {errors} errors during search",
+                    &[("errors", &number_of_errors.to_string())],
+                ));
             }
         ));
 
         obj.connect_search_running_notify(|obj| {
             let imp = obj.imp();
 
-            if imp.search_running.get() {
-                let label = gettext("Cancel Search");
-                obj.set_search_progress_action(label);
+            let label = if imp.search_running.get() {
+                gettext("Cancel Search")
             } else {
-                let label = gettext("Close");
-                obj.set_search_progress_action(label);
-            }
+                gettext("Close")
+            };
+            imp.progress_banner.set_button_label(Some(&label));
 
             if imp.search_running.get() || imp.number_of_matches.get() > 0 {
                 imp.results_stack
@@ -539,17 +513,9 @@ impl ObjectImpl for SearchWindowImp {
         obj.connect_searched_files_notify(|obj| {
             obj.imp().update_search_progress();
         });
+
         obj.connect_number_of_matches_notify(|obj| {
             obj.imp().update_search_progress();
-        });
-
-        obj.connect_number_of_errors_notify(|obj| {
-            let errors = obj.number_of_errors();
-            *obj.imp().search_errors_notification.borrow_mut() = gettext_f(
-                "Encountered {errors} errors during search",
-                &[("errors", &errors.to_string())],
-            );
-            obj.notify("search_errors_notification")
         });
 
         self.init_manager();

@@ -23,6 +23,12 @@ pub struct SearchResult {
     pub entries: Vec<ResultEntry>,
 }
 
+impl SearchResult {
+    pub fn is_empty(&self) -> bool {
+        self.entries.is_empty() && self.path_matches.is_empty()
+    }
+}
+
 pub struct SearchError {
     pub search: SearchId,
     pub path: PathBuf,
