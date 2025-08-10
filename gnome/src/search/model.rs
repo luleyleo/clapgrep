@@ -30,7 +30,7 @@ impl SearchModel {
         self.items_changed(0, len as u32, 0)
     }
 
-    fn append_file_info_impl(&self, file_info: &clapgrep_core::SearchResult) -> Section {
+    fn append_file_info_impl(&self, file_info: clapgrep_core::SearchResult) -> Section {
         let base_path = self.imp().base_path.borrow();
 
         let mut data = self.imp().data.borrow_mut();
@@ -51,7 +51,7 @@ impl SearchModel {
                 &[],
             ));
         } else {
-            let search_results = file_info.entries.iter().enumerate().map(|(i, m)| {
+            let search_results = file_info.entries.into_iter().enumerate().map(|(i, m)| {
                 let (line, page) = match m.location {
                     clapgrep_core::Location::Text { line } => (line, 0),
                     clapgrep_core::Location::Document { page, line } => (line, page),
@@ -77,12 +77,12 @@ impl SearchModel {
         section
     }
 
-    pub fn append_file_info(&self, file_info: &clapgrep_core::SearchResult) {
+    pub fn append_file_info(&self, file_info: clapgrep_core::SearchResult) {
         let Section { start, end } = self.append_file_info_impl(file_info);
         self.items_changed(start, 0, end - start);
     }
 
-    pub fn extend_with_results(&self, results: &[clapgrep_core::SearchResult]) {
+    pub fn extend_with_results(&self, results: impl Iterator<Item = clapgrep_core::SearchResult>) {
         let start = self.imp().data.borrow().len() as u32;
         for file_info in results {
             if !file_info.entries.is_empty() || !file_info.path_matches.is_empty() {

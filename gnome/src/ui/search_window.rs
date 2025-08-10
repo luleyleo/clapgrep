@@ -257,7 +257,7 @@ impl SearchWindowImp {
                             if buffer.len() >= BUFFER_SIZE
                                 || last_buffer_update.elapsed() > BUFFER_DURATION
                             {
-                                model.extend_with_results(&buffer);
+                                model.extend_with_results(buffer.drain(..));
                                 app.set_searched_files(app.searched_files() + buffer.len() as u32);
                                 buffer.clear();
                             }
@@ -273,7 +273,7 @@ impl SearchWindowImp {
                         }
                         SearchMessage::Completed { .. } => {
                             if !buffer.is_empty() {
-                                model.extend_with_results(&buffer);
+                                model.extend_with_results(buffer.drain(..));
                                 app.set_searched_files(app.searched_files() + buffer.len() as u32);
                                 buffer.clear();
                             }
