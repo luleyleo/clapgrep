@@ -5,7 +5,10 @@ use gtk::{
     glib::{self, prelude::*},
     subclass::prelude::*,
 };
-use std::{cell::RefCell, path::PathBuf};
+use std::{
+    cell::RefCell,
+    path::{Path, PathBuf},
+};
 
 glib::wrapper! {
     pub struct SearchHeading(ObjectSubclass<SearchHeadingImp>);
@@ -18,11 +21,7 @@ impl Default for SearchHeading {
 }
 
 impl SearchHeading {
-    pub fn new(
-        search_path: PathBuf,
-        file_path: PathBuf,
-        file_name_matches: &[Match],
-    ) -> SearchHeading {
+    pub fn new(search_path: &Path, file_path: &Path, file_name_matches: &[Match]) -> SearchHeading {
         let file_path = file_path
             .strip_prefix(&search_path)
             .expect("failed to strip file_path prefix");

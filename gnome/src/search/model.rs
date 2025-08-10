@@ -1,8 +1,7 @@
-use crate::search::SearchResult;
+use super::{SearchHeading, SearchResult};
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
+use std::path::Path;
 use std::{cell::RefCell, path::PathBuf};
-
-use super::SearchHeading;
 
 glib::wrapper! {
     pub struct SearchModel(ObjectSubclass<SearchModelImp>)
@@ -31,44 +30,27 @@ impl SearchModel {
         self.items_changed(0, len as u32, 0)
     }
 
-    fn append_file_info_impl(&self, file_info: clapgrep_core::SearchResult) -> Section {
+    fn append_impl(&self, result: clapgrep_core::SearchResult) -> Section {
         let base_path = self.imp().base_path.borrow();
-
         let mut data = self.imp().data.borrow_mut();
 
-        let heading = SearchHeading::new(
-            base_path.clone(),
-            file_info.path.clone(),
-            &file_info.path_matches,
-        );
-
         let start = data.len() as u32;
-        data.push(heading.clone().upcast::<glib::Object>());
-        let search_results = file_info.entries.into_iter().map(|m| {
-            let (line, page) = match m.location {
-                clapgrep_core::Location::Text { line } => (line, 0),
-                clapgrep_core::Location::Document { page, line } => (line, page),
-            };
-
-            SearchResult::new(heading.clone(), line, page, m.content, &m.matches)
-                .upcast::<glib::Object>()
-        });
-        data.extend(search_results);
+        result_to_objects(&base_path, result, &mut data);
         let end = data.len() as u32;
 
         Section { start, end }
     }
 
-    pub fn append_file_info(&self, file_info: clapgrep_core::SearchResult) {
-        let Section { start, end } = self.append_file_info_impl(file_info);
+    pub fn append(&self, result: clapgrep_core::SearchResult) {
+        let Section { start, end } = self.append_impl(result);
         self.items_changed(start, 0, end - start);
     }
 
-    pub fn extend_with_results(&self, results: impl Iterator<Item = clapgrep_core::SearchResult>) {
+    pub fn extend(&self, results: impl Iterator<Item = clapgrep_core::SearchResult>) {
         let start = self.imp().data.borrow().len() as u32;
         for file_info in results {
             if !file_info.entries.is_empty() || !file_info.path_matches.is_empty() {
-                self.append_file_info_impl(file_info);
+                self.append_impl(file_info);
             }
         }
         let end = self.imp().data.borrow().len() as u32;
@@ -110,4 +92,24 @@ impl ListModelImpl for SearchModelImp {
     fn item(&self, position: u32) -> Option<glib::Object> {
         self.data.borrow().get(position as usize).cloned()
     }
+}
+
+fn result_to_objects(
+    search_path: &Path,
+    result: clapgrep_core::SearchResult,
+    buffer: &mut Vec<glib::Object>,
+) {
+    let heading = SearchHeading::new(search_path, &result.path, &result.path_matches);
+
+    buffer.push(heading.clone().upcast::<glib::Object>());
+    let search_results = result.entries.into_iter().map(|m| {
+        let (line, page) = match m.location {
+            clapgrep_core::Location::Text { line } => (line, 0),
+            clapgrep_core::Location::Document { page, line } => (line, page),
+        };
+
+        SearchResult::new(heading.clone(), line, page, m.content, &m.matches)
+            .upcast::<glib::Object>()
+    });
+    buffer.extend(search_results);
 }

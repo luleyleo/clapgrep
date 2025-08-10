@@ -20,7 +20,7 @@ pub struct SearchEngine {
 
 impl Default for SearchEngine {
     fn default() -> Self {
-        let (sender, receiver) = flume::unbounded();
+        let (sender, receiver) = flume::bounded(128);
 
         SearchEngine {
             sender,

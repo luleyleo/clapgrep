@@ -19,7 +19,6 @@ use gtk::{
 use std::{
     cell::{Cell, RefCell},
     path::{Path, PathBuf},
-    time::{Duration, Instant},
 };
 
 glib::wrapper! {
@@ -251,33 +250,23 @@ impl SearchWindowImp {
 
     fn init_manager(&self) {
         let app = self.obj().clone();
-        let model = self.results.clone();
-        glib::MainContext::default().spawn_local(async move {
+        let receiver = self.engine.receiver();
+
+        let context = glib::MainContext::default();
+        context.spawn_local_with_priority(glib::Priority::LOW, async move {
             let imp = app.imp();
-            let receiver = imp.engine.receiver();
-
-            // Prevents GTK from getting overloaded with too many updates on the GUI thread.
-            const BUFFER_SIZE: usize = 1024;
-            const BUFFER_DURATION: Duration = Duration::from_millis(100);
-
-            let mut buffer = Vec::with_capacity(BUFFER_SIZE);
-            let mut last_buffer_update = Instant::now();
-
             while let Ok(result) = receiver.recv_async().await {
                 if imp.engine.is_current(&result) {
                     match result {
                         SearchMessage::Result(result) => {
-                            buffer.push(result);
-
-                            if buffer.len() >= BUFFER_SIZE
-                                || last_buffer_update.elapsed() > BUFFER_DURATION
-                            {
-                                app.set_searched_files(app.searched_files() + buffer.len() as u32);
-                                model.extend_with_results(buffer.drain(..));
-                                buffer.clear();
+                            app.set_searched_files(app.searched_files() + 1);
+                            if !result.is_empty() {
+                                let app = app.clone();
+                                glib::idle_add_local_once(move || {
+                                    let imp = app.imp();
+                                    imp.results.append(result);
+                                });
                             }
-
-                            last_buffer_update = Instant::now();
                         }
                         SearchMessage::Error(error) => {
                             app.errors().append(&format!(
@@ -287,12 +276,6 @@ impl SearchWindowImp {
                             ));
                         }
                         SearchMessage::Completed { .. } => {
-                            if !buffer.is_empty() {
-                                app.set_searched_files(app.searched_files() + buffer.len() as u32);
-                                model.extend_with_results(buffer.drain(..));
-                                buffer.clear();
-                            }
-
                             app.set_search_running(false);
                         }
                     }
