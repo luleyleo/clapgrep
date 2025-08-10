@@ -1,10 +1,9 @@
 use crate::search::SearchResult;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
-use imp::Section;
-use std::path::PathBuf;
+use std::{cell::RefCell, path::PathBuf};
 
 glib::wrapper! {
-    pub struct SearchModel(ObjectSubclass<imp::SearchModel>)
+    pub struct SearchModel(ObjectSubclass<SearchModelImp>)
         @implements gio::ListModel, gtk::SectionModel;
 }
 
@@ -96,68 +95,62 @@ impl SearchModel {
     }
 }
 
-mod imp {
-    use crate::search::SearchResult;
-    use gtk::{gio, glib, prelude::*, subclass::prelude::*};
-    use std::{cell::RefCell, path::PathBuf};
+#[derive(Debug, Default)]
+pub struct SearchModelImp {
+    pub data: RefCell<Vec<SearchResult>>,
+    pub sections: RefCell<Vec<Section>>,
+    pub base_path: RefCell<PathBuf>,
+}
 
-    #[derive(Debug, Default)]
-    pub struct SearchModel {
-        pub data: RefCell<Vec<SearchResult>>,
-        pub sections: RefCell<Vec<Section>>,
-        pub base_path: RefCell<PathBuf>,
+#[derive(Debug, Clone, Copy)]
+pub struct Section {
+    pub start: u32,
+    pub end: u32,
+}
+
+impl Section {
+    pub fn size(&self) -> u32 {
+        self.end - self.start
+    }
+}
+
+#[glib::object_subclass]
+impl ObjectSubclass for SearchModelImp {
+    const NAME: &'static str = "ClapgrepSearchModel";
+    type Type = SearchModel;
+    type Interfaces = (gio::ListModel, gtk::SectionModel);
+}
+
+impl ObjectImpl for SearchModelImp {}
+
+impl ListModelImpl for SearchModelImp {
+    fn item_type(&self) -> glib::Type {
+        SearchResult::static_type()
     }
 
-    #[derive(Debug, Clone, Copy)]
-    pub struct Section {
-        pub start: u32,
-        pub end: u32,
+    fn n_items(&self) -> u32 {
+        self.data.borrow().len() as u32
     }
 
-    impl Section {
-        pub fn size(&self) -> u32 {
-            self.end - self.start
-        }
+    fn item(&self, position: u32) -> Option<glib::Object> {
+        self.data
+            .borrow()
+            .get(position as usize)
+            .map(|o| o.clone().upcast::<glib::Object>())
     }
+}
 
-    #[glib::object_subclass]
-    impl ObjectSubclass for SearchModel {
-        const NAME: &'static str = "ClapgrepSearchModel";
-        type Type = super::SearchModel;
-        type Interfaces = (gio::ListModel, gtk::SectionModel);
-    }
+impl SectionModelImpl for SearchModelImp {
+    fn section(&self, position: u32) -> (u32, u32) {
+        let mut total = 0;
+        for section in self.sections.borrow().iter() {
+            total += section.size();
 
-    impl ObjectImpl for SearchModel {}
-
-    impl ListModelImpl for SearchModel {
-        fn item_type(&self) -> glib::Type {
-            SearchResult::static_type()
-        }
-
-        fn n_items(&self) -> u32 {
-            self.data.borrow().len() as u32
-        }
-
-        fn item(&self, position: u32) -> Option<glib::Object> {
-            self.data
-                .borrow()
-                .get(position as usize)
-                .map(|o| o.clone().upcast::<glib::Object>())
-        }
-    }
-
-    impl SectionModelImpl for SearchModel {
-        fn section(&self, position: u32) -> (u32, u32) {
-            let mut total = 0;
-            for section in self.sections.borrow().iter() {
-                total += section.size();
-
-                if total > position {
-                    return (section.start, section.end);
-                }
+            if total > position {
+                return (section.start, section.end);
             }
-
-            panic!("missing section")
         }
+
+        panic!("missing section")
     }
 }

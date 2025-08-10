@@ -1,10 +1,18 @@
 use crate::search::SearchMatch;
 use clapgrep_core::Match;
-use gtk::{gio, glib, prelude::*};
-use std::{collections::HashSet, path::PathBuf};
+use gtk::{
+    gio,
+    glib::{self, prelude::*},
+    subclass::prelude::*,
+};
+use std::{
+    cell::{Cell, RefCell},
+    collections::HashSet,
+    path::PathBuf,
+};
 
 glib::wrapper! {
-    pub struct SearchResult(ObjectSubclass<imp::SearchResult>);
+    pub struct SearchResult(ObjectSubclass<SearchResultImp>);
 }
 
 impl Default for SearchResult {
@@ -98,48 +106,36 @@ impl SearchResult {
     }
 }
 
-mod imp {
-    use gtk::{
-        gio,
-        glib::{self, prelude::*},
-        subclass::prelude::*,
-    };
-    use std::{
-        cell::{Cell, RefCell},
-        path::PathBuf,
-    };
+#[derive(Default, glib::Properties)]
+#[properties(wrapper_type = super::SearchResult)]
+pub struct SearchResultImp {
+    // search relate properties
+    #[property(get, set)]
+    search_path: RefCell<PathBuf>,
 
-    #[derive(Default, glib::Properties)]
-    #[properties(wrapper_type = super::SearchResult)]
-    pub struct SearchResult {
-        // search relate properties
-        #[property(get, set)]
-        search_path: RefCell<PathBuf>,
+    // file related properties
+    #[property(get, set)]
+    file_path: RefCell<PathBuf>,
+    #[property(get, set, nullable)]
+    file_name_matches: RefCell<Option<gio::ListStore>>,
 
-        // file related properties
-        #[property(get, set)]
-        file_path: RefCell<PathBuf>,
-        #[property(get, set, nullable)]
-        file_name_matches: RefCell<Option<gio::ListStore>>,
-
-        // entry related propertie
-        #[property(get, set)]
-        line: Cell<u64>,
-        #[property(get, set)]
-        page: Cell<u64>,
-        #[property(get, set)]
-        content: RefCell<String>,
-        #[property(get, set, construct)]
-        content_matches: RefCell<Option<gio::ListStore>>,
-    }
-
-    // Basic declaration of our type for the GObject type system
-    #[glib::object_subclass]
-    impl ObjectSubclass for SearchResult {
-        const NAME: &'static str = "ClapgrepSearchResult";
-        type Type = super::SearchResult;
-    }
-
-    #[glib::derived_properties]
-    impl ObjectImpl for SearchResult {}
+    // entry related propertie
+    #[property(get, set)]
+    line: Cell<u64>,
+    #[property(get, set)]
+    page: Cell<u64>,
+    #[property(get, set)]
+    content: RefCell<String>,
+    #[property(get, set, construct)]
+    content_matches: RefCell<Option<gio::ListStore>>,
 }
+
+// Basic declaration of our type for the GObject type system
+#[glib::object_subclass]
+impl ObjectSubclass for SearchResultImp {
+    const NAME: &'static str = "ClapgrepSearchResult";
+    type Type = super::SearchResult;
+}
+
+#[glib::derived_properties]
+impl ObjectImpl for SearchResultImp {}
