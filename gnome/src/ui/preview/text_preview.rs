@@ -58,7 +58,7 @@ impl TextPreviewImp {
 
     fn update_preview(&self) {
         let result = self.result.borrow();
-        let file = result.absolute_path();
+        let file = result.heading().absolute_path();
 
         if !file.exists() {
             return;

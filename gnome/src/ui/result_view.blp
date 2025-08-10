@@ -3,17 +3,30 @@ using Gtk 4.0;
 template $ClapgrepResultView: Widget {
   layout-manager: Gtk.BinLayout {};
 
-  Box container {
+  Label header_view {
+    margin-top: 8;
+    margin-bottom: 8;
+    margin-start: 16;
+    halign: start;
+    visible: false;
+
+    styles [
+      "heading",
+      "file-entry",
+    ]
+  }
+
+  Box result_view {
     orientation: horizontal;
     margin-top: 2;
     margin-start: 16;
     margin-end: 16;
     margin-bottom: 2;
+    visible: false;
 
-    Label {
+    Label result_location {
       xalign: 1.0;
       width-request: 40;
-      label: bind template.number;
 
       styles [
         "monospace",
@@ -28,7 +41,7 @@ template $ClapgrepResultView: Widget {
       ]
     }
 
-    Label content {
+    Label result_content {
       styles [
         "monospace",
       ]

@@ -69,7 +69,7 @@ impl ObjectSubclass for PreviewImp {
 #[gtk::template_callbacks]
 impl PreviewImp {
     fn update_preview(&self) {
-        let file = self.result.borrow().absolute_path();
+        let file = self.result.borrow().heading().absolute_path();
 
         if !file.exists() {
             return;

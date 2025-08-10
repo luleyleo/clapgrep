@@ -2,8 +2,8 @@ use crate::{
     build::{APP_ID, APP_VERSION},
     config::Config,
     i18n::gettext_f,
-    search::{SearchModel, SearchResult},
-    ui::{preview::Preview, ErrorWindow, ResultHeaderView, ResultView},
+    search::{SearchHeading, SearchModel, SearchResult},
+    ui::{preview::Preview, ErrorWindow, ResultView},
 };
 use adw::{prelude::PreferencesGroupExt, subclass::prelude::*};
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
@@ -112,7 +112,6 @@ impl ObjectSubclass for SearchWindowImp {
 
     fn class_init(klass: &mut Self::Class) {
         ResultView::static_type();
-        ResultHeaderView::static_type();
 
         klass.bind_template();
         klass.bind_template_callbacks();
@@ -194,10 +193,26 @@ impl SearchWindowImp {
     #[template_callback]
     fn on_result_activated(&self, position: u32) {
         if let Some(result) = self.results.item(position) {
-            let result = result.downcast::<SearchResult>().unwrap();
-            if !result.content().is_empty() {
-                self.preview.set_result(&result);
+            if let Some(result) = result.downcast_ref::<SearchResult>() {
+                self.preview.set_result(result);
                 self.inner_split_view.set_show_content(true);
+                return;
+            }
+            if let Some(heading) = result.downcast_ref::<SearchHeading>() {
+                let file = gio::File::for_path(heading.absolute_path());
+                let window = self
+                    .obj()
+                    .root()
+                    .unwrap()
+                    .downcast::<gtk::ApplicationWindow>()
+                    .unwrap();
+
+                gtk::FileLauncher::new(Some(&file)).launch(
+                    Some(&window),
+                    Cancellable::NONE,
+                    |_| {},
+                );
+                return;
             }
         }
     }
@@ -257,8 +272,8 @@ impl SearchWindowImp {
                             if buffer.len() >= BUFFER_SIZE
                                 || last_buffer_update.elapsed() > BUFFER_DURATION
                             {
-                                model.extend_with_results(buffer.drain(..));
                                 app.set_searched_files(app.searched_files() + buffer.len() as u32);
+                                model.extend_with_results(buffer.drain(..));
                                 buffer.clear();
                             }
 
@@ -273,8 +288,8 @@ impl SearchWindowImp {
                         }
                         SearchMessage::Completed { .. } => {
                             if !buffer.is_empty() {
-                                model.extend_with_results(buffer.drain(..));
                                 app.set_searched_files(app.searched_files() + buffer.len() as u32);
+                                model.extend_with_results(buffer.drain(..));
                                 buffer.clear();
                             }
 

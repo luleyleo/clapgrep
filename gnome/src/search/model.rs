@@ -2,9 +2,11 @@ use crate::search::SearchResult;
 use gtk::{gio, glib, prelude::*, subclass::prelude::*};
 use std::{cell::RefCell, path::PathBuf};
 
+use super::SearchHeading;
+
 glib::wrapper! {
     pub struct SearchModel(ObjectSubclass<SearchModelImp>)
-        @implements gio::ListModel, gtk::SectionModel;
+        @implements gio::ListModel;
 }
 
 impl Default for SearchModel {
@@ -26,7 +28,6 @@ impl SearchModel {
         let imp = self.imp();
         let len = imp.data.borrow().len();
         imp.data.borrow_mut().clear();
-        imp.sections.borrow_mut().clear();
         self.items_changed(0, len as u32, 0)
     }
 
@@ -34,47 +35,28 @@ impl SearchModel {
         let base_path = self.imp().base_path.borrow();
 
         let mut data = self.imp().data.borrow_mut();
+
+        let heading = SearchHeading::new(
+            base_path.clone(),
+            file_info.path.clone(),
+            &file_info.path_matches,
+        );
+
         let start = data.len() as u32;
-        if file_info.entries.is_empty() {
-            debug_assert!(
-                !file_info.path_matches.is_empty(),
-                "file_info.path_matches must not be empty"
-            );
+        data.push(heading.clone().upcast::<glib::Object>());
+        let search_results = file_info.entries.into_iter().map(|m| {
+            let (line, page) = match m.location {
+                clapgrep_core::Location::Text { line } => (line, 0),
+                clapgrep_core::Location::Document { page, line } => (line, page),
+            };
 
-            data.push(SearchResult::new(
-                base_path.clone(),
-                file_info.path.clone(),
-                &file_info.path_matches,
-                0,
-                0,
-                "",
-                &[],
-            ));
-        } else {
-            let search_results = file_info.entries.into_iter().enumerate().map(|(i, m)| {
-                let (line, page) = match m.location {
-                    clapgrep_core::Location::Text { line } => (line, 0),
-                    clapgrep_core::Location::Document { page, line } => (line, page),
-                };
-
-                SearchResult::new(
-                    base_path.clone(),
-                    file_info.path.clone(),
-                    if i == 0 { &file_info.path_matches } else { &[] },
-                    line,
-                    page,
-                    &m.content,
-                    &m.matches,
-                )
-            });
-            data.extend(search_results);
-        }
+            SearchResult::new(heading.clone(), line, page, &m.content, &m.matches)
+                .upcast::<glib::Object>()
+        });
+        data.extend(search_results);
         let end = data.len() as u32;
 
-        let section = Section { start, end };
-        self.imp().sections.borrow_mut().push(section);
-
-        section
+        Section { start, end }
     }
 
     pub fn append_file_info(&self, file_info: clapgrep_core::SearchResult) {
@@ -97,9 +79,8 @@ impl SearchModel {
 
 #[derive(Debug, Default)]
 pub struct SearchModelImp {
-    pub data: RefCell<Vec<SearchResult>>,
-    pub sections: RefCell<Vec<Section>>,
     pub base_path: RefCell<PathBuf>,
+    pub data: RefCell<Vec<glib::Object>>,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -108,24 +89,18 @@ pub struct Section {
     pub end: u32,
 }
 
-impl Section {
-    pub fn size(&self) -> u32 {
-        self.end - self.start
-    }
-}
-
 #[glib::object_subclass]
 impl ObjectSubclass for SearchModelImp {
     const NAME: &'static str = "ClapgrepSearchModel";
     type Type = SearchModel;
-    type Interfaces = (gio::ListModel, gtk::SectionModel);
+    type Interfaces = (gio::ListModel,);
 }
 
 impl ObjectImpl for SearchModelImp {}
 
 impl ListModelImpl for SearchModelImp {
     fn item_type(&self) -> glib::Type {
-        SearchResult::static_type()
+        glib::Object::static_type()
     }
 
     fn n_items(&self) -> u32 {
@@ -133,24 +108,6 @@ impl ListModelImpl for SearchModelImp {
     }
 
     fn item(&self, position: u32) -> Option<glib::Object> {
-        self.data
-            .borrow()
-            .get(position as usize)
-            .map(|o| o.clone().upcast::<glib::Object>())
-    }
-}
-
-impl SectionModelImpl for SearchModelImp {
-    fn section(&self, position: u32) -> (u32, u32) {
-        let mut total = 0;
-        for section in self.sections.borrow().iter() {
-            total += section.size();
-
-            if total > position {
-                return (section.start, section.end);
-            }
-        }
-
-        panic!("missing section")
+        self.data.borrow().get(position as usize).cloned()
     }
 }

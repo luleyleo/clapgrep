@@ -8,8 +8,9 @@ use gtk::{
 use std::{
     cell::{Cell, RefCell},
     collections::HashSet,
-    path::PathBuf,
 };
+
+use super::heading::SearchHeading;
 
 glib::wrapper! {
     pub struct SearchResult(ObjectSubclass<SearchResultImp>);
@@ -23,9 +24,7 @@ impl Default for SearchResult {
 
 impl SearchResult {
     pub fn new(
-        search_path: PathBuf,
-        file_path: PathBuf,
-        file_name_matches: &[Match],
+        heading: SearchHeading,
         line: u64,
         page: u64,
         content: &str,
@@ -44,41 +43,13 @@ impl SearchResult {
             content_matches_store.append(&sm);
         }
 
-        let file_path = file_path
-            .strip_prefix(&search_path)
-            .expect("failed to strip file_path prefix");
-
-        let file_name_matches_store = (!file_name_matches.is_empty()).then(|| {
-            let file_name_offset = file_path
-                .to_string_lossy()
-                .find(file_path.file_name().unwrap().to_string_lossy().as_ref())
-                .unwrap();
-
-            let file_name_matches_store = gio::ListStore::new::<SearchMatch>();
-            for m in file_name_matches {
-                let m = m.offset(file_name_offset);
-                let sm = SearchMatch::new(m.start() as u32, m.end() as u32);
-                file_name_matches_store.append(&sm);
-            }
-            file_name_matches_store
-        });
-
         glib::Object::builder()
-            .property("search_path", search_path)
-            .property("file_path", file_path)
-            .property("file_name_matches", file_name_matches_store)
+            .property("heading", heading)
             .property("line", line)
             .property("page", page)
             .property("content", content)
             .property("content_matches", content_matches_store)
             .build()
-    }
-
-    pub fn absolute_path(&self) -> PathBuf {
-        let search_path = self.search_path();
-        let file_path = self.file_path();
-
-        search_path.join(file_path)
     }
 
     pub fn matched_strings(&self) -> HashSet<String> {
@@ -107,19 +78,10 @@ impl SearchResult {
 }
 
 #[derive(Default, glib::Properties)]
-#[properties(wrapper_type = super::SearchResult)]
+#[properties(wrapper_type = SearchResult)]
 pub struct SearchResultImp {
-    // search relate properties
     #[property(get, set)]
-    search_path: RefCell<PathBuf>,
-
-    // file related properties
-    #[property(get, set)]
-    file_path: RefCell<PathBuf>,
-    #[property(get, set, nullable)]
-    file_name_matches: RefCell<Option<gio::ListStore>>,
-
-    // entry related propertie
+    heading: RefCell<SearchHeading>,
     #[property(get, set)]
     line: Cell<u64>,
     #[property(get, set)]
@@ -134,7 +96,7 @@ pub struct SearchResultImp {
 #[glib::object_subclass]
 impl ObjectSubclass for SearchResultImp {
     const NAME: &'static str = "ClapgrepSearchResult";
-    type Type = super::SearchResult;
+    type Type = SearchResult;
 }
 
 #[glib::derived_properties]

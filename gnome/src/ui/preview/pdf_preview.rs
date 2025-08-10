@@ -67,7 +67,7 @@ impl PdfPreviewImp {
     fn update_preview(&self) -> anyhow::Result<()> {
         let result = self.result.borrow();
         if let Some(result) = result.as_ref() {
-            let file = result.absolute_path();
+            let file = result.heading().absolute_path();
             let page_index = result.page() - 1;
 
             let doc =

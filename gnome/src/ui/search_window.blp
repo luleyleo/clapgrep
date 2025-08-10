@@ -242,18 +242,10 @@ template $ClapgrepSearchWindow: Adw.ApplicationWindow {
                         model: bind template.results;
                       };
 
-                      header-factory: BuilderListItemFactory {
-                        template ListHeader {
-                          child: $ClapgrepResultHeaderView {
-                            result: bind template.item;
-                          };
-                        }
-                      };
-
                       factory: BuilderListItemFactory {
                         template ListItem {
                           child: $ClapgrepResultView {
-                            result: bind template.item;
+                            item: bind template.item;
                           };
                         }
                       };
