@@ -7,10 +7,22 @@ use glib::subclass::InitializingObject;
 use gtk::{glib, pango, prelude::*, CompositeTemplate};
 use std::cell::RefCell;
 
+glib::wrapper! {
+    pub struct ResultHeaderView(ObjectSubclass<ResultHeaderViewImp>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl ResultHeaderView {
+    pub fn new(result: &SearchResult) -> Self {
+        glib::Object::builder().property("result", result).build()
+    }
+}
+
 #[derive(CompositeTemplate, glib::Properties)]
-#[template(file = "src/ui/result_header_view/result_header_view.blp")]
-#[properties(wrapper_type = super::ResultHeaderView)]
-pub struct ResultHeaderView {
+#[template(file = "src/ui/result_header_view.blp")]
+#[properties(wrapper_type = ResultHeaderView)]
+pub struct ResultHeaderViewImp {
     #[property(get, set)]
     pub result: RefCell<Option<SearchResult>>,
 
@@ -20,7 +32,7 @@ pub struct ResultHeaderView {
     highlight_color: RefCell<pango::Color>,
 }
 
-impl Default for ResultHeaderView {
+impl Default for ResultHeaderViewImp {
     fn default() -> Self {
         Self {
             result: Default::default(),
@@ -31,9 +43,9 @@ impl Default for ResultHeaderView {
 }
 
 #[glib::object_subclass]
-impl ObjectSubclass for ResultHeaderView {
+impl ObjectSubclass for ResultHeaderViewImp {
     const NAME: &'static str = "ClapgrepResultHeaderView";
-    type Type = super::ResultHeaderView;
+    type Type = ResultHeaderView;
     type ParentType = gtk::Widget;
 
     fn class_init(klass: &mut Self::Class) {
@@ -45,7 +57,7 @@ impl ObjectSubclass for ResultHeaderView {
     }
 }
 
-impl ResultHeaderView {
+impl ResultHeaderViewImp {
     fn update_content(&self) {
         let highlight_color = self.highlight_color.borrow();
         let result = self.result.borrow();
@@ -87,7 +99,7 @@ impl ResultHeaderView {
 }
 
 #[glib::derived_properties]
-impl ObjectImpl for ResultHeaderView {
+impl ObjectImpl for ResultHeaderViewImp {
     fn constructed(&self) {
         self.parent_constructed();
         let obj = self.obj();
@@ -112,4 +124,4 @@ impl ObjectImpl for ResultHeaderView {
     }
 }
 
-impl WidgetImpl for ResultHeaderView {}
+impl WidgetImpl for ResultHeaderViewImp {}

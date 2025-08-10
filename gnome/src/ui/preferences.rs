@@ -8,9 +8,27 @@ use gtk::CompositeTemplate;
 use sourceview5::prelude::{FileExt, ObjectExt};
 use std::fs;
 
+glib::wrapper! {
+    pub struct PreferencesDialog(ObjectSubclass<PreferencesDialogImp>)
+        @extends adw::PreferencesDialog, adw::Dialog, gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::ShortcutManager;
+}
+
+impl PreferencesDialog {
+    pub fn new() -> Self {
+        glib::Object::new()
+    }
+}
+
+impl Default for PreferencesDialog {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[derive(CompositeTemplate, Default)]
-#[template(file = "src/ui/preferences/preferences.blp")]
-pub struct PreferencesDialog {
+#[template(file = "src/ui/preferences.blp")]
+pub struct PreferencesDialogImp {
     #[template_child]
     max_results_spinner: TemplateChild<adw::SpinRow>,
     #[template_child]
@@ -20,9 +38,9 @@ pub struct PreferencesDialog {
 }
 
 #[glib::object_subclass]
-impl ObjectSubclass for PreferencesDialog {
+impl ObjectSubclass for PreferencesDialogImp {
     const NAME: &'static str = "ClapgrepPreferencesDialog";
-    type Type = super::PreferencesDialog;
+    type Type = PreferencesDialog;
     type ParentType = adw::PreferencesDialog;
 
     fn class_init(klass: &mut Self::Class) {
@@ -36,9 +54,9 @@ impl ObjectSubclass for PreferencesDialog {
 }
 
 #[gtk::template_callbacks]
-impl PreferencesDialog {}
+impl PreferencesDialogImp {}
 
-impl PreferencesDialog {
+impl PreferencesDialogImp {
     fn connect_nautilus_integration_toggle(&self) {
         // TODO: This should use `glib::user_data_dir()`, but that doesn't work inside of Flatpak.
         let nautilus_extension_path = glib::home_dir()
@@ -70,7 +88,7 @@ impl PreferencesDialog {
     }
 }
 
-impl ObjectImpl for PreferencesDialog {
+impl ObjectImpl for PreferencesDialogImp {
     fn constructed(&self) {
         self.parent_constructed();
 
@@ -84,8 +102,8 @@ impl ObjectImpl for PreferencesDialog {
     }
 }
 
-impl WidgetImpl for PreferencesDialog {}
+impl WidgetImpl for PreferencesDialogImp {}
 
-impl AdwDialogImpl for PreferencesDialog {}
+impl AdwDialogImpl for PreferencesDialogImp {}
 
-impl PreferencesDialogImpl for PreferencesDialog {}
+impl PreferencesDialogImpl for PreferencesDialogImp {}

@@ -9,6 +9,7 @@ use adw::{prelude::PreferencesGroupExt, subclass::prelude::*};
 use clapgrep_core::{SearchEngine, SearchFlags, SearchMessage, SearchParameters};
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
+use glib::Object;
 use gtk::{
     gio::{self, Cancellable, FileQueryInfoFlags},
     glib::{self, clone},
@@ -21,10 +22,23 @@ use std::{
     time::{Duration, Instant},
 };
 
+glib::wrapper! {
+    pub struct SearchWindow(ObjectSubclass<SearchWindowImp>)
+        @extends adw::ApplicationWindow, gtk::ApplicationWindow, gtk::Window, gtk::Widget,
+        @implements gio::ActionGroup, gio::ActionMap, gtk::Accessible, gtk::Buildable,
+                    gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
+}
+
+impl SearchWindow {
+    pub fn new(app: &adw::Application) -> Self {
+        Object::builder().property("application", app).build()
+    }
+}
+
 #[derive(CompositeTemplate, glib::Properties, Default)]
-#[template(file = "src/ui/search_window/search_window.blp")]
-#[properties(wrapper_type = super::SearchWindow)]
-pub struct SearchWindow {
+#[template(file = "src/ui/search_window.blp")]
+#[properties(wrapper_type = SearchWindow)]
+pub struct SearchWindowImp {
     #[property(get, set)]
     pub search_path: RefCell<PathBuf>,
     #[property(get, set)]
@@ -101,9 +115,9 @@ pub struct SearchWindow {
 }
 
 #[glib::object_subclass]
-impl ObjectSubclass for SearchWindow {
+impl ObjectSubclass for SearchWindowImp {
     const NAME: &'static str = "ClapgrepSearchWindow";
-    type Type = super::SearchWindow;
+    type Type = SearchWindow;
     type ParentType = adw::ApplicationWindow;
 
     fn class_init(klass: &mut Self::Class) {
@@ -127,7 +141,7 @@ impl ObjectSubclass for SearchWindow {
 }
 
 #[gtk::template_callbacks]
-impl SearchWindow {
+impl SearchWindowImp {
     #[template_callback(function = true)]
     fn is_not_empty(value: &str) -> bool {
         !value.is_empty()
@@ -217,7 +231,7 @@ impl SearchWindow {
     }
 }
 
-impl SearchWindow {
+impl SearchWindowImp {
     fn cd_to(&self, directory: gio::File) {
         const HOST_PATH_ATTR: &str = "xattr::document-portal.host-path";
         let file_info = directory
@@ -385,7 +399,7 @@ impl SearchWindow {
 }
 
 #[glib::derived_properties]
-impl ObjectImpl for SearchWindow {
+impl ObjectImpl for SearchWindowImp {
     fn constructed(&self) {
         self.parent_constructed();
         let obj = self.obj();
@@ -542,10 +556,10 @@ impl ObjectImpl for SearchWindow {
     }
 }
 
-impl WidgetImpl for SearchWindow {}
+impl WidgetImpl for SearchWindowImp {}
 
-impl WindowImpl for SearchWindow {}
+impl WindowImpl for SearchWindowImp {}
 
-impl ApplicationWindowImpl for SearchWindow {}
+impl ApplicationWindowImpl for SearchWindowImp {}
 
-impl AdwApplicationWindowImpl for SearchWindow {}
+impl AdwApplicationWindowImpl for SearchWindowImp {}
