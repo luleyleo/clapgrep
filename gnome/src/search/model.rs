@@ -50,7 +50,7 @@ impl SearchModel {
                 clapgrep_core::Location::Document { page, line } => (line, page),
             };
 
-            SearchResult::new(heading.clone(), line, page, &m.content, &m.matches)
+            SearchResult::new(heading.clone(), line, page, m.content, &m.matches)
                 .upcast::<glib::Object>()
         });
         data.extend(search_results);

@@ -27,14 +27,14 @@ impl SearchResult {
         heading: SearchHeading,
         line: u64,
         page: u64,
-        content: &str,
+        content: String,
         content_matches: &[Match],
     ) -> SearchResult {
         let content = if content.contains('\0') {
             println!("Found <NULL> in '{content}'");
             content.replace('\0', "<NULL>")
         } else {
-            content.to_string()
+            content
         };
 
         let content_matches_store = gio::ListStore::new::<SearchMatch>();
