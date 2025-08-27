@@ -12,7 +12,6 @@ use ignore::{WalkBuilder, WalkState};
 use std::{
     error::Error,
     io,
-    os::unix::ffi::OsStrExt,
     path::PathBuf,
     sync::{
         atomic::{AtomicUsize, Ordering},
@@ -141,7 +140,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
             if params.flags.search_names {
                 let file_name = entry.file_name();
                 matcher
-                    .find_iter(file_name.as_bytes(), |m| {
+                    .find_iter(file_name.as_encoded_bytes(), |m| {
                         path_matches.push(m);
                         true
                     })
