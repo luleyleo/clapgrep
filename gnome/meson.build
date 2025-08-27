@@ -18,21 +18,30 @@ else
   message('Building in debug mode')
 endif
 
-custom_target(
+cargo_build = custom_target(
   'cargo-build',
   build_by_default: true,
   build_always_stale: true,
-  output: meson.project_name(),
+  output: rust_target,
   console: true,
-  install: true,
-  install_dir: bindir,
   env: cargo_env,
   depends: [clapgrep_resources],
   command: [
     cargo,
     'build',
     cargo_options,
-    '&&',
+  ],
+)
+
+custom_target(
+  'cp-binary',
+  depends: cargo_build,
+  build_by_default: true,
+  build_always_stale: true,
+  install: true,
+  install_dir: bindir,
+  output: meson.project_name(),
+  command: [
     'cp',
     rust_target / 'clapgrep-gnome',
     '@OUTPUT@',
