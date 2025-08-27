@@ -38,4 +38,3 @@ features = ["gtk_v4_12", "v5_12"]
 
 [workspace.dependencies.poppler-rs]
 version = "0.25.0"
-features = ["v23_8"]

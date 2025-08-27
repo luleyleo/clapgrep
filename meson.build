@@ -48,7 +48,9 @@ subdir('locale')
 subdir('assets')
 subdir('gnome')
 
-gnome.post_install(
-  gtk_update_icon_cache: true,
-  update_desktop_database: true,
-)
+if build_machine.system() == 'linux'
+  gnome.post_install(
+    gtk_update_icon_cache: true,
+    update_desktop_database: true,
+  )
+endif
