@@ -221,6 +221,12 @@ impl SearchWindowImp {
 }
 
 impl SearchWindowImp {
+    #[cfg(not(target_os = "linux"))]
+    fn display_search_path(value: PathBuf) -> String {
+        format!("{}", value.display())
+    }
+
+    #[cfg(target_os = "linux")]
     fn display_search_path(value: PathBuf) -> String {
         let mut search_path = value;
 
