@@ -14,19 +14,19 @@ log = "0.4.27"
 env_logger = { version = "0.11.8", default-features = false }
 anyhow = "1.0.98"
 glob = "0.3.2"
-zip = { version = "4.3", default-features = false, features = ["deflate"] }
+zip = { version = "5.1", default-features = false, features = ["deflate"] }
 xml = { package = "quick-xml", version = "0.38.0" }
 
 # Anything glib related
 [workspace.dependencies.gtk]
 version = "0.10.0"
 package = "gtk4"
-features = ["blueprint", "v4_16"]
+features = ["blueprint", "v4_20"]
 
 [workspace.dependencies.adw]
 version = "0.8.0"
 package = "libadwaita"
-features = ["v1_7"]
+features = ["v1_8"]
 
 [workspace.dependencies.gio]
 version = "0.21.0"
