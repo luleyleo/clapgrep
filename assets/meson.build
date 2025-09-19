@@ -69,5 +69,5 @@ clapgrep_resources = gnome.compile_resources(
   ),
   gresource_bundle: true,
   source_dir: meson.current_build_dir(),
-  dependencies: [help_overlay, appdata_file],
+  dependencies: [shortcuts_dialog, appdata_file],
 )[0]

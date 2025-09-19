@@ -1,11 +1,11 @@
-help_overlay = custom_target(
-  'help-overlay',
-  input: ['help-overlay.blp'],
-  output: ['help-overlay.ui'],
+shortcuts_dialog = custom_target(
+  'shortcuts-dialog',
+  input: ['shortcuts-dialog.blp'],
+  output: ['shortcuts-dialog.ui'],
   command: [
     blueprint_compiler,
     'compile',
-    '--output', 'assets/gtk/help-overlay.ui',
+    '--output', 'assets/gtk/shortcuts-dialog.ui',
     '@INPUT@',
   ],
 )
