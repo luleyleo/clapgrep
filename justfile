@@ -52,4 +52,4 @@ update-translations: update-potfiles
   meson compile -C build {{appid}}.Devel-update-po
 
 add-translation language:
-  msginit -l {{language}}.UTF8 -o po/{{language}}.po -i po/clapgrep.pot
+  msginit -l {{language}}.UTF8 -o locale/{{language}}.po -i locale/{{appid}}.Devel.pot
