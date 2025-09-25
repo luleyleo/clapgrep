@@ -1,0 +1,280 @@
+# French translations for de.leopoldluley.Clapgrep.Devel package.
+# Copyright (C) 2025 THE de.leopoldluley.Clapgrep.Devel'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the de.leopoldluley.Clapgrep.Devel package.
+#  <leane.grasser@proton.me>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: de.leopoldluley.Clapgrep.Devel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-10 17:47+0200\n"
+"PO-Revision-Date: 2025-09-24 11:40+0200\n"
+"Last-Translator: Léane GRASSER <leane.grasser@proton.me>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.7\n"
+
+#: assets/gtk/help-overlay.blp:5
+msgid "Clapgrep Shortcuts"
+msgstr "Raccourcis de Clapgrep"
+
+#: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences.blp:6
+msgid "General"
+msgstr "Général"
+
+#: assets/gtk/help-overlay.blp:12
+msgid "Quit"
+msgstr "Quitter"
+
+#: assets/gtk/help-overlay.blp:17
+msgid "Shortcuts"
+msgstr "Raccourcis"
+
+#: assets/gtk/help-overlay.blp:23
+msgid "Control Search"
+msgstr "Contrôler la recherche"
+
+#: assets/gtk/help-overlay.blp:26 gnome/src/ui/search_window.blp:66
+msgid "Start Search"
+msgstr "Commencer à rechercher"
+
+#: assets/gtk/help-overlay.blp:31
+msgid "Stop Search"
+msgstr "Arrêter de rechercher"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
+#: gnome/src/ui/search_window.blp:5
+msgid "Clapgrep"
+msgstr "Clapgrep"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
+msgid "Search through all your files"
+msgstr "Recherchez dans tous vos fichiers"
+
+#: assets/de.leopoldluley.Clapgrep.desktop.in.in:10
+msgid "grep;ripgrep;search;pdf;"
+msgstr "grep;ripgrep;search;recherche;rechercher;pdf;"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:19
+msgid ""
+"Ever had a folder full of PDF files, where you knew, somewhere in there, is "
+"what you're looking for. But you did not know in which file. So you had to "
+"search each of them at a time..."
+msgstr ""
+"Est-ce que ça vous est déjà arrivé ? Vous avez un dossier rempli de "
+"fichiers PDF, et vous savez que l'information dont vous avez besoin y est "
+"cachée quelque part. Malheureusement, vous ne savez pas dans quel fichier "
+"elle se trouve, et vous vous retrouvez à devoir rechercher dans chaque "
+"fichier, un par un..."
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:20
+msgid ""
+"With Clapgrep this is no longer necessary! Simply open the folder with "
+"Clapgrep, enter the search term, and Clapgrep will do all the hard work of "
+"finding out on which page / line in which file the information is that you "
+"are looking for!"
+msgstr ""
+"Avec Clapgrep, tout ça, c'est fini ! Ouvrez simplement le dossier dans "
+"Clapgrep, saisissez le terme à rechercher, et Clapgrep s'occupe de trouver "
+"le bon fichier et la ligne exacte où se trouve l'information dont vous avez "
+"besoin !"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:21
+msgid ""
+"Clapgrep can currently search all sorts of text files, PDFs and Office "
+"documents, with more to come."
+msgstr ""
+"Clapgrep est actuellement capable de rechercher dans toutes sortes de "
+"fichiers texte, ainsi que dans les fichiers PDF et Office, et bien d'autres "
+"encore à venir."
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
+msgid "Main window in desktop view"
+msgstr "Fenêtre principale en mode Bureau"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:29
+msgid "Preview in desktop view"
+msgstr "Aperçu en mode Bureau"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:33
+msgid "Search interface in mobile view"
+msgstr "Interface de recherche en mode Mobile"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:37
+msgid "Results in mobile view"
+msgstr "Résultats en mode Mobile"
+
+#: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:41
+msgid "Preview in mobile view"
+msgstr "Aperçu en mode Mobile"
+
+#: gnome/src/ui/error_window.blp:7
+msgid "Search Errors"
+msgstr "Erreurs de recherche"
+
+#: gnome/src/ui/preferences.blp:9 gnome/src/ui/search_window.blp:31
+msgid "Search"
+msgstr "Recherche"
+
+#: gnome/src/ui/preferences.blp:12
+msgid "Maximum number of search results"
+msgstr "Nombre maximum de résultats de recherche"
+
+#: gnome/src/ui/preferences.blp:25
+msgid "Integrations"
+msgstr "Intégrations"
+
+#: gnome/src/ui/preferences.blp:29
+msgid "You must have nautilus-python installed"
+msgstr "nautilus-python doit être installé"
+
+#: gnome/src/ui/preview.blp:13 gnome/src/ui/search_window.blp:261
+#: gnome/src/ui/preview.rs:92
+msgid "Content Preview"
+msgstr "Aperçu du contenu"
+
+#: gnome/src/ui/preview.blp:20
+msgid "Nothing Selected..."
+msgstr "Aucune sélection..."
+
+#: gnome/src/ui/preview.blp:21
+msgid "Try clicking on on of the result lines."
+msgstr "Essayez de cliquer sur l'une des lignes trouvées."
+
+#: gnome/src/ui/preview.blp:27
+msgid "Under Construction"
+msgstr "En construction"
+
+#: gnome/src/ui/preview.blp:28
+msgid "Preview for this file type has not been implemented yet."
+msgstr "L'aperçu pour ce type de fichier n'a pas encore été implémenté."
+
+#: gnome/src/ui/search_window.blp:60
+msgid "Search Pattern"
+msgstr "Motif à rechercher"
+
+#: gnome/src/ui/search_window.blp:78
+msgid "Search Path"
+msgstr "Chemin à examiner"
+
+#: gnome/src/ui/search_window.blp:94
+msgid "File Pattern"
+msgstr "Motif de nom de fichier"
+
+#: gnome/src/ui/search_window.blp:99
+msgid "Match Entire Path"
+msgstr "Faire correspondre le chemin entier"
+
+#: gnome/src/ui/search_window.blp:120
+msgid "See what's new"
+msgstr "Voir les nouveautés"
+
+#: gnome/src/ui/search_window.blp:126 gnome/src/ui/search_window.blp:288
+msgid "Donate 💝"
+msgstr "Faire un don 💝"
+
+#: gnome/src/ui/search_window.blp:132
+msgid "Search Options"
+msgstr "Options de recherche"
+
+#: gnome/src/ui/search_window.blp:135
+msgid "Case Sensitive"
+msgstr "Sensible à la casse"
+
+#: gnome/src/ui/search_window.blp:139
+msgid "Disable Regex"
+msgstr "Désactiver les regex"
+
+#: gnome/src/ui/search_window.blp:143
+msgid "Include Hidden"
+msgstr "Inclure les fichiers masqués"
+
+#: gnome/src/ui/search_window.blp:147
+msgid "Include Ignored"
+msgstr "Inclure les fichiers ignorés"
+
+#: gnome/src/ui/search_window.blp:152
+msgid "Extra File Formats"
+msgstr "Formats de fichiers supplémentaires"
+
+#: gnome/src/ui/search_window.blp:155
+msgid "File Names"
+msgstr "Noms de fichiers"
+
+#: gnome/src/ui/search_window.blp:159
+msgid "PDF Files"
+msgstr "Fichiers PDF"
+
+#: gnome/src/ui/search_window.blp:163
+msgid "Office Files"
+msgstr "Fichiers Office"
+
+#: gnome/src/ui/search_window.blp:173 gnome/src/ui/search_window.blp:180
+msgid "Results"
+msgstr "Résultats"
+
+#: gnome/src/ui/search_window.blp:193
+msgid "No Search Yet"
+msgstr "Aucune recherche"
+
+#: gnome/src/ui/search_window.blp:194
+msgid "Try to start a search"
+msgstr "Essayez de rechercher quelque chose"
+
+#: gnome/src/ui/search_window.blp:203
+msgid "No Results"
+msgstr "Aucun résultat"
+
+#: gnome/src/ui/search_window.blp:209
+msgid ""
+"You might want to try changing your search pattern, activating document "
+"search, or changing to a different directory"
+msgstr ""
+"Essayez peut-être de modifier votre motif de recherche, d'activer la "
+"recherche dans les documents, ou de sélectionner un autre répertoire"
+
+#: gnome/src/ui/search_window.blp:226
+msgid "Show Errors"
+msgstr "Afficher les erreurs"
+
+#: gnome/src/ui/search_window.blp:273
+msgid "Preferences"
+msgstr "Préférences"
+
+#: gnome/src/ui/search_window.blp:278
+msgid "Keyboard Shortcuts"
+msgstr "Raccourcis clavier"
+
+#: gnome/src/ui/search_window.blp:283
+msgid "About Clapgrep"
+msgstr "À propos de Clapgrep"
+
+#: gnome/src/ui/search_window.rs:158
+msgid "Choose Search Path"
+msgstr "Choisissez un chemin à examiner"
+
+#: gnome/src/ui/search_window.rs:358
+msgid "Searched {files} files and found {matches} matches"
+msgstr "{files} fichiers examinés et {matches} correspondances trouvées"
+
+#: gnome/src/ui/search_window.rs:369
+msgid "Updated to {version} 🎉"
+msgstr "Mis à jour vers la version {version} 🎉"
+
+#: gnome/src/ui/search_window.rs:490
+msgid "Encountered {errors} errors during search"
+msgstr "{errors} erreurs sont survenues pendant la recherche"
+
+#: gnome/src/ui/search_window.rs:500
+msgid "Cancel Search"
+msgstr "Annuler la recherche"
+
+#: gnome/src/ui/search_window.rs:502
+msgid "Close"
+msgstr "Fermer"
