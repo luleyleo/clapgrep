@@ -9,46 +9,42 @@ msgstr ""
 "Project-Id-Version: clapgrep\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 17:47+0200\n"
-"PO-Revision-Date: 2025-04-27 09:47+1000\n"
+"PO-Revision-Date: 2025-10-05 20:04+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: \n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: assets/gtk/help-overlay.blp:5
-#, fuzzy
 msgid "Clapgrep Shortcuts"
-msgstr "Acorchis de clavièr"
+msgstr "Acorchis Clapgreg"
 
 #: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences.blp:6
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: assets/gtk/help-overlay.blp:12
 msgid "Quit"
-msgstr ""
+msgstr "Quitar"
 
 #: assets/gtk/help-overlay.blp:17
-#, fuzzy
 msgid "Shortcuts"
-msgstr "Acorchis de clavièr"
+msgstr "Acorchis"
 
 #: assets/gtk/help-overlay.blp:23
-#, fuzzy
 msgid "Control Search"
-msgstr "Anullar la recèrca"
+msgstr "Contraròtles la recèrca"
 
 #: assets/gtk/help-overlay.blp:26 gnome/src/ui/search_window.blp:66
 msgid "Start Search"
 msgstr "Lançar la recèrca"
 
 #: assets/gtk/help-overlay.blp:31
-#, fuzzy
 msgid "Stop Search"
-msgstr "Lançar la recèrca"
+msgstr "Arrestar la recèrca"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
@@ -125,15 +121,15 @@ msgstr "Paramètres de recèrca"
 
 #: gnome/src/ui/preferences.blp:12
 msgid "Maximum number of search results"
-msgstr ""
+msgstr "Nombre maximum de resultats de recèrca"
 
 #: gnome/src/ui/preferences.blp:25
 msgid "Integrations"
-msgstr ""
+msgstr "Integracions"
 
 #: gnome/src/ui/preferences.blp:29
 msgid "You must have nautilus-python installed"
-msgstr ""
+msgstr "Devètz aver nautilus-python d’installat"
 
 #: gnome/src/ui/preview.blp:13 gnome/src/ui/search_window.blp:261
 #: gnome/src/ui/preview.rs:92
@@ -165,13 +161,12 @@ msgid "Search Path"
 msgstr "Emplaçament de recèrca"
 
 #: gnome/src/ui/search_window.blp:94
-#, fuzzy
 msgid "File Pattern"
-msgstr "Motiu de recèrca"
+msgstr "Motiu fichièr"
 
 #: gnome/src/ui/search_window.blp:99
 msgid "Match Entire Path"
-msgstr ""
+msgstr "Emplaçament complèt sonque"
 
 #: gnome/src/ui/search_window.blp:120
 msgid "See what's new"
@@ -247,7 +242,7 @@ msgstr "Afichar las errors"
 
 #: gnome/src/ui/search_window.blp:273
 msgid "Preferences"
-msgstr ""
+msgstr "Preferéncias"
 
 #: gnome/src/ui/search_window.blp:278
 msgid "Keyboard Shortcuts"
@@ -264,17 +259,17 @@ msgstr "Causir l’emplaçament de la recèrca"
 #: gnome/src/ui/search_window.rs:358
 #, rust-format
 msgid "Searched {files} files and found {matches} matches"
-msgstr ""
+msgstr "Cercat dins {files} fichièrs e trobat {matches} correspondéncias"
 
 #: gnome/src/ui/search_window.rs:369
 #, rust-format
 msgid "Updated to {version} 🎉"
-msgstr ""
+msgstr "Actualizat en {version} 🎉"
 
 #: gnome/src/ui/search_window.rs:490
 #, rust-format
 msgid "Encountered {errors} errors during search"
-msgstr ""
+msgstr "Rescontrat {errors} errors pendent la recèrca"
 
 #: gnome/src/ui/search_window.rs:500
 msgid "Cancel Search"
