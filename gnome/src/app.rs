@@ -32,6 +32,10 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         }
     }
 
+    if !config.search_path().is_dir() {
+        config.set_search_path(glib::home_dir());
+    }
+
     let window = ui::SearchWindow::new(app);
 
     let preferences_action = SimpleAction::new("preferences", None);
