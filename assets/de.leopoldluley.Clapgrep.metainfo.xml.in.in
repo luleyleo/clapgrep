@@ -58,6 +58,19 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="25.10" date="2025-10-31">
+      <description translate="no">
+        <p>Translations:</p>
+        <ul>
+          <li>Added French translations.</li>
+          <li>Updated Occitan translations.</li>
+        </ul>
+        <p>Bug fixes:</p>
+        <ul>
+          <li>Fixed a crash when attempting to re-open a directory which no longer exists.</li>
+        </ul>
+      </description>
+    </release>
     <release version="25.09" date="2025-09-21">
       <description translate="no">
         <p>New Features:</p>
