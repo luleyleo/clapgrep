@@ -14,6 +14,12 @@ Clapgrep can currently search all sorts of text files, PDFs and Office documents
 
 ![screenshot of the app](assets/screenshot-1.png)
 
-## Contributing
+## Translations
 
-See [CONTRIBUTING.md](/CONTRIBUTING.md) for contribution and build instructions.
+[![Translation status](https://hosted.weblate.org/widget/clapgrep/clapgrep/multi-auto.svg)](https://hosted.weblate.org/engage/clapgrep/)
+
+You can help translate Clapgrep on [Weblate](https://hosted.weblate.org/engage/clapgrep/) .
+
+## Building from Source
+
+See [CONTRIBUTING.md](/CONTRIBUTING.md) for code contribution and build instructions.
