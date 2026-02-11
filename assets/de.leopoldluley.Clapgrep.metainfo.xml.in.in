@@ -58,6 +58,19 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="26.02" date="2026-02-11">
+      <description translate="no">
+        <p>Translations:</p>
+        <ul>
+          <li>Updated German translations.</li>
+          <li>Set up Weblate to make contributing translations easier.</li>
+        </ul>
+        <p>Bug fixes:</p>
+        <ul>
+          <li>Increased minimum window width to 360px to avoid clipping.</li>
+        </ul>
+      </description>
+    </release>
     <release version="25.10" date="2025-10-31">
       <description translate="no">
         <p>Translations:</p>
