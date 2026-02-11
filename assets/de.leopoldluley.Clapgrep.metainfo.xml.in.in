@@ -49,7 +49,7 @@
     <color type="primary" scheme_preference="dark">#575243</color>
   </branding>
   <requires>
-    <display_length compare="ge">300</display_length>
+    <display_length compare="ge">360</display_length>
     <internet>offline-only</internet>
   </requires>
   <supports>
