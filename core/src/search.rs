@@ -83,7 +83,7 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
     let walker = WalkBuilder::new(&params.base_directory)
         .git_ignore(!params.flags.search_ignored)
         .ignore(!params.flags.search_ignored)
-        .hidden(params.flags.search_hidden)
+        .hidden(!params.flags.search_hidden)
         .follow_links(params.flags.follow_links)
         .same_file_system(params.flags.same_filesystem)
         .threads(threads)
