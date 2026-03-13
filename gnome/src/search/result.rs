@@ -31,7 +31,7 @@ impl SearchResult {
         content_matches: &[Match],
     ) -> SearchResult {
         let content = if content.contains('\0') {
-            println!("Found <NULL> in '{content}'");
+            log::debug!("Found <NULL> in '{content}'");
             content.replace('\0', "<NULL>")
         } else {
             content

@@ -66,7 +66,8 @@ impl TextPreviewImp {
 
         if let Ok(full_text) = fs::read_to_string(&file) {
             let buffer = self.buffer();
-            buffer.set_text(&full_text);
+            let full_text_without_null = full_text.replace('\0', "<NULL>");
+            buffer.set_text(&full_text_without_null);
 
             // Setup syntax highlighting
             let lm = sourceview5::LanguageManager::default();
