@@ -3,38 +3,38 @@ members = ["core", "gnome"]
 resolver = "2"
 
 [workspace.dependencies]
-flume = "0.11.1"
+flume = "0.12.0"
 regex = "1.12"
 grep = "0.4"
 ignore = "0.4"
 gettext-rs = { version = "0.7.7", features = ["gettext-system"] }
-toml = "0.9.8"
+toml = "1.0.6"
 serde = { version = "1.0.228", features = ["derive"] }
 log = "0.4.28"
-env_logger = { version = "0.11.8", default-features = false }
-anyhow = "1.0.100"
+env_logger = { version = "0.11.9", default-features = false }
+anyhow = "1.0.102"
 glob = "0.3.3"
-zip = { version = "6.0", default-features = false, features = ["deflate"] }
-xml = { package = "quick-xml", version = "0.38.3" }
+zip = { version = "8.2.0", default-features = false, features = ["deflate"] }
+xml = { package = "quick-xml", version = "0.39.2" }
 
 # Anything glib related
 [workspace.dependencies.gtk]
-version = "0.10.2"
+version = "0.11.0"
 package = "gtk4"
 features = ["blueprint", "v4_20"]
 
 [workspace.dependencies.adw]
-version = "0.8.0"
+version = "0.9.1"
 package = "libadwaita"
 features = ["v1_8"]
 
 [workspace.dependencies.gio]
-version = "0.21.4"
+version = "0.22.2"
 features = ["v2_84"]
 
 [workspace.dependencies.sourceview5]
-version = "0.10.0"
+version = "0.11.0"
 features = ["gtk_v4_12", "v5_12"]
 
 [workspace.dependencies.poppler-rs]
-version = "0.25.0"
+version = "0.26.0"
