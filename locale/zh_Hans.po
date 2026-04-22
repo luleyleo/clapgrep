@@ -8,57 +8,59 @@ msgstr ""
 "Project-Id-Version: de.leopoldluley.Clapgrep.Devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 17:47+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-04-24 00:09+0000\n"
+"Last-Translator: jiechus <jiechushou@gmail.com>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
+"projects/clapgrep/clapgrep/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: assets/gtk/help-overlay.blp:5
 msgid "Clapgrep Shortcuts"
-msgstr ""
+msgstr "Clapgrep 快捷方式"
 
 #: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences.blp:6
 msgid "General"
-msgstr ""
+msgstr "通用"
 
 #: assets/gtk/help-overlay.blp:12
 msgid "Quit"
-msgstr ""
+msgstr "退出"
 
 #: assets/gtk/help-overlay.blp:17
 msgid "Shortcuts"
-msgstr ""
+msgstr "快捷方式"
 
 #: assets/gtk/help-overlay.blp:23
 msgid "Control Search"
-msgstr ""
+msgstr "控制搜索"
 
 #: assets/gtk/help-overlay.blp:26 gnome/src/ui/search_window.blp:66
 msgid "Start Search"
-msgstr ""
+msgstr "开始搜索"
 
 #: assets/gtk/help-overlay.blp:31
 msgid "Stop Search"
-msgstr ""
+msgstr "停止搜索"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:2
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
 #: gnome/src/ui/search_window.blp:5
 msgid "Clapgrep"
-msgstr ""
+msgstr "Clapgrep"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
 msgid "Search through all your files"
-msgstr ""
+msgstr "搜遍文件"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:10
 msgid "grep;ripgrep;search;pdf;"
-msgstr ""
+msgstr "grep;ripgrep;search;pdf;"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:19
 msgid ""
@@ -66,6 +68,8 @@ msgid ""
 "what you're looking for. But you did not know in which file. So you had to "
 "search each of them at a time..."
 msgstr ""
+"你是不是遇到过这样的情况：电脑里有一堆 PDF 文件，你知道要找的东西肯定某个地方"
+"，但就是不知道在哪个文件里，只能一个一个地翻..."
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:20
 msgid ""
@@ -74,12 +78,14 @@ msgid ""
 "finding out on which page / line in which file the information is that you "
 "are looking for!"
 msgstr ""
+"有了 Clapgrep 就不用这么麻烦了！打开文件夹，输入搜索词，Clapgrep 会自动帮你找"
+"出信息在哪个文件的哪一页、哪一行！"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:21
 msgid ""
 "Clapgrep can currently search all sorts of text files, PDFs and Office "
 "documents, with more to come."
-msgstr ""
+msgstr "Clapgrep 目前可以搜索各种文本文件、PDF 和 Office 文档，还有更多。"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
 msgid "Main window in desktop view"
