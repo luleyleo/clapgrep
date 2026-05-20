@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: de.leopoldluley.Clapgrep.Devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 17:47+0200\n"
-"PO-Revision-Date: 2026-04-24 00:09+0000\n"
+"PO-Revision-Date: 2026-05-21 04:11+0000\n"
 "Last-Translator: jiechus <jiechushou@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/clapgrep/clapgrep/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: assets/gtk/help-overlay.blp:5
 msgid "Clapgrep Shortcuts"
@@ -85,190 +85,190 @@ msgstr ""
 msgid ""
 "Clapgrep can currently search all sorts of text files, PDFs and Office "
 "documents, with more to come."
-msgstr "Clapgrep 目前可以搜索各种文本文件、PDF 和 Office 文档，还有更多。"
+msgstr "Clapgrep 目前可以搜索各种文本文件、PDF 和 Office 文档，以及更多。"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:25
 msgid "Main window in desktop view"
-msgstr ""
+msgstr "桌面端主窗口"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:29
 msgid "Preview in desktop view"
-msgstr ""
+msgstr "桌面端预览"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:33
 msgid "Search interface in mobile view"
-msgstr ""
+msgstr "移动端搜索界面"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:37
 msgid "Results in mobile view"
-msgstr ""
+msgstr "移动端搜索结果"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:41
 msgid "Preview in mobile view"
-msgstr ""
+msgstr "移动端预览"
 
 #: gnome/src/ui/error_window.blp:7
 msgid "Search Errors"
-msgstr ""
+msgstr "搜索错误"
 
 #: gnome/src/ui/preferences.blp:9 gnome/src/ui/search_window.blp:31
 msgid "Search"
-msgstr ""
+msgstr "搜索"
 
 #: gnome/src/ui/preferences.blp:12
 msgid "Maximum number of search results"
-msgstr ""
+msgstr "最大搜索结果数"
 
 #: gnome/src/ui/preferences.blp:25
 msgid "Integrations"
-msgstr ""
+msgstr "集成"
 
 #: gnome/src/ui/preferences.blp:29
 msgid "You must have nautilus-python installed"
-msgstr ""
+msgstr "您必须安装 nautilus-python"
 
 #: gnome/src/ui/preview.blp:13 gnome/src/ui/search_window.blp:261
 #: gnome/src/ui/preview.rs:92
 msgid "Content Preview"
-msgstr ""
+msgstr "内容预览"
 
 #: gnome/src/ui/preview.blp:20
 msgid "Nothing Selected..."
-msgstr ""
+msgstr "未选择任何内容……"
 
 #: gnome/src/ui/preview.blp:21
 msgid "Try clicking on on of the result lines."
-msgstr ""
+msgstr "尝试点击某条结果行。"
 
 #: gnome/src/ui/preview.blp:27
 msgid "Under Construction"
-msgstr ""
+msgstr "正在构建中"
 
 #: gnome/src/ui/preview.blp:28
 msgid "Preview for this file type has not been implemented yet."
-msgstr ""
+msgstr "此文件类型的预览尚未实现。"
 
 #: gnome/src/ui/search_window.blp:60
 msgid "Search Pattern"
-msgstr ""
+msgstr "搜索模式匹配"
 
 #: gnome/src/ui/search_window.blp:78
 msgid "Search Path"
-msgstr ""
+msgstr "搜索路径"
 
 #: gnome/src/ui/search_window.blp:94
 msgid "File Pattern"
-msgstr ""
+msgstr "文件模式匹配"
 
 #: gnome/src/ui/search_window.blp:99
 msgid "Match Entire Path"
-msgstr ""
+msgstr "匹配整个路径"
 
 #: gnome/src/ui/search_window.blp:120
 msgid "See what's new"
-msgstr ""
+msgstr "查看新功能"
 
 #: gnome/src/ui/search_window.blp:126 gnome/src/ui/search_window.blp:288
 msgid "Donate 💝"
-msgstr ""
+msgstr "捐赠 💝"
 
 #: gnome/src/ui/search_window.blp:132
 msgid "Search Options"
-msgstr ""
+msgstr "搜索选项"
 
 #: gnome/src/ui/search_window.blp:135
 msgid "Case Sensitive"
-msgstr ""
+msgstr "区分大小写"
 
 #: gnome/src/ui/search_window.blp:139
 msgid "Disable Regex"
-msgstr ""
+msgstr "禁用正则表达式"
 
 #: gnome/src/ui/search_window.blp:143
 msgid "Include Hidden"
-msgstr ""
+msgstr "包含隐藏文件"
 
 #: gnome/src/ui/search_window.blp:147
 msgid "Include Ignored"
-msgstr ""
+msgstr "包含忽略文件"
 
 #: gnome/src/ui/search_window.blp:152
 msgid "Extra File Formats"
-msgstr ""
+msgstr "额外文件格式"
 
 #: gnome/src/ui/search_window.blp:155
 msgid "File Names"
-msgstr ""
+msgstr "文件名"
 
 #: gnome/src/ui/search_window.blp:159
 msgid "PDF Files"
-msgstr ""
+msgstr "PDF 文件"
 
 #: gnome/src/ui/search_window.blp:163
 msgid "Office Files"
-msgstr ""
+msgstr "Office 文件"
 
 #: gnome/src/ui/search_window.blp:173 gnome/src/ui/search_window.blp:180
 msgid "Results"
-msgstr ""
+msgstr "结果"
 
 #: gnome/src/ui/search_window.blp:193
 msgid "No Search Yet"
-msgstr ""
+msgstr "尚未搜索"
 
 #: gnome/src/ui/search_window.blp:194
 msgid "Try to start a search"
-msgstr ""
+msgstr "尝试开始搜索"
 
 #: gnome/src/ui/search_window.blp:203
 msgid "No Results"
-msgstr ""
+msgstr "无结果"
 
 #: gnome/src/ui/search_window.blp:209
 msgid ""
 "You might want to try changing your search pattern, activating document "
 "search, or changing to a different directory"
-msgstr ""
+msgstr "您可以尝试调整搜索模式匹配、启用文档搜索或换到其他目录"
 
 #: gnome/src/ui/search_window.blp:226
 msgid "Show Errors"
-msgstr ""
+msgstr "显示错误"
 
 #: gnome/src/ui/search_window.blp:273
 msgid "Preferences"
-msgstr ""
+msgstr "偏好设置"
 
 #: gnome/src/ui/search_window.blp:278
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "键盘快捷键"
 
 #: gnome/src/ui/search_window.blp:283
 msgid "About Clapgrep"
-msgstr ""
+msgstr "关于 Clapgrep"
 
 #: gnome/src/ui/search_window.rs:158
 msgid "Choose Search Path"
-msgstr ""
+msgstr "选择搜索路径"
 
 #: gnome/src/ui/search_window.rs:358
 #, rust-format
 msgid "Searched {files} files and found {matches} matches"
-msgstr ""
+msgstr "已搜索 {files} 个文件，找到 {matches} 个匹配"
 
 #: gnome/src/ui/search_window.rs:369
 #, rust-format
 msgid "Updated to {version} 🎉"
-msgstr ""
+msgstr "已更新至 {version} 🎉"
 
 #: gnome/src/ui/search_window.rs:490
 #, rust-format
 msgid "Encountered {errors} errors during search"
-msgstr ""
+msgstr "搜索过程中遇到 {errors} 个错误"
 
 #: gnome/src/ui/search_window.rs:500
 msgid "Cancel Search"
-msgstr ""
+msgstr "取消搜索"
 
 #: gnome/src/ui/search_window.rs:502
 msgid "Close"
-msgstr ""
+msgstr "关闭"
