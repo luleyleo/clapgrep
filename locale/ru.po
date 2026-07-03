@@ -7,21 +7,21 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 17:47+0200\n"
-"PO-Revision-Date: 2025-06-29 17:15+0300\n"
-"Last-Translator: Вячеслав <ma12@rambler.ru>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"PO-Revision-Date: 2026-07-03 05:01+0000\n"
+"Last-Translator: George Bogdanoff <georg.b2012@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/clapgrep/"
+"clapgrep/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 
 #: assets/gtk/help-overlay.blp:5
-#, fuzzy
 msgid "Clapgrep Shortcuts"
-msgstr "Комбинации клавиш"
+msgstr "Комбинации клавиш Clapgrep"
 
 #: assets/gtk/help-overlay.blp:9 gnome/src/ui/preferences.blp:6
 msgid "General"
@@ -51,7 +51,7 @@ msgstr "Остановить поиск"
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:4
 #: gnome/src/ui/search_window.blp:5
 msgid "Clapgrep"
-msgstr ""
+msgstr "Clapgrep"
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:3
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:5
@@ -60,7 +60,7 @@ msgstr "Поиск фраз в содержимом различных файл�
 
 #: assets/de.leopoldluley.Clapgrep.desktop.in.in:10
 msgid "grep;ripgrep;search;pdf;"
-msgstr ""
+msgstr "grep;ripgrep;search;pdf;"
 
 #: assets/de.leopoldluley.Clapgrep.metainfo.xml.in.in:19
 msgid ""
@@ -122,15 +122,15 @@ msgstr "Настройки поиска"
 
 #: gnome/src/ui/preferences.blp:12
 msgid "Maximum number of search results"
-msgstr ""
+msgstr "Максимальное количество результатов поиска"
 
 #: gnome/src/ui/preferences.blp:25
 msgid "Integrations"
-msgstr ""
+msgstr "Интеграции"
 
 #: gnome/src/ui/preferences.blp:29
 msgid "You must have nautilus-python installed"
-msgstr ""
+msgstr "У вас должен быть установлен nautilus-python"
 
 #: gnome/src/ui/preview.blp:13 gnome/src/ui/search_window.blp:261
 #: gnome/src/ui/preview.rs:92
@@ -176,7 +176,7 @@ msgstr "Посмотрите, что нового"
 
 #: gnome/src/ui/search_window.blp:126 gnome/src/ui/search_window.blp:288
 msgid "Donate 💝"
-msgstr ""
+msgstr "Отправить благодарность 💝"
 
 #: gnome/src/ui/search_window.blp:132
 msgid "Search Options"
