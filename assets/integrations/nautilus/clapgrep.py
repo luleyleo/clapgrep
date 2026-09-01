@@ -1,4 +1,4 @@
-import os
+import shutil
 import subprocess
 from gi.repository import Nautilus, GObject, Gio
 
@@ -8,9 +8,20 @@ class ClapgrepMenuProvider(GObject.GObject, Nautilus.MenuProvider):
         pass
 
     def __open_clapgrep(self, file):
-        os.system(
-            f"""flatpak run de.leopoldluley.Clapgrep "{file.get_location().get_path()}" &"""
-        )
+        clapgrep = shutil.which("clapgrep")
+
+        if clapgrep:
+            subprocess.Popen([
+                clapgrep,
+                file.get_location().get_path(),
+            ])
+        else:
+            subprocess.Popen([
+                "flatpak",
+                "run",
+                "de.leopoldluley.Clapgrep",
+                file.get_location().get_path(),
+            ])
 
     def menu_activate_cb(self, menu, file):
         self.__open_clapgrep(file)
