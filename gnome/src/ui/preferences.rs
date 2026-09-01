@@ -75,6 +75,7 @@ impl PreferencesDialogImp {
                     let resource_file = gio::File::for_uri(&format!(
                         "resource://{APP_PATH}/integrations/nautilus/clapgrep.py"
                     ));
+                    let _ = fs::create_dir_all(nautilus_extension_path.parent().unwrap());
                     let _ = resource_file.copy(
                         &extension_file,
                         FileCopyFlags::NONE,
