@@ -9,3 +9,4 @@ Icon=@icon@
 Categories=Utility;FileTools;
 Keywords=grep;ripgrep;search;pdf;
 MimeType=inode/directory;
+SingleMainWindow=true

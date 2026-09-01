@@ -36,6 +36,11 @@ pub fn start(app: &adw::Application, files: &[gio::File]) {
         config.set_search_path(glib::home_dir());
     }
 
+    if let Some(window) = app.active_window() {
+        window.present();
+        return;
+    }
+
     let window = ui::SearchWindow::new(app);
 
     let preferences_action = SimpleAction::new("preferences", None);
