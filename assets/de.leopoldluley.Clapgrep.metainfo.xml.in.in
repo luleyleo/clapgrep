@@ -58,6 +58,26 @@
     <control>touch</control>
   </supports>
   <releases>
+      <release version="26.09" date="2026-09-02">
+        <description translate="no">
+          <p>Translations:</p>
+          <ul>
+            <li>Added Czech translations.</li>
+            <li>Added Spanish translations.</li>
+            <li>Added Turkish translations.</li>
+            <li>Added Chinese translations.</li>
+            <li>Added Tamil translations.</li>
+            <li>Updated Russian translations.</li>
+          </ul>
+          <p>Bug fixes:</p>
+          <ul>
+            <li>Null bytes in files are now properly handled.</li>
+            <li>The hidden file search toggle was inverted.</li>
+            <li>Prevent multiple windows as it currently behaves very weirdly.</li>
+            <li>Fix Nautilus extension support when not installed via Flatpak.</li>
+          </ul>
+        </description>
+      </release>
     <release version="26.02" date="2026-02-11">
       <description translate="no">
         <p>Translations:</p>
