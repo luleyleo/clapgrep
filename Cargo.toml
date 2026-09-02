@@ -4,36 +4,36 @@ resolver = "2"
 
 [workspace.dependencies]
 flume = "0.12.0"
-regex = "1.12"
+regex = "1.13"
 grep = "0.4"
 ignore = "0.4"
 gettext-rs = { version = "0.7.7", features = ["gettext-system"] }
-toml = "1.0.6"
-serde = { version = "1.0.228", features = ["derive"] }
-log = "0.4.28"
-env_logger = { version = "0.11.9", default-features = false }
-anyhow = "1.0.102"
-glob = "0.3.3"
-zip = { version = "8.2.0", default-features = false, features = ["deflate"] }
-xml = { package = "quick-xml", version = "0.39.2" }
+toml = "1.1.5"
+serde = { version = "1.0.229", features = ["derive"] }
+log = "0.4.34"
+env_logger = { version = "0.11.11", default-features = false }
+anyhow = "1.0.104"
+glob = "0.3.4"
+zip = { version = "8.6.0", default-features = false, features = ["deflate"] }
+xml = { package = "quick-xml", version = "0.39.4" }
 
 # Anything glib related
 [workspace.dependencies.gtk]
-version = "0.11.0"
+version = "0.11.4"
 package = "gtk4"
 features = ["blueprint", "v4_20"]
 
 [workspace.dependencies.adw]
-version = "0.9.1"
+version = "0.9.2"
 package = "libadwaita"
 features = ["v1_8"]
 
 [workspace.dependencies.gio]
-version = "0.22.2"
+version = "0.22.9"
 features = ["v2_84"]
 
 [workspace.dependencies.sourceview5]
-version = "0.11.0"
+version = "0.11.2"
 features = ["gtk_v4_12", "v5_12"]
 
 [workspace.dependencies.poppler-rs]
