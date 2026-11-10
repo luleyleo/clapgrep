@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: de.leopoldluley.Clapgrep.Devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 17:47+0200\n"
-"PO-Revision-Date: 2026-04-08 16:10+0000\n"
-"Last-Translator: Ümit Solmz <solmazumit1@yandex.com>\n"
+"PO-Revision-Date: 2026-11-08 10:51+0000\n"
+"Last-Translator: Yasin Karaaslan "
+"<yasinkaraaslan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/clapgrep/"
 "clapgrep/tr/>\n"
 "Language: tr\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 #: assets/gtk/help-overlay.blp:5
 msgid "Clapgrep Shortcuts"
@@ -129,16 +130,16 @@ msgstr ""
 
 #: gnome/src/ui/preferences.blp:29
 msgid "You must have nautilus-python installed"
-msgstr ""
+msgstr "nautilus-python indirili olmak zorunda"
 
 #: gnome/src/ui/preview.blp:13 gnome/src/ui/search_window.blp:261
 #: gnome/src/ui/preview.rs:92
 msgid "Content Preview"
-msgstr ""
+msgstr "İçerik Önizlemesi"
 
 #: gnome/src/ui/preview.blp:20
 msgid "Nothing Selected..."
-msgstr ""
+msgstr "Seçim Yapılmadı..."
 
 #: gnome/src/ui/preview.blp:21
 msgid "Try clicking on on of the result lines."
@@ -158,11 +159,11 @@ msgstr ""
 
 #: gnome/src/ui/search_window.blp:78
 msgid "Search Path"
-msgstr ""
+msgstr "Arama Yolu"
 
 #: gnome/src/ui/search_window.blp:94
 msgid "File Pattern"
-msgstr ""
+msgstr "Dosya Kalıbı"
 
 #: gnome/src/ui/search_window.blp:99
 msgid "Match Entire Path"
@@ -174,27 +175,27 @@ msgstr ""
 
 #: gnome/src/ui/search_window.blp:126 gnome/src/ui/search_window.blp:288
 msgid "Donate 💝"
-msgstr ""
+msgstr "Bağış Yapın 💝"
 
 #: gnome/src/ui/search_window.blp:132
 msgid "Search Options"
-msgstr ""
+msgstr "Arama Seçenekleri"
 
 #: gnome/src/ui/search_window.blp:135
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Büyük/Küçük Harfe Duyarlı"
 
 #: gnome/src/ui/search_window.blp:139
 msgid "Disable Regex"
-msgstr ""
+msgstr "Regex'i Devre Dışı Bırak"
 
 #: gnome/src/ui/search_window.blp:143
 msgid "Include Hidden"
-msgstr ""
+msgstr "Gizli Dosyaları İçer"
 
 #: gnome/src/ui/search_window.blp:147
 msgid "Include Ignored"
-msgstr ""
+msgstr "Yoksayılanları İçer"
 
 #: gnome/src/ui/search_window.blp:152
 msgid "Extra File Formats"
@@ -202,19 +203,19 @@ msgstr ""
 
 #: gnome/src/ui/search_window.blp:155
 msgid "File Names"
-msgstr ""
+msgstr "Dosya Adları"
 
 #: gnome/src/ui/search_window.blp:159
 msgid "PDF Files"
-msgstr ""
+msgstr "PDF Dosyaları"
 
 #: gnome/src/ui/search_window.blp:163
 msgid "Office Files"
-msgstr ""
+msgstr "Ofis Dosyaları"
 
 #: gnome/src/ui/search_window.blp:173 gnome/src/ui/search_window.blp:180
 msgid "Results"
-msgstr ""
+msgstr "Sonuçlar"
 
 #: gnome/src/ui/search_window.blp:193
 msgid "No Search Yet"
@@ -222,11 +223,11 @@ msgstr ""
 
 #: gnome/src/ui/search_window.blp:194
 msgid "Try to start a search"
-msgstr ""
+msgstr "Bir arama yapmayı deneyin"
 
 #: gnome/src/ui/search_window.blp:203
 msgid "No Results"
-msgstr ""
+msgstr "Sonuç Yok"
 
 #: gnome/src/ui/search_window.blp:209
 msgid ""
@@ -236,43 +237,43 @@ msgstr ""
 
 #: gnome/src/ui/search_window.blp:226
 msgid "Show Errors"
-msgstr ""
+msgstr "Hataları Göster"
 
 #: gnome/src/ui/search_window.blp:273
 msgid "Preferences"
-msgstr ""
+msgstr "Tercihler"
 
 #: gnome/src/ui/search_window.blp:278
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Klavye Kısayolları"
 
 #: gnome/src/ui/search_window.blp:283
 msgid "About Clapgrep"
-msgstr ""
+msgstr "Clapgrep Hakkında"
 
 #: gnome/src/ui/search_window.rs:158
 msgid "Choose Search Path"
-msgstr ""
+msgstr "Arama Yolu Seçin"
 
 #: gnome/src/ui/search_window.rs:358
 #, rust-format
 msgid "Searched {files} files and found {matches} matches"
-msgstr ""
+msgstr "{files} dosya arandı ve {matches} eşleşme bulundu"
 
 #: gnome/src/ui/search_window.rs:369
 #, rust-format
 msgid "Updated to {version} 🎉"
-msgstr ""
+msgstr "{version} Sürümüne Güncellendi 🎉"
 
 #: gnome/src/ui/search_window.rs:490
 #, rust-format
 msgid "Encountered {errors} errors during search"
-msgstr ""
+msgstr "Aramada {errors} hatayla karşılaşıldı"
 
 #: gnome/src/ui/search_window.rs:500
 msgid "Cancel Search"
-msgstr ""
+msgstr "Aramayı İptal Et"
 
 #: gnome/src/ui/search_window.rs:502
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
