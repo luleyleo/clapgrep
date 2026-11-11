@@ -79,6 +79,25 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
     } else {
         None
     };
+    // Separate variable, does not alter `pattern`'s type or logic.
+    // Triggered purely by the presence of a multi-pattern separator in the
+    // raw input string — NOT by whether `glob::Pattern::new` returned an
+    // error above. This matters because `Pattern::new("*.c *.h *.rs")`
+    // parses successfully (space is tokenized as a literal `Char(' ')`),
+    // so `pattern` above is `Some(...)` but semantically useless for
+    // matching real files. Checking `pattern.is_none()` would never catch
+    // this case, hence the independent check on the source string.
+    let fallback_patterns: Vec<glob::Pattern> = if params.path_pattern.contains([' ', ',', ';']) {
+        params
+            .path_pattern
+            .split([' ', ',', ';'])
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+            .filter_map(|s| glob::Pattern::new(s).ok())
+            .collect()
+    } else {
+        Vec::new()
+    };
 
     let walker = WalkBuilder::new(&params.base_directory)
         .git_ignore(!params.flags.search_ignored)
@@ -87,17 +106,35 @@ pub fn run(engine: SearchEngine, params: SearchParameters) {
         .follow_links(params.flags.follow_links)
         .same_file_system(params.flags.same_filesystem)
         .threads(threads)
-        .filter_entry(move |dir| match (dir.path().is_file(), pattern.as_ref()) {
-            (true, Some(pattern)) => {
+        .filter_entry(move |dir| match dir.path().is_file() {
+            true => {
                 let relative_dir = dir.path().strip_prefix(&params.base_directory).unwrap();
-                pattern.matches_path_with(
-                    relative_dir,
-                    glob::MatchOptions {
-                        case_sensitive: false,
-                        require_literal_separator: params.flags.path_pattern_explicit,
-                        require_literal_leading_dot: false,
-                    },
-                )
+                let opts = glob::MatchOptions {
+                    case_sensitive: false,
+                    require_literal_separator: params.flags.path_pattern_explicit,
+                    require_literal_leading_dot: false,
+                };
+                // Try the primary, original pattern first — unchanged
+                // behavior for simple cases like "*.rs" or "*.[ch]".
+                // Fall back to `fallback_patterns` only when the primary
+                // pattern is absent or doesn't match: this covers both the
+                // "no pattern given" case and the case where the raw
+                // string was multi-token (e.g. "*.c *.h *.rs"), which
+                // parses successfully into a `Pattern` but never matches
+                // any real file, since `Pattern::new` treats the space as
+                // a literal character rather than raising a parse error.
+                let matched_primary = pattern
+                    .as_ref()
+                    .is_some_and(|p| p.matches_path_with(relative_dir, opts));
+
+                if matched_primary {
+                    true
+                } else if !fallback_patterns.is_empty() {
+                    fallback_patterns.iter().any(|p| p.matches_path_with(relative_dir, opts))
+                } else {
+                    // No pattern configured at all -> keep original "accept everything" behavior.
+                    pattern.is_none()
+                }
             }
             _ => true,
         })
